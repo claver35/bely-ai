@@ -7,141 +7,130 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-.logo{font-size:24px;font-weight:600;color:#fff;margin-bottom:32px;letter-spacing:-.5px}
+body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex}
+.left{flex:1;padding:48px;display:flex;flex-direction:column;justify-content:space-between;border-right:0.5px solid rgba(255,255,255,0.06);background:#0d0f1a}
+.logo{font-size:22px;font-weight:600;color:#fff;letter-spacing:-.5px}
 .logo span{color:#7F77DD}
-.card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:36px;width:100%;max-width:400px}
-.tabs{display:flex;gap:0;margin-bottom:28px;border-bottom:0.5px solid rgba(255,255,255,0.08)}
+.left-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
+.left-title{font-size:30px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:14px}
+.left-title span{color:#7F77DD}
+.left-sub{font-size:15px;color:#888780;line-height:1.7;margin-bottom:36px}
+.feature-list{display:flex;flex-direction:column;gap:16px;margin-bottom:40px}
+.feature-item{display:flex;align-items:flex-start;gap:14px}
+.feature-icon{width:36px;height:36px;border-radius:8px;background:#1e1a3a;border:0.5px solid #534AB7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.feature-text h4{font-size:14px;font-weight:500;color:#fff;margin-bottom:3px}
+.feature-text p{font-size:13px;color:#888780;line-height:1.5}
+.stats-row{display:flex;gap:24px}
+.stat-box{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 18px}
+.stat-num{font-size:22px;font-weight:600;color:#7F77DD}
+.stat-label{font-size:11px;color:#5F5E5A;margin-top:3px}
+.live-badge{display:flex;align-items:center;gap:8px;font-size:12px;color:#97C459}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#97C459;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.testimonial{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px;margin-top:28px}
+.testimonial p{font-size:13px;color:#c2c0b6;line-height:1.65;font-style:italic;margin-bottom:10px}
+.testimonial-author{font-size:12px;color:#5F5E5A}
+.testimonial-author span{color:#7F77DD}
+.right{width:440px;padding:48px;display:flex;flex-direction:column;justify-content:center;flex-shrink:0}
+.right-title{font-size:20px;font-weight:600;color:#fff;margin-bottom:6px}
+.right-sub{font-size:14px;color:#888780;margin-bottom:28px}
+.tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:0.5px solid rgba(255,255,255,0.08)}
 .tab{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:500;color:#888780;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
 .tab.active{color:#7F77DD;border-bottom-color:#7F77DD}
-.form-group{margin-bottom:18px}
-label{display:block;font-size:13px;color:#888780;margin-bottom:7px}
+.form-group{margin-bottom:16px}
+label{display:block;font-size:13px;color:#888780;margin-bottom:6px}
 input{width:100%;padding:11px 14px;background:#0f1117;border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;color:#e8e6e1;font-size:14px;outline:none;transition:border .2s}
 input:focus{border-color:#534AB7}
-.btn{width:100%;padding:13px;border-radius:8px;border:none;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;margin-top:8px}
+.btn{width:100%;padding:13px;border-radius:8px;border:none;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;margin-top:6px}
 .btn-primary{background:#534AB7;color:#fff}
 .btn-primary:hover{background:#7F77DD}
 .btn-primary:disabled{background:#2a2545;color:#5F5E5A;cursor:not-allowed}
-.msg{font-size:13px;padding:10px 14px;border-radius:8px;margin-top:14px;display:none}
+.msg{font-size:13px;padding:10px 14px;border-radius:8px;margin-top:12px;display:none}
 .msg-error{background:rgba(226,75,74,0.12);color:#F09595;border:0.5px solid rgba(226,75,74,0.25)}
 .msg-success{background:rgba(99,153,34,0.12);color:#97C459;border:0.5px solid rgba(99,153,34,0.25)}
-.divider{text-align:center;font-size:12px;color:#5F5E5A;margin:16px 0}
-.back{text-align:center;margin-top:20px;font-size:13px;color:#5F5E5A}
-.back a{color:#7F77DD;text-decoration:none}
-.back a:hover{text-decoration:underline}
 .form-panel{display:none}
 .form-panel.active{display:block}
+.divider{text-align:center;font-size:12px;color:#444441;margin:18px 0}
+.back{text-align:center;margin-top:16px;font-size:13px;color:#5F5E5A}
+.back a{color:#7F77DD;text-decoration:none}
+.trust-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;padding-top:20px;border-top:0.5px solid rgba(255,255,255,0.06)}
+.trust-item{font-size:11px;color:#444441;display:flex;align-items:center;gap:5px}
+.trust-dot{width:5px;height:5px;border-radius:50%;background:#3B6D11}
+@media(max-width:768px){body{flex-direction:column}.left{padding:24px;border-right:none;border-bottom:0.5px solid rgba(255,255,255,0.06)}.right{width:100%;padding:24px}.stats-row{flex-wrap:wrap}}
 </style>
 </head>
 <body>
-
-<div class="logo">BELY <span>AI</span></div>
-
-<div class="card">
+<div class="left">
+  <div class="logo">BELY <span>AI</span></div>
+  <div class="left-content">
+    <div class="left-title">Your Store's <span>Silent Guardian</span> — Fraud Stopped. Account Protected.</div>
+    <p class="left-sub">Join hundreds of Shopify sellers protecting their stores with BELY AI. Catch fraud before you ship. Get warned before Shopify acts.</p>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-text"><h4>Pre-shipment fraud scoring</h4><p>Every order analyzed before you ship — risky orders flagged instantly.</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📊</div>
+        <div class="feature-text"><h4>Account health monitor</h4><p>Daily chargeback ratio tracking — we warn you before Shopify does.</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✍️</div>
+        <div class="feature-text"><h4>AI chargeback response writer</h4><p>When disputes hit, AI writes your winning response in seconds.</p></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">312</div><div class="stat-label">Stores protected</div></div>
+      <div class="stat-box"><div class="stat-num">$9</div><div class="stat-label">Starting / month</div></div>
+      <div class="stat-box"><div class="stat-num">2 min</div><div class="stat-label">Setup time</div></div>
+    </div>
+    <div class="testimonial">
+      <p>"BELY AI flagged a $247 fraudulent order before I shipped it. Saved me the product, shipping cost, and a chargeback fee."</p>
+      <div class="testimonial-author">— Shopify seller · <span>Pro plan</span></div>
+    </div>
+  </div>
+  <div class="live-badge"><div class="live-dot"></div><span id="live-text">1,284 orders scanned today</span></div>
+</div>
+<div class="right">
+  <div class="right-title">Get started for free</div>
+  <div class="right-sub">No credit card required. 2-minute setup.</div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab('login')">Sign In</div>
     <div class="tab" onclick="switchTab('register')">Create Account</div>
   </div>
-
-  <!-- GİRİŞ FORMU -->
   <div class="form-panel active" id="login-panel">
-    <div class="form-group">
-      <label>Email address</label>
-      <input type="email" id="login-email" placeholder="you@example.com">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="login-password" placeholder="••••••••">
-    </div>
+    <div class="form-group"><label>Email address</label><input type="email" id="login-email" placeholder="you@example.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-password" placeholder="••••••••"></div>
     <button class="btn btn-primary" id="login-btn" onclick="login()">Sign In</button>
     <div class="msg msg-error" id="login-error"></div>
     <div class="msg msg-success" id="login-success"></div>
   </div>
-
-  <!-- KAYIT FORMU -->
   <div class="form-panel" id="register-panel">
-    <div class="form-group">
-      <label>Email address</label>
-      <input type="email" id="reg-email" placeholder="you@example.com">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="reg-password" placeholder="Min. 6 characters">
-    </div>
-    <div class="form-group">
-      <label>Store name <span style="color:#5F5E5A">(optional)</span></label>
-      <input type="text" id="reg-store" placeholder="My Shopify Store">
-    </div>
-    <button class="btn btn-primary" id="reg-btn" onclick="register()">Create Account — Free</button>
+    <div class="form-group"><label>Email address</label><input type="email" id="reg-email" placeholder="you@example.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="Min. 6 characters"></div>
+    <div class="form-group"><label>Store name <span style="color:#444441">(optional)</span></label><input type="text" id="reg-store" placeholder="My Shopify Store"></div>
+    <button class="btn btn-primary" id="reg-btn" onclick="register()">Create Free Account</button>
     <div class="msg msg-error" id="reg-error"></div>
     <div class="msg msg-success" id="reg-success"></div>
   </div>
-
-  <div class="divider">Secure login powered by BELY AI</div>
+  <div class="divider">or</div>
+  <div class="trust-row">
+    <span class="trust-item"><span class="trust-dot"></span> SSL Secured</span>
+    <span class="trust-item"><span class="trust-dot"></span> No spam</span>
+    <span class="trust-item"><span class="trust-dot"></span> Cancel anytime</span>
+  </div>
+  <div class="back" style="margin-top:24px"><a href="index.html">← Back to home</a></div>
 </div>
-
-<div class="back"><a href="index.html">← Back to home</a></div>
-
 <script>
 const SUPABASE_URL = 'https://txuanbvyjohgvuynlfyq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    t.classList.toggle('active', (tab==='login' && i===0)||(tab==='register' && i===1));
-  });
-  document.getElementById('login-panel').classList.toggle('active', tab==='login');
-  document.getElementById('register-panel').classList.toggle('active', tab==='register');
-}
-
-function showMsg(id, msg, type) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.className = 'msg msg-' + type;
-  el.style.display = 'block';
-}
-
-async function login() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-password').value;
-  const btn = document.getElementById('login-btn');
-  if (!email || !pass) return showMsg('login-error','Please fill in all fields.','error');
-  btn.disabled = true; btn.textContent = 'Signing in...';
-  const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-  if (error) {
-    showMsg('login-error', error.message, 'error');
-    btn.disabled = false; btn.textContent = 'Sign In';
-  } else {
-    showMsg('login-success', 'Welcome back! Redirecting...', 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 1200);
-  }
-}
-
-async function register() {
-  const email = document.getElementById('reg-email').value.trim();
-  const pass = document.getElementById('reg-password').value;
-  const btn = document.getElementById('reg-btn');
-  if (!email || !pass) return showMsg('reg-error','Please fill in all fields.','error');
-  if (pass.length < 6) return showMsg('reg-error','Password must be at least 6 characters.','error');
-  btn.disabled = true; btn.textContent = 'Creating account...';
-  const { error } = await supabase.auth.signUp({ email, password: pass });
-  if (error) {
-    showMsg('reg-error', error.message, 'error');
-    btn.disabled = false; btn.textContent = 'Create Account — Free';
-  } else {
-    showMsg('reg-success', 'Account created! Redirecting to dashboard...', 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 1500);
-  }
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    const active = document.querySelector('.form-panel.active').id;
-    if (active === 'login-panel') login();
-    else register();
-  }
-});
+function switchTab(tab){document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',(tab==='login'&&i===0)||(tab==='register'&&i===1))});document.getElementById('login-panel').classList.toggle('active',tab==='login');document.getElementById('register-panel').classList.toggle('active',tab==='register')}
+function showMsg(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='msg msg-'+type;el.style.display='block'}
+async function login(){const email=document.getElementById('login-email').value.trim();const pass=document.getElementById('login-password').value;const btn=document.getElementById('login-btn');if(!email||!pass)return showMsg('login-error','Please fill in all fields.','error');btn.disabled=true;btn.textContent='Signing in...';const{error}=await supabase.auth.signInWithPassword({email,password:pass});if(error){showMsg('login-error',error.message,'error');btn.disabled=false;btn.textContent='Sign In'}else{showMsg('login-success','Welcome back! Redirecting...','success');setTimeout(()=>window.location.href='dashboard.html',1200)}}
+async function register(){const email=document.getElementById('reg-email').value.trim();const pass=document.getElementById('reg-password').value;const btn=document.getElementById('reg-btn');if(!email||!pass)return showMsg('reg-error','Please fill in all fields.','error');if(pass.length<6)return showMsg('reg-error','Password must be at least 6 characters.','error');btn.disabled=true;btn.textContent='Creating account...';const{error}=await supabase.auth.signUp({email,password:pass});if(error){showMsg('reg-error',error.message,'error');btn.disabled=false;btn.textContent='Create Free Account'}else{showMsg('reg-success','Account created! Redirecting to dashboard...','success');setTimeout(()=>window.location.href='dashboard.html',1500)}}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const active=document.querySelector('.form-panel.active').id;if(active==='login-panel')login();else register()}});
+let scans=1284;setInterval(()=>{scans+=Math.floor(Math.random()*2)+1;document.getElementById('live-text').textContent=scans.toLocaleString()+' orders scanned today'},3000);
 </script>
 </body>
 </html>
