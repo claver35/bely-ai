@@ -16,19 +16,22 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .btn-logout:hover{background:rgba(255,255,255,0.05);color:#e8e6e1}
 .main{padding:32px}
 .page-title{font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
-.page-sub{font-size:14px;color:#888780;margin-bottom:28px}
+.page-sub{font-size:14px;color:#888780;margin-bottom:28px;display:flex;align-items:center;gap:8px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#97C459;animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.connect-box{background:#13122a;border:0.5px solid #534AB7;border-radius:12px;padding:24px;text-align:center;margin-bottom:28px}
+.connect-title{font-size:16px;font-weight:500;color:#fff;margin-bottom:8px}
+.connect-sub{font-size:13px;color:#c2c0b6;margin-bottom:18px;line-height:1.6}
+.btn-connect{padding:12px 28px;border-radius:8px;background:#534AB7;border:none;color:#fff;font-size:14px;font-weight:500;cursor:pointer}
+.btn-connect:hover{background:#7F77DD}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px}
 .metric-label{font-size:12px;color:#5F5E5A;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
 .metric-value{font-size:28px;font-weight:600;margin-bottom:4px}
 .metric-sub{font-size:12px;color:#5F5E5A}
-.val-ok{color:#97C459}
-.val-warn{color:#FAC775}
-.val-bad{color:#F09595}
-.val-purple{color:#7F77DD}
-.health-bar-wrap{margin-top:10px}
-.health-bar-bg{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
-.health-bar-fill{height:5px;border-radius:3px;transition:width 1.5s ease}
+.val-ok{color:#97C459}.val-warn{color:#FAC775}.val-bad{color:#F09595}.val-purple{color:#7F77DD}
+.bar-bg{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:10px}
+.bar-fill{height:5px;border-radius:3px;width:0%;transition:width 1.5s ease}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
 .card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px}
 .card-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
@@ -45,23 +48,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .alert-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .alert-row:last-child{border-bottom:none}
 .alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.dot-warn{background:#FAC775}
-.dot-ok{background:#97C459}
-.dot-bad{background:#F09595}
+.dot-warn{background:#FAC775}.dot-ok{background:#97C459}.dot-bad{background:#F09595}
 .alert-text{font-size:13px;color:#c2c0b6;line-height:1.5}
 .alert-time{font-size:11px;color:#5F5E5A;margin-top:3px}
-.connect-box{background:#13122a;border:0.5px solid #534AB7;border-radius:12px;padding:24px;text-align:center;margin-bottom:28px}
-.connect-title{font-size:16px;font-weight:500;color:#fff;margin-bottom:8px}
-.connect-sub{font-size:13px;color:#888780;margin-bottom:18px;line-height:1.6}
-.btn-connect{padding:12px 28px;border-radius:8px;background:#534AB7;border:none;color:#fff;font-size:14px;font-weight:500;cursor:pointer}
-.btn-connect:hover{background:#7F77DD}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#97C459;display:inline-block;animation:pulse 2s infinite;margin-right:6px}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-@media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+@media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.main{padding:20px}}
 </style>
 </head>
 <body>
-
 <nav>
   <div class="logo">BELY <span>AI</span></div>
   <div class="nav-right">
@@ -69,35 +62,26 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="btn-logout" onclick="logout()">Sign out</button>
   </div>
 </nav>
-
 <div class="main">
   <div class="page-title">Store Dashboard</div>
-  <div class="page-sub"><span class="live-dot"></span>Live monitoring — Last updated just now</div>
-
-  <!-- Shopify Bağlantı Kutusu -->
+  <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
   <div class="connect-box">
     <div class="connect-title">Connect your Shopify store to activate protection</div>
     <div class="connect-sub">BELY AI needs access to your store orders and account data.<br>Takes 2 minutes. No code required.</div>
-    <button class="btn-connect" onclick="alert('Shopify OAuth — coming soon! We are building this next.')">Connect Shopify Store</button>
+    <button class="btn-connect" onclick="alert('Shopify OAuth — coming soon!')">Connect Shopify Store</button>
   </div>
-
-  <!-- Metrik Kartları -->
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account health</div>
       <div class="metric-value val-ok">82/100</div>
       <div class="metric-sub">Healthy — No issues</div>
-      <div class="health-bar-wrap">
-        <div class="health-bar-bg"><div class="health-bar-fill" id="hbar" style="width:0%;background:#639922"></div></div>
-      </div>
+      <div class="bar-bg"><div class="bar-fill" id="hbar" style="background:#639922"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Chargeback rate</div>
       <div class="metric-value val-warn">0.48%</div>
       <div class="metric-sub">Limit: 0.65% — 26% buffer</div>
-      <div class="health-bar-wrap">
-        <div class="health-bar-bg"><div class="health-bar-fill" id="cbar" style="width:0%;background:#FAC775"></div></div>
-      </div>
+      <div class="bar-bg"><div class="bar-fill" id="cbar" style="background:#FAC775"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Orders scanned</div>
@@ -110,95 +94,38 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       <div class="metric-sub">High-risk orders this week</div>
     </div>
   </div>
-
   <div class="grid2">
-    <!-- Son Siparişler -->
     <div class="card">
       <div class="card-title">Recent orders — Risk scores <span>Last 24 hours</span></div>
-      <div class="order-row">
-        <div class="order-left"><div class="order-id">#ORD-4821</div><div class="order-detail">$247 · Romania IP · New account</div></div>
-        <span class="risk-pill risk-high">HIGH — 87%</span>
-      </div>
-      <div class="order-row">
-        <div class="order-left"><div class="order-id">#ORD-4820</div><div class="order-detail">$134 · Mismatched address</div></div>
-        <span class="risk-pill risk-med">MED — 54%</span>
-      </div>
-      <div class="order-row">
-        <div class="order-left"><div class="order-id">#ORD-4819</div><div class="order-detail">$89 · Returning customer</div></div>
-        <span class="risk-pill risk-low">LOW — 12%</span>
-      </div>
-      <div class="order-row">
-        <div class="order-left"><div class="order-id">#ORD-4818</div><div class="order-detail">$211 · Normal pattern</div></div>
-        <span class="risk-pill risk-low">LOW — 8%</span>
-      </div>
-      <div class="order-row">
-        <div class="order-left"><div class="order-id">#ORD-4817</div><div class="order-detail">$55 · Verified customer</div></div>
-        <span class="risk-pill risk-low">LOW — 4%</span>
-      </div>
+      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4821</div><div class="order-detail">$247 · Romania IP · New account</div></div><span class="risk-pill risk-high">HIGH — 87%</span></div>
+      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4820</div><div class="order-detail">$134 · Mismatched address</div></div><span class="risk-pill risk-med">MED — 54%</span></div>
+      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4819</div><div class="order-detail">$89 · Returning customer</div></div><span class="risk-pill risk-low">LOW — 12%</span></div>
+      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4818</div><div class="order-detail">$211 · Normal pattern</div></div><span class="risk-pill risk-low">LOW — 8%</span></div>
+      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4817</div><div class="order-detail">$55 · Verified customer</div></div><span class="risk-pill risk-low">LOW — 4%</span></div>
     </div>
-
-    <!-- Uyarılar -->
     <div class="card">
       <div class="card-title">Account alerts <span>Active monitoring</span></div>
-      <div class="alert-row">
-        <div class="alert-dot dot-bad"></div>
-        <div>
-          <div class="alert-text">HIGH RISK order #ORD-4821 flagged — Do not ship until verified</div>
-          <div class="alert-time">2 minutes ago</div>
-        </div>
-      </div>
-      <div class="alert-row">
-        <div class="alert-dot dot-warn"></div>
-        <div>
-          <div class="alert-text">Chargeback rate at 0.48% — approaching 0.65% Visa limit</div>
-          <div class="alert-time">Today, 09:14</div>
-        </div>
-      </div>
-      <div class="alert-row">
-        <div class="alert-dot dot-warn"></div>
-        <div>
-          <div class="alert-text">3 high-risk orders detected this week — review recommended</div>
-          <div class="alert-time">Yesterday</div>
-        </div>
-      </div>
-      <div class="alert-row">
-        <div class="alert-dot dot-ok"></div>
-        <div>
-          <div class="alert-text">Account health score improved from 78 to 82 this week</div>
-          <div class="alert-time">3 days ago</div>
-        </div>
-      </div>
+      <div class="alert-row"><div class="alert-dot dot-bad"></div><div><div class="alert-text">HIGH RISK order #ORD-4821 flagged — Do not ship until verified</div><div class="alert-time">2 minutes ago</div></div></div>
+      <div class="alert-row"><div class="alert-dot dot-warn"></div><div><div class="alert-text">Chargeback rate at 0.48% — approaching 0.65% Visa limit</div><div class="alert-time">Today, 09:14</div></div></div>
+      <div class="alert-row"><div class="alert-dot dot-warn"></div><div><div class="alert-text">3 high-risk orders detected this week — review recommended</div><div class="alert-time">Yesterday</div></div></div>
+      <div class="alert-row"><div class="alert-dot dot-ok"></div><div><div class="alert-text">Account health score improved from 78 to 82 this week</div><div class="alert-time">3 days ago</div></div></div>
     </div>
   </div>
 </div>
-
 <script>
-const SUPABASE_URL = 'https://txuanbvyjohgvuynlfyq.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function init() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    window.location.href = 'auth.html';
-    return;
-  }
-  document.getElementById('user-email').textContent = session.user.email;
-  setTimeout(() => { document.getElementById('hbar').style.width = '82%'; }, 400);
-  setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
-  let n = 0;
-  const t = setInterval(() => {
-    n += 7;
-    document.getElementById('scan-num').textContent = n;
-    if (n >= 148) clearInterval(t);
-  }, 20);
+const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+async function init(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){window.location.href='auth.html';return;}
+  document.getElementById('user-email').textContent=session.user.email;
+  setTimeout(()=>{document.getElementById('hbar').style.width='82%';},400);
+  setTimeout(()=>{document.getElementById('cbar').style.width='74%';},600);
+  let n=0;const t=setInterval(()=>{n+=7;document.getElementById('scan-num').textContent=n;if(n>=148)clearInterval(t);},20);
 }
-
-async function logout() {
-  await supabase.auth.signOut();
-  window.location.href = 'auth.html';
+async function logout(){
+  await sb.auth.signOut();
+  window.location.href='auth.html';
 }
-
 init();
 </script>
 </body>
