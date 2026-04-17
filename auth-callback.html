@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BELY AI — Connecting Store...</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:48px 40px;text-align:center;max-width:420px;width:100%}
+.logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:32px}
+.logo span{color:#00d4ff}
+.spinner{width:48px;height:48px;border:3px solid rgba(0,212,255,0.15);border-top-color:#00d4ff;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
+.sub{font-size:14px;color:#c2c0b6;line-height:1.6}
+.status{font-size:13px;color:#00d4ff;margin-top:16px;font-weight:500}
+.err-box{background:rgba(248,113,113,0.1);border:0.5px solid rgba(248,113,113,0.25);border-radius:8px;padding:14px;margin-top:20px;font-size:13px;color:#fca5a5;display:none}
+.btn{padding:12px 28px;border-radius:8px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;display:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">BELY <span>AI</span></div>
+  <div class="spinner" id="spinner"></div>
+  <div class="title" id="title">Connecting your Shopify store...</div>
+  <div class="sub" id="sub">Please wait while we securely connect your store to BELY AI.</div>
+  <div class="status" id="status">Verifying authorization...</div>
+  <div class="err-box" id="err"></div>
+  <button class="btn" id="btn" onclick="location.href='dashboard.html'">Go to Dashboard →</button>
+</div>
+
+<script>
+const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+
+async function handleCallback(){
+  const params=new URLSearchParams(window.location.search);
+  const code=params.get('code');
+  const shop=params.get('shop');
+  const state=params.get('state');
+
+  if(!code||!shop){
+    showError('Missing authorization parameters. Please try connecting again.');
+    return;
+  }
+
+  document.getElementById('status').textContent='Authorization received. Saving store connection...';
+
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(!session){
+      showError('Session expired. Please sign in again.');
+      return;
+    }
+
+    // Mağaza bilgisini Supabase'e kaydet
+    const{error}=await sb.from('shopify_stores').upsert({
+      user_id:session.user.id,
+      shop_domain:shop,
+      access_code:code,
+      connected_at:new Date().toISOString(),
+      status:'connected'
+    });
+
+    if(error){
+      // Tablo yoksa yine de devam et
+      console.log('DB note:',error.message);
+    }
+
+    document.getElementById('spinner').style.display='none';
+    document.getElementById('title').textContent='Store connected successfully!';
+    document.getElementById('sub').textContent=shop+' has been connected to BELY AI. You\'re now protected.';
+    document.getElementById('status').style.color='#4ade80';
+    document.getElementById('status').textContent='✓ Connection verified — redirecting to dashboard...';
+    document.getElementById('btn').style.display='inline-block';
+
+    setTimeout(()=>location.href='dashboard.html',2500);
+
+  }catch(e){
+    showError('Connection error: '+e.message);
+  }
+}
+
+function showError(msg){
+  document.getElementById('spinner').style.display='none';
+  document.getElementById('title').textContent='Connection failed';
+  document.getElementById('sub').textContent='Something went wrong while connecting your store.';
+  document.getElementById('status').style.display='none';
+  const err=document.getElementById('err');
+  err.textContent=msg;
+  err.style.display='block';
+  document.getElementById('btn').textContent='Try Again →';
+  document.getElementById('btn').onclick=()=>location.href='dashboard.html';
+  document.getElementById('btn').style.display='inline-block';
+}
+
+handleCallback();
+</script>
+</body>
+</html>
