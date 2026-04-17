@@ -36,21 +36,37 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px}
 .card-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
 .card-title span{font-size:11px;color:#5F5E5A;font-weight:400}
-.order-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+
+/* SİPARİŞ SATIRLARI */
+.order-row{padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .order-row:last-child{border-bottom:none}
-.order-left{display:flex;flex-direction:column;gap:3px}
+.order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .order-id{font-size:13px;font-weight:500;color:#fff}
-.order-detail{font-size:12px;color:#5F5E5A}
+.order-amount{font-size:13px;color:#c2c0b6}
 .risk-pill{font-size:11px;padding:3px 10px;border-radius:4px;font-weight:500}
 .risk-high{background:rgba(226,75,74,0.15);color:#F09595;border:0.5px solid rgba(226,75,74,0.3)}
 .risk-med{background:rgba(186,117,23,0.15);color:#FAC775;border:0.5px solid rgba(186,117,23,0.3)}
 .risk-low{background:rgba(99,153,34,0.15);color:#97C459;border:0.5px solid rgba(99,153,34,0.3)}
-.alert-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.order-reason{font-size:12px;color:#888780;line-height:1.5;margin-top:4px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid rgba(255,255,255,0.08)}
+.order-reason.danger{border-left-color:#E24B4A;color:#F09595}
+.order-reason.warn{border-left-color:#FAC775;color:#FAC775}
+.order-reason.ok{border-left-color:#639922;color:#97C459}
+
+/* UYARI SATIRLARI */
+.alert-row{padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .alert-row:last-child{border-bottom:none}
+.alert-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
 .alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .dot-warn{background:#FAC775}.dot-ok{background:#97C459}.dot-bad{background:#F09595}
-.alert-text{font-size:13px;color:#c2c0b6;line-height:1.5}
-.alert-time{font-size:11px;color:#5F5E5A;margin-top:3px}
+.alert-title{font-size:13px;color:#c2c0b6;line-height:1.5;font-weight:500}
+.alert-time{font-size:11px;color:#5F5E5A;margin-top:2px}
+.alert-detail{font-size:12px;color:#888780;line-height:1.6;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:6px}
+.alert-detail strong{color:#c2c0b6;font-weight:500}
+.alert-action{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:6px;display:inline-block}
+.action-bad{background:rgba(226,75,74,0.08);color:#F09595;border:0.5px solid rgba(226,75,74,0.2)}
+.action-warn{background:rgba(186,117,23,0.08);color:#FAC775;border:0.5px solid rgba(186,117,23,0.2)}
+.action-ok{background:rgba(99,153,34,0.08);color:#97C459;border:0.5px solid rgba(99,153,34,0.2)}
+
 @media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.main{padding:20px}}
 </style>
 </head>
@@ -62,14 +78,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="btn-logout" onclick="logout()">Sign out</button>
   </div>
 </nav>
+
 <div class="main">
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
+
   <div class="connect-box">
     <div class="connect-title">Connect your Shopify store to activate protection</div>
     <div class="connect-sub">BELY AI needs access to your store orders and account data.<br>Takes 2 minutes. No code required.</div>
     <button class="btn-connect" onclick="alert('Shopify OAuth — coming soon!')">Connect Shopify Store</button>
   </div>
+
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account health</div>
@@ -94,24 +113,133 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       <div class="metric-sub">High-risk orders this week</div>
     </div>
   </div>
+
   <div class="grid2">
+    <!-- SOL: SİPARİŞLER -->
     <div class="card">
       <div class="card-title">Recent orders — Risk scores <span>Last 24 hours</span></div>
-      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4821</div><div class="order-detail">$247 · Romania IP · New account</div></div><span class="risk-pill risk-high">HIGH — 87%</span></div>
-      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4820</div><div class="order-detail">$134 · Mismatched address</div></div><span class="risk-pill risk-med">MED — 54%</span></div>
-      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4819</div><div class="order-detail">$89 · Returning customer</div></div><span class="risk-pill risk-low">LOW — 12%</span></div>
-      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4818</div><div class="order-detail">$211 · Normal pattern</div></div><span class="risk-pill risk-low">LOW — 8%</span></div>
-      <div class="order-row"><div class="order-left"><div class="order-id">#ORD-4817</div><div class="order-detail">$55 · Verified customer</div></div><span class="risk-pill risk-low">LOW — 4%</span></div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div>
+            <div class="order-id">#ORD-4821 · <span class="order-amount">$247.00</span></div>
+          </div>
+          <span class="risk-pill risk-high">HIGH RISK — 87%</span>
+        </div>
+        <div class="order-reason danger">
+          🚨 <strong>Do not ship.</strong> IP address is from Romania but shipping address is Miami, USA. Account was created only 2 days ago. Same card used 3 times in 4 hours. These are classic fraud patterns — high probability of chargeback.
+        </div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div class="order-id">#ORD-4820 · <span class="order-amount">$134.00</span></div>
+          <span class="risk-pill risk-med">MED RISK — 54%</span>
+        </div>
+        <div class="order-reason warn">
+          ⚠️ Billing address and shipping address are in different countries. Customer email domain looks suspicious. Recommend contacting the customer before shipping to confirm the order.
+        </div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div class="order-id">#ORD-4819 · <span class="order-amount">$89.00</span></div>
+          <span class="risk-pill risk-low">LOW RISK — 12%</span>
+        </div>
+        <div class="order-reason ok">
+          ✓ Returning customer with 14 previous orders. IP matches billing address. Normal order pattern. Safe to ship.
+        </div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div class="order-id">#ORD-4818 · <span class="order-amount">$211.00</span></div>
+          <span class="risk-pill risk-low">LOW RISK — 8%</span>
+        </div>
+        <div class="order-reason ok">
+          ✓ Verified customer, consistent order history. All details match. Safe to ship.
+        </div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div class="order-id">#ORD-4817 · <span class="order-amount">$55.00</span></div>
+          <span class="risk-pill risk-low">LOW RISK — 4%</span>
+        </div>
+        <div class="order-reason ok">
+          ✓ Long-term customer, no previous disputes. Safe to ship.
+        </div>
+      </div>
     </div>
+
+    <!-- SAĞ: UYARILAR -->
     <div class="card">
       <div class="card-title">Account alerts <span>Active monitoring</span></div>
-      <div class="alert-row"><div class="alert-dot dot-bad"></div><div><div class="alert-text">HIGH RISK order #ORD-4821 flagged — Do not ship until verified</div><div class="alert-time">2 minutes ago</div></div></div>
-      <div class="alert-row"><div class="alert-dot dot-warn"></div><div><div class="alert-text">Chargeback rate at 0.48% — approaching 0.65% Visa limit</div><div class="alert-time">Today, 09:14</div></div></div>
-      <div class="alert-row"><div class="alert-dot dot-warn"></div><div><div class="alert-text">3 high-risk orders detected this week — review recommended</div><div class="alert-time">Yesterday</div></div></div>
-      <div class="alert-row"><div class="alert-dot dot-ok"></div><div><div class="alert-text">Account health score improved from 78 to 82 this week</div><div class="alert-time">3 days ago</div></div></div>
+
+      <div class="alert-row">
+        <div class="alert-top">
+          <div class="alert-dot dot-bad"></div>
+          <div>
+            <div class="alert-title">HIGH RISK order #ORD-4821 flagged — Do not ship</div>
+            <div class="alert-time">2 minutes ago</div>
+          </div>
+        </div>
+        <div class="alert-detail">
+          <strong>Why:</strong> Foreign IP + new account + repeated card use in short time = classic fraud pattern. If you ship this order, you will likely lose the product AND receive a chargeback. The customer will claim they never placed the order.
+        </div>
+        <span class="alert-action action-bad">→ Contact customer before shipping or cancel the order</span>
+      </div>
+
+      <div class="alert-row">
+        <div class="alert-top">
+          <div class="alert-dot dot-warn"></div>
+          <div>
+            <div class="alert-title">Chargeback rate at 0.48% — approaching Visa limit</div>
+            <div class="alert-time">Today, 09:14</div>
+          </div>
+        </div>
+        <div class="alert-detail">
+          <strong>Why it matters:</strong> Visa's limit is 0.65%. You are at 0.48% — only 0.17% away. If you exceed the limit, Visa will place your account on a watchlist. This means higher processing fees, possible account freeze, and loss of ability to accept credit cards.
+          <br><br><strong>What to do:</strong> Stop shipping high-risk orders immediately. Review your last 30 days of chargebacks and identify which product categories are causing disputes.
+        </div>
+        <span class="alert-action action-warn">→ Review high-risk orders before shipping this week</span>
+      </div>
+
+      <div class="alert-row">
+        <div class="alert-top">
+          <div class="alert-dot dot-warn"></div>
+          <div>
+            <div class="alert-title">3 high-risk orders detected this week</div>
+            <div class="alert-time">Yesterday</div>
+          </div>
+        </div>
+        <div class="alert-detail">
+          <strong>Detection reasons:</strong><br>
+          • #ORD-4821: Foreign IP + new account + card reuse<br>
+          • #ORD-4815: Freight forwarder ZIP code detected<br>
+          • #ORD-4809: Order amount 5x above your store average — unusual spike<br><br>
+          <strong>What to do:</strong> Check each order individually. Contact customers via email to verify identity before shipping. If no response within 24h, cancel and refund.
+        </div>
+        <span class="alert-action action-warn">→ Review all 3 orders in your Shopify admin</span>
+      </div>
+
+      <div class="alert-row">
+        <div class="alert-top">
+          <div class="alert-dot dot-ok"></div>
+          <div>
+            <div class="alert-title">Account health improved: 78 → 82 this week</div>
+            <div class="alert-time">3 days ago</div>
+          </div>
+        </div>
+        <div class="alert-detail">
+          <strong>Why it improved:</strong> No new chargebacks in the last 7 days and 2 previously flagged disputes were resolved in your favor. Keep shipping only verified orders to maintain this trend.
+        </div>
+        <span class="alert-action action-ok">→ Keep monitoring — you're on the right track</span>
+      </div>
     </div>
   </div>
 </div>
+
 <script>
 const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
 async function init(){
