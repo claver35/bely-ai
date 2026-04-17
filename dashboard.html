@@ -259,6 +259,16 @@ async function logout(){
   window.location.href='auth.html';
 }
 init();
+  function connectShopify(){
+  const shop=prompt('Shopify mağaza adresinizi girin:\n(örnek: belyai.myshopify.com)');
+  if(!shop)return;
+  const clientId='07d3e8554d200c9b99309796104d9434';
+  const redirectUri='https://bely-ai.vercel.app/auth-callback.html';
+  const scopes='read_orders,read_customers,read_analytics';
+  const state=Math.random().toString(36).substring(7);
+  const url=`https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}&state=${state}`;
+  window.location.href=url;
+}
 </script>
 </body>
 </html>
