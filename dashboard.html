@@ -8,78 +8,85 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:0.5px solid rgba(255,255,255,0.08);background:#0d0f1a}
-.logo{font-size:18px;font-weight:600;color:#fff}.logo span{color:#7F77DD}
+nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid rgba(255,255,255,0.08);background:#0d0f1a}
+.logo{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.logo-ai{background:linear-gradient(90deg,#c084fc,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-right{display:flex;align-items:center;gap:16px}
 .user-email{font-size:13px;color:#c2c0b6}
 .btn-logout{font-size:13px;padding:7px 16px;border-radius:7px;border:0.5px solid rgba(255,255,255,0.2);background:transparent;color:#c2c0b6;cursor:pointer}
 .btn-logout:hover{background:rgba(255,255,255,0.07);color:#fff}
-.main{padding:32px}
-.page-title{font-size:24px;font-weight:600;color:#fff;margin-bottom:6px}
-.page-sub{font-size:14px;color:#c2c0b6;margin-bottom:28px;display:flex;align-items:center;gap:8px}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#97C459;animation:pulse 2s infinite;display:inline-block}
+.main{padding:28px 32px}
+.page-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
+.page-sub{font-size:13px;color:#c2c0b6;margin-bottom:22px;display:flex;align-items:center;gap:7px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.connect-box{background:#13122a;border:0.5px solid #534AB7;border-radius:12px;padding:24px;text-align:center;margin-bottom:28px}
-.connect-title{font-size:16px;font-weight:600;color:#fff;margin-bottom:8px}
-.connect-sub{font-size:14px;color:#c2c0b6;margin-bottom:18px;line-height:1.6}
-.btn-connect{padding:12px 28px;border-radius:8px;background:#534AB7;border:none;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
-.btn-connect:hover{background:#7F77DD}
 
-/* METRİK KARTLAR */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px}
-.metric-label{font-size:12px;color:#c2c0b6;margin-bottom:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
-.metric-value{font-size:30px;font-weight:700;margin-bottom:6px}
-.metric-sub{font-size:13px;color:#c2c0b6;font-weight:500}
-.val-ok{color:#4ade80}.val-warn{color:#fbbf24}.val-bad{color:#f87171}.val-purple{color:#a78bfa}
-.bar-bg{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:12px}
-.bar-fill{height:5px;border-radius:3px;width:0%;transition:width 1.5s ease}
+/* CONNECT BOX — NEON MAVİ */
+.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:12px;padding:20px 28px;text-align:center;margin-bottom:22px;box-shadow:0 0 20px rgba(0,212,255,0.15)}
+.connect-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
+.connect-sub{font-size:13px;color:#c2c0b6;margin-bottom:16px;line-height:1.5}
+.btn-connect{padding:11px 28px;border-radius:8px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.02em}
+.btn-connect:hover{background:linear-gradient(90deg,#00e5ff,#00b3ee)}
 
+/* METRİK KARTLAR — KÜÇÜK */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px}
+.metric-label{font-size:11px;color:#c2c0b6;margin-bottom:6px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.metric-value{font-size:26px;font-weight:800;margin-bottom:3px;line-height:1}
+.metric-sub{font-size:11px;color:#c2c0b6}
+.val-ok{color:#4ade80}
+.val-warn{color:#fbbf24}
+.val-cyan{color:#00d4ff}
+.val-bad{color:#ff2222}
+.bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:8px}
+.bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
+
+/* GRID — UYARILAR SOL, SİPARİŞLER SAĞ */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
-.card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px}
-.card-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-.card-title span{font-size:12px;color:#c2c0b6;font-weight:400}
+.card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
+.card-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.card-title span{font-size:11px;color:#c2c0b6;font-weight:400}
+
+/* UYARI SATIRLARI — KOMPAKT */
+.alert-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.alert-row:last-child{border-bottom:none}
+.alert-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dot-bad{background:#ff2222}.dot-warn{background:#fbbf24}.dot-ok{background:#4ade80}
+.alert-title{font-size:13px;font-weight:700;color:#fff;line-height:1.35}
+.alert-time{font-size:11px;color:#c2c0b6;margin-top:2px}
+.alert-body{font-size:12px;line-height:1.55;margin-top:5px;padding:7px 10px;border-radius:6px}
+.body-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
+.body-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
+.body-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
+.label-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.tag-bad{color:#ff2222}.tag-warn{color:#fbbf24}.tag-ok{color:#4ade80}
+.alert-action{font-size:11px;font-weight:600;margin-top:5px;padding:4px 10px;border-radius:5px;display:inline-block}
+.act-bad{background:rgba(255,34,34,0.1);color:#ff6666;border:0.5px solid rgba(255,34,34,0.3)}
+.act-warn{background:rgba(251,191,36,0.1);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.3)}
+.act-ok{background:rgba(74,222,128,0.1);color:#4ade80;border:0.5px solid rgba(74,222,128,0.3)}
 
 /* SİPARİŞ SATIRLARI */
-.order-row{padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
+.order-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .order-row:last-child{border-bottom:none}
-.order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.order-id{font-size:15px;font-weight:700;color:#fff}
-.order-amount{font-size:14px;color:#c2c0b6;font-weight:500}
-.risk-pill{font-size:12px;padding:4px 12px;border-radius:5px;font-weight:700;letter-spacing:.03em}
-.risk-high{background:rgba(248,113,113,0.2);color:#f87171;border:0.5px solid rgba(248,113,113,0.4)}
-.risk-med{background:rgba(251,191,36,0.2);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.4)}
-.risk-low{background:rgba(74,222,128,0.2);color:#4ade80;border:0.5px solid rgba(74,222,128,0.4)}
-.order-reason{font-size:13px;line-height:1.6;margin-top:6px;padding:8px 12px;border-radius:7px}
-.reason-danger{background:rgba(248,113,113,0.08);color:#fca5a5;border-left:3px solid #f87171}
-.reason-warn{background:rgba(251,191,36,0.08);color:#fde68a;border-left:3px solid #fbbf24}
-.reason-ok{background:rgba(74,222,128,0.08);color:#86efac;border-left:3px solid #4ade80}
+.order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.order-id{font-size:13px;font-weight:700;color:#fff}
+.order-amount{font-size:12px;color:#c2c0b6;margin-top:2px}
+.risk-pill{font-size:11px;padding:3px 10px;border-radius:4px;font-weight:700}
+.risk-high{background:rgba(255,34,34,0.15);color:#ff6666;border:0.5px solid rgba(255,34,34,0.35)}
+.risk-med{background:rgba(251,191,36,0.15);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.35)}
+.risk-low{background:rgba(74,222,128,0.15);color:#4ade80;border:0.5px solid rgba(74,222,128,0.35)}
+.order-reason{font-size:12px;line-height:1.5;padding:6px 10px;border-radius:6px}
+.r-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
+.r-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
+.r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
 
-/* UYARI SATIRLARI */
-.alert-row{padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
-.alert-row:last-child{border-bottom:none}
-.alert-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
-.alert-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.dot-bad{background:#f87171}.dot-warn{background:#fbbf24}.dot-ok{background:#4ade80}
-.alert-title{font-size:15px;font-weight:700;color:#fff;line-height:1.4}
-.alert-time{font-size:12px;color:#c2c0b6;margin-top:3px;font-weight:500}
-.alert-why{font-size:13px;line-height:1.65;margin-top:8px;padding:10px 12px;border-radius:7px;background:rgba(255,255,255,0.04)}
-.alert-why .why-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
-.why-bad .why-label{color:#f87171}
-.why-warn .why-label{color:#fbbf24}
-.why-ok .why-label{color:#4ade80}
-.alert-why p{color:#e2e0d8;line-height:1.65}
-.alert-action{font-size:12px;font-weight:600;margin-top:8px;padding:6px 12px;border-radius:6px;display:inline-block;letter-spacing:.02em}
-.act-bad{background:rgba(248,113,113,0.12);color:#f87171;border:0.5px solid rgba(248,113,113,0.25)}
-.act-warn{background:rgba(251,191,36,0.12);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.25)}
-.act-ok{background:rgba(74,222,128,0.12);color:#4ade80;border:0.5px solid rgba(74,222,128,0.25)}
-
-@media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.main{padding:20px}}
+@media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.main{padding:16px}}
 </style>
 </head>
 <body>
 <nav>
-  <div class="logo">BELY <span>AI</span></div>
+  <div class="logo">BELY <span class="logo-ai">AI</span></div>
   <div class="nav-right">
     <span class="user-email" id="user-email">Loading...</span>
     <button class="btn-logout" onclick="logout()">Sign out</button>
@@ -99,83 +106,30 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
-      <div class="metric-value val-ok">82/100</div>
+      <div class="metric-value val-ok">%82</div>
       <div class="metric-sub">Healthy — No issues</div>
       <div class="bar-bg"><div class="bar-fill" id="hbar" style="background:#4ade80"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Chargeback Rate</div>
-      <div class="metric-value val-warn">0.48%</div>
-      <div class="metric-sub">Limit: 0.65% — 26% buffer left</div>
+      <div class="metric-value val-warn">%0.48</div>
+      <div class="metric-sub">Limit: 0.65% — 26% buffer</div>
       <div class="bar-bg"><div class="bar-fill" id="cbar" style="background:#fbbf24"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Orders Scanned</div>
-      <div class="metric-value val-purple" id="scan-num">0</div>
+      <div class="metric-value val-cyan" id="scan-num">0</div>
       <div class="metric-sub">Today — All analyzed</div>
     </div>
     <div class="metric">
       <div class="metric-label">Fraud Blocked</div>
       <div class="metric-value val-bad">3</div>
-      <div class="metric-sub">High-risk orders this week</div>
+      <div class="metric-sub">High-risk this week</div>
     </div>
   </div>
 
   <div class="grid2">
-    <div class="card">
-      <div class="card-title">Recent Orders — Risk Scores <span>Last 24 hours</span></div>
-
-      <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4821</div><div class="order-amount">$247.00</div></div>
-          <span class="risk-pill risk-high">⚠ HIGH RISK — 87%</span>
-        </div>
-        <div class="order-reason reason-danger">
-          🚨 <strong>Do not ship.</strong> IP from Romania but shipping to Miami, USA. Account created 2 days ago. Same card used 3× in 4 hours. Classic fraud pattern — high chargeback probability.
-        </div>
-      </div>
-
-      <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4820</div><div class="order-amount">$134.00</div></div>
-          <span class="risk-pill risk-med">⚡ MED RISK — 54%</span>
-        </div>
-        <div class="order-reason reason-warn">
-          ⚠️ Billing and shipping addresses in different countries. Suspicious email domain. Contact customer before shipping to confirm.
-        </div>
-      </div>
-
-      <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4819</div><div class="order-amount">$89.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW RISK — 12%</span>
-        </div>
-        <div class="order-reason reason-ok">
-          Returning customer — 14 previous orders, IP matches billing, normal pattern. Safe to ship.
-        </div>
-      </div>
-
-      <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4818</div><div class="order-amount">$211.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW RISK — 8%</span>
-        </div>
-        <div class="order-reason reason-ok">
-          Verified customer, consistent order history. All details match. Safe to ship.
-        </div>
-      </div>
-
-      <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4817</div><div class="order-amount">$55.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW RISK — 4%</span>
-        </div>
-        <div class="order-reason reason-ok">
-          Long-term customer, no previous disputes. Safe to ship.
-        </div>
-      </div>
-    </div>
-
+    <!-- SOL: HESAP UYARILARI -->
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
 
@@ -187,11 +141,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
             <div class="alert-time">2 minutes ago</div>
           </div>
         </div>
-        <div class="alert-why why-bad">
-          <div class="why-label">Why this is dangerous</div>
-          <p>Foreign IP + new account + repeated card use = classic fraud. If you ship, you will likely lose the product AND receive a chargeback. The buyer will claim they never ordered.</p>
+        <div class="alert-body body-bad">
+          <div class="label-tag tag-bad">Why it's dangerous</div>
+          Foreign IP (Romania) + new account (2 days old) + same card used 3× in 4 hours = classic fraud. Ship this and you lose the product AND get a chargeback.
         </div>
-        <span class="alert-action act-bad">→ Contact customer or cancel this order</span>
+        <span class="alert-action act-bad">→ Contact customer or cancel order</span>
       </div>
 
       <div class="alert-row">
@@ -202,12 +156,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
             <div class="alert-time">Today, 09:14</div>
           </div>
         </div>
-        <div class="alert-why why-warn">
-          <div class="why-label">Why this matters</div>
-          <p>Visa's limit is 0.65%. You're only 0.17% away. Exceeding it puts your account on Visa's watchlist — higher fees, possible account freeze, and risk of losing the ability to accept credit cards entirely.</p>
-          <p style="margin-top:6px"><strong style="color:#fbbf24">What to do:</strong> Stop shipping high-risk orders. Review your last 30 days of disputes and identify which product categories cause the most chargebacks.</p>
+        <div class="alert-body body-warn">
+          <div class="label-tag tag-warn">Why it matters</div>
+          Visa's limit is 0.65%. You're 0.17% away. Exceeding it = watchlist, higher fees, possible account freeze.
+          <br><strong style="color:#fbbf24">Action:</strong> Stop shipping high-risk orders now.
         </div>
-        <span class="alert-action act-warn">→ Review your high-risk orders this week</span>
+        <span class="alert-action act-warn">→ Review high-risk orders this week</span>
       </div>
 
       <div class="alert-row">
@@ -218,14 +172,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
             <div class="alert-time">Yesterday</div>
           </div>
         </div>
-        <div class="alert-why why-warn">
-          <div class="why-label">Detection reasons</div>
-          <p>• <strong style="color:#fbbf24">#ORD-4821:</strong> Foreign IP + new account + card reuse<br>
-          • <strong style="color:#fbbf24">#ORD-4815:</strong> Freight forwarder ZIP code — order likely re-shipped abroad<br>
-          • <strong style="color:#fbbf24">#ORD-4809:</strong> Order amount 5× above your store average — unusual spike<br><br>
-          Contact each customer before shipping. No response in 24h = cancel & refund.</p>
+        <div class="alert-body body-warn">
+          <div class="label-tag tag-warn">Detection reasons</div>
+          • #ORD-4821: Foreign IP + new account + card reuse<br>
+          • #ORD-4815: Freight forwarder ZIP code detected<br>
+          • #ORD-4809: Order 5× above store average — unusual spike
         </div>
-        <span class="alert-action act-warn">→ Review all 3 orders in Shopify admin</span>
+        <span class="alert-action act-warn">→ Review all 3 in Shopify admin</span>
       </div>
 
       <div class="alert-row">
@@ -236,11 +189,56 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
             <div class="alert-time">3 days ago</div>
           </div>
         </div>
-        <div class="alert-why why-ok">
-          <div class="why-label">Why it improved</div>
-          <p>No new chargebacks in 7 days and 2 disputed orders were resolved in your favor. Keep shipping only verified orders to maintain this positive trend.</p>
+        <div class="alert-body body-ok">
+          <div class="label-tag tag-ok">Why it improved</div>
+          No new chargebacks in 7 days. 2 disputes resolved in your favor. Keep shipping only verified orders.
         </div>
         <span class="alert-action act-ok">→ Keep monitoring — you're on track</span>
+      </div>
+    </div>
+
+    <!-- SAĞ: SON SİPARİŞLER -->
+    <div class="card">
+      <div class="card-title">Recent Orders — Risk Scores <span>Last 24 hours</span></div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-4821</div><div class="order-amount">$247.00</div></div>
+          <span class="risk-pill risk-high">⚠ HIGH — 87%</span>
+        </div>
+        <div class="order-reason r-bad">🚨 <strong>Do not ship.</strong> Foreign IP + new account + card reuse 3× in 4h. Classic fraud.</div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-4820</div><div class="order-amount">$134.00</div></div>
+          <span class="risk-pill risk-med">⚡ MED — 54%</span>
+        </div>
+        <div class="order-reason r-warn">⚠️ Billing & shipping in different countries. Suspicious email domain. Contact before shipping.</div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-4819</div><div class="order-amount">$89.00</div></div>
+          <span class="risk-pill risk-low">✓ LOW — 12%</span>
+        </div>
+        <div class="order-reason r-ok">Returning customer, 14 orders, IP matches billing. Safe to ship.</div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-4818</div><div class="order-amount">$211.00</div></div>
+          <span class="risk-pill risk-low">✓ LOW — 8%</span>
+        </div>
+        <div class="order-reason r-ok">Verified customer, consistent history. Safe to ship.</div>
+      </div>
+
+      <div class="order-row">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-4817</div><div class="order-amount">$55.00</div></div>
+          <span class="risk-pill risk-low">✓ LOW — 4%</span>
+        </div>
+        <div class="order-reason r-ok">Long-term customer, no disputes. Safe to ship.</div>
       </div>
     </div>
   </div>
