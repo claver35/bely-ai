@@ -19,11 +19,9 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
 .hero-title span{color:#00d4ff}
 .hero-sub{font-size:14px;color:#00d4ff;line-height:1.7;margin-bottom:22px;animation:textpulse 2.5s ease-in-out infinite}
 @keyframes textpulse{0%,100%{opacity:1;text-shadow:0 0 8px rgba(0,212,255,0.4)}50%{opacity:0.55;text-shadow:0 0 2px rgba(0,212,255,0.1)}}
-.savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:16px 18px;flex:none;width:auto;display:inline-flex;flex-direction:column}
+.savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:16px 18px;flex:none}
 .savings-wrap{display:flex;gap:14px;margin-bottom:20px;align-items:stretch}
-.savings-wrap{display:flex;gap:14px;margin-bottom:20px;align-items:stretch}
-.savings-title{font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;white-space:nowrap}
-.savings-label{font-size:12px;color:#c2c0b6;white-space:nowrap}
+.savings-title{font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 .savings-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
 .savings-row:last-child{border-bottom:none}
 .savings-label{font-size:12px;color:#c2c0b6}
@@ -184,13 +182,16 @@ const PW=pc.width,PH=pc.height;
 const months=['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
 const targets=[180,420,680,1100,1600,2200,2800,3200];
 let cur=targets.map(()=>0);
-let animFrame=0;
+let animFrame=0,waveOff=0,gaugeAng=-90,gaugeDir=1;
 
 function drawChart(){
   animFrame++;
+  waveOff+=0.04;
+  gaugeAng+=1.2*gaugeDir;
+  if(gaugeAng>20||gaugeAng<-160)gaugeDir*=-1;
   cur=cur.map((v,i)=>Math.min(v+targets[i]*0.05,targets[i]));
   pctx.clearRect(0,0,PW,PH);
-  const maxV=3600,pad={l:8,r:8,t:8,b:18};
+  const maxV=3600,pad={l:8,r:8,t:10,b:18};
   const cw=PW-pad.l-pad.r,ch=PH-pad.t-pad.b;
   const pts=cur.map((v,i)=>({x:pad.l+i*(cw/(months.length-1)),y:pad.t+ch-(v/maxV)*ch}));
 
@@ -203,7 +204,7 @@ function drawChart(){
 
   // Fill
   const grad=pctx.createLinearGradient(0,pad.t,0,PH);
-  grad.addColorStop(0,'rgba(0,212,255,0.3)');
+  grad.addColorStop(0,'rgba(0,212,255,0.28)');
   grad.addColorStop(1,'rgba(0,212,255,0)');
   pctx.beginPath();
   pctx.moveTo(pts[0].x,pts[0].y);
@@ -212,15 +213,22 @@ function drawChart(){
   pctx.lineTo(pts[0].x,PH-pad.b);
   pctx.closePath();pctx.fillStyle=grad;pctx.fill();
 
-  // Line
+  // Wave overlay on line
   pctx.beginPath();
-  pctx.moveTo(pts[0].x,pts[0].y);
-  pts.forEach((p,i)=>{if(i>0){const pr=pts[i-1];const mx=(pr.x+p.x)/2;pctx.bezierCurveTo(mx,pr.y,mx,p.y,p.x,p.y);}});
+  pts.forEach((p,i)=>{
+    if(i===0){pctx.moveTo(p.x,p.y);}
+    else{
+      const pr=pts[i-1];
+      const mx=(pr.x+p.x)/2;
+      const wave=Math.sin(i*1.5+waveOff)*2.5;
+      pctx.bezierCurveTo(mx,pr.y+wave,mx,p.y+wave,p.x,p.y+wave);
+    }
+  });
   pctx.strokeStyle='#00d4ff';pctx.lineWidth=2.5;
-  pctx.shadowColor='#00d4ff';pctx.shadowBlur=10;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=12;
   pctx.stroke();pctx.shadowBlur=0;
 
-  // Dots & labels
+  // Dots
   pts.forEach((p,i)=>{
     pctx.beginPath();pctx.arc(p.x,p.y,3,0,Math.PI*2);pctx.fillStyle='#fff';pctx.fill();
     pctx.beginPath();pctx.arc(p.x,p.y,5,0,Math.PI*2);pctx.strokeStyle='#00d4ff';pctx.lineWidth=1.5;pctx.stroke();
@@ -228,17 +236,32 @@ function drawChart(){
     pctx.fillText(months[i],p.x,PH-4);
   });
 
-  // Last value label
+  // Value label
   const lp=pts[pts.length-1];
   pctx.fillStyle='#4ade80';pctx.font='bold 9px sans-serif';pctx.textAlign='right';
-  pctx.fillText('$'+Math.round(cur[cur.length-1]).toLocaleString(),PW-pad.r,lp.y-8);
+  pctx.fillText('$'+Math.round(cur[cur.length-1]).toLocaleString(),PW-pad.r-52,lp.y-8);
   document.getElementById('profit-val').textContent='$'+Math.round(cur[cur.length-1]).toLocaleString();
 
+  // Gauge — neon mavi ibre sağ üstte
+  const gx=PW-pad.r-22,gy=pad.t+22,gr=18;
+  pctx.beginPath();pctx.arc(gx,gy,gr,Math.PI,2*Math.PI);
+  pctx.strokeStyle='rgba(0,212,255,0.15)';pctx.lineWidth=3;pctx.stroke();
+  pctx.beginPath();pctx.arc(gx,gy,gr,Math.PI,2*Math.PI);
+  const gaugeProgress=(gaugeAng+160)/180;
+  const endA=Math.PI+(gaugeProgress*Math.PI);
+  pctx.arc(gx,gy,gr,Math.PI,endA);
+  pctx.strokeStyle='#00d4ff';pctx.lineWidth=3;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=8;pctx.stroke();pctx.shadowBlur=0;
+  const ibA=(gaugeAng+90)*Math.PI/180-Math.PI/2;
+  pctx.beginPath();
+  pctx.moveTo(gx,gy);
+  pctx.lineTo(gx+Math.cos(ibA)*gr*0.8,gy+Math.sin(ibA)*gr*0.8);
+  pctx.strokeStyle='#fff';pctx.lineWidth=1.5;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=6;pctx.stroke();pctx.shadowBlur=0;
+  pctx.beginPath();pctx.arc(gx,gy,3,0,Math.PI*2);pctx.fillStyle='#00d4ff';pctx.fill();
+
   if(animFrame<70)requestAnimationFrame(drawChart);
-  else{
-    // Loop every 7 seconds
-    setTimeout(()=>{cur=targets.map(()=>0);animFrame=0;requestAnimationFrame(drawChart);},7000);
-  }
+  else setTimeout(()=>{cur=targets.map(()=>0);animFrame=0;requestAnimationFrame(drawChart);},7000);
 }
 requestAnimationFrame(drawChart);
 </script>
