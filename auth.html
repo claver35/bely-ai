@@ -8,163 +8,138 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:grid;grid-template-columns:1fr 460px}
-
-/* SOL PANEL */
 .left{padding:48px;display:flex;flex-direction:column;justify-content:space-between;border-right:0.5px solid rgba(255,255,255,0.07);background:#0a0d15;overflow:hidden}
 .logo{font-size:22px;font-weight:700;color:#fff;letter-spacing:-.3px}
 .logo-ai{color:#00d4ff}
-.left-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:32px 0}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:0.5px solid rgba(0,212,255,0.25);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#00d4ff;margin-bottom:20px;letter-spacing:.03em}
-.hero-dot{width:6px;height:6px;border-radius:50%;background:#00d4ff;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.hero-title{font-size:30px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:12px}
+.left-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:0.5px solid rgba(0,212,255,0.25);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#00d4ff;margin-bottom:18px;letter-spacing:.03em}
+.hero-blink{width:6px;height:6px;border-radius:50%;background:#00d4ff;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px #00d4ff}50%{opacity:.2;box-shadow:none}}
+.hero-title{font-size:28px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:10px}
 .hero-title span{color:#00d4ff}
-.hero-sub{font-size:15px;color:#00d4ff;line-height:1.7;margin-bottom:28px;animation:textpulse 2.5s ease-in-out infinite}
-@keyframes textpulse{0%,100%{opacity:1;text-shadow:0 0 8px rgba(0,212,255,0.4)}50%{opacity:0.6;text-shadow:0 0 2px rgba(0,212,255,0.1)}}
-
-/* KAZANÇ HESAP KARTI */
-.savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:18px 20px;margin-bottom:24px;max-width:580px}
-.savings-title{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
-.savings-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
+.hero-sub{font-size:14px;color:#00d4ff;line-height:1.7;margin-bottom:22px;animation:textpulse 2.5s ease-in-out infinite}
+@keyframes textpulse{0%,100%{opacity:1;text-shadow:0 0 8px rgba(0,212,255,0.4)}50%{opacity:0.55;text-shadow:0 0 2px rgba(0,212,255,0.1)}}
+.savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:16px 18px;margin-bottom:20px;max-width:560px}
+.savings-title{font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.savings-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
 .savings-row:last-child{border-bottom:none}
-.savings-label{font-size:13px;color:#c2c0b6}
-.savings-val{font-size:14px;font-weight:700}
-.s-green{color:#4ade80}
-.s-red{color:#f87171}
-.s-cyan{color:#00d4ff}
-.savings-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,212,255,0.2)}
+.savings-label{font-size:12px;color:#c2c0b6}
+.savings-val{font-size:13px;font-weight:700}
+.s-green{color:#4ade80}.s-red{color:#f87171}.s-cyan{color:#00d4ff}
+.savings-total{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,212,255,0.2)}
 .savings-total-label{font-size:13px;font-weight:700;color:#fff}
-.savings-total-val{font-size:20px;font-weight:800;color:#4ade80}
-
-/* ÖZELLIKLER */
-.features{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.savings-total-val{font-size:18px;font-weight:800;color:#4ade80}
+.features{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
 .feat{display:flex;align-items:flex-start;gap:12px}
 .feat-icon{width:42px;height:42px;border-radius:8px;background:#0d1a2e;border:0.5px solid rgba(0,212,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
 .feat-body h4{font-size:14px;font-weight:700;color:#00d4ff;margin-bottom:3px;animation:textpulse 2.5s ease-in-out infinite;text-shadow:0 0 8px rgba(0,212,255,0.4)}
 .feat-body p{font-size:13px;color:#e8e6e1;line-height:1.6}
-/* İSTATİSTİKLER */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.stat{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:9px;padding:12px 14px}
-.stat-n{font-size:20px;font-weight:800;color:#00d4ff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:9px;padding:10px 14px}
+.stat-n{font-size:18px;font-weight:800;color:#00d4ff}
 .stat-l{font-size:11px;color:#c2c0b6;margin-top:3px}
-
-/* TESTIMONIAL */
-.quote{background:#161820;border-left:3px solid #00d4ff;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:16px}
+.quote{background:#161820;border-left:3px solid #00d4ff;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px}
 .quote p{font-size:14px;color:#e2e0d8;line-height:1.7;font-style:italic;margin-bottom:8px}
 .quote-author{font-size:13px;color:#c2c0b6;font-weight:500}
 .quote-author span{color:#00d4ff;font-weight:700}
-
 .live{display:flex;align-items:center;gap:7px;font-size:12px;color:#4ade80}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
 .footer-txt{font-size:11px;color:#444441;margin-top:8px}
-
-/* SAĞ PANEL */
-.right{padding:48px 32px;display:flex;flex-direction:column;justify-content:center;background:#0f1117}
-.right h2{font-size:22px;font-weight:700;color:#fff;margin-bottom:5px}
-.right-sub{font-size:13px;color:#c2c0b6;margin-bottom:28px}
-.tabs{display:flex;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:22px}
+.right{padding:40px 36px;display:flex;flex-direction:column;justify-content:center;background:#0f1117}
+.profit-card{background:#0a0d15;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:14px 16px;margin-bottom:20px;box-shadow:0 0 20px rgba(0,212,255,0.08)}
+.profit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.profit-title{font-size:11px;font-weight:700;color:#00d4ff;letter-spacing:.06em;text-transform:uppercase}
+.profit-val{font-size:13px;font-weight:700;color:#4ade80}
+.profit-sub{font-size:11px;color:#888780;margin-bottom:10px}
+#profit-chart{display:block;width:100%;height:100px}
+.profit-stats{display:flex;justify-content:space-between;margin-top:10px}
+.pstat{text-align:center}
+.pstat-n{font-size:16px;font-weight:800}
+.pstat-l{font-size:10px;color:#888780;margin-top:2px}
+.right h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:5px}
+.right-sub{font-size:13px;color:#c2c0b6;margin-bottom:24px}
+.tabs{display:flex;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:20px}
 .tab{flex:1;padding:11px;text-align:center;font-size:14px;font-weight:600;color:#888780;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
 .tab:hover{color:#c2c0b6}
 .tab.on{color:#00d4ff;border-bottom-color:#00d4ff}
 .panel{display:none}
 .panel.on{display:block}
-.grp{margin-bottom:14px}
-.grp label{display:block;font-size:12px;color:#c2c0b6;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.grp{margin-bottom:13px}
+.grp label{display:block;font-size:11px;color:#c2c0b6;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .grp input{width:100%;padding:11px 14px;background:#161820;border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:border .15s}
 .grp input:focus{border-color:#00d4ff}
 .grp input::placeholder{color:#5F5E5A}
-.btn{width:100%;padding:13px;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff;margin-top:8px;transition:opacity .15s;letter-spacing:.02em}
+.btn{width:100%;padding:13px;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff;margin-top:8px;letter-spacing:.02em}
 .btn:hover{opacity:.9}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .msg{font-size:13px;padding:10px 12px;border-radius:7px;margin-top:12px;display:none}
 .err{background:rgba(248,113,113,0.1);color:#fca5a5;border:0.5px solid rgba(248,113,113,0.25)}
 .suc{background:rgba(74,222,128,0.1);color:#86efac;border:0.5px solid rgba(74,222,128,0.25)}
-.trust{display:flex;justify-content:center;gap:18px;margin-top:20px;padding-top:18px;border-top:0.5px solid rgba(255,255,255,0.06)}
+.trust{display:flex;justify-content:center;gap:18px;margin-top:18px;padding-top:16px;border-top:0.5px solid rgba(255,255,255,0.06)}
 .trust-i{font-size:11px;color:#888780;display:flex;align-items:center;gap:5px}
 .trust-dot{width:4px;height:4px;border-radius:50%;background:#4ade80}
-.back{text-align:center;margin-top:16px;font-size:12px;color:#5F5E5A}
+.back{text-align:center;margin-top:14px;font-size:12px;color:#5F5E5A}
 .back a{color:#00d4ff;text-decoration:none}
 @media(max-width:820px){body{grid-template-columns:1fr}.left{display:none}.right{padding:32px 24px}}
 </style>
 </head>
 <body>
 
-<!-- SOL PANEL -->
 <div class="left">
   <div class="logo">BELY <span class="logo-ai">AI</span></div>
-
   <div class="left-body">
-    <div class="hero-tag"><span class="hero-dot"></span> LIVE PROTECTION ACTIVE</div>
+    <div class="hero-tag"><span class="hero-blink"></span> LIVE PROTECTION ACTIVE</div>
     <div class="hero-title">Stop Losing Money to<br><span>Fraud & Chargebacks.</span></div>
-    <div class="hero-sub">Most Shopify sellers lose $3.75 for every $1 disputed. BELY AI catches fraud before you ship — and protects your account before Shopify acts.</div>
-
-    <!-- KAZANÇ HESAP KARTI -->
+    <p class="hero-sub">Most Shopify sellers lose $3.75 for every $1 disputed. BELY AI catches fraud before you ship — and protects your account before Shopify acts.</p>
     <div class="savings-card">
       <div class="savings-title">💰 Average Monthly Savings — $1K/mo Store</div>
-      <div class="savings-row">
-        <span class="savings-label">Fraud orders prevented (avg. 3/mo)</span>
-        <span class="savings-val s-green">+ $741</span>
-      </div>
-      <div class="savings-row">
-        <span class="savings-label">Chargeback fees avoided ($25 each)</span>
-        <span class="savings-val s-green">+ $75</span>
-      </div>
-      <div class="savings-row">
-        <span class="savings-label">Account suspension risk eliminated</span>
-        <span class="savings-val s-cyan">Priceless</span>
-      </div>
-      <div class="savings-row">
-        <span class="savings-label">BELY AI Pro cost</span>
-        <span class="savings-val s-red">– $19</span>
-      </div>
-      <div class="savings-total">
-        <span class="savings-total-label">Net monthly protection value</span>
-        <span class="savings-total-val">+ $797</span>
-      </div>
+      <div class="savings-row"><span class="savings-label">Fraud orders prevented (avg. 3/mo)</span><span class="savings-val s-green">+ $741</span></div>
+      <div class="savings-row"><span class="savings-label">Chargeback fees avoided ($25 each)</span><span class="savings-val s-green">+ $75</span></div>
+      <div class="savings-row"><span class="savings-label">Account suspension risk eliminated</span><span class="savings-val s-cyan">Priceless</span></div>
+      <div class="savings-row"><span class="savings-label">BELY AI Pro cost</span><span class="savings-val s-red">– $19</span></div>
+      <div class="savings-total"><span class="savings-total-label">Net monthly protection value</span><span class="savings-total-val">+ $797</span></div>
     </div>
-
     <div class="features">
-      <div class="feat">
-        <div class="feat-icon">🛡️</div>
-        <div class="feat-body"><h4>Pre-shipment fraud scoring</h4><p>Every order scored before you ship. High-risk flagged instantly — before you lose money.</p></div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">📊</div>
-        <div class="feat-body"><h4>Account health monitor</h4><p>Daily chargeback ratio tracking. Warned before hitting Shopify's invisible limits.</p></div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">✍️</div>
-        <div class="feat-body"><h4>AI dispute response writer</h4><p>When a chargeback hits, AI writes your winning response in seconds.</p></div>
-      </div>
+      <div class="feat"><div class="feat-icon">🛡️</div><div class="feat-body"><h4>Pre-shipment fraud scoring</h4><p>Every order scored before you ship. High-risk flagged instantly — before you lose money.</p></div></div>
+      <div class="feat"><div class="feat-icon">📊</div><div class="feat-body"><h4>Account health monitor</h4><p>Daily chargeback ratio tracking. Warned before hitting Shopify's invisible limits.</p></div></div>
+      <div class="feat"><div class="feat-icon">✍️</div><div class="feat-body"><h4>AI dispute response writer</h4><p>When a chargeback hits, AI writes your winning response in seconds.</p></div></div>
     </div>
-
     <div class="stats">
       <div class="stat"><div class="stat-n">312+</div><div class="stat-l">Stores protected</div></div>
       <div class="stat"><div class="stat-n">$9</div><div class="stat-l">Starting / mo</div></div>
       <div class="stat"><div class="stat-n">97%</div><div class="stat-l">Fraud catch rate</div></div>
     </div>
-
     <div class="quote">
       <p>"BELY AI flagged a $247 fraudulent order before I shipped it. Saved me the product, shipping cost, and a $25 chargeback fee."</p>
       <div class="quote-author">— Shopify seller · <span>Pro plan</span></div>
     </div>
-
     <div class="live"><div class="live-dot"></div><span id="live-txt">1,284 orders scanned today</span></div>
   </div>
-
   <div class="footer-txt">© 2025 BELY AI — Ecommerce Stores AI-powered automation solutions</div>
 </div>
 
-<!-- SAĞ PANEL -->
 <div class="right">
+  <!-- PROFIT CHART -->
+  <div class="profit-card">
+    <div class="profit-header">
+      <span class="profit-title">Profit Analytics</span>
+      <span class="profit-val" id="profit-val">$3,200</span>
+    </div>
+    <div class="profit-sub">Monthly revenue protected — stores using BELY AI</div>
+    <canvas id="profit-chart" width="380" height="100"></canvas>
+    <div class="profit-stats">
+      <div class="pstat"><div class="pstat-n" style="color:#4ade80">+42%</div><div class="pstat-l">Revenue saved</div></div>
+      <div class="pstat"><div class="pstat-n" style="color:#00d4ff">-89%</div><div class="pstat-l">Fraud blocked</div></div>
+      <div class="pstat"><div class="pstat-n" style="color:#fbbf24">$797</div><div class="pstat-l">Avg. monthly save</div></div>
+    </div>
+  </div>
+
   <h2>Get started for free</h2>
   <div class="right-sub">No credit card required · 2-minute setup · Cancel anytime</div>
-
   <div class="tabs">
     <button class="tab on" id="t1" onclick="show('l')">Sign In</button>
     <button class="tab" id="t2" onclick="show('r')">Create Account</button>
   </div>
-
   <div class="panel on" id="l">
     <div class="grp"><label>Email address</label><input type="email" id="le" placeholder="you@example.com"></div>
     <div class="grp"><label>Password</label><input type="password" id="lp" placeholder="••••••••"></div>
@@ -172,7 +147,6 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
     <div class="msg err" id="le2"></div>
     <div class="msg suc" id="ls"></div>
   </div>
-
   <div class="panel" id="r">
     <div class="grp"><label>Email address</label><input type="email" id="re" placeholder="you@example.com"></div>
     <div class="grp"><label>Password</label><input type="password" id="rp" placeholder="Min. 6 characters"></div>
@@ -181,46 +155,86 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
     <div class="msg err" id="re2"></div>
     <div class="msg suc" id="rss"></div>
   </div>
-
   <div class="trust">
     <span class="trust-i"><span class="trust-dot"></span> SSL Secured</span>
-    <span class="trust-i"><span class="trust-dot"></span> No spam ever</span>
+    <span class="trust-i"><span class="trust-dot"></span> No spam</span>
     <span class="trust-i"><span class="trust-dot"></span> Cancel anytime</span>
   </div>
-
   <div class="back"><a href="index.html">← Back to home</a></div>
 </div>
 
 <script>
 const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
-function show(p){
-  ['l','r'].forEach(id=>document.getElementById(id).className='panel'+(id===p?' on':''));
-  document.getElementById('t1').className='tab'+(p==='l'?' on':'');
-  document.getElementById('t2').className='tab'+(p==='r'?' on':'');
-}
+function show(p){['l','r'].forEach(id=>document.getElementById(id).className='panel'+(id===p?' on':''));document.getElementById('t1').className='tab'+(p==='l'?' on':'');document.getElementById('t2').className='tab'+(p==='r'?' on':'');}
 function msg(id,txt,type){const e=document.getElementById(id);e.textContent=txt;e.className='msg '+(type==='err'?'err':'suc');e.style.display='block';}
-async function login(){
-  const e=document.getElementById('le').value.trim();
-  const p=document.getElementById('lp').value;
-  const b=document.getElementById('lb');
-  if(!e||!p)return msg('le2','Please fill in all fields.','err');
-  b.disabled=true;b.textContent='Signing in...';
-  const{error}=await sb.auth.signInWithPassword({email:e,password:p});
-  if(error){msg('le2',error.message,'err');b.disabled=false;b.textContent='Sign In →';}
-  else{msg('ls','Welcome back! Redirecting...','suc');setTimeout(()=>location.href='dashboard.html',1200);}
-}
-async function reg(){
-  const e=document.getElementById('re').value.trim();
-  const p=document.getElementById('rp').value;
-  const b=document.getElementById('rb');
-  if(!e||!p)return msg('re2','Please fill in all fields.','err');
-  if(p.length<6)return msg('re2','Password must be at least 6 characters.','err');
-  b.disabled=true;b.textContent='Creating account...';
-  const{error}=await sb.auth.signUp({email:e,password:p});
-  if(error){msg('re2',error.message,'err');b.disabled=false;b.textContent='Create Free Account →';}
-  else{msg('rss','Account created! Redirecting...','suc');setTimeout(()=>location.href='dashboard.html',1500);}
-}
+async function login(){const e=document.getElementById('le').value.trim();const p=document.getElementById('lp').value;const b=document.getElementById('lb');if(!e||!p)return msg('le2','Please fill in all fields.','err');b.disabled=true;b.textContent='Signing in...';const{error}=await sb.auth.signInWithPassword({email:e,password:p});if(error){msg('le2',error.message,'err');b.disabled=false;b.textContent='Sign In →';}else{msg('ls','Welcome back! Redirecting...','suc');setTimeout(()=>location.href='dashboard.html',1200);}}
+async function reg(){const e=document.getElementById('re').value.trim();const p=document.getElementById('rp').value;const b=document.getElementById('rb');if(!e||!p)return msg('re2','Please fill in all fields.','err');if(p.length<6)return msg('re2','Password must be at least 6 characters.','err');b.disabled=true;b.textContent='Creating account...';const{error}=await sb.auth.signUp({email:e,password:p});if(error){msg('re2',error.message,'err');b.disabled=false;b.textContent='Create Free Account →';}else{msg('rss','Account created! Redirecting...','suc');setTimeout(()=>location.href='dashboard.html',1500);}}
 let n=1284;setInterval(()=>{n+=Math.floor(Math.random()*2)+1;document.getElementById('live-txt').textContent=n.toLocaleString()+' orders scanned today';},3000);
+
+// PROFIT CHART
+const pc=document.getElementById('profit-chart');
+const pctx=pc.getContext('2d');
+const PW=pc.width,PH=pc.height;
+const months=['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+const targets=[180,420,680,1100,1600,2200,2800,3200];
+let cur=targets.map(()=>0);
+let animFrame=0;
+
+function drawChart(){
+  animFrame++;
+  cur=cur.map((v,i)=>Math.min(v+targets[i]*0.05,targets[i]));
+  pctx.clearRect(0,0,PW,PH);
+  const maxV=3600,pad={l:8,r:8,t:8,b:18};
+  const cw=PW-pad.l-pad.r,ch=PH-pad.t-pad.b;
+  const pts=cur.map((v,i)=>({x:pad.l+i*(cw/(months.length-1)),y:pad.t+ch-(v/maxV)*ch}));
+
+  // Grid
+  [0.33,0.66,1].forEach(r=>{
+    const y=pad.t+ch*(1-r);
+    pctx.beginPath();pctx.moveTo(pad.l,y);pctx.lineTo(PW-pad.r,y);
+    pctx.strokeStyle='rgba(0,212,255,0.07)';pctx.lineWidth=0.5;pctx.stroke();
+  });
+
+  // Fill
+  const grad=pctx.createLinearGradient(0,pad.t,0,PH);
+  grad.addColorStop(0,'rgba(0,212,255,0.3)');
+  grad.addColorStop(1,'rgba(0,212,255,0)');
+  pctx.beginPath();
+  pctx.moveTo(pts[0].x,pts[0].y);
+  pts.forEach((p,i)=>{if(i>0){const pr=pts[i-1];const mx=(pr.x+p.x)/2;pctx.bezierCurveTo(mx,pr.y,mx,p.y,p.x,p.y);}});
+  pctx.lineTo(pts[pts.length-1].x,PH-pad.b);
+  pctx.lineTo(pts[0].x,PH-pad.b);
+  pctx.closePath();pctx.fillStyle=grad;pctx.fill();
+
+  // Line
+  pctx.beginPath();
+  pctx.moveTo(pts[0].x,pts[0].y);
+  pts.forEach((p,i)=>{if(i>0){const pr=pts[i-1];const mx=(pr.x+p.x)/2;pctx.bezierCurveTo(mx,pr.y,mx,p.y,p.x,p.y);}});
+  pctx.strokeStyle='#00d4ff';pctx.lineWidth=2.5;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=10;
+  pctx.stroke();pctx.shadowBlur=0;
+
+  // Dots & labels
+  pts.forEach((p,i)=>{
+    pctx.beginPath();pctx.arc(p.x,p.y,3,0,Math.PI*2);pctx.fillStyle='#fff';pctx.fill();
+    pctx.beginPath();pctx.arc(p.x,p.y,5,0,Math.PI*2);pctx.strokeStyle='#00d4ff';pctx.lineWidth=1.5;pctx.stroke();
+    pctx.fillStyle='rgba(0,212,255,0.5)';pctx.font='7px sans-serif';pctx.textAlign='center';
+    pctx.fillText(months[i],p.x,PH-4);
+  });
+
+  // Last value label
+  const lp=pts[pts.length-1];
+  pctx.fillStyle='#4ade80';pctx.font='bold 9px sans-serif';pctx.textAlign='right';
+  pctx.fillText('$'+Math.round(cur[cur.length-1]).toLocaleString(),PW-pad.r,lp.y-8);
+  document.getElementById('profit-val').textContent='$'+Math.round(cur[cur.length-1]).toLocaleString();
+
+  if(animFrame<70)requestAnimationFrame(drawChart);
+  else{
+    // Loop every 7 seconds
+    setTimeout(()=>{cur=targets.map(()=>0);animFrame=0;requestAnimationFrame(drawChart);},7000);
+  }
+}
+requestAnimationFrame(drawChart);
 </script>
 </body>
 </html>
