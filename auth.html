@@ -20,6 +20,7 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
 .hero-sub{font-size:14px;color:#00d4ff;line-height:1.7;margin-bottom:22px;animation:textpulse 2.5s ease-in-out infinite}
 @keyframes textpulse{0%,100%{opacity:1;text-shadow:0 0 8px rgba(0,212,255,0.4)}50%{opacity:0.55;text-shadow:0 0 2px rgba(0,212,255,0.1)}}
 .savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:16px 18px;flex:1}
+.savings-wrap{display:flex;gap:14px;margin-bottom:20px;align-items:stretch}
 .savings-title{font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 .savings-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
 .savings-row:last-child{border-bottom:none}
@@ -91,13 +92,28 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
     <div class="hero-tag"><span class="hero-blink"></span> LIVE PROTECTION ACTIVE</div>
     <div class="hero-title">Stop Losing Money to<br><span>Fraud & Chargebacks.</span></div>
     <p class="hero-sub">Most Shopify sellers lose $3.75 for every $1 disputed. BELY AI catches fraud before you ship — and protects your account before Shopify acts.</p>
-    <div class="savings-card">
-      <div class="savings-title">💰 Average Monthly Savings — $1K/mo Store</div>
-      <div class="savings-row"><span class="savings-label">Fraud orders prevented (avg. 3/mo)</span><span class="savings-val s-green">+ $741</span></div>
-      <div class="savings-row"><span class="savings-label">Chargeback fees avoided ($25 each)</span><span class="savings-val s-green">+ $75</span></div>
-      <div class="savings-row"><span class="savings-label">Account suspension risk eliminated</span><span class="savings-val s-cyan">Priceless</span></div>
-      <div class="savings-row"><span class="savings-label">BELY AI Pro cost</span><span class="savings-val s-red">– $19</span></div>
-      <div class="savings-total"><span class="savings-total-label">Net monthly protection value</span><span class="savings-total-val">+ $797</span></div>
+    <div class="savings-wrap">
+      <div class="savings-card">
+        <div class="savings-title">💰 Average Monthly Savings — $1K/mo Store</div>
+        <div class="savings-row"><span class="savings-label">Fraud orders prevented (avg. 3/mo)</span><span class="savings-val s-green">+ $741</span></div>
+        <div class="savings-row"><span class="savings-label">Chargeback fees avoided ($25 each)</span><span class="savings-val s-green">+ $75</span></div>
+        <div class="savings-row"><span class="savings-label">Account suspension risk eliminated</span><span class="savings-val s-cyan">Priceless</span></div>
+        <div class="savings-row"><span class="savings-label">BELY AI Pro cost</span><span class="savings-val s-red">– $19</span></div>
+        <div class="savings-total"><span class="savings-total-label">Net monthly protection value</span><span class="savings-total-val">+ $797</span></div>
+      </div>
+      <div style="background:#0a0d15;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:14px 16px;min-width:210px;box-shadow:0 0 20px rgba(0,212,255,0.08);display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <span style="font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.06em">Profit Analytics</span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80" id="profit-val">$0</span>
+        </div>
+        <div style="font-size:10px;color:#888780;margin-bottom:8px">Monthly revenue protected</div>
+        <canvas id="profit-chart" width="200" height="85" style="width:100%"></canvas>
+        <div style="display:flex;justify-content:space-between;margin-top:8px">
+          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#4ade80">+42%</div><div style="font-size:9px;color:#888780">Revenue saved</div></div>
+          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#00d4ff">-89%</div><div style="font-size:9px;color:#888780">Fraud blocked</div></div>
+          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#fbbf24">$797</div><div style="font-size:9px;color:#888780">Avg. save</div></div>
+        </div>
+      </div>
     </div>
     <div class="features">
       <div class="feat"><div class="feat-icon">🛡️</div><div class="feat-body"><h4>Pre-shipment fraud scoring</h4><p>Every order scored before you ship. High-risk flagged instantly — before you lose money.</p></div></div>
@@ -120,19 +136,7 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
 
 <div class="right">
   <!-- PROFIT CHART -->
-  <div class="profit-card">
-    <div class="profit-header">
-      <span class="profit-title">Profit Analytics</span>
-      <span class="profit-val" id="profit-val">$3,200</span>
-    </div>
-    <div class="profit-sub">Monthly revenue protected — stores using BELY AI</div>
-    <canvas id="profit-chart" width="380" height="100"></canvas>
-    <div class="profit-stats">
-      <div class="pstat"><div class="pstat-n" style="color:#4ade80">+42%</div><div class="pstat-l">Revenue saved</div></div>
-      <div class="pstat"><div class="pstat-n" style="color:#00d4ff">-89%</div><div class="pstat-l">Fraud blocked</div></div>
-      <div class="pstat"><div class="pstat-n" style="color:#fbbf24">$797</div><div class="pstat-l">Avg. monthly save</div></div>
-    </div>
-  </div>
+
 
   <h2>Get started for free</h2>
   <div class="right-sub">No credit card required · 2-minute setup · Cancel anytime</div>
