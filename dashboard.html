@@ -15,39 +15,63 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .user-email{font-size:13px;color:#c2c0b6}
 .btn-logout{font-size:13px;padding:7px 16px;border-radius:7px;border:0.5px solid rgba(255,255,255,0.2);background:transparent;color:#c2c0b6;cursor:pointer}
 .btn-logout:hover{background:rgba(255,255,255,0.07);color:#fff}
-.main{padding:28px 32px}
+.main{padding:20px 32px}
 .page-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
-.page-sub{font-size:13px;color:#c2c0b6;margin-bottom:22px;display:flex;align-items:center;gap:7px}
+.page-sub{font-size:13px;color:#c2c0b6;margin-bottom:18px;display:flex;align-items:center;gap:7px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* CONNECT BOX — NEON MAVİ */
-.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:12px;padding:20px 28px;text-align:center;margin-bottom:22px;box-shadow:0 0 20px rgba(0,212,255,0.15)}
-.connect-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
-.connect-sub{font-size:13px;color:#c2c0b6;margin-bottom:16px;line-height:1.5}
-.btn-connect{padding:11px 28px;border-radius:8px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.02em}
-.btn-connect:hover{background:linear-gradient(90deg,#00e5ff,#00b3ee)}
+/* TOP ROW: Connect + Platform Score */
+.top-row{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:18px;align-items:center}
+.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 0 16px rgba(0,212,255,0.1)}
+.connect-left{flex:1}
+.connect-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.connect-sub{font-size:12px;color:#c2c0b6}
+.btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.btn-connect:hover{opacity:.9}
 
-/* METRİK KARTLAR — KÜÇÜK */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+/* PLATFORM SCORE */
+.platform-score{background:linear-gradient(135deg,#1a3a1a,#0d2a0d);border:0.5px solid #4ade80;border-radius:10px;padding:14px 18px;min-width:180px;text-align:center;flex-shrink:0}
+.ps-label{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.ps-value{font-size:32px;font-weight:800;color:#4ade80;line-height:1}
+.ps-sub{font-size:11px;color:#86efac;margin-top:3px}
+.ps-badge{display:inline-block;background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:10px;padding:2px 8px;font-size:10px;color:#4ade80;margin-top:4px;font-weight:600}
+
+/* METRİKLER */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px}
 .metric-label{font-size:11px;color:#c2c0b6;margin-bottom:6px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
 .metric-value{font-size:26px;font-weight:800;margin-bottom:3px;line-height:1}
 .metric-sub{font-size:11px;color:#c2c0b6}
-.val-ok{color:#4ade80}
-.val-warn{color:#fbbf24}
-.val-cyan{color:#00d4ff}
-.val-bad{color:#ff2222}
+.val-ok{color:#4ade80}.val-warn{color:#fbbf24}.val-cyan{color:#00d4ff}.val-bad{color:#ff2222}
 .bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:8px}
 .bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
 
-/* GRID — UYARILAR SOL, SİPARİŞLER SAĞ */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+/* MAIN GRID */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+
+/* RADAR + MAP ROW */
+.viz-row{display:grid;grid-template-columns:200px 1fr;gap:14px;margin-bottom:18px}
+
+/* RADAR */
+.radar-card{background:#161820;border:0.5px solid rgba(0,212,255,0.2);border-radius:12px;padding:16px;text-align:center}
+.radar-title{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.1em;margin-bottom:10px}
+.radar-wrap{position:relative;width:120px;height:120px;margin:0 auto 10px}
+.radar-svg{width:120px;height:120px}
+.radar-sub{font-size:11px;color:#c2c0b6}
+.radar-sub span{color:#00d4ff;font-weight:600}
+
+/* GLOBE */
+.globe-card{background:#0a0d15;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;overflow:hidden;position:relative}
+.globe-title{position:absolute;top:12px;left:14px;font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em;z-index:2}
+.globe-sub{position:absolute;top:28px;left:14px;font-size:11px;color:#c2c0b6;z-index:2}
+.globe-canvas{width:100%;height:220px;display:block}
+
+/* ALERT + ORDER CARDS */
 .card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
 .card-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
 .card-title span{font-size:11px;color:#c2c0b6;font-weight:400}
-
-/* UYARI SATIRLARI — KOMPAKT */
 .alert-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .alert-row:last-child{border-bottom:none}
 .alert-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
@@ -65,8 +89,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .act-bad{background:rgba(255,34,34,0.1);color:#ff6666;border:0.5px solid rgba(255,34,34,0.3)}
 .act-warn{background:rgba(251,191,36,0.1);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.3)}
 .act-ok{background:rgba(74,222,128,0.1);color:#4ade80;border:0.5px solid rgba(74,222,128,0.3)}
-
-/* SİPARİŞ SATIRLARI */
 .order-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .order-row:last-child{border-bottom:none}
 .order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
@@ -81,7 +103,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .r-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
 .r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
 
-@media(max-width:768px){.metrics{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.main{padding:16px}}
+@keyframes radarSpin{to{transform:rotate(360deg)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid{grid-template-columns:1fr}.viz-row{grid-template-columns:1fr}.top-row{grid-template-columns:1fr}.main{padding:16px}}
 </style>
 </head>
 <body>
@@ -97,12 +121,24 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
 
-  <div class="connect-box">
-    <div class="connect-title">Connect your Shopify store to activate protection</div>
-    <div class="connect-sub">BELY AI needs access to your store orders and account data. Takes 2 minutes. No code required.</div>
-    <button class="btn-connect" onclick="connectShopify()">Connect Shopify Store</button>
+  <!-- TOP ROW: Connect + Platform Score -->
+  <div class="top-row">
+    <div class="connect-box">
+      <div class="connect-left">
+        <div class="connect-title">Connect your Shopify store to activate protection</div>
+        <div class="connect-sub">BELY AI needs access to your store orders and account data · 2 minutes · No code required</div>
+      </div>
+      <button class="btn-connect" onclick="connectShopify()">Connect Shopify Store</button>
+    </div>
+    <div class="platform-score">
+      <div class="ps-label">Platform Score</div>
+      <div class="ps-value">%82</div>
+      <div class="ps-sub">Capacity</div>
+      <div class="ps-badge">+12 this month</div>
+    </div>
   </div>
 
+  <!-- METRİKLER -->
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
@@ -128,116 +164,100 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
   </div>
 
-  <div class="grid2">
-    <!-- SOL: HESAP UYARILARI -->
+  <!-- RADAR + GLOBE -->
+  <div class="viz-row">
+    <!-- FRAUD RADAR -->
+    <div class="radar-card">
+      <div class="radar-title">Fraud Radar</div>
+      <div class="radar-live">● LIVE</div>
+      <div class="radar-wrap">
+        <svg class="radar-svg" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="25" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="10" fill="rgba(0,212,255,0.3)" stroke="#00d4ff" stroke-width="1"/>
+          <line x1="60" y1="5" x2="60" y2="115" stroke="rgba(0,212,255,0.1)" stroke-width="0.5"/>
+          <line x1="5" y1="60" x2="115" y2="60" stroke="rgba(0,212,255,0.1)" stroke-width="0.5"/>
+          <!-- Dönen tarama çizgisi -->
+          <g id="radar-sweep" style="transform-origin:60px 60px">
+            <path d="M60 60 L60 5 A55 55 0 0 1 115 60 Z" fill="url(#sweep-grad)" opacity="0.4"/>
+          </g>
+          <defs>
+            <radialGradient id="sweep-grad" cx="0%" cy="100%">
+              <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Tespit noktaları -->
+          <circle cx="45" cy="30" r="3" fill="#ff2222" opacity="0.9">
+            <animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="85" cy="70" r="3" fill="#fbbf24" opacity="0.8">
+            <animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="35" cy="80" r="2" fill="#ff2222" opacity="0.7">
+            <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+      <div class="radar-sub">Sector: <span>A7</span> · Signal: <span>Strong</span></div>
+      <div style="font-size:11px;color:#ff6666;margin-top:6px;font-weight:600">3 threats detected</div>
+    </div>
+
+    <!-- GLOBE -->
+    <div class="globe-card">
+      <div class="globe-title">Global Transaction Monitor</div>
+      <div class="globe-sub">Real-time fraud detection across regions</div>
+      <canvas class="globe-canvas" id="globe" width="600" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- ALERTS + ORDERS -->
+  <div class="main-grid">
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
-
       <div class="alert-row">
-        <div class="alert-top">
-          <div class="alert-dot dot-bad"></div>
-          <div>
-            <div class="alert-title">🚨 HIGH RISK Order #ORD-4821 — Do Not Ship</div>
-            <div class="alert-time">2 minutes ago</div>
-          </div>
-        </div>
-        <div class="alert-body body-bad">
-          <div class="label-tag tag-bad">Why it's dangerous</div>
-          Foreign IP (Romania) + new account (2 days old) + same card used 3× in 4 hours = classic fraud. Ship this and you lose the product AND get a chargeback.
-        </div>
+        <div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 HIGH RISK Order #ORD-4821 — Do Not Ship</div><div class="alert-time">2 minutes ago</div></div></div>
+        <div class="alert-body body-bad"><div class="label-tag tag-bad">Why it's dangerous</div>Foreign IP (Romania) + new account (2 days old) + same card used 3× in 4 hours = classic fraud. Ship this and you lose the product AND get a chargeback.</div>
         <span class="alert-action act-bad">→ Contact customer or cancel order</span>
       </div>
-
       <div class="alert-row">
-        <div class="alert-top">
-          <div class="alert-dot dot-warn"></div>
-          <div>
-            <div class="alert-title">⚡ Chargeback Rate 0.48% — Approaching Visa Limit</div>
-            <div class="alert-time">Today, 09:14</div>
-          </div>
-        </div>
-        <div class="alert-body body-warn">
-          <div class="label-tag tag-warn">Why it matters</div>
-          Visa's limit is 0.65%. You're 0.17% away. Exceeding it = watchlist, higher fees, possible account freeze.
-          <br><strong style="color:#fbbf24">Action:</strong> Stop shipping high-risk orders now.
-        </div>
+        <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚡ Chargeback Rate 0.48% — Approaching Visa Limit</div><div class="alert-time">Today, 09:14</div></div></div>
+        <div class="alert-body body-warn"><div class="label-tag tag-warn">Why it matters</div>Visa's limit is 0.65%. You're 0.17% away. Exceeding it = watchlist, higher fees, possible account freeze.<br><strong style="color:#fbbf24">Action:</strong> Stop shipping high-risk orders now.</div>
         <span class="alert-action act-warn">→ Review high-risk orders this week</span>
       </div>
-
       <div class="alert-row">
-        <div class="alert-top">
-          <div class="alert-dot dot-warn"></div>
-          <div>
-            <div class="alert-title">⚡ 3 High-Risk Orders Detected This Week</div>
-            <div class="alert-time">Yesterday</div>
-          </div>
-        </div>
-        <div class="alert-body body-warn">
-          <div class="label-tag tag-warn">Detection reasons</div>
-          • #ORD-4821: Foreign IP + new account + card reuse<br>
-          • #ORD-4815: Freight forwarder ZIP code detected<br>
-          • #ORD-4809: Order 5× above store average — unusual spike
-        </div>
+        <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚡ 3 High-Risk Orders Detected This Week</div><div class="alert-time">Yesterday</div></div></div>
+        <div class="alert-body body-warn"><div class="label-tag tag-warn">Detection reasons</div>• #ORD-4821: Foreign IP + new account + card reuse<br>• #ORD-4815: Freight forwarder ZIP code detected<br>• #ORD-4809: Order 5× above store average</div>
         <span class="alert-action act-warn">→ Review all 3 in Shopify admin</span>
       </div>
-
       <div class="alert-row">
-        <div class="alert-top">
-          <div class="alert-dot dot-ok"></div>
-          <div>
-            <div class="alert-title">✅ Account Health Improved: 78 → 82</div>
-            <div class="alert-time">3 days ago</div>
-          </div>
-        </div>
-        <div class="alert-body body-ok">
-          <div class="label-tag tag-ok">Why it improved</div>
-          No new chargebacks in 7 days. 2 disputes resolved in your favor. Keep shipping only verified orders.
-        </div>
+        <div class="alert-top"><div class="alert-dot dot-ok"></div><div><div class="alert-title">✅ Account Health Improved: 78 → 82</div><div class="alert-time">3 days ago</div></div></div>
+        <div class="alert-body body-ok"><div class="label-tag tag-ok">Why it improved</div>No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
         <span class="alert-action act-ok">→ Keep monitoring — you're on track</span>
       </div>
     </div>
 
-    <!-- SAĞ: SON SİPARİŞLER -->
     <div class="card">
       <div class="card-title">Recent Orders — Risk Scores <span>Last 24 hours</span></div>
-
       <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4821</div><div class="order-amount">$247.00</div></div>
-          <span class="risk-pill risk-high">⚠ HIGH — 87%</span>
-        </div>
-        <div class="order-reason r-bad">🚨 <strong>Do not ship.</strong> Foreign IP + new account + card reuse 3× in 4h. Classic fraud.</div>
+        <div class="order-top"><div><div class="order-id">#ORD-4821</div><div class="order-amount">$247.00</div></div><span class="risk-pill risk-high">⚠ HIGH — 87%</span></div>
+        <div class="order-reason r-bad">🚨 <strong>Do not ship.</strong> Foreign IP + new account + card reuse 3× in 4h.</div>
       </div>
-
       <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4820</div><div class="order-amount">$134.00</div></div>
-          <span class="risk-pill risk-med">⚡ MED — 54%</span>
-        </div>
-        <div class="order-reason r-warn">⚠️ Billing & shipping in different countries. Suspicious email domain. Contact before shipping.</div>
+        <div class="order-top"><div><div class="order-id">#ORD-4820</div><div class="order-amount">$134.00</div></div><span class="risk-pill risk-med">⚡ MED — 54%</span></div>
+        <div class="order-reason r-warn">⚠️ Billing & shipping in different countries. Contact before shipping.</div>
       </div>
-
       <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4819</div><div class="order-amount">$89.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW — 12%</span>
-        </div>
+        <div class="order-top"><div><div class="order-id">#ORD-4819</div><div class="order-amount">$89.00</div></div><span class="risk-pill risk-low">✓ LOW — 12%</span></div>
         <div class="order-reason r-ok">Returning customer, 14 orders, IP matches billing. Safe to ship.</div>
       </div>
-
       <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4818</div><div class="order-amount">$211.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW — 8%</span>
-        </div>
+        <div class="order-top"><div><div class="order-id">#ORD-4818</div><div class="order-amount">$211.00</div></div><span class="risk-pill risk-low">✓ LOW — 8%</span></div>
         <div class="order-reason r-ok">Verified customer, consistent history. Safe to ship.</div>
       </div>
-
       <div class="order-row">
-        <div class="order-top">
-          <div><div class="order-id">#ORD-4817</div><div class="order-amount">$55.00</div></div>
-          <span class="risk-pill risk-low">✓ LOW — 4%</span>
-        </div>
+        <div class="order-top"><div><div class="order-id">#ORD-4817</div><div class="order-amount">$55.00</div></div><span class="risk-pill risk-low">✓ LOW — 4%</span></div>
         <div class="order-reason r-ok">Long-term customer, no disputes. Safe to ship.</div>
       </div>
     </div>
@@ -246,6 +266,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 
 <script>
 const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+
 async function init(){
   const{data:{session}}=await sb.auth.getSession();
   if(!session){window.location.href='auth.html';return;}
@@ -254,12 +275,13 @@ async function init(){
   setTimeout(()=>{document.getElementById('cbar').style.width='74%';},600);
   let n=0;const t=setInterval(()=>{n+=7;document.getElementById('scan-num').textContent=n;if(n>=148)clearInterval(t);},20);
 }
+
 async function logout(){
   await sb.auth.signOut();
   window.location.href='auth.html';
 }
-init();
-  function connectShopify(){
+
+function connectShopify(){
   const shop=prompt('Shopify mağaza adresinizi girin:\n(örnek: belyai.myshopify.com)');
   if(!shop)return;
   const clientId='07d3e8554d200c9b99309796104d9434';
@@ -269,6 +291,143 @@ init();
   const url=`https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}&state=${state}`;
   window.location.href=url;
 }
+
+// RADAR SPIN
+const sweep=document.getElementById('radar-sweep');
+let angle=0;
+setInterval(()=>{angle=(angle+2)%360;sweep.style.transform=`rotate(${angle}deg)`;},30);
+
+// GLOBE ANIMATION
+const canvas=document.getElementById('globe');
+const ctx=canvas.getContext('2d');
+const W=canvas.width,H=canvas.height;
+const cx=W/2,cy=H/2,R=90;
+
+const cities=[
+  {name:'New York',lat:40.7,lon:-74},{name:'London',lat:51.5,lon:-0.1},
+  {name:'Tokyo',lat:35.7,lon:139.7},{name:'Istanbul',lat:41,lon:29},
+  {name:'Dubai',lat:25.2,lon:55.3},{name:'Sydney',lat:-33.9,lon:151.2},
+  {name:'Paris',lat:48.9,lon:2.3},{name:'Singapore',lat:1.3,lon:103.8},
+  {name:'Moscow',lat:55.7,lon:37.6},{name:'Lagos',lat:6.5,lon:3.4},
+  {name:'São Paulo',lat:-23.5,lon:-46.6},{name:'Toronto',lat:43.7,lon:-79.4}
+];
+
+const routes=[];
+for(let i=0;i<8;i++){
+  const a=cities[Math.floor(Math.random()*cities.length)];
+  const b=cities[Math.floor(Math.random()*cities.length)];
+  if(a!==b) routes.push({from:a,to:b,progress:Math.random(),speed:0.003+Math.random()*0.004,fraud:Math.random()<0.25});
+}
+
+let globeAngle=0;
+
+function latLonToXY(lat,lon,rotAngle){
+  const adjLon=lon+rotAngle;
+  const phi=(90-lat)*Math.PI/180;
+  const theta=adjLon*Math.PI/180;
+  const x3=R*Math.sin(phi)*Math.cos(theta);
+  const y3=R*Math.cos(phi);
+  const z3=R*Math.sin(phi)*Math.sin(theta);
+  return{x:cx+x3,y:cy-y3,z:z3,visible:z3>-20};
+}
+
+function drawGlobe(){
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle='#0a0d15';
+  ctx.fillRect(0,0,W,H);
+
+  // Globe outline
+  ctx.beginPath();
+  ctx.arc(cx,cy,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,212,255,0.15)';
+  ctx.lineWidth=1;
+  ctx.stroke();
+
+  // Grid lines
+  for(let lat=-60;lat<=60;lat+=30){
+    ctx.beginPath();
+    let first=true;
+    for(let lon=-180;lon<=180;lon+=5){
+      const p=latLonToXY(lat,lon,globeAngle);
+      if(p.visible){
+        if(first){ctx.moveTo(p.x,p.y);first=false;}
+        else ctx.lineTo(p.x,p.y);
+      } else first=true;
+    }
+    ctx.strokeStyle='rgba(0,212,255,0.06)';
+    ctx.lineWidth=0.5;
+    ctx.stroke();
+  }
+
+  for(let lon=-180;lon<=180;lon+=30){
+    ctx.beginPath();
+    let first=true;
+    for(let lat=-90;lat<=90;lat+=5){
+      const p=latLonToXY(lat,lon,globeAngle);
+      if(p.visible){
+        if(first){ctx.moveTo(p.x,p.y);first=false;}
+        else ctx.lineTo(p.x,p.y);
+      } else first=true;
+    }
+    ctx.strokeStyle='rgba(0,212,255,0.06)';
+    ctx.lineWidth=0.5;
+    ctx.stroke();
+  }
+
+  // Routes & animated dots
+  routes.forEach(r=>{
+    r.progress+=r.speed;
+    if(r.progress>1)r.progress=0;
+
+    const fp=latLonToXY(r.from.lat,r.from.lon,globeAngle);
+    const tp=latLonToXY(r.to.lat,r.to.lon,globeAngle);
+
+    if(fp.visible&&tp.visible){
+      // Arc line
+      ctx.beginPath();
+      ctx.moveTo(fp.x,fp.y);
+      const mx=(fp.x+tp.x)/2;
+      const my=(fp.y+tp.y)/2-30;
+      ctx.quadraticCurveTo(mx,my,tp.x,tp.y);
+      ctx.strokeStyle=r.fraud?'rgba(255,34,34,0.3)':'rgba(0,212,255,0.2)';
+      ctx.lineWidth=0.8;
+      ctx.stroke();
+
+      // Moving dot
+      const t=r.progress;
+      const dx=fp.x*(1-t)*2+(mx)*2*t*(1-t)+tp.x*t*t;
+      const dy=fp.y*(1-t)*(1-t)+(my)*2*t*(1-t)+tp.y*t*t;
+      ctx.beginPath();
+      ctx.arc(dx,dy,r.fraud?3:2.5,0,Math.PI*2);
+      ctx.fillStyle=r.fraud?'#ff4444':'#00d4ff';
+      ctx.fill();
+
+      if(r.fraud){
+        ctx.beginPath();
+        ctx.arc(dx,dy,5,0,Math.PI*2);
+        ctx.strokeStyle='rgba(255,68,68,0.4)';
+        ctx.lineWidth=1;
+        ctx.stroke();
+      }
+    }
+
+    // City dots
+    if(fp.visible){
+      ctx.beginPath();
+      ctx.arc(fp.x,fp.y,2,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,212,255,0.7)';
+      ctx.fill();
+    }
+  });
+
+  globeAngle+=0.15;
+  requestAnimationFrame(drawGlobe);
+}
+
+drawGlobe();
+init();
 </script>
 </body>
 </html>
