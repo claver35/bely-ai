@@ -21,15 +21,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* TOP ROW */
+/* TOP ROW — Connect kısa + Platform Score */
 .top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
-.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 0 16px rgba(0,212,255,0.1);flex:1}
-.connect-title{font-size:13px;font-weight:700;color:#fff}
-.connect-sub{font-size:11px;color:#c2c0b6;margin-top:2px}
+.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:11px 18px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(0,212,255,0.1)}
+.connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap}
 .btn-connect{padding:8px 18px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .btn-connect:hover{opacity:.9}
-
-/* PLATFORM SCORE */
 .platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:14px 22px;text-align:center;min-width:200px;flex-shrink:0;box-shadow:0 0 16px rgba(74,222,128,0.1)}
 .ps-top{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
 .ps-badge{background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:8px;padding:2px 8px;font-size:10px;color:#4ade80;font-weight:700}
@@ -47,29 +45,29 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:7px}
 .bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
 
-/* VIZ ROW: Radar + Globe */
+/* VIZ ROW */
 .viz-row{display:grid;grid-template-columns:220px 1fr;gap:14px;margin-bottom:16px}
 
 /* RADAR */
 .radar-card{background:#0a0d15;border:0.5px solid rgba(0,212,255,0.25);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.radar-title{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
-.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:blink2 1.5s infinite;margin-bottom:10px}
-@keyframes blink2{0%,100%{opacity:1}50%{opacity:.4}}
+.radar-title{font-size:13px;font-weight:700;color:#00d4ff;letter-spacing:.04em;margin-bottom:2px}
+.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:bl 1.5s infinite;margin-bottom:10px}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
 .radar-wrap{position:relative;width:150px;height:150px;margin-bottom:10px}
 .radar-svg{width:150px;height:150px}
-.radar-info{font-size:11px;color:#c2c0b6;margin-top:4px}
+.radar-info{font-size:11px;color:#c2c0b6}
 .radar-info span{color:#00d4ff;font-weight:600}
 .radar-threats{font-size:12px;color:#ff6666;font-weight:700;margin-top:6px}
 
-/* GLOBE */
-.globe-card{background:#050810;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;overflow:hidden;position:relative}
-.globe-header{position:absolute;top:12px;left:16px;z-index:2}
-.globe-title-txt{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em}
-.globe-sub-txt{font-size:11px;color:#888780;margin-top:2px}
-.globe-stats{position:absolute;top:12px;right:16px;z-index:2;text-align:right}
-.globe-stat{font-size:11px;color:#c2c0b6;margin-bottom:2px}
-.globe-stat span{color:#00d4ff;font-weight:700}
-#globe{display:block;width:100%;height:260px}
+/* NETWORK CARD */
+.network-card{background:#050810;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;overflow:hidden;position:relative}
+.network-header{position:absolute;top:12px;left:16px;z-index:2}
+.network-title{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em}
+.network-sub{font-size:11px;color:#888780;margin-top:2px}
+.network-stats{position:absolute;top:12px;right:16px;z-index:2;text-align:right}
+.network-stat{font-size:11px;color:#c2c0b6;margin-bottom:2px}
+.network-stat span{font-weight:700}
+#netcanvas{display:block;width:100%;height:260px}
 
 /* CARDS */
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
@@ -106,7 +104,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .r-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
 .r-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
 .r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
-@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid{grid-template-columns:1fr}.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}}
+@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}}
 </style>
 </head>
 <body>
@@ -122,6 +120,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
 
+  <!-- TOP ROW -->
   <div class="top-row">
     <div class="connect-box">
       <div>
@@ -138,6 +137,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
   </div>
 
+  <!-- METRİKLER -->
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
@@ -163,23 +163,24 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
   </div>
 
+  <!-- VIZ: RADAR + NETWORK -->
   <div class="viz-row">
     <div class="radar-card">
-      <div class="radar-title">Fraud Radar</div>
+      <div class="radar-title">BELY AI Radar</div>
       <div class="radar-live">● LIVE</div>
       <div class="radar-wrap">
         <svg class="radar-svg" viewBox="0 0 150 150">
           <defs>
             <radialGradient id="rg" cx="50%" cy="50%">
-              <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.5"/>
+              <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.7"/>
               <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
             </radialGradient>
           </defs>
           <circle cx="75" cy="75" r="70" fill="none" stroke="rgba(0,212,255,0.12)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="52" fill="none" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="35" fill="none" stroke="rgba(0,212,255,0.18)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="18" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="5" fill="#00d4ff" opacity="0.8"/>
+          <circle cx="75" cy="75" r="52" fill="none" stroke="rgba(0,212,255,0.16)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="35" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="18" fill="none" stroke="rgba(0,212,255,0.28)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="5" fill="#00d4ff" opacity="0.9"/>
           <line x1="75" y1="5" x2="75" y2="145" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
           <line x1="5" y1="75" x2="145" y2="75" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
           <line x1="25" y1="25" x2="125" y2="125" stroke="rgba(0,212,255,0.05)" stroke-width="0.5"/>
@@ -187,21 +188,22 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
           <g id="sweep" style="transform-origin:75px 75px">
             <path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/>
           </g>
+          <!-- Threat dots -->
           <circle cx="52" cy="38" r="4" fill="#ff2222">
-            <animate attributeName="r" values="4;6;4" dur="1.2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="52" cy="38" r="12" fill="none" stroke="#ff2222" stroke-width="1" opacity="0.4">
+            <animate attributeName="r" values="8;16;8" dur="1.2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0;0.5" dur="1.2s" repeatCount="indefinite"/>
           </circle>
           <circle cx="108" cy="85" r="3.5" fill="#fbbf24">
-            <animate attributeName="r" values="3.5;5.5;3.5" dur="1.8s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
           </circle>
           <circle cx="40" cy="100" r="3" fill="#ff2222">
-            <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="52" cy="38" r="10" fill="none" stroke="#ff2222" stroke-width="0.8" opacity="0.4">
-            <animate attributeName="r" values="8;14;8" dur="1.2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.5;0;0.5" dur="1.2s" repeatCount="indefinite"/>
           </circle>
         </svg>
       </div>
@@ -209,25 +211,27 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="radar-threats">⚠ 3 threats detected</div>
     </div>
 
-    <div class="globe-card">
-      <div class="globe-header">
-        <div class="globe-title-txt">Global Transaction Monitor</div>
-        <div class="globe-sub-txt">Real-time fraud detection across regions</div>
+    <!-- NETWORK FLOW -->
+    <div class="network-card">
+      <div class="network-header">
+        <div class="network-title">Global Fraud Detection Network</div>
+        <div class="network-sub">Live transaction flow — red = flagged fraud</div>
       </div>
-      <div class="globe-stats">
-        <div class="globe-stat">Transactions: <span id="tx-count">1,284</span></div>
-        <div class="globe-stat">Flagged: <span style="color:#ff6666" id="flag-count">47</span></div>
+      <div class="network-stats">
+        <div class="network-stat">Transactions: <span style="color:#00d4ff" id="tx-count">1,284</span></div>
+        <div class="network-stat">Flagged: <span style="color:#ff6666" id="flag-count">47</span></div>
       </div>
-      <canvas id="globe" width="800" height="260"></canvas>
+      <canvas id="netcanvas" width="900" height="260"></canvas>
     </div>
   </div>
 
+  <!-- ALERTS + ORDERS -->
   <div class="main-grid">
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
       <div class="alert-row">
         <div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 HIGH RISK Order #ORD-4821 — Do Not Ship</div><div class="alert-time">2 minutes ago</div></div></div>
-        <div class="alert-body body-bad"><div class="label-tag tag-bad">Why it's dangerous</div>Foreign IP (Romania) + new account (2 days old) + same card 3× in 4h = fraud. You'll lose the product AND get a chargeback.</div>
+        <div class="alert-body body-bad"><div class="label-tag tag-bad">Why it's dangerous</div>Foreign IP (Romania) + new account (2 days) + same card 3× in 4h = fraud. You'll lose the product AND get a chargeback.</div>
         <span class="alert-action act-bad">→ Contact customer or cancel order</span>
       </div>
       <div class="alert-row">
@@ -271,157 +275,132 @@ async function logout(){await sb.auth.signOut();window.location.href='auth.html'
 function connectShopify(){
   const shop=prompt('Shopify store URL:\n(e.g. belyai.myshopify.com)');
   if(!shop)return;
-  const url=`https://${shop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
-  window.location.href=url;
+  window.location.href=`https://${shop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
 }
 
-// RADAR
-let ra=0;
-const sw=document.getElementById('sweep');
+// RADAR SWEEP
+let ra=0;const sw=document.getElementById('sweep');
 setInterval(()=>{ra=(ra+2)%360;sw.style.transform=`rotate(${ra}deg)`;},25);
 
-// GLOBE
-const canvas=document.getElementById('globe');
-const ctx=canvas.getContext('2d');
-const CW=canvas.width,CH=canvas.height;
-const GCX=CW/2,GCY=CH/2,GR=110;
+// NETWORK ANIMATION
+const nc=document.getElementById('netcanvas');
+const ctx=nc.getContext('2d');
+const NW=nc.width,NH=nc.height;
 
-// Simplified continent outlines [lat, lon] pairs
-const continents=[
-  // North America
-  [[72,-140],[72,-60],[50,-55],[25,-80],[15,-90],[20,-105],[30,-115],[50,-130],[60,-140],[72,-140]],
-  // South America  
-  [[10,-75],[10,-35],[0,-50],[-10,-35],[-55,-35],[-55,-70],[-35,-70],[-5,-80],[10,-75]],
-  // Europe
-  [[35,-5],[35,40],[60,40],[70,25],[55,10],[50,0],[35,-5]],
-  // Africa
-  [[35,-5],[35,55],[0,55],[-35,55],[-35,15],[0,-17],[15,-17],[35,-5]],
-  // Asia
-  [[70,25],[70,145],[0,145],[0,100],[20,75],[35,40],[70,25]],
-  // Australia
-  [[-15,115],[-15,155],[-40,155],[-40,115],[-25,113],[-15,115]],
-];
+// Nodes — şehir noktaları
+const nodes=[
+  {x:0.12,y:0.3,name:'New York'},{x:0.08,y:0.25,name:'Toronto'},
+  {x:0.05,y:0.45,name:'Los Angeles'},{x:0.15,y:0.55,name:'São Paulo'},
+  {x:0.42,y:0.2,name:'London'},{x:0.45,y:0.25,name:'Paris'},
+  {x:0.48,y:0.18,name:'Amsterdam'},{x:0.52,y:0.3,name:'Istanbul'},
+  {x:0.55,y:0.4,name:'Dubai'},{x:0.48,y:0.55,name:'Lagos'},
+  {x:0.62,y:0.22,name:'Moscow'},{x:0.68,y:0.3,name:'Delhi'},
+  {x:0.75,y:0.25,name:'Beijing'},{x:0.82,y:0.3,name:'Tokyo'},
+  {x:0.78,y:0.45,name:'Singapore'},{x:0.85,y:0.6,name:'Sydney'},
+  {x:0.35,y:0.15,name:'Oslo'},{x:0.58,y:0.18,name:'Kiev'},
+].map(n=>({...n,x:n.x*NW,y:n.y*NH,r:3+Math.random()*2,pulse:Math.random()*Math.PI*2}));
 
-const cities=[
-  {lat:40.7,lon:-74},{lat:51.5,lon:-0.1},{lat:35.7,lon:139.7},
-  {lat:41,lon:29},{lat:25.2,lon:55.3},{lat:-33.9,lon:151.2},
-  {lat:48.9,lon:2.3},{lat:1.3,lon:103.8},{lat:55.7,lon:37.6},
-  {lat:6.5,lon:3.4},{lat:-23.5,lon:-46.6},{lat:43.7,lon:-79.4},
-  {lat:19.4,lon:-99.1},{lat:28.6,lon:77.2},{lat:31.2,lon:121.5},
-  {lat:37.6,lon:127},{lat:-1.3,lon:36.8},{lat:30,lon:31.2},
-];
-
-const routes=[];
-for(let i=0;i<12;i++){
-  const a=cities[Math.floor(Math.random()*cities.length)];
-  const b=cities[Math.floor(Math.random()*cities.length)];
-  routes.push({from:a,to:b,p:Math.random(),sp:0.002+Math.random()*0.003,fraud:Math.random()<0.2,trail:[]});
+// Packets — hareketli noktalar
+const packets=[];
+for(let i=0;i<20;i++){
+  const a=nodes[Math.floor(Math.random()*nodes.length)];
+  const b=nodes[Math.floor(Math.random()*nodes.length)];
+  packets.push({from:a,to:b,p:Math.random(),sp:0.004+Math.random()*0.006,fraud:Math.random()<0.22,size:Math.random()*2+1.5});
 }
 
-let ga=0;
-
-function proj(lat,lon,rot){
-  const adjLon=lon+rot;
-  const phi=(90-lat)*Math.PI/180;
-  const th=adjLon*Math.PI/180;
-  const x=GR*Math.sin(phi)*Math.cos(th);
-  const y=GR*Math.cos(phi);
-  const z=GR*Math.sin(phi)*Math.sin(th);
-  return{x:GCX+x,y:GCY-y,z,vis:z>-15};
-}
-
-function drawGlobe(){
-  ctx.clearRect(0,0,CW,CH);
+let frame=0;
+function drawNet(){
+  ctx.clearRect(0,0,NW,NH);
   ctx.fillStyle='#050810';
-  ctx.fillRect(0,0,CW,CH);
+  ctx.fillRect(0,0,NW,NH);
 
-  // Atmosphere glow
-  const ag=ctx.createRadialGradient(GCX,GCY,GR*0.85,GCX,GCY,GR*1.1);
-  ag.addColorStop(0,'rgba(0,212,255,0)');
-  ag.addColorStop(1,'rgba(0,212,255,0.06)');
-  ctx.beginPath();ctx.arc(GCX,GCY,GR*1.1,0,Math.PI*2);
-  ctx.fillStyle=ag;ctx.fill();
+  frame++;
 
-  // Ocean sphere
-  ctx.beginPath();ctx.arc(GCX,GCY,GR,0,Math.PI*2);
-  ctx.fillStyle='#0a1628';ctx.fill();
-  ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=1;ctx.stroke();
-
-  // Grid
-  ctx.lineWidth=0.4;ctx.strokeStyle='rgba(0,212,255,0.07)';
-  for(let lat=-75;lat<=75;lat+=15){
-    ctx.beginPath();let first=true;
-    for(let lon=-180;lon<=180;lon+=3){
-      const p=proj(lat,lon,ga);
-      if(p.vis){if(first){ctx.moveTo(p.x,p.y);first=false;}else ctx.lineTo(p.x,p.y);}
-      else first=true;
-    }ctx.stroke();
-  }
-  for(let lon=-165;lon<=180;lon+=15){
-    ctx.beginPath();let first=true;
-    for(let lat=-90;lat<=90;lat+=3){
-      const p=proj(lat,lon,ga);
-      if(p.vis){if(first){ctx.moveTo(p.x,p.y);first=false;}else ctx.lineTo(p.x,p.y);}
-      else first=true;
-    }ctx.stroke();
-  }
-
-  // Continents
-  continents.forEach(pts=>{
-    ctx.beginPath();let first=true;
-    for(let i=0;i<=pts.length;i++){
-      const[lt,ln]=pts[i%pts.length];
-      const p=proj(lt,ln,ga);
-      if(p.vis){
-        if(first){ctx.moveTo(p.x,p.y);first=false;}
-        else ctx.lineTo(p.x,p.y);
-      } else first=true;
-    }
-    ctx.fillStyle='rgba(0,212,255,0.08)';ctx.fill();
-    ctx.strokeStyle='rgba(0,212,255,0.25)';ctx.lineWidth=0.8;ctx.stroke();
-  });
-
-  // Routes
-  routes.forEach(r=>{
-    r.p+=r.sp;if(r.p>1)r.p=0;
-    const fp=proj(r.from.lat,r.from.lon,ga);
-    const tp=proj(r.to.lat,r.to.lon,ga);
-    if(fp.vis&&tp.vis){
-      const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2-40;
-      // Arc
-      ctx.beginPath();ctx.moveTo(fp.x,fp.y);
-      ctx.quadraticCurveTo(mx,my,tp.x,tp.y);
-      ctx.strokeStyle=r.fraud?'rgba(255,68,68,0.25)':'rgba(0,212,255,0.18)';
-      ctx.lineWidth=0.8;ctx.stroke();
-      // Moving dot
-      const t2=r.p;
-      const dx=fp.x*(1-t2)*(1-t2)+2*mx*t2*(1-t2)+tp.x*t2*t2;
-      const dy=fp.y*(1-t2)*(1-t2)+2*my*t2*(1-t2)+tp.y*t2*t2;
-      ctx.beginPath();ctx.arc(dx,dy,r.fraud?3.5:2.5,0,Math.PI*2);
-      ctx.fillStyle=r.fraud?'#ff4444':'#00d4ff';ctx.fill();
-      if(r.fraud){
-        ctx.beginPath();ctx.arc(dx,dy,6,0,Math.PI*2);
-        ctx.strokeStyle='rgba(255,68,68,0.5)';ctx.lineWidth=1;ctx.stroke();
+  // Connection lines (static, faint)
+  nodes.forEach((a,i)=>{
+    nodes.forEach((b,j)=>{
+      if(j<=i)return;
+      const dist=Math.hypot(a.x-b.x,a.y-b.y);
+      if(dist<NW*0.25){
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle=`rgba(0,212,255,${0.04+0.02*Math.sin(frame*0.02+i)})`;
+        ctx.lineWidth=0.5;
+        ctx.stroke();
       }
-    }
-    // City dots
-    if(fp.vis){ctx.beginPath();ctx.arc(fp.x,fp.y,2,0,Math.PI*2);ctx.fillStyle='rgba(0,212,255,0.8)';ctx.fill();}
+    });
   });
 
-  ga+=0.12;
-  requestAnimationFrame(drawGlobe);
+  // Packets
+  packets.forEach(pk=>{
+    pk.p+=pk.sp;
+    if(pk.p>1){
+      pk.p=0;
+      pk.from=nodes[Math.floor(Math.random()*nodes.length)];
+      pk.to=nodes[Math.floor(Math.random()*nodes.length)];
+      pk.fraud=Math.random()<0.22;
+    }
+    // Curved path
+    const mx=(pk.from.x+pk.to.x)/2;
+    const my=(pk.from.y+pk.to.y)/2 - 30 - Math.random()*20;
+    const t=pk.p;
+    const px=pk.from.x*(1-t)*(1-t)+2*mx*t*(1-t)+pk.to.x*t*t;
+    const py=pk.from.y*(1-t)*(1-t)+2*my*t*(1-t)+pk.to.y*t*t;
+
+    // Trail
+    ctx.beginPath();
+    ctx.arc(px,py,pk.size,0,Math.PI*2);
+    ctx.fillStyle=pk.fraud?'rgba(255,80,80,0.9)':'rgba(0,212,255,0.85)';
+    ctx.fill();
+
+    if(pk.fraud){
+      ctx.beginPath();ctx.arc(px,py,pk.size+3,0,Math.PI*2);
+      ctx.strokeStyle='rgba(255,60,60,0.4)';ctx.lineWidth=1;ctx.stroke();
+    }
+
+    // Animated arc line
+    ctx.beginPath();
+    ctx.moveTo(pk.from.x,pk.from.y);
+    ctx.quadraticCurveTo(mx,my,px,py);
+    ctx.strokeStyle=pk.fraud?'rgba(255,80,80,0.15)':'rgba(0,212,255,0.12)';
+    ctx.lineWidth=0.7;ctx.stroke();
+  });
+
+  // Nodes
+  nodes.forEach(n=>{
+    n.pulse+=0.05;
+    // Outer ring
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r+2+Math.sin(n.pulse)*1.5,0,Math.PI*2);
+    ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=0.8;ctx.stroke();
+    // Core
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,212,255,0.9)';ctx.fill();
+    // Label
+    ctx.fillStyle='rgba(0,212,255,0.6)';
+    ctx.font='8px sans-serif';
+    ctx.fillText(n.name,n.x+n.r+3,n.y+3);
+  });
+
+  // Fraud alerts — kırmızı flash
+  if(frame%180<10){
+    ctx.fillStyle='rgba(255,34,34,0.04)';
+    ctx.fillRect(0,0,NW,NH);
+  }
+
+  requestAnimationFrame(drawNet);
 }
 
 // Live counters
 let txn=1284,flg=47;
 setInterval(()=>{
   txn+=Math.floor(Math.random()*3)+1;
-  if(Math.random()>0.7)flg++;
+  if(Math.random()>0.72)flg++;
   document.getElementById('tx-count').textContent=txn.toLocaleString();
   document.getElementById('flag-count').textContent=flg;
 },2500);
 
-drawGlobe();
+drawNet();
 init();
 </script>
 </body>
