@@ -19,7 +19,8 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .hero-title{font-size:30px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:12px}
 .hero-title span{color:#00d4ff}
-.hero-sub{font-size:15px;color:#c2c0b6;line-height:1.7;margin-bottom:28px}
+.hero-sub{font-size:15px;color:#00d4ff;line-height:1.7;margin-bottom:28px;animation:textpulse 2.5s ease-in-out infinite}
+@keyframes textpulse{0%,100%{opacity:1;text-shadow:0 0 8px rgba(0,212,255,0.4)}50%{opacity:0.6;text-shadow:0 0 2px rgba(0,212,255,0.1)}}
 
 /* KAZANÇ HESAP KARTI */
 .savings-card{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:18px 20px;margin-bottom:24px}
