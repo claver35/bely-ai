@@ -23,7 +23,9 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.access_token) {
-      return res.status(200).json({ access_token: data.access_token });
+      res.setHeader('Set-Cookie', `shopify_token=${data.access_token}; Path=/; HttpOnly; SameSite=Lax`);
+      res.setHeader('Set-Cookie', `shopify_shop=${shop}; Path=/; SameSite=Lax`);
+      return res.status(200).json({ access_token: data.access_token, shop });
     } else {
       return res.status(400).json({ error: 'Token exchange failed', details: data });
     }
