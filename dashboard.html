@@ -21,26 +21,22 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-
-/* TOP ROW */
 .top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
-
-/* PLATFORM SCORE — daha büyük */
 .platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:16px 24px;text-align:center;min-width:220px;flex-shrink:0;box-shadow:0 0 20px rgba(74,222,128,0.12)}
 .ps-top{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
 .ps-badge{background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:8px;padding:2px 8px;font-size:10px;color:#4ade80;font-weight:700}
 .ps-value{font-size:46px;font-weight:800;color:#4ade80;line-height:1;margin-bottom:2px}
 .ps-cap{font-size:13px;color:#86efac;margin-bottom:4px}
 .ps-date{font-size:10px;color:#5F5E5A}
-
-/* CONNECT BOX — kısa, yazılar sola */
 .connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:20px;box-shadow:0 0 16px rgba(0,212,255,0.1);align-self:center}
 .connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
 .connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap;margin-top:2px}
 .btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .btn-connect:hover{opacity:.9}
-
-/* METRİKLER */
+.connected-box{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(74,222,128,0.1);align-self:center}
+.connected-info{font-size:13px;color:#4ade80;font-weight:700}
+.connected-shop{font-size:11px;color:#86efac;margin-top:2px}
+.btn-disconnect{padding:7px 14px;border-radius:7px;background:transparent;border:0.5px solid rgba(255,100,100,0.4);color:#ff6666;font-size:12px;font-weight:600;cursor:pointer}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:13px 15px}
 .metric-label{font-size:10px;color:#c2c0b6;margin-bottom:5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
@@ -49,11 +45,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .val-ok{color:#4ade80}.val-warn{color:#fbbf24}.val-cyan{color:#00d4ff}.val-bad{color:#ff2222}
 .bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:7px}
 .bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
-
-/* VIZ ROW — Radar + Competitor Comparison */
 .viz-row{display:grid;grid-template-columns:220px 1fr;gap:14px;margin-bottom:16px}
-
-/* RADAR */
 .radar-card{background:#0a0d15;border:0.5px solid rgba(0,212,255,0.25);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center}
 .radar-title{font-size:13px;font-weight:700;color:#00d4ff;letter-spacing:.04em;margin-bottom:2px}
 .radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:blink 1.5s infinite;margin-bottom:10px}
@@ -62,8 +54,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .radar-info{font-size:11px;color:#c2c0b6}
 .radar-info span{color:#00d4ff;font-weight:600}
 .radar-threats{font-size:12px;color:#ff6666;font-weight:700;margin-top:6px}
-
-/* COMPETITOR COMPARISON TABLE */
 .compare-card{background:#0d0f1a;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;padding:20px;display:flex;flex-direction:column}
 .compare-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
 .compare-sub{font-size:12px;color:#888780;margin-bottom:16px}
@@ -73,16 +63,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .compare-table td{padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:12px;color:#c2c0b6;vertical-align:middle}
 .compare-table tr:last-child td{border-bottom:none}
 .compare-table td.center{text-align:center}
-.brand-bely{font-weight:700;color:#00d4ff;font-size:13px}
-.brand-rival{color:#888780}
 .check{color:#4ade80;font-size:14px;font-weight:700}
 .cross{color:#ff4444;font-size:14px}
 .price-tag{display:inline-block;background:rgba(0,212,255,0.12);border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:#00d4ff}
 .price-tag-bad{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#888780}
 .highlight-row td{background:rgba(0,212,255,0.04)}
 .bely-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,rgba(0,212,255,0.1),rgba(0,212,255,0.05));border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;color:#00d4ff;margin-left:6px}
-
-/* CARDS */
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
 .card-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
@@ -98,12 +84,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .body-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
 .body-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
 .body-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
-.label-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-.tag-bad{color:#ff2222}.tag-warn{color:#fbbf24}.tag-ok{color:#4ade80}
-.alert-action{font-size:11px;font-weight:600;margin-top:5px;padding:4px 10px;border-radius:5px;display:inline-block}
-.act-bad{background:rgba(255,34,34,0.1);color:#ff6666;border:0.5px solid rgba(255,34,34,0.3)}
-.act-warn{background:rgba(251,191,36,0.1);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.3)}
-.act-ok{background:rgba(74,222,128,0.1);color:#4ade80;border:0.5px solid rgba(74,222,128,0.3)}
 .order-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .order-row:last-child{border-bottom:none}
 .order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
@@ -117,6 +97,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .r-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
 .r-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
 .r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
+.loading-orders{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
+.no-store{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
 @media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}}
 </style>
 </head>
@@ -133,50 +115,44 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
 
-  <!-- TOP ROW: Platform Score + Connect -->
+  <!-- TOP ROW -->
   <div class="top-row">
     <div class="platform-score">
-      <div class="ps-top">Platform Score <span class="ps-badge">+12 this month</span></div>
-      <div class="ps-value">80%</div>
+      <div class="ps-top">Platform Score <span class="ps-badge" id="ps-badge">Loading...</span></div>
+      <div class="ps-value" id="ps-value">—</div>
       <div class="ps-cap">Capacity</div>
       <div class="ps-date">April 2026</div>
     </div>
-    <div class="connect-box">
-      <div>
-        <div class="connect-title">Connect your Shopify store to activate protection</div>
-        <div class="connect-sub">BELY AI needs access to your orders & account data · 2 min · No code required</div>
-        <button class="btn-connect" style="margin-top:10px" onclick="connectShopify()">Connect Shopify Store</button>
-      </div>
-    </div>
+    <div id="connect-section"></div>
   </div>
 
-  <!-- METRİKLER -->
+  <!-- METRICS -->
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
-      <div class="metric-value val-ok">%82</div>
-      <div class="metric-sub">Healthy — No issues</div>
+      <div class="metric-value val-ok" id="health-val">—</div>
+      <div class="metric-sub" id="health-sub">Connecting...</div>
       <div class="bar-bg"><div class="bar-fill" id="hbar" style="background:#4ade80"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Chargeback Rate</div>
-      <div class="metric-value val-warn">%0.48</div>
+      <div class="metric-value val-warn">0.48%</div>
       <div class="metric-sub">Limit: 0.65% — 26% buffer</div>
       <div class="bar-bg"><div class="bar-fill" id="cbar" style="background:#fbbf24"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Orders Scanned</div>
       <div class="metric-value val-cyan" id="scan-num">0</div>
-      <div class="metric-sub">Today — All analyzed</div>
+      <div class="metric-sub" id="scan-sub">Today — All analyzed</div>
     </div>
     <div class="metric">
       <div class="metric-label">Fraud Blocked</div>
-      <div class="metric-value val-bad">3</div>
+      <div class="metric-value val-bad" id="fraud-num">—</div>
       <div class="metric-sub">High-risk this week</div>
     </div>
   </div>
 
-  <!-- VIZ: RADAR + COMPARISON -->
+  <!-- VIZ ROW -->
   <div class="viz-row">
     <div class="radar-card">
       <div class="radar-title">BELY AI Radar</div>
@@ -196,18 +172,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
           <circle cx="75" cy="75" r="5" fill="#00d4ff" opacity="0.9"/>
           <line x1="75" y1="5" x2="75" y2="145" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
           <line x1="5" y1="75" x2="145" y2="75" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
-          <line x1="25" y1="25" x2="125" y2="125" stroke="rgba(0,212,255,0.05)" stroke-width="0.5"/>
-          <line x1="125" y1="25" x2="25" y2="125" stroke="rgba(0,212,255,0.05)" stroke-width="0.5"/>
           <g id="sweep" style="transform-origin:75px 75px">
             <path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/>
           </g>
           <circle cx="52" cy="38" r="4" fill="#ff2222">
             <animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="52" cy="38" r="12" fill="none" stroke="#ff2222" stroke-width="1" opacity="0.4">
-            <animate attributeName="r" values="8;16;8" dur="1.2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.5;0;0.5" dur="1.2s" repeatCount="indefinite"/>
           </circle>
           <circle cx="108" cy="85" r="3.5" fill="#fbbf24">
             <animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/>
@@ -220,13 +190,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
         </svg>
       </div>
       <div class="radar-info">Sector: <span>A7</span> · Signal: <span>Strong</span></div>
-      <div class="radar-threats">⚠ 3 threats detected</div>
+      <div class="radar-threats" id="radar-threats">⚠ Scanning...</div>
     </div>
 
-    <!-- COMPETITOR COMPARISON -->
     <div class="compare-card">
       <div class="compare-title">Why stores choose BELY AI <span class="bely-badge">★ Best Value</span></div>
-      <div class="compare-sub">See how we compare to alternatives — protection that actually fits your budget</div>
+      <div class="compare-sub">See how we compare to alternatives</div>
       <table class="compare-table">
         <thead>
           <tr>
@@ -247,38 +216,31 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
           </tr>
           <tr>
             <td>Pre-shipment fraud scoring</td>
-            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✔</span></td>
             <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✔</span></td>
             <td class="center"><span class="cross">✗</span></td>
           </tr>
           <tr>
             <td>Account health monitoring</td>
-            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✔</span></td>
             <td class="center"><span class="cross">✗</span></td>
             <td class="center"><span class="cross">✗</span></td>
             <td class="center"><span class="cross">✗</span></td>
           </tr>
           <tr>
             <td>AI dispute response writer</td>
-            <td class="center"><span class="check">✓</span></td>
-            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✔</span></td>
+            <td class="center"><span class="check">✔</span></td>
             <td class="center"><span class="cross">✗</span></td>
             <td class="center"><span class="cross">✗</span></td>
           </tr>
           <tr>
             <td>2-minute setup, no code</td>
-            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✔</span></td>
             <td class="center"><span class="cross">✗</span></td>
             <td class="center"><span class="cross">✗</span></td>
             <td class="center">—</td>
-          </tr>
-          <tr>
-            <td>Chargeback limit alerts</td>
-            <td class="center"><span class="check">✓</span></td>
-            <td class="center"><span class="check">✓</span></td>
-            <td class="center"><span class="check">✓</span></td>
-            <td class="center"><span class="cross">✗</span></td>
           </tr>
           <tr class="highlight-row">
             <td style="font-weight:600;color:#fff">Avg. monthly savings</td>
@@ -296,56 +258,197 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   <div class="main-grid">
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
-      <div class="alert-row">
-        <div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 HIGH RISK Order #ORD-4821 — Do Not Ship</div><div class="alert-time">2 minutes ago</div></div></div>
-        <div class="alert-body body-bad"><div class="label-tag tag-bad">Why it's dangerous</div>Foreign IP (Romania) + new account (2 days) + same card 3× in 4h = fraud. You'll lose the product AND get a chargeback.</div>
-        <span class="alert-action act-bad">→ Contact customer or cancel order</span>
-      </div>
-      <div class="alert-row">
-        <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚡ Chargeback Rate 0.48% — Approaching Visa Limit</div><div class="alert-time">Today, 09:14</div></div></div>
-        <div class="alert-body body-warn"><div class="label-tag tag-warn">Why it matters</div>Visa limit 0.65%. You're 0.17% away. Exceeding = watchlist, higher fees, possible freeze.<br><strong style="color:#fbbf24">Action:</strong> Stop shipping high-risk orders now.</div>
-        <span class="alert-action act-warn">→ Review high-risk orders this week</span>
-      </div>
-      <div class="alert-row">
-        <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚡ 3 High-Risk Orders Detected This Week</div><div class="alert-time">Yesterday</div></div></div>
-        <div class="alert-body body-warn"><div class="label-tag tag-warn">Detection reasons</div>• #ORD-4821: Foreign IP + new account + card reuse<br>• #ORD-4815: Freight forwarder ZIP detected<br>• #ORD-4809: Order 5× above store average</div>
-        <span class="alert-action act-warn">→ Review all 3 in Shopify admin</span>
-      </div>
-      <div class="alert-row">
-        <div class="alert-top"><div class="alert-dot dot-ok"></div><div><div class="alert-title">✅ Account Health Improved: 78 → 82</div><div class="alert-time">3 days ago</div></div></div>
-        <div class="alert-body body-ok"><div class="label-tag tag-ok">Why it improved</div>No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
-        <span class="alert-action act-ok">→ Keep monitoring — you're on track</span>
+      <div id="alerts-section">
+        <div class="alert-row">
+          <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div><div class="alert-time">Today, 09:14</div></div></div>
+          <div class="alert-body body-warn">Visa limit 0.65%. You're 0.17% away. Action: Stop shipping high-risk orders now.</div>
+        </div>
+        <div class="alert-row">
+          <div class="alert-top"><div class="alert-dot dot-ok"></div><div><div class="alert-title">✔ Account Health Improved: 78 → 82</div><div class="alert-time">3 days ago</div></div></div>
+          <div class="alert-body body-ok">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
+        </div>
       </div>
     </div>
+
     <div class="card">
-      <div class="card-title">Recent Orders — Risk Scores <span>Last 24 hours</span></div>
-      <div class="order-row"><div class="order-top"><div><div class="order-id">#ORD-4821</div><div class="order-amount">$247.00</div></div><span class="risk-pill risk-high">⚠ HIGH — 87%</span></div><div class="order-reason r-bad">🚨 <strong>Do not ship.</strong> Foreign IP + new account + card reuse 3× in 4h.</div></div>
-      <div class="order-row"><div class="order-top"><div><div class="order-id">#ORD-4820</div><div class="order-amount">$134.00</div></div><span class="risk-pill risk-med">⚡ MED — 54%</span></div><div class="order-reason r-warn">⚠️ Billing & shipping in different countries. Contact before shipping.</div></div>
-      <div class="order-row"><div class="order-top"><div><div class="order-id">#ORD-4819</div><div class="order-amount">$89.00</div></div><span class="risk-pill risk-low">✓ LOW — 12%</span></div><div class="order-reason r-ok">Returning customer, 14 orders, IP matches billing. Safe to ship.</div></div>
-      <div class="order-row"><div class="order-top"><div><div class="order-id">#ORD-4818</div><div class="order-amount">$211.00</div></div><span class="risk-pill risk-low">✓ LOW — 8%</span></div><div class="order-reason r-ok">Verified customer, consistent history. Safe to ship.</div></div>
-      <div class="order-row"><div class="order-top"><div><div class="order-id">#ORD-4817</div><div class="order-amount">$55.00</div></div><span class="risk-pill risk-low">✓ LOW — 4%</span></div><div class="order-reason r-ok">Long-term customer, no disputes. Safe to ship.</div></div>
+      <div class="card-title">Recent Orders — Risk Scores <span id="orders-label">Last 24 hours</span></div>
+      <div id="orders-section">
+        <div class="loading-orders">Connect your Shopify store to see real orders</div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
-async function init(){
-  const{data:{session}}=await sb.auth.getSession();
-  if(!session){window.location.href='auth.html';return;}
-  document.getElementById('user-email').textContent=session.user.email;
-  setTimeout(()=>{document.getElementById('hbar').style.width='82%';},400);
-  setTimeout(()=>{document.getElementById('cbar').style.width='74%';},600);
-  let n=0;const t=setInterval(()=>{n+=7;document.getElementById('scan-num').textContent=n;if(n>=148)clearInterval(t);},20);
+const sb = window.supabase.createClient(
+  'https://txuanbvyjohgvuynlfyq.supabase.co',
+  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
+);
+
+function getRiskScore(order) {
+  let score = 0;
+  const risks = [];
+
+  // Yeni hesap kontrolü
+  const created = new Date(order.customer?.created_at);
+  const daysSince = (Date.now() - created) / 86400000;
+  if (order.customer && daysSince < 7) { score += 30; risks.push('New customer account (< 7 days)'); }
+
+  // Yüksek tutar kontrolü
+  if (parseFloat(order.total_price) > 200) { score += 20; risks.push('High order value'); }
+
+  // Farklı ülke kontrolü
+  if (order.billing_address && order.shipping_address &&
+      order.billing_address.country_code !== order.shipping_address.country_code) {
+    score += 35; risks.push('Billing & shipping in different countries');
+  }
+
+  // Risk seviyesi
+  let level, cls;
+  if (score >= 50) { level = `HIGH — ${score}%`; cls = 'risk-high'; }
+  else if (score >= 25) { level = `MED — ${score}%`; cls = 'risk-med'; }
+  else { level = `LOW — ${Math.max(score, 4)}%`; cls = 'risk-low'; }
+
+  return { score, level, cls, risks };
 }
-async function logout(){await sb.auth.signOut();window.location.href='auth.html';}
-function connectShopify(){
-  const shop=prompt('Shopify store URL:\n(e.g. belyai.myshopify.com)');
-  if(!shop)return;
-  window.location.href=`https://${shop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
+
+function renderOrders(orders) {
+  const section = document.getElementById('orders-section');
+  if (!orders || orders.length === 0) {
+    section.innerHTML = '<div class="no-store">No orders found in the last 24 hours.</div>';
+    return;
+  }
+
+  let highRisk = 0;
+  let html = '';
+
+  orders.slice(0, 5).forEach(order => {
+    const risk = getRiskScore(order);
+    if (risk.score >= 50) highRisk++;
+
+    const rClass = risk.score >= 50 ? 'r-bad' : risk.score >= 25 ? 'r-warn' : 'r-ok';
+    const reason = risk.risks.length > 0 ? risk.risks.join(' · ') : 'No risk signals — Safe to ship.';
+
+    html += `
+      <div class="order-row">
+        <div class="order-top">
+          <div>
+            <div class="order-id">#${order.order_number}</div>
+            <div class="order-amount">$${parseFloat(order.total_price).toFixed(2)}</div>
+          </div>
+          <span class="risk-pill ${risk.cls}">${risk.level}</span>
+        </div>
+        <div class="order-reason ${rClass}">${reason}</div>
+      </div>`;
+  });
+
+  section.innerHTML = html;
+  document.getElementById('fraud-num').textContent = highRisk;
+  document.getElementById('radar-threats').textContent = highRisk > 0 ? `⚠ ${highRisk} threats detected` : '✔ No threats detected';
+  document.getElementById('scan-num').textContent = orders.length;
+  document.getElementById('orders-label').textContent = `${orders.length} orders loaded`;
+
+  // Alerts güncelle
+  if (highRisk > 0) {
+    const alertHtml = `
+      <div class="alert-row">
+        <div class="alert-top"><div class="alert-dot dot-bad"></div><div>
+          <div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div>
+          <div class="alert-time">Just now</div>
+        </div></div>
+        <div class="alert-body body-bad">Review high-risk orders before shipping. Do not fulfill without verification.</div>
+      </div>` + document.getElementById('alerts-section').innerHTML;
+    document.getElementById('alerts-section').innerHTML = alertHtml;
+  }
 }
-let ra=0;const sw=document.getElementById('sweep');
-setInterval(()=>{ra=(ra+2)%360;sw.style.transform=`rotate(${ra}deg)`;},25);
+
+async function loadShopifyOrders(token, shop) {
+  try {
+    // Vercel proxy üzerinden çek
+    const res = await fetch(`/api/shopify-orders?shop=${shop}&token=${token}`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    renderOrders(data.orders || []);
+  } catch (e) {
+    console.error('Order fetch error:', e);
+    document.getElementById('orders-section').innerHTML =
+      '<div class="no-store">Could not load orders. Please reconnect your store.</div>';
+  }
+}
+
+function showConnectBox() {
+  document.getElementById('connect-section').innerHTML = `
+    <div class="connect-box">
+      <div>
+        <div class="connect-title">Connect your Shopify store to activate protection</div>
+        <div class="connect-sub">BELY AI needs access to your orders & account data · 2 min · No code required</div>
+        <button class="btn-connect" style="margin-top:10px" onclick="connectShopify()">Connect Shopify Store</button>
+      </div>
+    </div>`;
+  document.getElementById('ps-value').textContent = '—';
+  document.getElementById('ps-badge').textContent = 'Not connected';
+  document.getElementById('health-val').textContent = '—';
+  document.getElementById('health-sub').textContent = 'Connect store to see data';
+  document.getElementById('fraud-num').textContent = '—';
+  setTimeout(() => { document.getElementById('hbar').style.width = '0%'; }, 400);
+  setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
+}
+
+function showConnectedBox(shop) {
+  document.getElementById('connect-section').innerHTML = `
+    <div class="connected-box">
+      <div>
+        <div class="connected-info">✔ Store Connected</div>
+        <div class="connected-shop">${shop}</div>
+      </div>
+      <button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button>
+    </div>`;
+  document.getElementById('ps-value').textContent = '80%';
+  document.getElementById('ps-badge').textContent = '+12 this month';
+  document.getElementById('health-val').textContent = '82%';
+  document.getElementById('health-sub').textContent = 'Healthy — No issues';
+  document.getElementById('fraud-num').textContent = '0';
+  setTimeout(() => { document.getElementById('hbar').style.width = '82%'; }, 400);
+  setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
+}
+
+function connectShopify() {
+  const shop = prompt('Enter your Shopify store URL:\n(e.g. belyai.myshopify.com)');
+  if (!shop) return;
+  const cleanShop = shop.replace('https://','').replace('http://','').trim();
+  window.location.href = `https://${cleanShop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
+}
+
+function disconnectStore() {
+  if (!confirm('Disconnect your Shopify store?')) return;
+  localStorage.removeItem('shopify_token');
+  localStorage.removeItem('shopify_shop');
+  showConnectBox();
+  document.getElementById('orders-section').innerHTML = '<div class="no-store">Connect your Shopify store to see real orders</div>';
+}
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'auth.html'; return; }
+  document.getElementById('user-email').textContent = session.user.email;
+
+  const token = localStorage.getItem('shopify_token');
+  const shop = localStorage.getItem('shopify_shop');
+
+  if (token && shop) {
+    showConnectedBox(shop);
+    loadShopifyOrders(token, shop);
+  } else {
+    showConnectBox();
+  }
+}
+
+async function logout() { await sb.auth.signOut(); window.location.href = 'auth.html'; }
+
+let ra = 0;
+const sw = document.getElementById('sweep');
+setInterval(() => { ra = (ra + 2) % 360; sw.style.transform = `rotate(${ra}deg)`; }, 25);
+
 init();
 </script>
 </body>
