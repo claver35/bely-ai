@@ -20,18 +20,25 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .page-sub{font-size:13px;color:#c2c0b6;margin-bottom:16px;display:flex;align-items:center;gap:7px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* TOP ROW — Connect kısa + Platform Score */
-.top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch;flex-direction:row-reverse}
-.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:11px 18px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(0,212,255,0.1);flex:1;justify-content:flex-end}
-.connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
-.connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap}
-.btn-connect{padding:8px 18px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.btn-connect:hover{opacity:.9}
-.platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:16px 28px;text-align:center;min-width:230px;flex-shrink:0;box-shadow:0 0 16px rgba(74,222,128,0.1)}
+/* TOP ROW */
+.top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
+
+/* PLATFORM SCORE — daha büyük */
+.platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:16px 24px;text-align:center;min-width:220px;flex-shrink:0;box-shadow:0 0 20px rgba(74,222,128,0.12)}
+.ps-top{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.ps-badge{background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:8px;padding:2px 8px;font-size:10px;color:#4ade80;font-weight:700}
 .ps-value{font-size:46px;font-weight:800;color:#4ade80;line-height:1;margin-bottom:2px}
 .ps-cap{font-size:13px;color:#86efac;margin-bottom:4px}
 .ps-date{font-size:10px;color:#5F5E5A}
+
+/* CONNECT BOX — kısa, yazılar sola */
+.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:20px;box-shadow:0 0 16px rgba(0,212,255,0.1);align-self:center}
+.connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap;margin-top:2px}
+.btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.btn-connect:hover{opacity:.9}
 
 /* METRİKLER */
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
@@ -43,29 +50,37 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:7px}
 .bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
 
-/* VIZ ROW */
+/* VIZ ROW — Radar + Competitor Comparison */
 .viz-row{display:grid;grid-template-columns:220px 1fr;gap:14px;margin-bottom:16px}
 
 /* RADAR */
 .radar-card{background:#0a0d15;border:0.5px solid rgba(0,212,255,0.25);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center}
 .radar-title{font-size:13px;font-weight:700;color:#00d4ff;letter-spacing:.04em;margin-bottom:2px}
-.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:bl 1.5s infinite;margin-bottom:10px}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:blink 1.5s infinite;margin-bottom:10px}
 .radar-wrap{position:relative;width:150px;height:150px;margin-bottom:10px}
 .radar-svg{width:150px;height:150px}
 .radar-info{font-size:11px;color:#c2c0b6}
 .radar-info span{color:#00d4ff;font-weight:600}
 .radar-threats{font-size:12px;color:#ff6666;font-weight:700;margin-top:6px}
 
-/* NETWORK CARD */
-.network-card{background:#050810;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;overflow:hidden;position:relative}
-.network-header{position:absolute;top:12px;left:16px;z-index:2}
-.network-title{font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.07em}
-.network-sub{font-size:11px;color:#888780;margin-top:2px}
-.network-stats{position:absolute;top:12px;right:16px;z-index:2;text-align:right}
-.network-stat{font-size:11px;color:#c2c0b6;margin-bottom:2px}
-.network-stat span{font-weight:700}
-#netcanvas{display:block;width:100%;height:260px}
+/* COMPETITOR COMPARISON TABLE */
+.compare-card{background:#0d0f1a;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;padding:20px;display:flex;flex-direction:column}
+.compare-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.compare-sub{font-size:12px;color:#888780;margin-bottom:16px}
+.compare-table{width:100%;border-collapse:collapse;flex:1}
+.compare-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:0 0 10px 0;text-align:left;color:#888780;border-bottom:0.5px solid rgba(255,255,255,0.07)}
+.compare-table th.center{text-align:center}
+.compare-table td{padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:12px;color:#c2c0b6;vertical-align:middle}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table td.center{text-align:center}
+.brand-bely{font-weight:700;color:#00d4ff;font-size:13px}
+.brand-rival{color:#888780}
+.check{color:#4ade80;font-size:14px;font-weight:700}
+.cross{color:#ff4444;font-size:14px}
+.price-tag{display:inline-block;background:rgba(0,212,255,0.12);border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:#00d4ff}
+.price-tag-bad{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#888780}
+.highlight-row td{background:rgba(0,212,255,0.04)}
+.bely-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,rgba(0,212,255,0.1),rgba(0,212,255,0.05));border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;color:#00d4ff;margin-left:6px}
 
 /* CARDS */
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
@@ -118,20 +133,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
 
-  <!-- TOP ROW -->
+  <!-- TOP ROW: Platform Score + Connect -->
   <div class="top-row">
+    <div class="platform-score">
+      <div class="ps-top">Platform Score <span class="ps-badge">+12 this month</span></div>
+      <div class="ps-value">80%</div>
+      <div class="ps-cap">Capacity</div>
+      <div class="ps-date">April 2026</div>
+    </div>
     <div class="connect-box">
       <div>
         <div class="connect-title">Connect your Shopify store to activate protection</div>
         <div class="connect-sub">BELY AI needs access to your orders & account data · 2 min · No code required</div>
       </div>
       <button class="btn-connect" onclick="connectShopify()">Connect Shopify Store</button>
-    </div>
-    <div class="platform-score">
-      <div class="ps-top">Platform Score <span class="ps-badge">+12 this month</span></div>
-      <div class="ps-value">80%</div>
-      <div class="ps-cap">Capacity</div>
-      <div class="ps-date">April 2026</div>
     </div>
   </div>
 
@@ -161,7 +176,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
   </div>
 
-  <!-- VIZ: RADAR + NETWORK -->
+  <!-- VIZ: RADAR + COMPARISON -->
   <div class="viz-row">
     <div class="radar-card">
       <div class="radar-title">BELY AI Radar</div>
@@ -186,7 +201,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
           <g id="sweep" style="transform-origin:75px 75px">
             <path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/>
           </g>
-          <!-- Threat dots -->
           <circle cx="52" cy="38" r="4" fill="#ff2222">
             <animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
@@ -209,17 +223,72 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="radar-threats">⚠ 3 threats detected</div>
     </div>
 
-    <!-- NETWORK FLOW -->
-    <div class="network-card">
-      <div class="network-header">
-        <div class="network-title">Global Fraud Detection Network</div>
-        <div class="network-sub">Live transaction flow — red = flagged fraud</div>
-      </div>
-      <div class="network-stats">
-        <div class="network-stat">Transactions: <span style="color:#00d4ff" id="tx-count">1,284</span></div>
-        <div class="network-stat">Flagged: <span style="color:#ff6666" id="flag-count">47</span></div>
-      </div>
-      <canvas id="netcanvas" width="900" height="260"></canvas>
+    <!-- COMPETITOR COMPARISON -->
+    <div class="compare-card">
+      <div class="compare-title">Why stores choose BELY AI <span class="bely-badge">★ Best Value</span></div>
+      <div class="compare-sub">See how we compare to alternatives — protection that actually fits your budget</div>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="center">BELY AI</th>
+            <th class="center">Chargeflow</th>
+            <th class="center">Signifyd</th>
+            <th class="center">No Tool</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>Monthly price</td>
+            <td class="center"><span class="price-tag">$9 / mo</span></td>
+            <td class="center"><span class="price-tag-bad">$150+</span></td>
+            <td class="center"><span class="price-tag-bad">$200+</span></td>
+            <td class="center"><span class="price-tag-bad">$0</span></td>
+          </tr>
+          <tr>
+            <td>Pre-shipment fraud scoring</td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Account health monitoring</td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>AI dispute response writer</td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>2-minute setup, no code</td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+            <td class="center">—</td>
+          </tr>
+          <tr>
+            <td>Chargeback limit alerts</td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="check">✓</span></td>
+            <td class="center"><span class="cross">✗</span></td>
+          </tr>
+          <tr class="highlight-row">
+            <td style="font-weight:600;color:#fff">Avg. monthly savings</td>
+            <td class="center" style="color:#4ade80;font-weight:700">$797</td>
+            <td class="center" style="color:#888780">$200</td>
+            <td class="center" style="color:#888780">$350</td>
+            <td class="center" style="color:#ff6666">-$800+</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -275,130 +344,8 @@ function connectShopify(){
   if(!shop)return;
   window.location.href=`https://${shop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
 }
-
-// RADAR SWEEP
 let ra=0;const sw=document.getElementById('sweep');
 setInterval(()=>{ra=(ra+2)%360;sw.style.transform=`rotate(${ra}deg)`;},25);
-
-// NETWORK ANIMATION
-const nc=document.getElementById('netcanvas');
-const ctx=nc.getContext('2d');
-const NW=nc.width,NH=nc.height;
-
-// Nodes — şehir noktaları
-const nodes=[
-  {x:0.12,y:0.3,name:'New York'},{x:0.08,y:0.25,name:'Toronto'},
-  {x:0.05,y:0.45,name:'Los Angeles'},{x:0.15,y:0.55,name:'São Paulo'},
-  {x:0.42,y:0.2,name:'London'},{x:0.45,y:0.25,name:'Paris'},
-  {x:0.48,y:0.18,name:'Amsterdam'},{x:0.52,y:0.3,name:'Istanbul'},
-  {x:0.55,y:0.4,name:'Dubai'},{x:0.48,y:0.55,name:'Lagos'},
-  {x:0.62,y:0.22,name:'Moscow'},{x:0.68,y:0.3,name:'Delhi'},
-  {x:0.75,y:0.25,name:'Beijing'},{x:0.82,y:0.3,name:'Tokyo'},
-  {x:0.78,y:0.45,name:'Singapore'},{x:0.85,y:0.6,name:'Sydney'},
-  {x:0.35,y:0.15,name:'Oslo'},{x:0.58,y:0.18,name:'Kiev'},
-].map(n=>({...n,x:n.x*NW,y:n.y*NH,r:3+Math.random()*2,pulse:Math.random()*Math.PI*2}));
-
-// Packets — hareketli noktalar
-const packets=[];
-for(let i=0;i<20;i++){
-  const a=nodes[Math.floor(Math.random()*nodes.length)];
-  const b=nodes[Math.floor(Math.random()*nodes.length)];
-  packets.push({from:a,to:b,p:Math.random(),sp:0.004+Math.random()*0.006,fraud:Math.random()<0.22,size:Math.random()*2+1.5});
-}
-
-let frame=0;
-function drawNet(){
-  ctx.clearRect(0,0,NW,NH);
-  ctx.fillStyle='#050810';
-  ctx.fillRect(0,0,NW,NH);
-
-  frame++;
-
-  // Connection lines (static, faint)
-  nodes.forEach((a,i)=>{
-    nodes.forEach((b,j)=>{
-      if(j<=i)return;
-      const dist=Math.hypot(a.x-b.x,a.y-b.y);
-      if(dist<NW*0.25){
-        ctx.beginPath();
-        ctx.moveTo(a.x,a.y);
-        ctx.lineTo(b.x,b.y);
-        ctx.strokeStyle=`rgba(0,212,255,${0.04+0.02*Math.sin(frame*0.02+i)})`;
-        ctx.lineWidth=0.5;
-        ctx.stroke();
-      }
-    });
-  });
-
-  // Packets
-  packets.forEach(pk=>{
-    pk.p+=pk.sp;
-    if(pk.p>1){
-      pk.p=0;
-      pk.from=nodes[Math.floor(Math.random()*nodes.length)];
-      pk.to=nodes[Math.floor(Math.random()*nodes.length)];
-      pk.fraud=Math.random()<0.22;
-    }
-    // Curved path
-    const mx=(pk.from.x+pk.to.x)/2;
-    const my=(pk.from.y+pk.to.y)/2 - 30 - Math.random()*20;
-    const t=pk.p;
-    const px=pk.from.x*(1-t)*(1-t)+2*mx*t*(1-t)+pk.to.x*t*t;
-    const py=pk.from.y*(1-t)*(1-t)+2*my*t*(1-t)+pk.to.y*t*t;
-
-    // Trail
-    ctx.beginPath();
-    ctx.arc(px,py,pk.size,0,Math.PI*2);
-    ctx.fillStyle=pk.fraud?'rgba(255,80,80,0.9)':'rgba(0,212,255,0.85)';
-    ctx.fill();
-
-    if(pk.fraud){
-      ctx.beginPath();ctx.arc(px,py,pk.size+3,0,Math.PI*2);
-      ctx.strokeStyle='rgba(255,60,60,0.4)';ctx.lineWidth=1;ctx.stroke();
-    }
-
-    // Animated arc line
-    ctx.beginPath();
-    ctx.moveTo(pk.from.x,pk.from.y);
-    ctx.quadraticCurveTo(mx,my,px,py);
-    ctx.strokeStyle=pk.fraud?'rgba(255,80,80,0.15)':'rgba(0,212,255,0.12)';
-    ctx.lineWidth=0.7;ctx.stroke();
-  });
-
-  // Nodes
-  nodes.forEach(n=>{
-    n.pulse+=0.05;
-    // Outer ring
-    ctx.beginPath();ctx.arc(n.x,n.y,n.r+2+Math.sin(n.pulse)*1.5,0,Math.PI*2);
-    ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=0.8;ctx.stroke();
-    // Core
-    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(0,212,255,0.9)';ctx.fill();
-    // Label
-    ctx.fillStyle='rgba(0,212,255,0.6)';
-    ctx.font='8px sans-serif';
-    ctx.fillText(n.name,n.x+n.r+3,n.y+3);
-  });
-
-  // Fraud alerts — kırmızı flash
-  if(frame%180<10){
-    ctx.fillStyle='rgba(255,34,34,0.04)';
-    ctx.fillRect(0,0,NW,NH);
-  }
-
-  requestAnimationFrame(drawNet);
-}
-
-// Live counters
-let txn=1284,flg=47;
-setInterval(()=>{
-  txn+=Math.floor(Math.random()*3)+1;
-  if(Math.random()>0.72)flg++;
-  document.getElementById('tx-count').textContent=txn.toLocaleString();
-  document.getElementById('flag-count').textContent=flg;
-},2500);
-
-drawNet();
 init();
 </script>
 </body>
