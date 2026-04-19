@@ -27,29 +27,22 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
   <div class="sub" id="sub">Please wait while we securely connect your store to BELY AI.</div>
   <div class="status" id="status">Verifying authorization...</div>
   <div class="err-box" id="err"></div>
-  <button class="btn" id="btn" onclick="location.href='dashboard.html'">Go to Dashboard →</button>
+  <button class="btn" id="btn">Go to Dashboard</button>
 </div>
-
 <script>
-const sb = window.supabase.createClient(
-  'https://txuanbvyjohgvuynlfyq.supabase.co',
-  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
-);
-
 async function handleCallback() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
   const shop = params.get('shop');
 
   if (!code || !shop) {
-    showError('Missing authorization parameters. Please try connecting again.');
+    showError('Missing authorization parameters.');
     return;
   }
 
   setStatus('Exchanging authorization code...');
 
   try {
-    // 1. Token exchange via Vercel API
     const tokenRes = await fetch('/api/shopify-token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -57,63 +50,38 @@ async function handleCallback() {
     });
 
     const tokenData = await tokenRes.json();
+    setStatus('API response: ' + JSON.stringify(tokenData).substring(0, 100));
 
     if (!tokenData.access_token) {
-      showError('Token exchange failed: ' + (tokenData.error || 'Unknown error'));
+      showError('Token failed: ' + JSON.stringify(tokenData));
       return;
     }
 
-    setStatus('Token received. Saving store connection...');
+    localStorage.setItem('shopify_token', tokenData.access_token);
+    localStorage.setItem('shopify_shop', shop);
 
-    // 2. Supabase session kontrolü
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) {
-      // Session yoksa token'ı localStorage'a kaydet, dashboard halleder
-      localStorage.setItem('shopify_token', tokenData.access_token);
-      localStorage.setItem('shopify_shop', shop);
-    } else {
-      // 3. Supabase'e kaydet
-      await sb.from('shopify_stores').upsert({
-        user_id: session.user.id,
-        shop_domain: shop,
-        access_token: tokenData.access_token,
-        connected_at: new Date().toISOString(),
-        status: 'connected'
-      });
-
-      localStorage.setItem('shopify_token', tokenData.access_token);
-      localStorage.setItem('shopify_shop', shop);
-    }
-
-    // 4. Başarı
     document.getElementById('spinner').style.display = 'none';
-    document.getElementById('title').textContent = 'Store connected successfully!';
-    document.getElementById('sub').textContent = shop + ' is now connected to BELY AI.';
+    document.getElementById('title').textContent = 'Connected!';
     document.getElementById('status').style.color = '#4ade80';
-    document.getElementById('status').textContent = '✔ Connection verified — redirecting to dashboard...';
+    document.getElementById('status').textContent = 'Token: ' + tokenData.access_token.substring(0, 20) + '...';
     document.getElementById('btn').style.display = 'inline-block';
-
-    setTimeout(() => location.href = 'dashboard.html', 2000);
+    document.getElementById('btn').onclick = () => location.href = 'dashboard.html';
 
   } catch (e) {
-    showError('Connection error: ' + e.message);
+    showError('Error: ' + e.message);
   }
 }
 
-function setStatus(msg) {
-  document.getElementById('status').textContent = msg;
-}
-
+function setStatus(msg) { document.getElementById('status').textContent = msg; }
 function showError(msg) {
   document.getElementById('spinner').style.display = 'none';
-  document.getElementById('title').textContent = 'Connection failed';
-  document.getElementById('sub').textContent = 'Something went wrong while connecting your store.';
+  document.getElementById('title').textContent = 'Failed';
   document.getElementById('status').style.display = 'none';
   const err = document.getElementById('err');
   err.textContent = msg;
   err.style.display = 'block';
-  document.getElementById('btn').textContent = 'Try Again →';
-  document.getElementById('btn').onclick = () => location.href = 'auth.html';
+  document.getElementById('btn').textContent = 'Try Again';
+  document.getElementById('btn').onclick = () => location.href = 'dashboard.html';
   document.getElementById('btn').style.display = 'inline-block';
 }
 
