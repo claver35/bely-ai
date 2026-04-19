@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -10,13 +12,11 @@ module.exports = async function handler(req, res) {
     let body = req.body;
     if (typeof body === 'string') body = JSON.parse(body);
 
-    const code = body?.code;
-    const shop = body?.shop;
-
+    const { code, shop, hmac, state, timestamp } = body;
     if (!code || !shop) return res.status(400).json({ error: 'Missing code or shop' });
 
     const secret = process.env.SHOPIFY_CLIENT_SECRET;
-    if (!secret) return res.status(500).json({ error: 'Missing SHOPIFY_CLIENT_SECRET' });
+    if (!secret) return res.status(500).json({ error: 'Missing secret' });
 
     const response = await fetch(`https://${shop}/admin/oauth/access_token`, {
       method: 'POST',
@@ -30,7 +30,8 @@ module.exports = async function handler(req, res) {
 
     const text = await response.text();
     let data;
-    try { data = JSON.parse(text); } catch(e) { return res.status(500).json({ error: 'Shopify non-JSON', raw: text.substring(0,200) }); }
+    try { data = JSON.parse(text); } 
+    catch(e) { return res.status(500).json({ error: 'Shopify non-JSON', raw: text.substring(0, 500) }); }
 
     if (data.access_token) {
       return res.status(200).json({ access_token: data.access_token, shop });
