@@ -9,8 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
 .card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:48px 40px;text-align:center;max-width:420px;width:100%}
-.logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:32px}
-.logo span{color:#00d4ff}
+.logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:32px}.logo span{color:#00d4ff}
 .spinner{width:48px;height:48px;border:3px solid rgba(0,212,255,0.15);border-top-color:#00d4ff;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
@@ -32,67 +31,90 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
 </div>
 
 <script>
-const sb=window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+const sb = window.supabase.createClient(
+  'https://txuanbvyjohgvuynlfyq.supabase.co',
+  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
+);
 
-async function handleCallback(){
-  const params=new URLSearchParams(window.location.search);
-  const code=params.get('code');
-  const shop=params.get('shop');
-  const state=params.get('state');
+async function handleCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const shop = params.get('shop');
 
-  if(!code||!shop){
+  if (!code || !shop) {
     showError('Missing authorization parameters. Please try connecting again.');
     return;
   }
 
-  document.getElementById('status').textContent='Authorization received. Saving store connection...';
+  setStatus('Exchanging authorization code...');
 
-  try{
-    const{data:{session}}=await sb.auth.getSession();
-    if(!session){
-      showError('Session expired. Please sign in again.');
+  try {
+    // 1. Token exchange via Vercel API
+    const tokenRes = await fetch('/api/shopify-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, shop })
+    });
+
+    const tokenData = await tokenRes.json();
+
+    if (!tokenData.access_token) {
+      showError('Token exchange failed: ' + (tokenData.error || 'Unknown error'));
       return;
     }
 
-    // Mağaza bilgisini Supabase'e kaydet
-    const{error}=await sb.from('shopify_stores').upsert({
-      user_id:session.user.id,
-      shop_domain:shop,
-      access_code:code,
-      connected_at:new Date().toISOString(),
-      status:'connected'
-    });
+    setStatus('Token received. Saving store connection...');
 
-    if(error){
-      // Tablo yoksa yine de devam et
-      console.log('DB note:',error.message);
+    // 2. Supabase session kontrolü
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      // Session yoksa token'ı localStorage'a kaydet, dashboard halleder
+      localStorage.setItem('shopify_token', tokenData.access_token);
+      localStorage.setItem('shopify_shop', shop);
+    } else {
+      // 3. Supabase'e kaydet
+      await sb.from('shopify_stores').upsert({
+        user_id: session.user.id,
+        shop_domain: shop,
+        access_token: tokenData.access_token,
+        connected_at: new Date().toISOString(),
+        status: 'connected'
+      });
+
+      localStorage.setItem('shopify_token', tokenData.access_token);
+      localStorage.setItem('shopify_shop', shop);
     }
 
-    document.getElementById('spinner').style.display='none';
-    document.getElementById('title').textContent='Store connected successfully!';
-    document.getElementById('sub').textContent=shop+' has been connected to BELY AI. You\'re now protected.';
-    document.getElementById('status').style.color='#4ade80';
-    document.getElementById('status').textContent='✓ Connection verified — redirecting to dashboard...';
-    document.getElementById('btn').style.display='inline-block';
+    // 4. Başarı
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('title').textContent = 'Store connected successfully!';
+    document.getElementById('sub').textContent = shop + ' is now connected to BELY AI.';
+    document.getElementById('status').style.color = '#4ade80';
+    document.getElementById('status').textContent = '✔ Connection verified — redirecting to dashboard...';
+    document.getElementById('btn').style.display = 'inline-block';
 
-    setTimeout(()=>location.href='dashboard.html',2500);
+    setTimeout(() => location.href = 'dashboard.html', 2000);
 
-  }catch(e){
-    showError('Connection error: '+e.message);
+  } catch (e) {
+    showError('Connection error: ' + e.message);
   }
 }
 
-function showError(msg){
-  document.getElementById('spinner').style.display='none';
-  document.getElementById('title').textContent='Connection failed';
-  document.getElementById('sub').textContent='Something went wrong while connecting your store.';
-  document.getElementById('status').style.display='none';
-  const err=document.getElementById('err');
-  err.textContent=msg;
-  err.style.display='block';
-  document.getElementById('btn').textContent='Try Again →';
-  document.getElementById('btn').onclick=()=>location.href='dashboard.html';
-  document.getElementById('btn').style.display='inline-block';
+function setStatus(msg) {
+  document.getElementById('status').textContent = msg;
+}
+
+function showError(msg) {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('title').textContent = 'Connection failed';
+  document.getElementById('sub').textContent = 'Something went wrong while connecting your store.';
+  document.getElementById('status').style.display = 'none';
+  const err = document.getElementById('err');
+  err.textContent = msg;
+  err.style.display = 'block';
+  document.getElementById('btn').textContent = 'Try Again →';
+  document.getElementById('btn').onclick = () => location.href = 'auth.html';
+  document.getElementById('btn').style.display = 'inline-block';
 }
 
 handleCallback();
