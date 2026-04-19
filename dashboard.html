@@ -428,6 +428,15 @@ function disconnectStore() {
 }
 
 async function init() {
+  // URL'den token al
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlToken = urlParams.get('token');
+  const urlShop = urlParams.get('shop');
+  if (urlToken && urlShop) {
+    localStorage.setItem('shopify_token', urlToken);
+    localStorage.setItem('shopify_shop', urlShop);
+    window.history.replaceState({}, document.title, 'dashboard.html');
+  }
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.href = 'auth.html'; return; }
   document.getElementById('user-email').textContent = session.user.email;
