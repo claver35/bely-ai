@@ -256,13 +256,7 @@ function drawChart(){
     pctx.fillText(m,x,PH-5);
   });
 
-  // Count-up value label
-  const dispVal='$'+Math.round(countVal).toLocaleString();
-  pctx.fillStyle='#4ade80';pctx.font='bold 10px sans-serif';pctx.textAlign='left';
-  pctx.shadowColor='#4ade80';pctx.shadowBlur=6;
-  pctx.fillText(dispVal,pad.l+cw+4,pad.t+ch*0.25);
-  pctx.shadowBlur=0;
-  document.getElementById('profit-val').textContent=dispVal;
+  document.getElementById('profit-val').textContent='$'+Math.round(countVal).toLocaleString();
 
   // GAUGE — sağ üst neon mavi
   const gx=PW-pad.r+38,gy=pad.t+32,gr=26;
