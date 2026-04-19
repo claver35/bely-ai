@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (!shop || !token) return res.status(400).json({ error: 'Missing params' });
 
   const response = await fetch(
-    `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any`,
+    `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any&fulfillment_status=any&financial_status=any`,
     { headers: { 'X-Shopify-Access-Token': token } }
   );
 
