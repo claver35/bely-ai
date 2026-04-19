@@ -101,17 +101,17 @@ body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFo
         <div class="savings-row"><span class="savings-label">BELY AI Pro cost</span><span class="savings-val s-red">– $19</span></div>
         <div class="savings-total"><span class="savings-total-label">Net monthly protection value</span><span class="savings-total-val">+ $797</span></div>
       </div>
-      <div style="background:#0a0d15;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:14px 16px;min-width:210px;box-shadow:0 0 20px rgba(0,212,255,0.08);display:flex;flex-direction:column">
-        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-          <span style="font-size:11px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.06em">Profit Analytics</span>
-          <span style="font-size:12px;font-weight:700;color:#4ade80" id="profit-val">$0</span>
+      <div style="background:#0a0d15;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:16px 18px;flex:1;box-shadow:0 0 20px rgba(0,212,255,0.1);display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+          <span style="font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:.06em">Profit Analytics</span>
+          <span style="font-size:14px;font-weight:700;color:#4ade80" id="profit-val">$0</span>
         </div>
-        <div style="font-size:10px;color:#888780;margin-bottom:8px">Monthly revenue protected</div>
-        <canvas id="profit-chart" width="200" height="85" style="width:100%"></canvas>
-        <div style="display:flex;justify-content:space-between;margin-top:8px">
-          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#4ade80">+42%</div><div style="font-size:9px;color:#888780">Revenue saved</div></div>
-          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#00d4ff">-89%</div><div style="font-size:9px;color:#888780">Fraud blocked</div></div>
-          <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:#fbbf24">$797</div><div style="font-size:9px;color:#888780">Avg. save</div></div>
+        <div style="font-size:11px;color:#888780;margin-bottom:10px">Monthly revenue protected with BELY AI</div>
+        <canvas id="profit-chart" width="400" height="120" style="width:100%;flex:1"></canvas>
+        <div style="display:flex;justify-content:space-around;margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(0,212,255,0.15)">
+          <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#4ade80">+42%</div><div style="font-size:10px;color:#888780">Revenue saved</div></div>
+          <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#00d4ff">-89%</div><div style="font-size:10px;color:#888780">Fraud blocked</div></div>
+          <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#fbbf24">$797</div><div style="font-size:10px;color:#888780">Avg. monthly save</div></div>
         </div>
       </div>
     </div>
@@ -182,86 +182,112 @@ const PW=pc.width,PH=pc.height;
 const months=['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
 const targets=[180,420,680,1100,1600,2200,2800,3200];
 let cur=targets.map(()=>0);
-let animFrame=0,waveOff=0,gaugeAng=-90,gaugeDir=1;
+let animFrame=0,waveOff=0,gaugeAng=0,gaugeDir=1;
 
 function drawChart(){
   animFrame++;
-  waveOff+=0.04;
-  gaugeAng+=1.2*gaugeDir;
-  if(gaugeAng>20||gaugeAng<-160)gaugeDir*=-1;
-  cur=cur.map((v,i)=>Math.min(v+targets[i]*0.05,targets[i]));
-  pctx.clearRect(0,0,PW,PH);
-  const maxV=3600,pad={l:8,r:8,t:10,b:18};
-  const cw=PW-pad.l-pad.r,ch=PH-pad.t-pad.b;
-  const pts=cur.map((v,i)=>({x:pad.l+i*(cw/(months.length-1)),y:pad.t+ch-(v/maxV)*ch}));
+  waveOff+=0.035;
+  gaugeAng+=1.5*gaugeDir;
+  if(gaugeAng>160||gaugeAng<0)gaugeDir*=-1;
 
-  // Grid
-  [0.33,0.66,1].forEach(r=>{
+  const PW=pc.width,PH=pc.height;
+  pctx.clearRect(0,0,PW,PH);
+  const pad={l:10,r:60,t:12,b:20};
+  const cw=PW-pad.l-pad.r,ch=PH-pad.t-pad.b;
+
+  // Grid lines
+  [0.25,0.5,0.75,1].forEach(r=>{
     const y=pad.t+ch*(1-r);
     pctx.beginPath();pctx.moveTo(pad.l,y);pctx.lineTo(PW-pad.r,y);
-    pctx.strokeStyle='rgba(0,212,255,0.07)';pctx.lineWidth=0.5;pctx.stroke();
+    pctx.strokeStyle='rgba(0,212,255,0.06)';pctx.lineWidth=0.5;pctx.stroke();
   });
 
-  // Fill
-  const grad=pctx.createLinearGradient(0,pad.t,0,PH);
-  grad.addColorStop(0,'rgba(0,212,255,0.28)');
-  grad.addColorStop(1,'rgba(0,212,255,0)');
+  // Wave 1 — main trend (rising + wave)
   pctx.beginPath();
-  pctx.moveTo(pts[0].x,pts[0].y);
-  pts.forEach((p,i)=>{if(i>0){const pr=pts[i-1];const mx=(pr.x+p.x)/2;pctx.bezierCurveTo(mx,pr.y,mx,p.y,p.x,p.y);}});
-  pctx.lineTo(pts[pts.length-1].x,PH-pad.b);
-  pctx.lineTo(pts[0].x,PH-pad.b);
-  pctx.closePath();pctx.fillStyle=grad;pctx.fill();
-
-  // Wave overlay on line
-  pctx.beginPath();
-  pts.forEach((p,i)=>{
-    if(i===0){pctx.moveTo(p.x,p.y);}
-    else{
-      const pr=pts[i-1];
-      const mx=(pr.x+p.x)/2;
-      const wave=Math.sin(i*1.5+waveOff)*2.5;
-      pctx.bezierCurveTo(mx,pr.y+wave,mx,p.y+wave,p.x,p.y+wave);
-    }
-  });
+  for(let xi=0;xi<=cw;xi+=2){
+    const progress=xi/cw;
+    const baseH=progress*ch*0.75;
+    const wave1=Math.sin(progress*Math.PI*4+waveOff)*8*(1-progress*0.3);
+    const wave2=Math.sin(progress*Math.PI*2+waveOff*0.7)*4;
+    const y=pad.t+ch-baseH+wave1+wave2;
+    if(xi===0)pctx.moveTo(pad.l+xi,y);
+    else pctx.lineTo(pad.l+xi,y);
+  }
   pctx.strokeStyle='#00d4ff';pctx.lineWidth=2.5;
   pctx.shadowColor='#00d4ff';pctx.shadowBlur=12;
   pctx.stroke();pctx.shadowBlur=0;
 
-  // Dots
-  pts.forEach((p,i)=>{
-    pctx.beginPath();pctx.arc(p.x,p.y,3,0,Math.PI*2);pctx.fillStyle='#fff';pctx.fill();
-    pctx.beginPath();pctx.arc(p.x,p.y,5,0,Math.PI*2);pctx.strokeStyle='#00d4ff';pctx.lineWidth=1.5;pctx.stroke();
-    pctx.fillStyle='rgba(0,212,255,0.5)';pctx.font='7px sans-serif';pctx.textAlign='center';
-    pctx.fillText(months[i],p.x,PH-4);
+  // Fill under wave 1
+  pctx.beginPath();
+  for(let xi=0;xi<=cw;xi+=2){
+    const progress=xi/cw;
+    const baseH=progress*ch*0.75;
+    const wave1=Math.sin(progress*Math.PI*4+waveOff)*8*(1-progress*0.3);
+    const wave2=Math.sin(progress*Math.PI*2+waveOff*0.7)*4;
+    const y=pad.t+ch-baseH+wave1+wave2;
+    if(xi===0)pctx.moveTo(pad.l+xi,y);
+    else pctx.lineTo(pad.l+xi,y);
+  }
+  pctx.lineTo(pad.l+cw,pad.t+ch);pctx.lineTo(pad.l,pad.t+ch);pctx.closePath();
+  const fg=pctx.createLinearGradient(0,pad.t,0,PH);
+  fg.addColorStop(0,'rgba(0,212,255,0.2)');fg.addColorStop(1,'rgba(0,212,255,0)');
+  pctx.fillStyle=fg;pctx.fill();
+
+  // Wave 2 — secondary (pink/purple tone)
+  pctx.beginPath();
+  for(let xi=0;xi<=cw;xi+=2){
+    const progress=xi/cw;
+    const baseH=progress*ch*0.45;
+    const wave=Math.sin(progress*Math.PI*3+waveOff*1.3+1.5)*10;
+    const y=pad.t+ch-baseH+wave;
+    if(xi===0)pctx.moveTo(pad.l+xi,y);
+    else pctx.lineTo(pad.l+xi,y);
+  }
+  pctx.strokeStyle='rgba(192,132,252,0.6)';pctx.lineWidth=1.5;
+  pctx.shadowColor='rgba(192,132,252,0.4)';pctx.shadowBlur=6;
+  pctx.stroke();pctx.shadowBlur=0;
+
+  // Month labels
+  const months=['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+  months.forEach((m,i)=>{
+    const x=pad.l+i*(cw/(months.length-1));
+    pctx.fillStyle='rgba(0,212,255,0.45)';pctx.font='7px sans-serif';pctx.textAlign='center';
+    pctx.fillText(m,x,PH-4);
   });
 
   // Value label
-  const lp=pts[pts.length-1];
-  pctx.fillStyle='#4ade80';pctx.font='bold 9px sans-serif';pctx.textAlign='right';
-  pctx.fillText('$'+Math.round(cur[cur.length-1]).toLocaleString(),PW-pad.r-52,lp.y-8);
-  document.getElementById('profit-val').textContent='$'+Math.round(cur[cur.length-1]).toLocaleString();
+  const finalX=pad.l+cw;
+  const finalProgress=1;
+  const finalY=pad.t+ch-finalProgress*ch*0.75+Math.sin(finalProgress*Math.PI*4+waveOff)*8;
+  pctx.fillStyle='#4ade80';pctx.font='bold 9px sans-serif';pctx.textAlign='left';
+  pctx.fillText('$3,200',finalX+4,finalY+4);
+  document.getElementById('profit-val').textContent='$3,200';
 
-  // Gauge — neon mavi ibre sağ üstte
-  const gx=PW-pad.r-22,gy=pad.t+22,gr=18;
+  // GAUGE — sağ üst, neon mavi ibre
+  const gx=PW-pad.r+38,gy=pad.t+30,gr=24;
+  // Arka yay
   pctx.beginPath();pctx.arc(gx,gy,gr,Math.PI,2*Math.PI);
-  pctx.strokeStyle='rgba(0,212,255,0.15)';pctx.lineWidth=3;pctx.stroke();
-  pctx.beginPath();pctx.arc(gx,gy,gr,Math.PI,2*Math.PI);
-  const gaugeProgress=(gaugeAng+160)/180;
-  const endA=Math.PI+(gaugeProgress*Math.PI);
-  pctx.arc(gx,gy,gr,Math.PI,endA);
-  pctx.strokeStyle='#00d4ff';pctx.lineWidth=3;
-  pctx.shadowColor='#00d4ff';pctx.shadowBlur=8;pctx.stroke();pctx.shadowBlur=0;
-  const ibA=(gaugeAng+90)*Math.PI/180-Math.PI/2;
+  pctx.strokeStyle='rgba(0,212,255,0.12)';pctx.lineWidth=5;pctx.lineCap='round';pctx.stroke();
+  // Dolgu yay
+  const endA=Math.PI+(gaugeAng/180)*Math.PI;
+  pctx.beginPath();pctx.arc(gx,gy,gr,Math.PI,endA);
+  const gg=pctx.createLinearGradient(gx-gr,gy,gx+gr,gy);
+  gg.addColorStop(0,'#0099cc');gg.addColorStop(1,'#00d4ff');
+  pctx.strokeStyle=gg;pctx.lineWidth=5;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=10;pctx.stroke();pctx.shadowBlur=0;
+  // İbre
+  const ibRad=(Math.PI+(gaugeAng/180)*Math.PI);
   pctx.beginPath();
   pctx.moveTo(gx,gy);
-  pctx.lineTo(gx+Math.cos(ibA)*gr*0.8,gy+Math.sin(ibA)*gr*0.8);
-  pctx.strokeStyle='#fff';pctx.lineWidth=1.5;
-  pctx.shadowColor='#00d4ff';pctx.shadowBlur=6;pctx.stroke();pctx.shadowBlur=0;
-  pctx.beginPath();pctx.arc(gx,gy,3,0,Math.PI*2);pctx.fillStyle='#00d4ff';pctx.fill();
+  pctx.lineTo(gx+Math.cos(ibRad)*gr*0.78,gy+Math.sin(ibRad)*gr*0.78);
+  pctx.strokeStyle='#fff';pctx.lineWidth=2;
+  pctx.shadowColor='#00d4ff';pctx.shadowBlur=8;pctx.stroke();pctx.shadowBlur=0;
+  pctx.beginPath();pctx.arc(gx,gy,4,0,Math.PI*2);pctx.fillStyle='#00d4ff';pctx.fill();
+  // Trend label
+  pctx.fillStyle='rgba(0,212,255,0.6)';pctx.font='7px sans-serif';pctx.textAlign='center';
+  pctx.fillText('TREND',gx,gy+gr+10);
 
-  if(animFrame<70)requestAnimationFrame(drawChart);
-  else setTimeout(()=>{cur=targets.map(()=>0);animFrame=0;requestAnimationFrame(drawChart);},7000);
+  requestAnimationFrame(drawChart);
 }
 requestAnimationFrame(drawChart);
 </script>
