@@ -116,11 +116,7 @@ function showError(msg) {
   document.getElementById('btn').onclick = () => location.href = 'auth.html';
   document.getElementById('btn').style.display = 'inline-block';
 }
-// DEBUG
-window.addEventListener('load', () => {
-  const t = localStorage.getItem('shopify_token');
-  if(t) document.getElementById('status').textContent = 'Token: ' + t;
-});
+
 handleCallback();
 </script>
 </body>
