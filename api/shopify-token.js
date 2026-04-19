@@ -7,29 +7,40 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { code, shop } = req.body;
-    if (!code || !shop) return res.status(400).json({ error: 'Missing code or shop' });
+    let body = req.body;
+    
+    // Body string ise parse et
+    if (typeof body === 'string') {
+      body = JSON.parse(body);
+    }
+
+    const code = body?.code;
+    const shop = body?.shop;
+
+    if (!code || !shop) {
+      return res.status(400).json({ error: 'Missing code or shop', received: body });
+    }
+
+    const secret = process.env.SHOPIFY_CLIENT_SECRET;
+    if (!secret) {
+      return res.status(500).json({ error: 'Missing SHOPIFY_CLIENT_SECRET env var' });
+    }
 
     const response = await fetch(`https://${shop}/admin/oauth/access_token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         client_id: '07d3e8554d200c9b99309796104d9434',
-        client_secret: process.env.SHOPIFY_CLIENT_SECRET,
+        client_secret: secret,
         code
       })
     });
 
-    const data = await response.json();
+    const text = await response.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) { return res.status(500).json({ error: 'Shopify returned non-JSON', raw: text.substring(0, 200) }); }
 
     if (data.access_token) {
-      res.setHeader('Set-Cookie', `shopify_token=${data.access_token}; Path=/; HttpOnly; SameSite=Lax`);
-      res.setHeader('Set-Cookie', `shopify_shop=${shop}; Path=/; SameSite=Lax`);
       return res.status(200).json({ access_token: data.access_token, shop });
     } else {
-      return res.status(400).json({ error: 'Token exchange failed', details: data });
-    }
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-}
+      return res.status(400).
