@@ -1,0 +1,15 @@
+name = "BELY AI"
+client_id = "07d3e8554d200c9b99309796104d9434"
+application_url = "https://bely-ai.vercel.app"
+embedded = true
+
+[auth]
+redirect_urls = [
+  "https://bely-ai.vercel.app/auth-callback.html"
+]
+
+[webhooks]
+api_version = "2026-04"
+
+[pos]
+embedded = false
