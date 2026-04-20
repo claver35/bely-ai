@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>BELY AI — Privacy Policy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05070d;
+    --bg-2: #0a0e17;
+    --ink: #e8eefb;
+    --ink-2: #8a96ad;
+    --line: rgba(255,255,255,0.08);
+    --line-2: rgba(255,255,255,0.14);
+    --accent: #4ea8ff;
+    --accent-ink: #001024;
+    --card: rgba(255,255,255,0.03);
+    --radius: 14px;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+    --sans: 'Geist', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav.topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 92%, transparent);
+    border-bottom: 1px solid var(--line);
+    padding: 0 32px;
+  }
+  nav.topbar .inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); text-decoration: none; }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, #4ea8ff, #7dd3ff);
+    display: grid; place-items: center; color: #001024; font-weight: 800; font-family: var(--mono); font-size: 13px;
+  }
+  .back-link { font-size: 14px; color: var(--ink-2); }
+  .back-link:hover { color: var(--ink); text-decoration: none; }
+
+  .shell { max-width: 760px; margin: 0 auto; padding: 64px 32px 120px; }
+
+  .page-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-2); background: var(--card); margin-bottom: 24px;
+  }
+
+  h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; margin: 0 0 8px; }
+  .updated { font-size: 14px; color: var(--ink-2); margin-bottom: 48px; }
+
+  .doc-body h2 {
+    font-size: 20px; font-weight: 700; color: var(--ink);
+    margin: 48px 0 12px; padding-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .doc-body h2:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+  .doc-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin: 0 0 16px; }
+  .doc-body ul { padding-left: 20px; margin: 0 0 16px; }
+  .doc-body ul li { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 8px; }
+  .doc-body strong { color: var(--ink); font-weight: 600; }
+
+  .highlight-box {
+    background: rgba(78,168,255,0.05); border: 1px solid rgba(78,168,255,0.2);
+    border-radius: var(--radius); padding: 20px 24px; margin: 24px 0;
+  }
+  .highlight-box p { margin: 0; color: var(--ink-2); font-size: 14px; }
+  .highlight-box strong { color: #4ea8ff; }
+
+  .contact-card {
+    background: var(--card); border: 1px solid var(--line-2);
+    border-radius: var(--radius); padding: 24px 28px; margin-top: 48px;
+  }
+  .contact-card p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  .contact-card a { color: var(--accent); }
+
+  footer { border-top: 1px solid var(--line); padding: 32px; text-align: center; font-size: 13px; color: var(--ink-2); }
+  footer a { color: var(--ink-2); margin: 0 12px; }
+  footer a:hover { color: var(--ink); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="inner">
+    <a href="index.html" class="brand">
+      <div class="brand-mark">B</div>
+      BELY AI
+    </a>
+    <a href="index.html" class="back-link">← Back to home</a>
+  </div>
+</nav>
+
+<div class="shell">
+  <div class="page-badge">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: April 20, 2025</p>
+
+  <div class="doc-body">
+
+    <div class="highlight-box">
+      <p><strong>Short version:</strong> We collect only what we need to run the service. We do not sell your data. We do not share your customers' data with anyone. You can delete your data at any time.</p>
+    </div>
+
+    <h2>1. Who We Are</h2>
+    <p>BELY AI ("we", "us", "our") is a Shopify risk analysis service available at <a href="https://bely-ai.vercel.app">bely-ai.vercel.app</a>. We are committed to protecting your privacy and the privacy of your customers.</p>
+
+    <h2>2. Information We Collect</h2>
+    <p><strong>Account Information:</strong> When you register, we collect your email address and authentication credentials via Supabase.</p>
+    <p><strong>Shopify Store Data:</strong> When you connect your Shopify store, we access:</p>
+    <ul>
+      <li>Order data (order ID, amount, date, status)</li>
+      <li>Customer information (name, email, shipping address, IP address)</li>
+      <li>Payment method details (card type, last 4 digits — never full card numbers)</li>
+      <li>Order risk indicators provided by Shopify</li>
+    </ul>
+    <p><strong>Usage Data:</strong> We collect basic analytics about how you use our dashboard (page views, feature usage) to improve the Service.</p>
+
+    <h2>3. How We Use Your Information</h2>
+    <p>We use the information we collect to:</p>
+    <ul>
+      <li>Provide and operate the risk scoring service</li>
+      <li>Generate AI-powered risk assessments for your orders</li>
+      <li>Send you alerts about high-risk orders (if enabled)</li>
+      <li>Process payments and manage your subscription</li>
+      <li>Improve and develop new features</li>
+      <li>Respond to support requests</li>
+    </ul>
+    <p><strong>We never use your customers' data to train general AI models or for any purpose outside of providing your risk analysis.</strong></p>
+
+    <h2>4. Data Sharing</h2>
+    <p>We do not sell, rent, or trade your personal data. We share data only with the following trusted service providers necessary to operate BELY AI:</p>
+    <ul>
+      <li><strong>Supabase</strong> — database and authentication</li>
+      <li><strong>Vercel</strong> — hosting and serverless functions</li>
+      <li><strong>Paddle</strong> — payment processing (they handle billing data under their own privacy policy)</li>
+      <li><strong>Resend</strong> — transactional email delivery</li>
+    </ul>
+    <p>We may disclose information if required by law or to protect our rights and the safety of our users.</p>
+
+    <h2>5. Data Security</h2>
+    <p>We take security seriously. Your Shopify access tokens are stored encrypted. All data is transmitted over HTTPS. We use Supabase's row-level security to ensure you can only access your own data. We regularly review our security practices.</p>
+
+    <h2>6. Data Retention</h2>
+    <p>We retain your order data for as long as your account is active. If you cancel your subscription, your data is retained for 30 days to allow for reactivation, then permanently deleted. You can request immediate deletion at any time by contacting us.</p>
+
+    <h2>7. Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Access the personal data we hold about you</li>
+      <li>Request correction of inaccurate data</li>
+      <li>Request deletion of your data</li>
+      <li>Export your data in a portable format</li>
+      <li>Withdraw consent for data processing at any time</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:support@belyai.com">support@belyai.com</a>.</p>
+
+    <h2>8. Cookies</h2>
+    <p>We use minimal cookies necessary for authentication and session management. We do not use advertising or tracking cookies. You can disable cookies in your browser, but this may affect your ability to log in.</p>
+
+    <h2>9. Children's Privacy</h2>
+    <p>BELY AI is a B2B service intended for merchants. We do not knowingly collect personal information from individuals under 18 years of age.</p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy occasionally. We will notify you of material changes via email. Continued use of the Service after changes constitutes acceptance.</p>
+
+    <div class="contact-card">
+      <p>Privacy questions or data requests? Contact us at <a href="mailto:support@belyai.com">support@belyai.com</a></p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div>© 2025 BELY AI. All rights reserved.</div>
+  <div style="margin-top:12px">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="refund.html">Refund Policy</a>
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+
+</body>
+</html>
