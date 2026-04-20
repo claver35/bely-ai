@@ -32,7 +32,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
 .connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap;margin-top:2px}
 .btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.btn-connect:hover{opacity:.9}
 .connected-box{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(74,222,128,0.1);align-self:center}
 .connected-info{font-size:13px;color:#4ade80;font-weight:700}
 .connected-shop{font-size:11px;color:#86efac;margin-top:2px}
@@ -110,12 +109,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     <button class="btn-logout" onclick="logout()">Sign out</button>
   </div>
 </nav>
-
 <div class="main">
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
-
-  <!-- TOP ROW -->
   <div class="top-row">
     <div class="platform-score">
       <div class="ps-top">Platform Score <span class="ps-badge" id="ps-badge">Loading...</span></div>
@@ -125,8 +121,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
     <div id="connect-section"></div>
   </div>
-
-  <!-- METRICS -->
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
@@ -151,258 +145,103 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="metric-sub">High-risk this week</div>
     </div>
   </div>
-
-  <!-- VIZ ROW -->
   <div class="viz-row">
     <div class="radar-card">
       <div class="radar-title">BELY AI Radar</div>
       <div class="radar-live">● LIVE</div>
       <div class="radar-wrap">
         <svg class="radar-svg" viewBox="0 0 150 150">
-          <defs>
-            <radialGradient id="rg" cx="50%" cy="50%">
-              <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.7"/>
-              <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
+          <defs><radialGradient id="rg" cx="50%" cy="50%"><stop offset="0%" stop-color="#00d4ff" stop-opacity="0.7"/><stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/></radialGradient></defs>
           <circle cx="75" cy="75" r="70" fill="none" stroke="rgba(0,212,255,0.12)" stroke-width="1"/>
           <circle cx="75" cy="75" r="52" fill="none" stroke="rgba(0,212,255,0.16)" stroke-width="1"/>
           <circle cx="75" cy="75" r="35" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
           <circle cx="75" cy="75" r="18" fill="none" stroke="rgba(0,212,255,0.28)" stroke-width="1"/>
           <circle cx="75" cy="75" r="5" fill="#00d4ff" opacity="0.9"/>
-          <line x1="75" y1="5" x2="75" y2="145" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
-          <line x1="5" y1="75" x2="145" y2="75" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"/>
-          <g id="sweep" style="transform-origin:75px 75px">
-            <path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/>
-          </g>
-          <circle cx="52" cy="38" r="4" fill="#ff2222">
-            <animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="108" cy="85" r="3.5" fill="#fbbf24">
-            <animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="40" cy="100" r="3" fill="#ff2222">
-            <animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/>
-          </circle>
+          <g id="sweep" style="transform-origin:75px 75px"><path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/></g>
+          <circle cx="52" cy="38" r="4" fill="#ff2222"><animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+          <circle cx="108" cy="85" r="3.5" fill="#fbbf24"><animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+          <circle cx="40" cy="100" r="3" fill="#ff2222"><animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></circle>
         </svg>
       </div>
       <div class="radar-info">Sector: <span>A7</span> · Signal: <span>Strong</span></div>
       <div class="radar-threats" id="radar-threats">⚠ Scanning...</div>
     </div>
-
     <div class="compare-card">
       <div class="compare-title">Why stores choose BELY AI <span class="bely-badge">★ Best Value</span></div>
       <div class="compare-sub">See how we compare to alternatives</div>
       <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th class="center">BELY AI</th>
-            <th class="center">Enterprise A</th>
-            <th class="center">Enterprise B</th>
-            <th class="center">No Tool</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Feature</th><th class="center">BELY AI</th><th class="center">Enterprise A</th><th class="center">Enterprise B</th><th class="center">No Tool</th></tr></thead>
         <tbody>
-          <tr class="highlight-row">
-            <td>Monthly price</td>
-            <td class="center"><span class="price-tag">$9 / mo</span></td>
-            <td class="center"><span class="price-tag-bad">$150+</span></td>
-            <td class="center"><span class="price-tag-bad">$200+</span></td>
-            <td class="center"><span class="price-tag-bad">$0</span></td>
-          </tr>
-          <tr>
-            <td>Pre-shipment fraud scoring</td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-          </tr>
-          <tr>
-            <td>Account health monitoring</td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-          </tr>
-          <tr>
-            <td>AI dispute response writer</td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-          </tr>
-          <tr>
-            <td>2-minute setup, no code</td>
-            <td class="center"><span class="check">✔</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center"><span class="cross">✗</span></td>
-            <td class="center">—</td>
-          </tr>
-          <tr class="highlight-row">
-            <td style="font-weight:600;color:#fff">Avg. monthly savings</td>
-            <td class="center" style="color:#4ade80;font-weight:700">$797</td>
-            <td class="center" style="color:#888780">$200</td>
-            <td class="center" style="color:#888780">$350</td>
-            <td class="center" style="color:#ff6666">-$800+</td>
-          </tr>
+          <tr class="highlight-row"><td>Monthly price</td><td class="center"><span class="price-tag">$9 / mo</span></td><td class="center"><span class="price-tag-bad">$150+</span></td><td class="center"><span class="price-tag-bad">$200+</span></td><td class="center"><span class="price-tag-bad">$0</span></td></tr>
+          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td></tr>
+          <tr><td>Account health monitoring</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td></tr>
+          <tr><td>AI dispute response writer</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td></tr>
+          <tr><td>2-minute setup, no code</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td><td class="center">—</td></tr>
+          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings</td><td class="center" style="color:#4ade80;font-weight:700">$797</td><td class="center" style="color:#888780">$200</td><td class="center" style="color:#888780">$350</td><td class="center" style="color:#ff6666">-$800+</td></tr>
         </tbody>
       </table>
     </div>
   </div>
-
-  <!-- ALERTS + ORDERS -->
   <div class="main-grid">
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
       <div id="alerts-section">
-        <div class="alert-row">
-          <div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div><div class="alert-time">Today, 09:14</div></div></div>
-          <div class="alert-body body-warn">Visa limit 0.65%. You're 0.17% away. Action: Stop shipping high-risk orders now.</div>
-        </div>
-        <div class="alert-row">
-          <div class="alert-top"><div class="alert-dot dot-ok"></div><div><div class="alert-title">✔ Account Health Improved: 78 → 82</div><div class="alert-time">3 days ago</div></div></div>
-          <div class="alert-body body-ok">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
-        </div>
+        <div class="alert-row"><div class="alert-top"><div class="alert-dot dot-warn"></div><div><div class="alert-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div><div class="alert-time">Today, 09:14</div></div></div><div class="alert-body body-warn">Visa limit 0.65%. You're 0.17% away. Action: Stop shipping high-risk orders now.</div></div>
+        <div class="alert-row"><div class="alert-top"><div class="alert-dot dot-ok"></div><div><div class="alert-title">✔ Account Health Improved: 78 → 82</div><div class="alert-time">3 days ago</div></div></div><div class="alert-body body-ok">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div></div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">Recent Orders — Risk Scores <span id="orders-label">Last 24 hours</span></div>
-      <div id="orders-section">
-        <div class="loading-orders">Connect your Shopify store to see real orders</div>
-      </div>
+      <div id="orders-section"><div class="loading-orders">Loading orders...</div></div>
     </div>
   </div>
 </div>
-
 <script>
-const sb = window.supabase.createClient(
-  'https://txuanbvyjohgvuynlfyq.supabase.co',
-  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
-);
-
+const sb = window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
 function getRiskScore(order) {
-  let score = 0;
-  const risks = [];
-
-  // Yeni hesap kontrolü
+  let score = 0; const risks = [];
   const created = new Date(order.customer?.created_at);
   const daysSince = (Date.now() - created) / 86400000;
   if (order.customer && daysSince < 7) { score += 30; risks.push('New customer account (< 7 days)'); }
-
-  // Yüksek tutar kontrolü
   if (parseFloat(order.total_price) > 200) { score += 20; risks.push('High order value'); }
-
-  // Farklı ülke kontrolü
-  if (order.billing_address && order.shipping_address &&
-      order.billing_address.country_code !== order.shipping_address.country_code) {
-    score += 35; risks.push('Billing & shipping in different countries');
-  }
-
-  // Risk seviyesi
+  if (order.billing_address && order.shipping_address && order.billing_address.country_code !== order.shipping_address.country_code) { score += 35; risks.push('Billing & shipping in different countries'); }
   let level, cls;
   if (score >= 50) { level = `HIGH — ${score}%`; cls = 'risk-high'; }
   else if (score >= 25) { level = `MED — ${score}%`; cls = 'risk-med'; }
   else { level = `LOW — ${Math.max(score, 4)}%`; cls = 'risk-low'; }
-
   return { score, level, cls, risks };
 }
-
 function renderOrders(orders) {
   const section = document.getElementById('orders-section');
-  if (!orders || orders.length === 0) {
-    section.innerHTML = '<div class="no-store">No orders found in the last 24 hours.</div>';
-    return;
-  }
-
-  let highRisk = 0;
-  let html = '';
-
+  if (!orders || orders.length === 0) { section.innerHTML = '<div class="no-store">No orders found.</div>'; return; }
+  let highRisk = 0; let html = '';
   orders.slice(0, 5).forEach(order => {
     const risk = getRiskScore(order);
     if (risk.score >= 50) highRisk++;
-
     const rClass = risk.score >= 50 ? 'r-bad' : risk.score >= 25 ? 'r-warn' : 'r-ok';
     const reason = risk.risks.length > 0 ? risk.risks.join(' · ') : 'No risk signals — Safe to ship.';
-
-    html += `
-      <div class="order-row">
-        <div class="order-top">
-          <div>
-            <div class="order-id">#${order.order_number}</div>
-            <div class="order-amount">$${parseFloat(order.total_price).toFixed(2)}</div>
-          </div>
-          <span class="risk-pill ${risk.cls}">${risk.level}</span>
-        </div>
-        <div class="order-reason ${rClass}">${reason}</div>
-      </div>`;
+    html += `<div class="order-row"><div class="order-top"><div><div class="order-id">#${order.order_number}</div><div class="order-amount">$${parseFloat(order.total_price).toFixed(2)}</div></div><span class="risk-pill ${risk.cls}">${risk.level}</span></div><div class="order-reason ${rClass}">${reason}</div></div>`;
   });
-
   section.innerHTML = html;
   document.getElementById('fraud-num').textContent = highRisk;
   document.getElementById('radar-threats').textContent = highRisk > 0 ? `⚠ ${highRisk} threats detected` : '✔ No threats detected';
   document.getElementById('scan-num').textContent = orders.length;
   document.getElementById('orders-label').textContent = `${orders.length} orders loaded`;
-
-  // Alerts güncelle
   if (highRisk > 0) {
-    const alertHtml = `
-      <div class="alert-row">
-        <div class="alert-top"><div class="alert-dot dot-bad"></div><div>
-          <div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div>
-          <div class="alert-time">Just now</div>
-        </div></div>
-        <div class="alert-body body-bad">Review high-risk orders before shipping. Do not fulfill without verification.</div>
-      </div>` + document.getElementById('alerts-section').innerHTML;
-    document.getElementById('alerts-section').innerHTML = alertHtml;
+    document.getElementById('alerts-section').innerHTML = `<div class="alert-row"><div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="alert-time">Just now</div></div></div><div class="alert-body body-bad">Review high-risk orders before shipping.</div></div>` + document.getElementById('alerts-section').innerHTML;
   }
 }
-
 async function loadShopifyOrders(token, shop) {
   try {
-    // Vercel proxy üzerinden çek
     const res = await fetch(`/api/shopify-orders?shop=${shop}&token=${token}`);
-    if (!res.ok) throw new Error('API error');
     const data = await res.json();
     renderOrders(data.orders || []);
   } catch (e) {
-    console.error('Order fetch error:', e);
-    document.getElementById('orders-section').innerHTML =
-      '<div class="no-store">Could not load orders. Please reconnect your store.</div>';
+    document.getElementById('orders-section').innerHTML = '<div class="no-store">Could not load orders.</div>';
   }
 }
-
-function showConnectBox() {
-  document.getElementById('connect-section').innerHTML = `
-    <div class="connect-box">
-      <div>
-        <div class="connect-title">Connect your Shopify store to activate protection</div>
-        <div class="connect-sub">BELY AI needs access to your orders & account data · 2 min · No code required</div>
-        <button class="btn-connect" style="margin-top:10px" onclick="connectShopify()">Connect Shopify Store</button>
-      </div>
-    </div>`;
-  document.getElementById('ps-value').textContent = '—';
-  document.getElementById('ps-badge').textContent = 'Not connected';
-  document.getElementById('health-val').textContent = '—';
-  document.getElementById('health-sub').textContent = 'Connect store to see data';
-  document.getElementById('fraud-num').textContent = '—';
-  setTimeout(() => { document.getElementById('hbar').style.width = '0%'; }, 400);
-  setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
-}
-
 function showConnectedBox(shop) {
-  document.getElementById('connect-section').innerHTML = `
-    <div class="connected-box">
-      <div>
-        <div class="connected-info">✔ Store Connected</div>
-        <div class="connected-shop">${shop}</div>
-      </div>
-      <button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button>
-    </div>`;
+  document.getElementById('connect-section').innerHTML = `<div class="connected-box"><div><div class="connected-info">✔ Store Connected</div><div class="connected-shop">${shop}</div></div><button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button></div>`;
   document.getElementById('ps-value').textContent = '80%';
   document.getElementById('ps-badge').textContent = '+12 this month';
   document.getElementById('health-val').textContent = '82%';
@@ -411,24 +250,13 @@ function showConnectedBox(shop) {
   setTimeout(() => { document.getElementById('hbar').style.width = '82%'; }, 400);
   setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
 }
-
-function connectShopify() {
-  const shop = prompt('Enter your Shopify store URL:\n(e.g. belyai.myshopify.com)');
-  if (!shop) return;
-  const cleanShop = shop.replace('https://','').replace('http://','').trim();
-  window.location.href = `https://${cleanShop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
-}
-
 function disconnectStore() {
   if (!confirm('Disconnect your Shopify store?')) return;
   localStorage.removeItem('shopify_token');
   localStorage.removeItem('shopify_shop');
-  showConnectBox();
-  document.getElementById('orders-section').innerHTML = '<div class="no-store">Connect your Shopify store to see real orders</div>';
+  location.reload();
 }
-
 async function init() {
-  // URL'den token al
   const urlParams = new URLSearchParams(window.location.search);
   const urlToken = urlParams.get('token');
   const urlShop = urlParams.get('shop');
@@ -438,22 +266,17 @@ async function init() {
     window.history.replaceState({}, document.title, 'dashboard.html');
   }
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = 'auth.html'; return; }
+  if (!session) { window.location.href = 'index.html'; return; }
   document.getElementById('user-email').textContent = session.user.email;
-
   const token = localStorage.getItem('shopify_token') || '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';
   const shop = localStorage.getItem('shopify_shop') || 'belyai.myshopify.com';
-
   showConnectedBox(shop);
   loadShopifyOrders(token, shop);
 }
-
-async function logout() { await sb.auth.signOut(); window.location.href = 'auth.html'; }
-
+async function logout() { await sb.auth.signOut(); window.location.href = 'index.html'; }
 let ra = 0;
 const sw = document.getElementById('sweep');
 setInterval(() => { ra = (ra + 2) % 360; sw.style.transform = `rotate(${ra}deg)`; }, 25);
-
 init();
 </script>
 </body>
