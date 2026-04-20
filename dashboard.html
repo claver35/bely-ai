@@ -416,7 +416,7 @@ function connectShopify() {
   const shop = prompt('Enter your Shopify store URL:\n(e.g. belyai.myshopify.com)');
   if (!shop) return;
   const cleanShop = shop.replace('https://','').replace('http://','').trim();
-  window.location.href = `https://${cleanShop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders,read_customers,read_analytics&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
+  window.location.href = `https://${cleanShop}/admin/oauth/authorize?client_id=07d3e8554d200c9b99309796104d9434&scope=read_orders&redirect_uri=https://bely-ai.vercel.app/auth-callback.html&state=${Math.random().toString(36).substring(7)}`;
 }
 
 function disconnectStore() {
