@@ -435,7 +435,7 @@ function disconnectStore() {
   if (!confirm('Disconnect your Shopify store?')) return;
   localStorage.removeItem('shopify_token');
   localStorage.removeItem('shopify_shop');
-  location.reload();
+  window.location.href = 'index.html';
 }
 
 async function init() {
