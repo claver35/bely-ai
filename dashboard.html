@@ -13,6 +13,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .logo-ai{background:linear-gradient(90deg,#00d4ff,#00b3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-right{display:flex;align-items:center;gap:16px}
 .user-email{font-size:13px;color:#c2c0b6}
+.plan-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.plan-free{background:rgba(255,255,255,0.08);color:#c2c0b6;border:0.5px solid rgba(255,255,255,0.15)}
+.plan-trial{background:rgba(251,191,36,0.15);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.3)}
+.plan-starter{background:rgba(0,212,255,0.15);color:#00d4ff;border:0.5px solid rgba(0,212,255,0.3)}
+.plan-pro{background:rgba(74,222,128,0.15);color:#4ade80;border:0.5px solid rgba(74,222,128,0.3)}
 .btn-logout{font-size:13px;padding:7px 16px;border-radius:7px;border:0.5px solid rgba(255,255,255,0.2);background:transparent;color:#c2c0b6;cursor:pointer}
 .btn-logout:hover{background:rgba(255,255,255,0.07);color:#fff}
 .main{padding:20px 32px}
@@ -21,6 +26,43 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ── UPGRADE BANNER ── */
+.upgrade-banner{background:linear-gradient(135deg,#1a0a2e,#0d1a3a);border:1px solid rgba(139,92,246,0.4);border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 0 30px rgba(139,92,246,0.1)}
+.upgrade-banner.trial{border-color:rgba(251,191,36,0.4);background:linear-gradient(135deg,#1a1200,#1a0e00);box-shadow:0 0 30px rgba(251,191,36,0.08)}
+.upgrade-text h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.upgrade-text p{font-size:13px;color:#c2c0b6}
+.upgrade-text p span{color:#fbbf24;font-weight:600}
+.upgrade-btns{display:flex;gap:10px;flex-shrink:0}
+.btn-upgrade{padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.btn-starter{background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff}
+.btn-starter:hover{filter:brightness(1.1)}
+.btn-pro{background:linear-gradient(90deg,#4ade80,#22c55e);color:#000}
+.btn-pro:hover{filter:brightness(1.1)}
+
+/* ── PAYWALL OVERLAY ── */
+.paywall{position:fixed;inset:0;background:rgba(10,12,20,0.92);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.paywall-card{background:#0d0f1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px;max-width:600px;width:100%;text-align:center}
+.paywall-card h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:8px}
+.paywall-card p{font-size:15px;color:#c2c0b6;margin-bottom:32px;line-height:1.6}
+.paywall-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.plan-card{background:#161820;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;cursor:pointer;transition:all .2s;text-align:left}
+.plan-card:hover{border-color:rgba(0,212,255,0.4);background:#1a1e2e}
+.plan-card.popular{border-color:rgba(74,222,128,0.4);background:linear-gradient(135deg,#0d2a0d,#161820)}
+.plan-card .plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c2c0b6;margin-bottom:8px}
+.plan-card .plan-price{font-size:32px;font-weight:800;color:#fff;margin-bottom:4px}
+.plan-card .plan-price span{font-size:14px;color:#c2c0b6;font-weight:400}
+.plan-card .plan-desc{font-size:12px;color:#888780;margin-bottom:16px}
+.plan-card ul{list-style:none;padding:0}
+.plan-card ul li{font-size:12px;color:#c2c0b6;padding:3px 0}
+.plan-card ul li::before{content:'✔ ';color:#4ade80;font-weight:700}
+.plan-card .popular-badge{display:inline-block;background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#4ade80;margin-bottom:8px}
+.btn-plan{width:100%;padding:12px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;border:none;margin-top:16px;transition:all .15s}
+.btn-plan-starter{background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff}
+.btn-plan-pro{background:linear-gradient(90deg,#4ade80,#22c55e);color:#000}
+.btn-plan-starter:hover,.btn-plan-pro:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.paywall-note{font-size:12px;color:#888780}
+
 .top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
 .platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:16px 24px;text-align:center;min-width:220px;flex-shrink:0;box-shadow:0 0 20px rgba(74,222,128,0.12)}
 .ps-top{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
@@ -98,18 +140,69 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
 .loading-orders{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
 .no-store{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
-@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}}
+@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}.paywall-plans{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
+<!-- PAYWALL OVERLAY -->
+<div class="paywall" id="paywall" style="display:none">
+  <div class="paywall-card">
+    <h2>Your free trial has ended</h2>
+    <p>You've used your 3-day free trial. Upgrade now to keep protecting your store from fraud and chargebacks.</p>
+    <div class="paywall-plans">
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$9 <span>/ month</span></div>
+        <div class="plan-desc">Perfect for small stores</div>
+        <ul>
+          <li>Daily account health score</li>
+          <li>Chargeback ratio tracker</li>
+          <li>Email threshold warnings</li>
+          <li>Up to 500 orders/month</li>
+        </ul>
+        <button class="btn-plan btn-plan-starter" onclick="startCheckout('starter')">Start Starter — $9/mo</button>
+      </div>
+      <div class="plan-card popular">
+        <div class="popular-badge">★ Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19 <span>/ month</span></div>
+        <div class="plan-desc">For stores doing $5K–$50K/mo</div>
+        <ul>
+          <li>Unlimited fraud scoring</li>
+          <li>Real-time email alerts</li>
+          <li>Per-order risk report</li>
+          <li>Priority support</li>
+        </ul>
+        <button class="btn-plan btn-plan-pro" onclick="startCheckout('pro')">Start Pro — $19/mo</button>
+      </div>
+    </div>
+    <div class="paywall-note">3-day free trial included · Cancel anytime · Secured by Paddle</div>
+  </div>
+</div>
+
 <nav>
   <div class="logo">BELY <span class="logo-ai">AI</span></div>
   <div class="nav-right">
     <span class="user-email" id="user-email">Loading...</span>
+    <span class="plan-badge plan-trial" id="plan-badge" style="display:none"></span>
     <button class="btn-logout" onclick="logout()">Sign out</button>
   </div>
 </nav>
+
 <div class="main">
+  <!-- UPGRADE BANNER (trial veya free için) -->
+  <div class="upgrade-banner trial" id="upgrade-banner" style="display:none">
+    <div class="upgrade-text">
+      <h3>⚡ Your trial is active</h3>
+      <p>Trial ends in <span id="trial-days">3</span> days. Upgrade now to keep your store protected.</p>
+    </div>
+    <div class="upgrade-btns">
+      <button class="btn-upgrade btn-starter" onclick="startCheckout('starter')">Starter — $9/mo</button>
+      <button class="btn-upgrade btn-pro" onclick="startCheckout('pro')">Pro — $19/mo</button>
+    </div>
+  </div>
+
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
   <div class="top-row">
@@ -196,8 +289,92 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
     </div>
   </div>
 </div>
+
 <script>
 const sb = window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+
+// Paddle Price ID'leri
+const PRICE_IDS = {
+  starter: 'pri_01kpntvkyjz86f9abj5g8396dv',
+  pro: 'pri_01kpnv1whkq97tr638rt08vz09'
+};
+
+let currentUser = null;
+
+async function startCheckout(plan) {
+  if (!currentUser) return;
+  const btn = event.target;
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/paddle-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: PRICE_IDS[plan],
+        email: currentUser.email,
+        userId: currentUser.id,
+        shopDomain: localStorage.getItem('shopify_shop') || ''
+      })
+    });
+    const data = await res.json();
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
+    } else {
+      alert('Could not start checkout. Please try again.');
+      btn.textContent = plan === 'starter' ? 'Start Starter — $9/mo' : 'Start Pro — $19/mo';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    alert('Error. Please try again.');
+    btn.disabled = false;
+  }
+}
+
+function checkPlanStatus(storeData) {
+  const badge = document.getElementById('plan-badge');
+  const banner = document.getElementById('upgrade-banner');
+  const paywall = document.getElementById('paywall');
+
+  if (!storeData) {
+    // Henüz store bağlı değil, trial başlamamış
+    badge.style.display = 'none';
+    return;
+  }
+
+  const plan = storeData.plan || 'free';
+  const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
+  const now = new Date();
+
+  badge.style.display = 'inline-block';
+
+  if (plan === 'starter' || plan === 'pro') {
+    // Ödeme yapılmış, aktif plan
+    badge.className = `plan-badge plan-${plan}`;
+    badge.textContent = plan === 'starter' ? '★ Starter' : '★ Pro';
+    banner.style.display = 'none';
+    paywall.style.display = 'none';
+    return;
+  }
+
+  if (trialEnd && now < trialEnd) {
+    // Trial aktif
+    const daysLeft = Math.ceil((trialEnd - now) / 86400000);
+    badge.className = 'plan-badge plan-trial';
+    badge.textContent = `Trial — ${daysLeft}d left`;
+    document.getElementById('trial-days').textContent = daysLeft;
+    banner.style.display = 'flex';
+    paywall.style.display = 'none';
+    return;
+  }
+
+  // Trial bitti, paywall göster
+  badge.className = 'plan-badge plan-free';
+  badge.textContent = 'Trial Ended';
+  banner.style.display = 'none';
+  paywall.style.display = 'flex';
+}
+
 function getRiskScore(order) {
   let score = 0; const risks = [];
   const created = new Date(order.customer?.created_at);
@@ -211,6 +388,7 @@ function getRiskScore(order) {
   else { level = `LOW — ${Math.max(score, 4)}%`; cls = 'risk-low'; }
   return { score, level, cls, risks };
 }
+
 function renderOrders(orders) {
   const section = document.getElementById('orders-section');
   if (!orders || orders.length === 0) { section.innerHTML = '<div class="no-store">No orders found.</div>'; return; }
@@ -231,6 +409,7 @@ function renderOrders(orders) {
     document.getElementById('alerts-section').innerHTML = `<div class="alert-row"><div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="alert-time">Just now</div></div></div><div class="alert-body body-bad">Review high-risk orders before shipping.</div></div>` + document.getElementById('alerts-section').innerHTML;
   }
 }
+
 async function loadShopifyOrders(token, shop) {
   try {
     const res = await fetch(`/api/shopify-orders?shop=${shop}&token=${token}`);
@@ -240,6 +419,7 @@ async function loadShopifyOrders(token, shop) {
     document.getElementById('orders-section').innerHTML = '<div class="no-store">Could not load orders.</div>';
   }
 }
+
 function showConnectedBox(shop) {
   document.getElementById('connect-section').innerHTML = `<div class="connected-box"><div><div class="connected-info">✔ Store Connected</div><div class="connected-shop">${shop}</div></div><button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button></div>`;
   document.getElementById('ps-value').textContent = '80%';
@@ -250,12 +430,14 @@ function showConnectedBox(shop) {
   setTimeout(() => { document.getElementById('hbar').style.width = '82%'; }, 400);
   setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
 }
+
 function disconnectStore() {
   if (!confirm('Disconnect your Shopify store?')) return;
   localStorage.removeItem('shopify_token');
   localStorage.removeItem('shopify_shop');
   location.reload();
 }
+
 async function init() {
   const urlParams = new URLSearchParams(window.location.search);
   const urlToken = urlParams.get('token');
@@ -265,18 +447,33 @@ async function init() {
     localStorage.setItem('shopify_shop', urlShop);
     window.history.replaceState({}, document.title, 'dashboard.html');
   }
+
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.href = 'index.html'; return; }
+  currentUser = session.user;
   document.getElementById('user-email').textContent = session.user.email;
+
+  // Supabase'den plan bilgisini çek
+  const { data: storeData } = await sb
+    .from('shopify_stores')
+    .select('plan, subscription_status, trial_end_date')
+    .eq('user_id', session.user.id)
+    .single();
+
+  checkPlanStatus(storeData);
+
   const token = localStorage.getItem('shopify_token') || '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';
   const shop = localStorage.getItem('shopify_shop') || 'belyai.myshopify.com';
   showConnectedBox(shop);
   loadShopifyOrders(token, shop);
 }
+
 async function logout() { await sb.auth.signOut(); window.location.href = 'index.html'; }
+
 let ra = 0;
 const sw = document.getElementById('sweep');
 setInterval(() => { ra = (ra + 2) % 360; sw.style.transform = `rotate(${ra}deg)`; }, 25);
+
 init();
 </script>
 </body>
