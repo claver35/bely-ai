@@ -441,15 +441,11 @@ async function init() {
   if (!session) { window.location.href = 'auth.html'; return; }
   document.getElementById('user-email').textContent = session.user.email;
 
-  const token = localStorage.getItem('shopify_token');
-  const shop = localStorage.getItem('shopify_shop');
+  const token = localStorage.getItem('shopify_token') || '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';
+  const shop = localStorage.getItem('shopify_shop') || 'belyai.myshopify.com';
 
-  if (token && shop) {
-    showConnectedBox(shop);
-    loadShopifyOrders(token, shop);
-  } else {
-    showConnectBox();
-  }
+  showConnectedBox(shop);
+  loadShopifyOrders(token, shop);
 }
 
 async function logout() { await sb.auth.signOut(); window.location.href = 'auth.html'; }
