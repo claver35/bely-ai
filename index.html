@@ -709,6 +709,7 @@
   .tweak-opts button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body data-theme="dark-tech">
 
@@ -1760,19 +1761,47 @@ function validateForm(form) {
   return ok;
 }
 
+// Supabase init
+const _sb = window.supabase ? window.supabase.createClient(
+  'https://txuanbvyjohgvuynlfyq.supabase.co',
+  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
+) : null;
+
 ['signin-form','signup-form'].forEach(id => {
   const form = document.getElementById(id);
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!validateForm(form)) return;
     const btn = form.querySelector('button[type="submit"]');
     const orig = btn.textContent;
-    btn.textContent = document.documentElement.lang === 'tr' ? 'Bağlanıyor…' : 'Connecting…';
+    btn.textContent = 'Connecting…';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = '✓ ' + (document.documentElement.lang === 'tr' ? 'Mağaza bağlandı' : 'Store connected');
-      setTimeout(() => { btn.textContent = orig; btn.disabled = false; closeAuth(); }, 1400);
-    }, 1100);
+
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+
+    try {
+      let result;
+      if (id === 'signin-form') {
+        result = await _sb.auth.signInWithPassword({ email, password });
+      } else {
+        result = await _sb.auth.signUp({ email, password });
+      }
+
+      if (result.error) {
+        btn.textContent = orig;
+        btn.disabled = false;
+        const help = form.querySelector('.help') || form.querySelector('input[type="email"]').parentElement.querySelector('.help');
+        if (help) { help.textContent = result.error.message; help.classList.add('err'); }
+        return;
+      }
+
+      btn.textContent = '✓ Connected!';
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+    } catch(err) {
+      btn.textContent = orig;
+      btn.disabled = false;
+    }
   });
   form.querySelectorAll('input').forEach(inp => {
     inp.addEventListener('input', () => {
