@@ -2,14 +2,12 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'no-store');
 
-  const shop = req.query.shop;
-  const token = req.query.token;
-
-  if (!shop || !token) return res.status(400).json({ error: 'Missing params' });
+  const shop = req.query.shop || 'belyai.myshopify.com';
+  const token = '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';
 
   try {
     const response = await fetch(
-      `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any&fields=id,order_number,total_price,created_at,financial_status,fulfillment_status,risk_level`,
+      `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any`,
       { headers: { 'X-Shopify-Access-Token': token } }
     );
     const data = await response.json();
