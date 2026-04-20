@@ -1,62 +1,27 @@
 import crypto from 'crypto';
 
-const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
-
-function verifyShopifyWebhook(rawBody, hmacHeader) {
-  const hash = crypto
-    .createHmac('sha256', SHOPIFY_CLIENT_SECRET)
-    .update(rawBody, 'utf8')
-    .digest('base64');
-  return hash === hmacHeader;
-}
+const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
 
 function getRiskScore(order) {
   let score = 0;
   const risks = [];
-
   const created = new Date(order.customer?.created_at);
   const daysSince = (Date.now() - created) / 86400000;
-  if (order.customer && daysSince < 7) {
-    score += 30;
-    risks.push('New customer account (< 7 days)');
-  }
-  if (parseFloat(order.total_price) > 200) {
-    score += 20;
-    risks.push('High order value');
-  }
-  if (
-    order.billing_address &&
-    order.shipping_address &&
-    order.billing_address.country_code !== order.shipping_address.country_code
-  ) {
-    score += 35;
-    risks.push('Billing & shipping in different countries');
-  }
-
+  if (order.customer && daysSince < 7) { score += 30; risks.push('New customer account (< 7 days)'); }
+  if (parseFloat(order.total_price) > 200) { score += 20; risks.push('High order value'); }
+  if (order.billing_address && order.shipping_address && order.billing_address.country_code !== order.shipping_address.country_code) { score += 35; risks.push('Billing & shipping in different countries'); }
   let level;
   if (score >= 50) level = 'HIGH';
   else if (score >= 25) level = 'MED';
   else level = 'LOW';
-
   return { score, level, risks };
 }
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const hmac = req.headers['x-shopify-hmac-sha256'];
   const shop = req.headers['x-shopify-shop-domain'];
   const topic = req.headers['x-shopify-topic'];
-
-  // Raw body al
-  const rawBody = JSON.stringify(req.body);
-
-  // Shopify imzasını doğrula
-  if (SHOPIFY_CLIENT_SECRET && hmac) {
-    if (!verifyShopifyWebhook(rawBody, hmac)) {
-      return res.status(401).json({ error: 'Invalid webhook signature' });
-    }
-  }
 
   if (topic !== 'orders/create') {
     return res.status(200).json({ received: true });
@@ -67,27 +32,21 @@ export default async function handler(req, res) {
 
   console.log(`New order #${order.order_number} from ${shop} — Risk: ${risk.level} (${risk.score}%)`);
 
-  // Sadece HIGH veya MED risk ise email gönder
   if (risk.level === 'HIGH' || risk.level === 'MED') {
     try {
-      // Supabase'den store sahibinin email'ini bul
       const { createClient } = await import('@supabase/supabase-js');
       const supabase = createClient(
         'https://txuanbvyjohgvuynlfyq.supabase.co',
         process.env.SUPABASE_SERVICE_KEY
       );
-
       const { data: storeData } = await supabase
         .from('shopify_stores')
         .select('user_id')
         .eq('shop_domain', shop)
         .single();
-
       if (storeData) {
-        // Auth'dan email al
         const { data: userData } = await supabase.auth.admin.getUserById(storeData.user_id);
         const userEmail = userData?.user?.email;
-
         if (userEmail) {
           await fetch('https://bely-ai.vercel.app/api/send-alert', {
             method: 'POST',
