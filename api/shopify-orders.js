@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any&fields=id,order_number,total_price,created_at,financial_status,fulfillment_status`,
+      `https://${shop}/admin/api/2024-01/orders.json?limit=10&status=any&fields=id,order_number,total_price,created_at,financial_status,fulfillment_status,risk_level`,
       { headers: { 'X-Shopify-Access-Token': token } }
     );
     const data = await response.json();
