@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET;
+const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
 
 function verifyShopifyWebhook(rawBody, hmacHeader) {
   const hash = crypto
