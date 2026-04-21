@@ -218,6 +218,32 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+@keyframes border-flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes border-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes glow-border{0%,100%{box-shadow:0 0 6px rgba(0,229,255,0.2),inset 0 0 6px rgba(0,229,255,0.05)}50%{box-shadow:0 0 18px rgba(0,229,255,0.45),inset 0 0 12px rgba(0,229,255,0.08)}}
+@keyframes glow-border-green{0%,100%{box-shadow:0 0 6px rgba(0,255,136,0.15),inset 0 0 6px rgba(0,255,136,0.04)}50%{box-shadow:0 0 18px rgba(0,255,136,0.35),inset 0 0 12px rgba(0,255,136,0.07)}}
+@keyframes glow-border-orange{0%,100%{box-shadow:0 0 6px rgba(255,171,0,0.15)}50%{box-shadow:0 0 18px rgba(255,171,0,0.35)}}
+@keyframes glow-border-red{0%,100%{box-shadow:0 0 6px rgba(255,61,87,0.15)}50%{box-shadow:0 0 18px rgba(255,61,87,0.35)}}
+@keyframes top-line-slide{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* Animated borders on cards */
+.mc-green{animation:glow-border-green 3s ease-in-out infinite}
+.mc-orange{animation:glow-border-orange 3s ease-in-out infinite}
+.mc-cyan{animation:glow-border 3s ease-in-out infinite}
+.mc-red{animation:glow-border-red 3s ease-in-out infinite}
+.mc::after{background-size:200% auto!important;animation:top-line-slide 3s linear infinite!important}
+
+/* Animated borders on panels */
+.alerts-panel{animation:glow-border-orange 4s ease-in-out infinite}
+.shopify-panel{animation:glow-border-green 4s ease-in-out infinite}
+.orders-panel{animation:glow-border 4s ease-in-out infinite}
+.radar-panel{animation:float 5s ease-in-out infinite,glow-border 3s ease-in-out infinite}
+
+/* Coming soon tooltip */
+.sb-item[data-soon]{position:relative}
+.sb-item[data-soon]:hover::after{content:'Coming Soon';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--cyan);padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
+.sb-item.billing-btn{cursor:pointer}
+.sb-item.billing-btn:hover{background:rgba(0,229,255,0.08);color:var(--cyan);border-color:rgba(0,229,255,0.2)}
 
 @media(max-width:1100px){.dash{grid-template-columns:1fr}.sidebar{display:none}.metrics-row{grid-template-columns:1fr 1fr}.mid-row,.bottom-row{grid-template-columns:1fr}}
 </style>
@@ -306,16 +332,16 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   <div class="sidebar">
     <div class="sb-section">Command Center</div>
     <div class="sb-item active"><span class="sb-icon">⚡</span> Dashboard</div>
-    <div class="sb-item"><span class="sb-icon">📦</span> Orders <span class="sb-badge" id="hr-count">0</span></div>
-    <div class="sb-item"><span class="sb-icon">🛡️</span> Risk Rules</div>
-    <div class="sb-item"><span class="sb-icon">📊</span> Analytics</div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Orders')"><span class="sb-icon">📦</span> Orders <span class="sb-badge" id="hr-count">0</span></div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Risk Rules')"><span class="sb-icon">🛡️</span> Risk Rules</div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Analytics')"><span class="sb-icon">📊</span> Analytics</div>
     <div class="sb-section">Protection</div>
-    <div class="sb-item"><span class="sb-icon">🔔</span> Alerts</div>
-    <div class="sb-item"><span class="sb-icon">🤖</span> Dispute AI</div>
-    <div class="sb-item"><span class="sb-icon">📈</span> Chargeback Report</div>
+    <div class="sb-item" onclick="document.getElementById('alerts-body').scrollIntoView({behavior:'smooth'})"><span class="sb-icon">🔔</span> Alerts</div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Dispute AI')"><span class="sb-icon">🤖</span> Dispute AI</div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Chargeback Report')"><span class="sb-icon">📈</span> Chargeback Report</div>
     <div class="sb-section">Account</div>
-    <div class="sb-item"><span class="sb-icon">⚙️</span> Settings</div>
-    <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+    <div class="sb-item" data-soon onclick="showComingSoon('Settings')"><span class="sb-icon">⚙️</span> Settings</div>
+    <div class="sb-item billing-btn" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
 
     <!-- SHOPIFY -->
     <div class="sb-shopify" id="sb-shopify">
@@ -518,8 +544,20 @@ const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
 const SHOPIFY_SCOPES = 'read_orders,read_customers';
 let currentUser = null;
 
-// Clock
-setInterval(() => { document.getElementById('live-time').textContent = new Date().toTimeString().slice(0,8); }, 1000);
+// Coming soon toast
+function showComingSoon(name) {
+  let toast = document.getElementById('cs-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'cs-toast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = `⚡ ${name} — Coming Soon`;
+  toast.style.opacity = '1';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+}
 
 // Radar
 let ra = 0;
