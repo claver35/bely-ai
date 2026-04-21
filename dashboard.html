@@ -7,182 +7,182 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0f1117;color:#e8e6e1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid rgba(255,255,255,0.08);background:#0d0f1a}
-.logo{font-size:18px;font-weight:700;color:#fff}
-.logo-ai{background:linear-gradient(90deg,#00d4ff,#00b3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-right{display:flex;align-items:center;gap:16px}
-.user-email{font-size:13px;color:#c2c0b6}
+body{background:#05070d;color:#eeedf8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid rgba(255,255,255,0.08);background:#05070d}
+.logo{font-size:18px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.logo-icon{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#00e5ff,#0099cc);display:grid;place-items:center;font-size:12px;font-weight:700;color:#000}
+.logo-ai{color:#00e5ff}
+.nav-right{display:flex;align-items:center;gap:12px}
+.user-email{font-size:13px;color:#8b90a8}
 .plan-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.plan-free{background:rgba(255,255,255,0.08);color:#c2c0b6;border:0.5px solid rgba(255,255,255,0.15)}
-.plan-trial{background:rgba(251,191,36,0.15);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.3)}
-.plan-starter{background:rgba(0,212,255,0.15);color:#00d4ff;border:0.5px solid rgba(0,212,255,0.3)}
-.plan-pro{background:rgba(74,222,128,0.15);color:#4ade80;border:0.5px solid rgba(74,222,128,0.3)}
-.btn-logout{font-size:13px;padding:7px 16px;border-radius:7px;border:0.5px solid rgba(255,255,255,0.2);background:transparent;color:#c2c0b6;cursor:pointer}
+.plan-free{background:rgba(255,255,255,0.08);color:#8b90a8;border:0.5px solid rgba(255,255,255,0.15)}
+.plan-trial{background:rgba(255,171,0,0.15);color:#ffab00;border:0.5px solid rgba(255,171,0,0.3)}
+.plan-pro{background:rgba(0,229,255,0.15);color:#00e5ff;border:0.5px solid rgba(0,229,255,0.3)}
+.plan-elite{background:rgba(0,230,118,0.15);color:#00e676;border:0.5px solid rgba(0,230,118,0.3)}
+.btn-logout{font-size:13px;padding:7px 16px;border-radius:7px;border:0.5px solid rgba(255,255,255,0.15);background:transparent;color:#8b90a8;cursor:pointer}
 .btn-logout:hover{background:rgba(255,255,255,0.07);color:#fff}
 .main{padding:20px 32px}
-.page-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
-.page-sub{font-size:13px;color:#c2c0b6;margin-bottom:16px;display:flex;align-items:center;gap:7px}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block}
+.page-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.02em}
+.page-sub{font-size:13px;color:#8b90a8;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#00e676;animation:pulse 2s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ── UPGRADE BANNER ── */
-.upgrade-banner{background:linear-gradient(135deg,#1a0a2e,#0d1a3a);border:1px solid rgba(139,92,246,0.4);border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 0 30px rgba(139,92,246,0.1)}
-.upgrade-banner.trial{border-color:rgba(251,191,36,0.4);background:linear-gradient(135deg,#1a1200,#1a0e00);box-shadow:0 0 30px rgba(251,191,36,0.08)}
-.upgrade-text h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.upgrade-text p{font-size:13px;color:#c2c0b6}
-.upgrade-text p span{color:#fbbf24;font-weight:600}
-.upgrade-btns{display:flex;gap:10px;flex-shrink:0}
-.btn-upgrade{padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
-.btn-starter{background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff}
-.btn-starter:hover{filter:brightness(1.1)}
-.btn-pro{background:linear-gradient(90deg,#4ade80,#22c55e);color:#000}
-.btn-pro:hover{filter:brightness(1.1)}
+/* PAYWALL */
+.paywall{position:fixed;inset:0;background:rgba(5,7,13,0.92);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.paywall-card{background:#0a0d18;border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:40px;max-width:640px;width:100%;text-align:center}
+.paywall-card h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.03em}
+.paywall-card p{font-size:15px;color:#8b90a8;margin-bottom:32px;line-height:1.6}
+.paywall-plans{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:560px){.paywall-plans{grid-template-columns:1fr}}
+.plan-opt{background:#0f1220;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:22px;text-align:left;cursor:pointer;transition:all .2s}
+.plan-opt:hover{border-color:rgba(0,229,255,0.3);background:#141830}
+.plan-opt.popular{border-color:rgba(0,229,255,0.35);background:linear-gradient(135deg,rgba(0,229,255,0.06),#0f1220)}
+.plan-opt .pop-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#00e5ff;margin-bottom:6px}
+.plan-opt .plan-n{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b90a8;margin-bottom:6px}
+.plan-opt .plan-p{font-size:28px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.02em}
+.plan-opt .plan-p span{font-size:13px;color:#8b90a8;font-weight:400}
+.plan-opt .plan-d{font-size:12px;color:#8b90a8;margin-bottom:14px;line-height:1.5}
+.plan-opt .roi-note{font-size:12px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:7px;padding:7px 10px;margin-bottom:12px}
+.btn-plan{width:100%;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.btn-plan-pro{background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000}
+.btn-plan-elite{background:linear-gradient(90deg,#00e676,#00b050);color:#000}
+.btn-plan-pro:hover,.btn-plan-elite:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.paywall-note{font-size:12px;color:#555870}
 
-/* ── PAYWALL OVERLAY ── */
-.paywall{position:fixed;inset:0;background:rgba(10,12,20,0.92);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
-.paywall-card{background:#0d0f1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px;max-width:600px;width:100%;text-align:center}
-.paywall-card h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:8px}
-.paywall-card p{font-size:15px;color:#c2c0b6;margin-bottom:32px;line-height:1.6}
-.paywall-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
-.plan-card{background:#161820;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;cursor:pointer;transition:all .2s;text-align:left}
-.plan-card:hover{border-color:rgba(0,212,255,0.4);background:#1a1e2e}
-.plan-card.popular{border-color:rgba(74,222,128,0.4);background:linear-gradient(135deg,#0d2a0d,#161820)}
-.plan-card .plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c2c0b6;margin-bottom:8px}
-.plan-card .plan-price{font-size:32px;font-weight:800;color:#fff;margin-bottom:4px}
-.plan-card .plan-price span{font-size:14px;color:#c2c0b6;font-weight:400}
-.plan-card .plan-desc{font-size:12px;color:#888780;margin-bottom:16px}
-.plan-card ul{list-style:none;padding:0}
-.plan-card ul li{font-size:12px;color:#c2c0b6;padding:3px 0}
-.plan-card ul li::before{content:'✔ ';color:#4ade80;font-weight:700}
-.plan-card .popular-badge{display:inline-block;background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#4ade80;margin-bottom:8px}
-.btn-plan{width:100%;padding:12px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;border:none;margin-top:16px;transition:all .15s}
-.btn-plan-starter{background:linear-gradient(90deg,#00d4ff,#0099cc);color:#fff}
-.btn-plan-pro{background:linear-gradient(90deg,#4ade80,#22c55e);color:#000}
-.btn-plan-starter:hover,.btn-plan-pro:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.paywall-note{font-size:12px;color:#888780}
+/* UPGRADE BANNER */
+.upgrade-banner{background:linear-gradient(135deg,rgba(255,171,0,0.08),rgba(255,171,0,0.03));border:1px solid rgba(255,171,0,0.25);border-radius:12px;padding:16px 22px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.upgrade-text h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.upgrade-text p{font-size:13px;color:#8b90a8}
+.upgrade-text p span{color:#ffab00;font-weight:600}
+.upgrade-btns{display:flex;gap:8px;flex-shrink:0}
+.btn-up{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.btn-up-pro{background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000}
+.btn-up-elite{background:linear-gradient(90deg,#00e676,#00b050);color:#000}
 
-.top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
-.platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:16px 24px;text-align:center;min-width:220px;flex-shrink:0;box-shadow:0 0 20px rgba(74,222,128,0.12)}
-.ps-top{font-size:10px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
-.ps-badge{background:rgba(74,222,128,0.15);border:0.5px solid rgba(74,222,128,0.3);border-radius:8px;padding:2px 8px;font-size:10px;color:#4ade80;font-weight:700}
-.ps-value{font-size:46px;font-weight:800;color:#4ade80;line-height:1;margin-bottom:2px}
-.ps-cap{font-size:13px;color:#86efac;margin-bottom:4px}
-.ps-date{font-size:10px;color:#5F5E5A}
-.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00d4ff;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:20px;box-shadow:0 0 16px rgba(0,212,255,0.1);align-self:center}
-.connect-title{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
-.connect-sub{font-size:11px;color:#c2c0b6;white-space:nowrap;margin-top:2px}
-.btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00d4ff,#0099cc);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.connected-box{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #4ade80;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(74,222,128,0.1);align-self:center}
-.connected-info{font-size:13px;color:#4ade80;font-weight:700}
-.connected-shop{font-size:11px;color:#86efac;margin-top:2px}
+/* SHOPIFY CONNECT */
+.connect-section{flex:1}
+.connect-box{background:linear-gradient(135deg,#0a1628,#0d2040);border:1px solid #00e5ff;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:20px;box-shadow:0 0 16px rgba(0,229,255,0.1)}
+.connect-title{font-size:13px;font-weight:700;color:#fff}
+.connect-sub{font-size:11px;color:#8b90a8;margin-top:2px}
+.btn-connect{padding:9px 20px;border-radius:7px;background:linear-gradient(90deg,#00e5ff,#0099cc);border:none;color:#000;font-size:13px;font-weight:700;cursor:pointer}
+.btn-connect:hover{filter:brightness(1.1)}
+.connected-box{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #00e676;border-radius:10px;padding:14px 20px;display:inline-flex;align-items:center;gap:16px;box-shadow:0 0 16px rgba(0,230,118,0.1)}
+.connected-info{font-size:13px;color:#00e676;font-weight:700}
+.connected-shop{font-size:11px;color:#4ade80;margin-top:2px}
 .btn-disconnect{padding:7px 14px;border-radius:7px;background:transparent;border:0.5px solid rgba(255,100,100,0.4);color:#ff6666;font-size:12px;font-weight:600;cursor:pointer}
+
+/* LAYOUT */
+.top-row{display:flex;gap:12px;margin-bottom:16px;align-items:stretch}
+.platform-score{background:linear-gradient(135deg,#0d2a0d,#1a3a1a);border:1px solid #00e676;border-radius:10px;padding:16px 24px;text-align:center;min-width:220px;flex-shrink:0;box-shadow:0 0 20px rgba(0,230,118,0.12)}
+.ps-top{font-size:10px;font-weight:700;color:#00e676;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.ps-badge{background:rgba(0,230,118,0.15);border:0.5px solid rgba(0,230,118,0.3);border-radius:8px;padding:2px 8px;font-size:10px;color:#00e676;font-weight:700}
+.ps-value{font-size:46px;font-weight:800;color:#00e676;line-height:1;margin-bottom:2px}
+.ps-cap{font-size:13px;color:#4ade80;margin-bottom:4px}
+.ps-date{font-size:10px;color:#555870}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.metric{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:13px 15px}
-.metric-label{font-size:10px;color:#c2c0b6;margin-bottom:5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.metric{background:#0a0d18;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:13px 15px}
+.metric-label{font-size:10px;color:#8b90a8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
 .metric-value{font-size:26px;font-weight:800;margin-bottom:2px;line-height:1}
-.metric-sub{font-size:11px;color:#c2c0b6}
-.val-ok{color:#4ade80}.val-warn{color:#fbbf24}.val-cyan{color:#00d4ff}.val-bad{color:#ff2222}
+.metric-sub{font-size:11px;color:#8b90a8}
+.val-ok{color:#00e676}.val-warn{color:#ffab00}.val-cyan{color:#00e5ff}.val-bad{color:#ff3d57}
 .bar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:7px}
 .bar-fill{height:4px;border-radius:3px;width:0%;transition:width 1.5s ease}
 .viz-row{display:grid;grid-template-columns:220px 1fr;gap:14px;margin-bottom:16px}
-.radar-card{background:#0a0d15;border:0.5px solid rgba(0,212,255,0.25);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.radar-title{font-size:13px;font-weight:700;color:#00d4ff;letter-spacing:.04em;margin-bottom:2px}
-.radar-live{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:.12em;animation:blink 1.5s infinite;margin-bottom:10px}
+.radar-card{background:#0a0d18;border:0.5px solid rgba(0,229,255,0.25);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.radar-title{font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.04em;margin-bottom:2px}
+.radar-live{font-size:10px;color:#00e676;font-weight:700;letter-spacing:.12em;animation:blink 1.5s infinite;margin-bottom:10px}
 .radar-wrap{position:relative;width:150px;height:150px;margin-bottom:10px}
 .radar-svg{width:150px;height:150px}
-.radar-info{font-size:11px;color:#c2c0b6}
-.radar-info span{color:#00d4ff;font-weight:600}
-.radar-threats{font-size:12px;color:#ff6666;font-weight:700;margin-top:6px}
-.compare-card{background:#0d0f1a;border:0.5px solid rgba(0,212,255,0.15);border-radius:12px;padding:20px;display:flex;flex-direction:column}
+.radar-info{font-size:11px;color:#8b90a8}
+.radar-info span{color:#00e5ff;font-weight:600}
+.radar-threats{font-size:12px;color:#ff3d57;font-weight:700;margin-top:6px}
+.compare-card{background:#0a0d18;border:0.5px solid rgba(0,229,255,0.15);border-radius:12px;padding:20px;display:flex;flex-direction:column}
 .compare-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
-.compare-sub{font-size:12px;color:#888780;margin-bottom:16px}
+.compare-sub{font-size:12px;color:#555870;margin-bottom:16px}
 .compare-table{width:100%;border-collapse:collapse;flex:1}
-.compare-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:0 0 10px 0;text-align:left;color:#888780;border-bottom:0.5px solid rgba(255,255,255,0.07)}
+.compare-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:0 0 10px 0;text-align:left;color:#555870;border-bottom:0.5px solid rgba(255,255,255,0.07)}
 .compare-table th.center{text-align:center}
-.compare-table td{padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:12px;color:#c2c0b6;vertical-align:middle}
+.compare-table td{padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:12px;color:#8b90a8;vertical-align:middle}
 .compare-table tr:last-child td{border-bottom:none}
 .compare-table td.center{text-align:center}
-.check{color:#4ade80;font-size:14px;font-weight:700}
-.cross{color:#ff4444;font-size:14px}
-.price-tag{display:inline-block;background:rgba(0,212,255,0.12);border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:#00d4ff}
-.price-tag-bad{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#888780}
-.highlight-row td{background:rgba(0,212,255,0.04)}
-.bely-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,rgba(0,212,255,0.1),rgba(0,212,255,0.05));border:0.5px solid rgba(0,212,255,0.3);border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;color:#00d4ff;margin-left:6px}
+.ck{color:#00e676;font-size:14px;font-weight:700}
+.xx{color:#ff3d57;font-size:14px}
+.price-tag{display:inline-block;background:rgba(0,229,255,0.12);border:0.5px solid rgba(0,229,255,0.3);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:#00e5ff}
+.price-tag-bad{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#555870}
+.highlight-row td{background:rgba(0,229,255,0.04)}
+.bely-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,rgba(0,229,255,0.1),rgba(0,229,255,0.05));border:0.5px solid rgba(0,229,255,0.3);border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;color:#00e5ff;margin-left:6px}
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-.card{background:#161820;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
+.card{background:#0a0d18;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
 .card-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.card-title span{font-size:11px;color:#c2c0b6;font-weight:400}
+.card-title span{font-size:11px;color:#8b90a8;font-weight:400}
 .alert-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .alert-row:last-child{border-bottom:none}
 .alert-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
 .alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.dot-bad{background:#ff2222}.dot-warn{background:#fbbf24}.dot-ok{background:#4ade80}
+.dot-bad{background:#ff3d57}.dot-warn{background:#ffab00}.dot-ok{background:#00e676}
 .alert-title{font-size:13px;font-weight:700;color:#fff;line-height:1.35}
-.alert-time{font-size:11px;color:#c2c0b6;margin-top:2px}
+.alert-time{font-size:11px;color:#8b90a8;margin-top:2px}
 .alert-body{font-size:12px;line-height:1.55;margin-top:5px;padding:7px 10px;border-radius:6px}
-.body-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
-.body-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
-.body-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
+.body-bad{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid #ff3d57}
+.body-warn{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid #ffab00}
+.body-ok{background:rgba(0,230,118,0.07);color:#86efac;border-left:2px solid #00e676}
 .order-row{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .order-row:last-child{border-bottom:none}
 .order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .order-id{font-size:13px;font-weight:700;color:#fff}
-.order-amount{font-size:12px;color:#c2c0b6;margin-top:2px}
+.order-amount{font-size:12px;color:#8b90a8;margin-top:2px}
 .risk-pill{font-size:11px;padding:3px 10px;border-radius:4px;font-weight:700}
-.risk-high{background:rgba(255,34,34,0.15);color:#ff6666;border:0.5px solid rgba(255,34,34,0.35)}
-.risk-med{background:rgba(251,191,36,0.15);color:#fbbf24;border:0.5px solid rgba(251,191,36,0.35)}
-.risk-low{background:rgba(74,222,128,0.15);color:#4ade80;border:0.5px solid rgba(74,222,128,0.35)}
+.risk-high{background:rgba(255,61,87,0.15);color:#ff6b82;border:0.5px solid rgba(255,61,87,0.35)}
+.risk-med{background:rgba(255,171,0,0.15);color:#ffbc33;border:0.5px solid rgba(255,171,0,0.35)}
+.risk-low{background:rgba(0,230,118,0.15);color:#4ade80;border:0.5px solid rgba(0,230,118,0.35)}
 .order-reason{font-size:12px;line-height:1.5;padding:6px 10px;border-radius:6px}
-.r-bad{background:rgba(255,34,34,0.07);color:#fca5a5;border-left:2px solid #ff2222}
-.r-warn{background:rgba(251,191,36,0.07);color:#fde68a;border-left:2px solid #fbbf24}
-.r-ok{background:rgba(74,222,128,0.07);color:#86efac;border-left:2px solid #4ade80}
-.loading-orders{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
-.no-store{text-align:center;padding:30px;color:#c2c0b6;font-size:13px}
-@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}.paywall-plans{grid-template-columns:1fr}}
+.r-bad{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid #ff3d57}
+.r-warn{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid #ffab00}
+.r-ok{background:rgba(0,230,118,0.07);color:#86efac;border-left:2px solid #00e676}
+.loading-orders{text-align:center;padding:30px;color:#8b90a8;font-size:13px}
+.no-store{text-align:center;padding:30px;color:#8b90a8;font-size:13px}
+
+/* FOOTER */
+.dash-footer{border-top:1px solid rgba(255,255,255,0.06);padding:20px 32px;text-align:center;font-size:11px;color:#555870;font-family:monospace;letter-spacing:.04em;text-transform:uppercase}
+.dash-footer span{color:#00e5ff}
+
+@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.main-grid,.viz-row{grid-template-columns:1fr}.top-row{flex-direction:column}.main{padding:16px}.upgrade-banner{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
 
-<!-- PAYWALL OVERLAY -->
+<!-- PAYWALL -->
 <div class="paywall" id="paywall" style="display:none">
   <div class="paywall-card">
     <h2>Your free trial has ended</h2>
-    <p>You've used your 3-day free trial. Upgrade now to keep protecting your store from fraud and chargebacks.</p>
+    <p>Upgrade now to keep your store protected from fraud and chargebacks.<br>One blocked fraud order pays for months of BELY AI.</p>
     <div class="paywall-plans">
-      <div class="plan-card">
-        <div class="plan-name">Starter</div>
-        <div class="plan-price">$9 <span>/ month</span></div>
-        <div class="plan-desc">Perfect for small stores</div>
-        <ul>
-          <li>Daily account health score</li>
-          <li>Chargeback ratio tracker</li>
-          <li>Email threshold warnings</li>
-          <li>Up to 500 orders/month</li>
-        </ul>
-        <button class="btn-plan btn-plan-starter" onclick="startCheckout('starter')">Start Starter — $9/mo</button>
+      <div class="plan-opt popular">
+        <div class="pop-label">★ Most Popular</div>
+        <div class="plan-n">Shield Pro</div>
+        <div class="plan-p">$29.90<span>/mo</span></div>
+        <div class="plan-d">Full protection for stores doing $5K–$50K/mo.</div>
+        <div class="roi-note">💡 Block 1 fraud order = ~3 months paid</div>
+        <button class="btn-plan btn-plan-pro" onclick="startCheckout('pro')">Start Shield Pro →</button>
       </div>
-      <div class="plan-card popular">
-        <div class="popular-badge">★ Most Popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$19 <span>/ month</span></div>
-        <div class="plan-desc">For stores doing $5K–$50K/mo</div>
-        <ul>
-          <li>Unlimited fraud scoring</li>
-          <li>Real-time email alerts</li>
-          <li>Per-order risk report</li>
-          <li>Priority support</li>
-        </ul>
-        <button class="btn-plan btn-plan-pro" onclick="startCheckout('pro')">Start Pro — $19/mo</button>
+      <div class="plan-opt">
+        <div class="plan-n">Shield Elite</div>
+        <div class="plan-p">$49.90<span>/mo</span></div>
+        <div class="plan-d">For high-volume stores doing $50K+/mo.</div>
+        <div class="roi-note">🏆 Advanced analytics + dedicated monitoring</div>
+        <button class="btn-plan btn-plan-elite" onclick="startCheckout('elite')">Start Shield Elite →</button>
       </div>
     </div>
-    <div class="paywall-note">3-day free trial included · Cancel anytime · Secured by Paddle</div>
+    <div class="paywall-note">7-day free trial included · Cancel anytime · Secured by Paddle · Powered by Bely Security Systems</div>
   </div>
 </div>
 
 <nav>
-  <div class="logo">BELY <span class="logo-ai">AI</span></div>
+  <div class="logo">
+    <div class="logo-icon">B</div>
+    BELY <span class="logo-ai">AI</span>
+  </div>
   <div class="nav-right">
     <span class="user-email" id="user-email">Loading...</span>
     <span class="plan-badge plan-trial" id="plan-badge" style="display:none"></span>
@@ -191,41 +191,44 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 </nav>
 
 <div class="main">
-  <!-- UPGRADE BANNER (trial veya free için) -->
-  <div class="upgrade-banner trial" id="upgrade-banner" style="display:none">
+
+  <!-- UPGRADE BANNER -->
+  <div class="upgrade-banner" id="upgrade-banner" style="display:none">
     <div class="upgrade-text">
-      <h3>⚡ Your trial is active</h3>
-      <p>Trial ends in <span id="trial-days">3</span> days. Upgrade now to keep your store protected.</p>
+      <h3>⚡ Your 7-day trial is active</h3>
+      <p>Trial ends in <span id="trial-days">7</span> days. Upgrade to keep your store protected.</p>
     </div>
     <div class="upgrade-btns">
-      <button class="btn-upgrade btn-starter" onclick="startCheckout('starter')">Starter — $9/mo</button>
-      <button class="btn-upgrade btn-pro" onclick="startCheckout('pro')">Pro — $19/mo</button>
+      <button class="btn-up btn-up-pro" onclick="startCheckout('pro')">Shield Pro — $29.90/mo</button>
+      <button class="btn-up btn-up-elite" onclick="startCheckout('elite')">Shield Elite — $49.90/mo</button>
     </div>
   </div>
 
   <div class="page-title">Store Dashboard</div>
   <div class="page-sub"><span class="live-dot"></span> Live monitoring — Last updated just now</div>
+
   <div class="top-row">
     <div class="platform-score">
       <div class="ps-top">Platform Score <span class="ps-badge" id="ps-badge">Loading...</span></div>
       <div class="ps-value" id="ps-value">—</div>
-      <div class="ps-cap">Capacity</div>
-      <div class="ps-date">April 2026</div>
+      <div class="ps-cap">Account Health</div>
+      <div class="ps-date" id="ps-date">April 2026</div>
     </div>
-    <div id="connect-section"></div>
+    <div class="connect-section" id="connect-section"></div>
   </div>
+
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Account Health</div>
       <div class="metric-value val-ok" id="health-val">—</div>
       <div class="metric-sub" id="health-sub">Connecting...</div>
-      <div class="bar-bg"><div class="bar-fill" id="hbar" style="background:#4ade80"></div></div>
+      <div class="bar-bg"><div class="bar-fill" id="hbar" style="background:#00e676"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Chargeback Rate</div>
       <div class="metric-value val-warn">0.48%</div>
       <div class="metric-sub">Limit: 0.65% — 26% buffer</div>
-      <div class="bar-bg"><div class="bar-fill" id="cbar" style="background:#fbbf24"></div></div>
+      <div class="bar-bg"><div class="bar-fill" id="cbar" style="background:#ffab00"></div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Orders Scanned</div>
@@ -238,43 +241,46 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="metric-sub">High-risk this week</div>
     </div>
   </div>
+
   <div class="viz-row">
     <div class="radar-card">
       <div class="radar-title">BELY AI Radar</div>
       <div class="radar-live">● LIVE</div>
       <div class="radar-wrap">
         <svg class="radar-svg" viewBox="0 0 150 150">
-          <defs><radialGradient id="rg" cx="50%" cy="50%"><stop offset="0%" stop-color="#00d4ff" stop-opacity="0.7"/><stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/></radialGradient></defs>
-          <circle cx="75" cy="75" r="70" fill="none" stroke="rgba(0,212,255,0.12)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="52" fill="none" stroke="rgba(0,212,255,0.16)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="35" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="18" fill="none" stroke="rgba(0,212,255,0.28)" stroke-width="1"/>
-          <circle cx="75" cy="75" r="5" fill="#00d4ff" opacity="0.9"/>
+          <defs><radialGradient id="rg" cx="50%" cy="50%"><stop offset="0%" stop-color="#00e5ff" stop-opacity="0.7"/><stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="75" cy="75" r="70" fill="none" stroke="rgba(0,229,255,0.12)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="52" fill="none" stroke="rgba(0,229,255,0.16)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="35" fill="none" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="18" fill="none" stroke="rgba(0,229,255,0.28)" stroke-width="1"/>
+          <circle cx="75" cy="75" r="5" fill="#00e5ff" opacity="0.9"/>
           <g id="sweep" style="transform-origin:75px 75px"><path d="M75 75 L75 5 A70 70 0 0 1 140 75 Z" fill="url(#rg)" opacity="0.5"/></g>
-          <circle cx="52" cy="38" r="4" fill="#ff2222"><animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
-          <circle cx="108" cy="85" r="3.5" fill="#fbbf24"><animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
-          <circle cx="40" cy="100" r="3" fill="#ff2222"><animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></circle>
+          <circle cx="52" cy="38" r="4" fill="#ff3d57"><animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+          <circle cx="108" cy="85" r="3.5" fill="#ffab00"><animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+          <circle cx="40" cy="100" r="3" fill="#ff3d57"><animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></circle>
         </svg>
       </div>
       <div class="radar-info">Sector: <span>A7</span> · Signal: <span>Strong</span></div>
       <div class="radar-threats" id="radar-threats">⚠ Scanning...</div>
     </div>
+
     <div class="compare-card">
       <div class="compare-title">Why stores choose BELY AI <span class="bely-badge">★ Best Value</span></div>
-      <div class="compare-sub">See how we compare to alternatives</div>
+      <div class="compare-sub">One blocked fraud order = ~3 months of Shield Pro paid</div>
       <table class="compare-table">
-        <thead><tr><th>Feature</th><th class="center">BELY AI</th><th class="center">Enterprise A</th><th class="center">Enterprise B</th><th class="center">No Tool</th></tr></thead>
+        <thead><tr><th>Feature</th><th class="center">BELY AI</th><th class="center">Enterprise</th><th class="center">Basic App</th><th class="center">No Tool</th></tr></thead>
         <tbody>
-          <tr class="highlight-row"><td>Monthly price</td><td class="center"><span class="price-tag">$9 / mo</span></td><td class="center"><span class="price-tag-bad">$150+</span></td><td class="center"><span class="price-tag-bad">$200+</span></td><td class="center"><span class="price-tag-bad">$0</span></td></tr>
-          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td></tr>
-          <tr><td>Account health monitoring</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td></tr>
-          <tr><td>AI dispute response writer</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td></tr>
-          <tr><td>2-minute setup, no code</td><td class="center"><span class="check">✔</span></td><td class="center"><span class="cross">✗</span></td><td class="center"><span class="cross">✗</span></td><td class="center">—</td></tr>
-          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings</td><td class="center" style="color:#4ade80;font-weight:700">$797</td><td class="center" style="color:#888780">$200</td><td class="center" style="color:#888780">$350</td><td class="center" style="color:#ff6666">-$800+</td></tr>
+          <tr class="highlight-row"><td>Monthly price</td><td class="center"><span class="price-tag">$29.90</span></td><td class="center"><span class="price-tag-bad">$150+</span></td><td class="center"><span class="price-tag-bad">$50+</span></td><td class="center"><span class="price-tag-bad">$0</span></td></tr>
+          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>Account health monitoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>AI dispute response writer</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>2-minute setup, no code</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
+          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings</td><td class="center" style="color:#00e676;font-weight:700">$797</td><td class="center" style="color:#555870">$200</td><td class="center" style="color:#555870">$80</td><td class="center" style="color:#ff3d57">-$800+</td></tr>
         </tbody>
       </table>
     </div>
   </div>
+
   <div class="main-grid">
     <div class="card">
       <div class="card-title">Account Alerts <span>Active monitoring</span></div>
@@ -290,22 +296,31 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
   </div>
 </div>
 
-<script>
-const sb = window.supabase.createClient('https://txuanbvyjohgvuynlfyq.supabase.co','sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls');
+<div class="dash-footer">
+  Powered by <span>Bely Security Systems</span> · GDPR Aligned · PCI DSS Ready · 256-bit SSL
+</div>
 
-// Paddle Price ID'leri
+<script>
+const sb = window.supabase.createClient(
+  'https://txuanbvyjohgvuynlfyq.supabase.co',
+  'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
+);
+
 const PRICE_IDS = {
-  starter: 'pri_01kpntvkyjz86f9abj5g8396dv',
-  pro: 'pri_01kpnv1whkq97tr638rt08vz09'
+  pro: 'pri_01kpntvkyjz86f9abj5g8396dv',
+  elite: 'pri_01kpnv1whkq97tr638rt08vz09'
 };
+
+const SHOPIFY_CLIENT_ID = '07d3e8554d200c9b99309796104d9434';
+const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
+const SHOPIFY_SCOPES = 'read_orders,read_customers';
 
 let currentUser = null;
 
 async function startCheckout(plan) {
   if (!currentUser) return;
-  const btn = event.target;
-  btn.textContent = 'Loading...';
-  btn.disabled = true;
+  const btns = document.querySelectorAll('.btn-plan, .btn-up');
+  btns.forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
   try {
     const res = await fetch('/api/paddle-checkout', {
       method: 'POST',
@@ -322,13 +337,23 @@ async function startCheckout(plan) {
       window.location.href = data.checkoutUrl;
     } else {
       alert('Could not start checkout. Please try again.');
-      btn.textContent = plan === 'starter' ? 'Start Starter — $9/mo' : 'Start Pro — $19/mo';
-      btn.disabled = false;
+      btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
     }
   } catch (e) {
     alert('Error. Please try again.');
-    btn.disabled = false;
+    btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
   }
+}
+
+function connectShopify() {
+  let shop = prompt('Enter your Shopify store URL:\n(e.g. your-store.myshopify.com)');
+  if (!shop) return;
+  shop = shop.trim().replace('https://','').replace('http://','');
+  if (!shop.includes('.myshopify.com')) shop += '.myshopify.com';
+  const state = Math.random().toString(36).substring(2);
+  sessionStorage.setItem('shopify_state', state);
+  sessionStorage.setItem('shopify_shop', shop);
+  window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
 }
 
 function checkPlanStatus(storeData) {
@@ -336,11 +361,7 @@ function checkPlanStatus(storeData) {
   const banner = document.getElementById('upgrade-banner');
   const paywall = document.getElementById('paywall');
 
-  if (!storeData) {
-    // Henüz store bağlı değil, trial başlamamış
-    badge.style.display = 'none';
-    return;
-  }
+  if (!storeData) { badge.style.display = 'none'; return; }
 
   const plan = storeData.plan || 'free';
   const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
@@ -348,17 +369,21 @@ function checkPlanStatus(storeData) {
 
   badge.style.display = 'inline-block';
 
-  if (plan === 'starter' || plan === 'pro') {
-    // Ödeme yapılmış, aktif plan
-    badge.className = `plan-badge plan-${plan}`;
-    badge.textContent = plan === 'starter' ? '★ Starter' : '★ Pro';
+  if (plan === 'pro' || plan === 'starter') {
+    badge.className = 'plan-badge plan-pro';
+    badge.textContent = '★ Shield Pro';
     banner.style.display = 'none';
     paywall.style.display = 'none';
     return;
   }
-
+  if (plan === 'elite') {
+    badge.className = 'plan-badge plan-elite';
+    badge.textContent = '★ Shield Elite';
+    banner.style.display = 'none';
+    paywall.style.display = 'none';
+    return;
+  }
   if (trialEnd && now < trialEnd) {
-    // Trial aktif
     const daysLeft = Math.ceil((trialEnd - now) / 86400000);
     badge.className = 'plan-badge plan-trial';
     badge.textContent = `Trial — ${daysLeft}d left`;
@@ -367,8 +392,6 @@ function checkPlanStatus(storeData) {
     paywall.style.display = 'none';
     return;
   }
-
-  // Trial bitti, paywall göster
   badge.className = 'plan-badge plan-free';
   badge.textContent = 'Trial Ended';
   banner.style.display = 'none';
@@ -376,12 +399,22 @@ function checkPlanStatus(storeData) {
 }
 
 function getRiskScore(order) {
-  let score = 0; const risks = [];
-  const created = new Date(order.customer?.created_at);
-  const daysSince = (Date.now() - created) / 86400000;
-  if (order.customer && daysSince < 7) { score += 30; risks.push('New customer account (< 7 days)'); }
-  if (parseFloat(order.total_price) > 200) { score += 20; risks.push('High order value'); }
-  if (order.billing_address && order.shipping_address && order.billing_address.country_code !== order.shipping_address.country_code) { score += 35; risks.push('Billing & shipping in different countries'); }
+  let score = 0;
+  const risks = [];
+  if (order.customer) {
+    const created = new Date(order.customer.created_at);
+    const daysSince = (Date.now() - created) / 86400000;
+    if (daysSince < 7) { score += 30; risks.push('New customer account (< 7 days)'); }
+    if (daysSince < 1) { score += 15; risks.push('Account created today'); }
+  }
+  if (parseFloat(order.total_price) > 200) { score += 20; risks.push('High order value ($' + parseFloat(order.total_price).toFixed(0) + ')'); }
+  if (parseFloat(order.total_price) > 500) { score += 15; risks.push('Very high order value'); }
+  if (order.billing_address && order.shipping_address) {
+    if (order.billing_address.country_code !== order.shipping_address.country_code) { score += 35; risks.push('Billing & shipping in different countries'); }
+    if (order.billing_address.city !== order.shipping_address.city) { score += 10; risks.push('Different city for billing vs shipping'); }
+  }
+  if (order.payment_gateway === 'bogus') { score += 20; risks.push('Unusual payment gateway'); }
+  score = Math.min(score, 99);
   let level, cls;
   if (score >= 50) { level = `HIGH — ${score}%`; cls = 'risk-high'; }
   else if (score >= 25) { level = `MED — ${score}%`; cls = 'risk-med'; }
@@ -391,44 +424,74 @@ function getRiskScore(order) {
 
 function renderOrders(orders) {
   const section = document.getElementById('orders-section');
-  if (!orders || orders.length === 0) { section.innerHTML = '<div class="no-store">No orders found.</div>'; return; }
-  let highRisk = 0; let html = '';
-  orders.slice(0, 5).forEach(order => {
+  if (!orders || orders.length === 0) {
+    section.innerHTML = '<div class="no-store">No orders found. Place a test order in your Shopify store to see risk scoring in action.</div>';
+    return;
+  }
+  let highRisk = 0;
+  let html = '';
+  orders.slice(0, 8).forEach(order => {
     const risk = getRiskScore(order);
     if (risk.score >= 50) highRisk++;
     const rClass = risk.score >= 50 ? 'r-bad' : risk.score >= 25 ? 'r-warn' : 'r-ok';
-    const reason = risk.risks.length > 0 ? risk.risks.join(' · ') : 'No risk signals — Safe to ship.';
-    html += `<div class="order-row"><div class="order-top"><div><div class="order-id">#${order.order_number}</div><div class="order-amount">$${parseFloat(order.total_price).toFixed(2)}</div></div><span class="risk-pill ${risk.cls}">${risk.level}</span></div><div class="order-reason ${rClass}">${reason}</div></div>`;
+    const reason = risk.risks.length > 0 ? risk.risks.join(' · ') : 'No risk signals detected — Safe to ship.';
+    html += `<div class="order-row">
+      <div class="order-top">
+        <div><div class="order-id">#${order.order_number}</div><div class="order-amount">$${parseFloat(order.total_price).toFixed(2)} · ${order.shipping_address?.country || 'N/A'}</div></div>
+        <span class="risk-pill ${risk.cls}">${risk.level}</span>
+      </div>
+      <div class="order-reason ${rClass}">${reason}</div>
+    </div>`;
   });
   section.innerHTML = html;
   document.getElementById('fraud-num').textContent = highRisk;
-  document.getElementById('radar-threats').textContent = highRisk > 0 ? `⚠ ${highRisk} threats detected` : '✔ No threats detected';
+  document.getElementById('radar-threats').textContent = highRisk > 0 ? `⚠ ${highRisk} threat${highRisk > 1 ? 's' : ''} detected` : '✔ No threats detected';
   document.getElementById('scan-num').textContent = orders.length;
   document.getElementById('orders-label').textContent = `${orders.length} orders loaded`;
   if (highRisk > 0) {
-    document.getElementById('alerts-section').innerHTML = `<div class="alert-row"><div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="alert-time">Just now</div></div></div><div class="alert-body body-bad">Review high-risk orders before shipping.</div></div>` + document.getElementById('alerts-section').innerHTML;
+    document.getElementById('alerts-section').innerHTML = `
+      <div class="alert-row"><div class="alert-top"><div class="alert-dot dot-bad"></div><div><div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="alert-time">Just now</div></div></div><div class="alert-body body-bad">Review these orders before shipping. Hold until verified.</div></div>
+    ` + document.getElementById('alerts-section').innerHTML;
   }
 }
 
 async function loadShopifyOrders(token, shop) {
   try {
-    const res = await fetch(`/api/shopify-orders?shop=${shop}&token=${token}`);
+    const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}&token=${encodeURIComponent(token)}`);
     const data = await res.json();
     renderOrders(data.orders || []);
   } catch (e) {
-    document.getElementById('orders-section').innerHTML = '<div class="no-store">Could not load orders.</div>';
+    document.getElementById('orders-section').innerHTML = '<div class="no-store">Could not load orders. Check your Shopify connection.</div>';
   }
 }
 
 function showConnectedBox(shop) {
-  document.getElementById('connect-section').innerHTML = `<div class="connected-box"><div><div class="connected-info">✔ Store Connected</div><div class="connected-shop">${shop}</div></div><button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button></div>`;
-  document.getElementById('ps-value').textContent = '80%';
-  document.getElementById('ps-badge').textContent = '+12 this month';
+  document.getElementById('connect-section').innerHTML = `
+    <div class="connected-box">
+      <div>
+        <div class="connected-info">✔ Store Connected</div>
+        <div class="connected-shop">${shop}</div>
+      </div>
+      <button class="btn-disconnect" onclick="disconnectStore()">Disconnect</button>
+    </div>`;
+  document.getElementById('ps-value').textContent = '82';
+  document.getElementById('ps-badge').textContent = 'Healthy';
   document.getElementById('health-val').textContent = '82%';
-  document.getElementById('health-sub').textContent = 'Healthy — No issues';
+  document.getElementById('health-sub').textContent = 'Healthy — No critical issues';
   document.getElementById('fraud-num').textContent = '0';
   setTimeout(() => { document.getElementById('hbar').style.width = '82%'; }, 400);
   setTimeout(() => { document.getElementById('cbar').style.width = '74%'; }, 600);
+}
+
+function showConnectBox() {
+  document.getElementById('connect-section').innerHTML = `
+    <div class="connect-box">
+      <div>
+        <div class="connect-title">Connect your Shopify store</div>
+        <div class="connect-sub">Start protecting your orders in 2 minutes</div>
+      </div>
+      <button class="btn-connect" onclick="connectShopify()">Connect Shopify →</button>
+    </div>`;
 }
 
 function disconnectStore() {
@@ -450,25 +513,45 @@ async function init() {
 
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.href = 'index.html'; return; }
+
   currentUser = session.user;
   document.getElementById('user-email').textContent = session.user.email;
 
-  // Supabase'den plan bilgisini çek
+  // Plan kontrolü
   const { data: storeData } = await sb
     .from('shopify_stores')
-    .select('plan, subscription_status, trial_end_date')
+    .select('plan, subscription_status, trial_end_date, shop_domain, access_token')
     .eq('user_id', session.user.id)
     .single();
 
   checkPlanStatus(storeData);
 
-  const token = localStorage.getItem('shopify_token') || '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';
-  const shop = localStorage.getItem('shopify_shop') || 'belyai.myshopify.com';
-  showConnectedBox(shop);
-  loadShopifyOrders(token, shop);
+  // Shopify bağlantısı
+  const token = localStorage.getItem('shopify_token') || (storeData?.access_token) || null;
+  const shop = localStorage.getItem('shopify_shop') || (storeData?.shop_domain) || null;
+
+  if (token && shop) {
+    showConnectedBox(shop);
+    loadShopifyOrders(token, shop);
+  } else {
+    showConnectBox();
+    document.getElementById('orders-section').innerHTML = '<div class="no-store">Connect your Shopify store to start scanning orders.</div>';
+    document.getElementById('fraud-num').textContent = '0';
+    document.getElementById('scan-num').textContent = '0';
+    document.getElementById('radar-threats').textContent = '○ No store connected';
+    document.getElementById('ps-value').textContent = '—';
+    document.getElementById('ps-badge').textContent = 'Not connected';
+    document.getElementById('health-val').textContent = '—';
+    document.getElementById('health-sub').textContent = 'Connect your store to start';
+  }
 }
 
-async function logout() { await sb.auth.signOut(); window.location.href = 'index.html'; }
+async function logout() {
+  await sb.auth.signOut();
+  localStorage.removeItem('shopify_token');
+  localStorage.removeItem('shopify_shop');
+  window.location.href = 'index.html';
+}
 
 let ra = 0;
 const sw = document.getElementById('sweep');
