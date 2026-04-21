@@ -746,7 +746,7 @@ async function checkAuth() {
 checkAuth();
 
 // ── SHOPIFY CONNECT ──
-const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
+const SHOPIFY_CLIENT_ID = '07d3e8554d200c9b99309796104d9434';
 const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
 const SHOPIFY_SCOPES = 'read_orders,read_customers';
 
@@ -806,24 +806,60 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = 'Creating account…'; btn.disabled = true;
   const email = e.target.querySelector('input[type=email]').value;
   const password = e.target.querySelector('input[type=password]').value;
-  const shop = e.target.querySelector('input[name=store]').value.trim();
-  const { error } = await sb.auth.signUp({ email, password });
-  if (error) {
-    btn.textContent = 'Create account — start free →'; btn.disabled = false;
-    e.target.querySelectorAll('.help')[1].textContent = error.message;
+  let shop = e.target.querySelector('input[name=store]').value.trim();
+
+  // Validasyon
+  if (!email || !password) {
+    e.target.querySelectorAll('.help')[1].textContent = 'Please fill all fields.';
     e.target.querySelectorAll('.help')[1].classList.add('err');
-  } else {
-    btn.textContent = '✓ Account created!';
-    if (shop) {
-      sessionStorage.setItem('pending_shop', shop);
-      setTimeout(() => connectShopify(), 800);
-    } else {
-      setTimeout(() => location.href = 'dashboard.html', 700);
-    }
+    return;
   }
+  if (!shop) {
+    e.target.querySelectorAll('.help')[0].textContent = 'Please enter your Shopify store URL.';
+    e.target.querySelectorAll('.help')[0].classList.add('err');
+    return;
+  }
+
+  // Shop URL düzenle
+  shop = shop.replace('https://','').replace('http://','').replace(/\/$/,'');
+  if (!shop.includes('.myshopify.com')) shop = shop + '.myshopify.com';
+
+  btn.textContent = 'Creating account…'; btn.disabled = true;
+
+  // Önce mevcut kullanıcı var mı dene (sign in)
+  const { data: signInData, error: signInError } = await sb.auth.signInWithPassword({ email, password });
+
+  if (!signInError && signInData.session) {
+    // Zaten kayıtlı, giriş yaptı → Shopify'a yönlendir
+    btn.textContent = '✓ Signed in! Connecting Shopify…';
+    sessionStorage.setItem('pending_shop', shop);
+    setTimeout(() => {
+      const state = Math.random().toString(36).substring(2);
+      sessionStorage.setItem('shopify_state', state);
+      window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+    }, 800);
+    return;
+  }
+
+  // Yeni kayıt
+  const { error: signUpError } = await sb.auth.signUp({ email, password });
+  if (signUpError) {
+    btn.textContent = 'Create account — start free →'; btn.disabled = false;
+    e.target.querySelectorAll('.help')[1].textContent = signUpError.message;
+    e.target.querySelectorAll('.help')[1].classList.add('err');
+    return;
+  }
+
+  // Kayıt başarılı → Shopify'a yönlendir
+  btn.textContent = '✓ Account created! Connecting Shopify…';
+  sessionStorage.setItem('pending_shop', shop);
+  setTimeout(() => {
+    const state = Math.random().toString(36).substring(2);
+    sessionStorage.setItem('shopify_state', state);
+    window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+  }, 800);
 });
 
 // ── ROI CALCULATOR ──
