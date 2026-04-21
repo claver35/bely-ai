@@ -10,35 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  --bg: #05070d;
-  --bg-2: #0a0d18;
-  --bg-3: #0f1220;
-  --ink: #eeedf8;
-  --ink-2: #8b90a8;
-  --ink-3: #555870;
-  --line: rgba(255,255,255,0.07);
-  --line-2: rgba(255,255,255,0.12);
-  --accent: #00e5ff;
-  --accent-2: #0099cc;
-  --accent-glow: rgba(0,229,255,0.15);
-  --good: #00e676;
-  --warn: #ffab00;
-  --danger: #ff3d57;
-  --card: rgba(255,255,255,0.03);
-  --card-2: rgba(255,255,255,0.055);
-  --r: 12px;
-  --sans: 'Syne', system-ui, sans-serif;
-  --mono: 'DM Mono', ui-monospace, monospace;
-  --serif: 'Instrument Serif', Georgia, serif;
-}
+:root{--bg:#05070d;--bg-2:#0a0d18;--bg-3:#0f1220;--ink:#eeedf8;--ink-2:#8b90a8;--ink-3:#555870;--line:rgba(255,255,255,0.07);--line-2:rgba(255,255,255,0.12);--accent:#00e5ff;--accent-2:#0099cc;--accent-glow:rgba(0,229,255,0.15);--good:#00e676;--warn:#ffab00;--danger:#ff3d57;--card:rgba(255,255,255,0.03);--card-2:rgba(255,255,255,0.055);--r:12px;--sans:'Syne',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;--serif:'Instrument Serif',Georgia,serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer}
-img{max-width:100%}
-
-/* ── NAV ── */
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
+/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 32px}
 .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em}
@@ -47,35 +23,36 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.88);backdrop-filt
 .brand-icon span{position:relative;z-index:1}
 .nav-links{display:flex;gap:28px;color:var(--ink-2);font-size:14px;font-weight:500}
 .nav-links a:hover{color:var(--ink)}
-.nav-right{display:flex;align-items:center;gap:10px}
+.nav-right{display:flex;align-items:center;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:600;border:1px solid transparent;transition:all .15s;font-family:var(--sans)}
 .btn-ghost{background:transparent;border-color:var(--line-2);color:var(--ink)}
 .btn-ghost:hover{background:var(--card-2)}
 .btn-primary{background:var(--accent);color:#000;border-color:var(--accent)}
 .btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 20px var(--accent-glow)}
 .btn-lg{padding:14px 24px;font-size:15px}
+/* LANG */
+.lang-sw{display:flex;align-items:center;gap:2px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:8px;padding:3px}
+.lang-btn{padding:4px 10px;border-radius:6px;border:none;background:transparent;color:var(--ink-3);font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.04em}
+.lang-btn.on{background:var(--accent);color:#000}
+.lang-btn:not(.on):hover{color:var(--ink)}
 @media(max-width:820px){.nav-links{display:none}}
-
-/* ── HERO ── */
+/* HERO */
 .hero{padding:90px 32px 60px;max-width:1280px;margin:0 auto}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:40px}}
-
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;border:1px solid rgba(0,229,255,0.25);background:rgba(0,229,255,0.06);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:20px}
 .pulse{width:6px;height:6px;border-radius:50%;background:var(--good);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
 h1{font-size:clamp(42px,6vw,80px);line-height:.97;letter-spacing:-.04em;font-weight:800;margin-bottom:22px}
 h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--accent)}
 .hero-sub{font-size:17px;line-height:1.6;color:var(--ink-2);max-width:520px;margin-bottom:30px}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
 .trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
 .trust-pills span::before{content:'✓ ';color:var(--good)}
-
-.roi-highlight{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6}
-.roi-highlight strong{color:var(--accent);font-size:16px}
-
-.demo-card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:20px;overflow:hidden;position:relative}
+.roi-hl{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6}
+.roi-hl strong{color:var(--accent);font-size:16px}
+/* DEMO */
+.demo-card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:20px;position:relative;overflow:hidden}
 .demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
 .demo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .demo-title{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
@@ -84,30 +61,26 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .order-item:last-child{margin-bottom:0}
 .order-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .order-id{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
-.order-amt{font-weight:700;font-size:14px}
 .risk-chip{font-family:var(--mono);font-size:11px;font-weight:500;padding:3px 10px;border-radius:5px}
 .risk-high{background:rgba(255,61,87,0.15);color:#ff6b82;border:1px solid rgba(255,61,87,0.3)}
 .risk-med{background:rgba(255,171,0,0.15);color:#ffbc33;border:1px solid rgba(255,171,0,0.3)}
 .risk-low{background:rgba(0,230,118,0.15);color:#33eb95;border:1px solid rgba(0,230,118,0.3)}
 .order-bar-bg{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:8px}
-.order-bar{height:3px;border-radius:2px;transition:width 1.2s ease}
+.order-bar{height:3px;border-radius:2px}
 .order-reason{font-size:11px;color:var(--ink-3);margin-top:6px;font-family:var(--mono)}
-
-/* ── TICKER ── */
+/* TICKER */
 .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);padding:13px 0;overflow:hidden;margin:48px 0 0}
-.ticker-track{display:flex;gap:0;white-space:nowrap;animation:slide 40s linear infinite}
+.ticker-track{display:flex;white-space:nowrap;animation:slide 40s linear infinite}
 .ticker-item{display:inline-flex;align-items:center;gap:10px;padding:0 32px;font-family:var(--mono);font-size:12px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em}
 .ticker-item b{color:var(--ink);font-weight:500}
 .ticker-sep{color:var(--accent);font-size:10px}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ── SECTIONS ── */
+/* SECTIONS */
 .section{padding:88px 32px;max-width:1280px;margin:0 auto}
 .sec-label{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px}
 .sec-title{font-size:clamp(30px,4vw,52px);line-height:1.04;letter-spacing:-.03em;font-weight:800;margin-bottom:14px}
 .sec-sub{font-size:16px;color:var(--ink-2);line-height:1.6;max-width:600px}
 .sec-head{margin-bottom:48px}
-
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 @media(max-width:860px){.why-grid{grid-template-columns:1fr}}
 .why-cell{background:var(--bg);padding:32px;display:flex;flex-direction:column;gap:14px}
@@ -115,7 +88,6 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .why-ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:rgba(0,229,255,0.1);color:var(--accent)}
 .why-head{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
 .why-body{font-size:14px;color:var(--ink-2);line-height:1.65}
-
 .roi-proof{background:linear-gradient(135deg,rgba(0,229,255,0.06),rgba(0,153,204,0.02));border:1px solid rgba(0,229,255,0.15);border-radius:16px;padding:48px;margin-bottom:48px}
 .roi-proof h3{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
 .roi-proof p{font-size:16px;color:var(--ink-2);line-height:1.65;margin-bottom:20px;max-width:680px}
@@ -124,7 +96,6 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .roi-num-card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;padding:24px;text-align:center}
 .roi-num-card .num{font-family:var(--mono);font-size:42px;font-weight:500;letter-spacing:-.03em;color:var(--accent);line-height:1}
 .roi-num-card .label{font-size:13px;color:var(--ink-2);margin-top:8px}
-
 .roi-panel{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--card)}
 @media(max-width:860px){.roi-panel{grid-template-columns:1fr}}
 .roi-left{padding:36px;border-right:1px solid var(--line)}
@@ -137,11 +108,9 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--line-2);border-radius:2px;outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 10px var(--accent-glow)}
 .save-big{font-family:var(--mono);font-size:clamp(56px,8vw,96px);font-weight:500;line-height:1;letter-spacing:-.04em;color:var(--accent)}
-.save-caption{font-size:14px;color:var(--ink-2);margin-top:12px;line-height:1.6;max-width:340px}
 .save-breakdown{margin-top:24px;display:grid;gap:8px;font-family:var(--mono);font-size:13px}
 .save-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line)}
 .save-row.total{border-bottom:0;font-weight:600;color:var(--ink);padding-top:14px}
-
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:860px){.price-grid{grid-template-columns:1fr}}
 .price-card{border:1px solid var(--line-2);border-radius:16px;padding:28px;background:var(--card);display:flex;flex-direction:column;gap:16px;position:relative;transition:transform .15s}
@@ -154,12 +123,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .price-desc{font-size:14px;color:var(--ink-2);line-height:1.55;min-height:48px}
 .feat-list{list-style:none;display:grid;gap:10px;flex:1}
 .feat-list li{display:flex;gap:10px;font-size:14px;align-items:flex-start}
-.feat-list li.off{color:var(--ink-3);text-decoration:line-through}
 .feat-check{color:var(--good);font-weight:700;flex-shrink:0}
-.feat-x{color:var(--ink-3);flex-shrink:0}
-.savings-callout{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--good);margin-top:4px}
-.savings-callout strong{font-weight:700}
-
+.s-callout{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--good);margin-top:4px}
 .compare-wrap{border:1px solid var(--line-2);border-radius:14px;overflow:hidden}
 .compare-wrap table{width:100%;border-collapse:collapse;font-size:14px}
 .compare-wrap th,.compare-wrap td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
@@ -169,13 +134,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .compare-wrap .ck{color:var(--good);font-weight:700}
 .compare-wrap .xx{color:var(--danger);opacity:.6}
 .compare-wrap tbody td:not(:first-child){text-align:center;font-family:var(--mono)}
-
 .trust-badges{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
 .trust-badge{display:flex;align-items:center;gap:10px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--ink-2)}
 .trust-badge-icon{font-size:18px}
 .trust-badge strong{color:var(--ink);display:block;font-size:13px;margin-bottom:2px}
 .trust-badge span{font-size:11px;color:var(--ink-3)}
-
 .faq-item{border-bottom:1px solid var(--line);padding:20px 0}
 .faq-item summary{list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;cursor:pointer;gap:20px;letter-spacing:-.01em}
 .faq-item summary::-webkit-details-marker{display:none}
@@ -185,14 +148,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .faq-plus::after{left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%)}
 .faq-item[open] .faq-plus::after{transform:translateX(-50%) rotate(90deg);opacity:0}
 .faq-item p{margin:14px 0 0;color:var(--ink-2);line-height:1.65;max-width:720px;font-size:15px}
-
 .final-cta{border:1px solid var(--line-2);border-radius:20px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;background:var(--card)}
 .final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 130%,rgba(0,229,255,0.18),transparent 60%);pointer-events:none}
 .final-cta>*{position:relative}
 .final-cta h2{font-size:clamp(30px,5vw,56px);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin-bottom:16px}
 .final-cta p{font-size:17px;color:var(--ink-2);max-width:520px;margin:0 auto 28px;line-height:1.55}
 .final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
 footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2);font-size:13px}
 .foot-inner{max-width:1280px;margin:0 auto}
 .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px}
@@ -205,20 +166,19 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
 .foot-powered span{color:var(--accent)}
 .cert-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
 .cert-badge{background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
-
-/* ── AUTH MODAL ── */
-.auth-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+/* MODAL */
+.auth-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
 .auth-overlay.open{opacity:1;pointer-events:auto}
-.auth-modal{width:100%;max-width:900px;display:grid;grid-template-columns:1.1fr 1fr;background:var(--bg-2);border:1px solid var(--line-2);border-radius:20px;overflow:hidden;transform:translateY(12px) scale(.98);transition:transform .3s cubic-bezier(.2,.9,.3,1)}
+.auth-modal{width:100%;max-width:860px;display:grid;grid-template-columns:1.1fr 1fr;background:var(--bg-2);border:1px solid var(--line-2);border-radius:20px;overflow:hidden;transform:translateY(12px) scale(.98);transition:transform .3s cubic-bezier(.2,.9,.3,1);position:relative}
 .auth-overlay.open .auth-modal{transform:none}
 @media(max-width:780px){.auth-modal{grid-template-columns:1fr}.auth-left{display:none}}
 .auth-left{padding:40px;background:linear-gradient(160deg,rgba(0,229,255,0.12),var(--bg-3));display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
 .auth-left::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,229,255,0.15) 1px,transparent 1px);background-size:24px 24px;opacity:.4}
 .auth-left>*{position:relative;z-index:1}
 .auth-badge{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);display:flex;align-items:center;gap:8px}
-.auth-hero{font-size:30px;line-height:1.1;letter-spacing:-.03em;font-weight:800;margin:16px 0 0;max-width:300px}
+.auth-hero{font-size:28px;line-height:1.1;letter-spacing:-.03em;font-weight:800;margin:16px 0 20px;max-width:300px}
 .auth-hero em{font-family:var(--serif);font-style:italic;color:var(--accent);font-weight:400}
-.auth-stats{display:grid;gap:12px}
+.auth-stats{display:grid;gap:10px}
 .auth-stat{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--line);border-radius:10px;font-family:var(--mono);font-size:12px}
 .auth-stat b{font-size:16px;font-weight:500;font-family:var(--sans)}
 .auth-right{padding:40px;display:flex;flex-direction:column;justify-content:center}
@@ -226,25 +186,28 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
 .auth-tab{background:0;border:0;padding:10px 2px;font-family:var(--mono);font-size:12px;color:var(--ink-2);cursor:pointer;position:relative;letter-spacing:.08em;text-transform:uppercase}
 .auth-tab[aria-selected=true]{color:var(--ink)}
 .auth-tab[aria-selected=true]::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent)}
-.input-field{margin-bottom:14px}
-.input-field label{display:block;font-size:11px;color:var(--ink-2);margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em}
-.input-field input{width:100%;padding:12px 14px;border-radius:9px;background:var(--bg-3);color:var(--ink);font-family:var(--sans);font-size:15px;border:1px solid var(--line-2);transition:border-color .15s}
-.input-field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.15)}
-.input-field .help{margin-top:5px;font-size:12px;color:var(--ink-2)}
-.input-field .help.err{color:var(--danger)}
-.store-hint{margin-top:5px;font-size:12px;color:var(--ink-3)}
-.divider{text-align:center;margin:14px 0;position:relative;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
-.divider::before,.divider::after{content:'';position:absolute;top:50%;width:calc(50% - 28px);height:1px;background:var(--line)}
-.divider::before{left:0}.divider::after{right:0}
-.auth-close{position:absolute;top:16px;right:16px;z-index:210;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
-.btn-shopify{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border-radius:10px;background:#5E8E3E;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:14px;transition:all .15s}
-.btn-shopify:hover{background:#4d7533;box-shadow:0 4px 20px rgba(94,142,62,0.4)}
-.btn-loading{opacity:.7;cursor:not-allowed}
+.input-field{margin-bottom:16px}
+.input-field label{display:block;font-size:11px;color:var(--ink-2);margin-bottom:7px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em}
+.input-field input{width:100%;padding:13px 14px;border-radius:9px;background:var(--bg-3);color:var(--ink);font-family:var(--sans);font-size:15px;border:1px solid var(--line-2);transition:border-color .15s}
+.input-field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.12)}
+.input-field input::placeholder{color:var(--ink-3)}
+.field-help{margin-top:5px;font-size:12px;color:var(--ink-3)}
+.field-help.err{color:var(--danger)}
+.store-hint{margin-top:6px;font-size:12px;color:var(--ink-3)}
+.auth-close{position:absolute;top:16px;right:16px;z-index:210;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background .15s}
+.auth-close:hover{background:var(--bg-3)}
+.btn-shopify-full{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:10px;background:#5E8E3E;border:none;color:#fff;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .15s;margin-top:4px}
+.btn-shopify-full:hover{background:#4d7533;box-shadow:0 4px 20px rgba(94,142,62,0.4)}
+.btn-shopify-full:disabled{opacity:.5;cursor:not-allowed}
+.connect-note{font-size:12px;color:var(--ink-3);text-align:center;margin-top:14px;line-height:1.6}
+.connect-note a{color:var(--accent)}
+.divider-or{text-align:center;margin:16px 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;position:relative}
+.divider-or::before,.divider-or::after{content:'';position:absolute;top:50%;width:calc(50% - 20px);height:1px;background:var(--line)}
+.divider-or::before{left:0}.divider-or::after{right:0}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a class="brand" href="#">
@@ -252,254 +215,214 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       BELY<span style="color:var(--accent);font-family:var(--mono);font-weight:500;margin-left:3px">AI</span>
     </a>
     <div class="nav-links">
-      <a href="#why">Why BELY</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#compare">Compare</a>
-      <a href="#faq">FAQ</a>
+      <a href="#why" data-i18n="nav_why">Why BELY</a>
+      <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a href="#compare" data-i18n="nav_compare">Compare</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nav-right">
-      <button class="btn btn-ghost" id="btn-signin">Sign in</button>
-      <button class="btn btn-primary" id="btn-signup">Protect my store →</button>
+      <div class="lang-sw">
+        <button class="lang-btn on" id="lang-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="lang-tr" onclick="setLang('tr')">TR</button>
+      </div>
+      <button class="btn btn-ghost" id="btn-signin" data-i18n="nav_signin">Sign in</button>
+      <button class="btn btn-primary" id="btn-signup" data-i18n="nav_signup">Protect my store →</button>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-grid">
     <div>
-      <div class="eyebrow"><span class="pulse"></span> Live · 312 Stores Protected</div>
-      <h1>Stop fraud <em>before</em><br>you ship.</h1>
-      <p class="hero-sub">Other tools alert after the chargeback lands. BELY AI scores every order pre-shipment and warns you before Shopify flags your account.</p>
-      <div class="roi-highlight">
-        💡 <strong>One blocked fraud order = 3–4 months of BELY AI.</strong><br>
-        For dropshippers and boutique sellers with thin margins, a single scam can erase an entire week's profit. BELY AI is your always-on alarm system.
-      </div>
+      <div class="eyebrow"><span class="pulse"></span> <span data-i18n="hero_eyebrow">Live · 312 Stores Protected</span></div>
+      <h1 data-i18n="hero_h1">Stop fraud <em>before</em><br>you ship.</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Other tools alert after the chargeback lands. BELY AI scores every order pre-shipment and warns you before Shopify flags your account.</p>
+      <div class="roi-hl">💡 <strong data-i18n="hero_roi_s">One blocked fraud order = 3–4 months of BELY AI.</strong><br><span data-i18n="hero_roi_t">For dropshippers and boutique sellers with thin margins, a single scam can erase an entire week's profit.</span></div>
       <div class="hero-ctas">
-        <button class="btn btn-primary btn-lg" id="btn-hero-signup">Connect your store — free →</button>
-        <a href="#pricing" class="btn btn-ghost btn-lg">See plans</a>
+        <button class="btn btn-primary btn-lg" id="btn-hero-signup" data-i18n="hero_cta">Connect your store — free →</button>
+        <a href="#pricing" class="btn btn-ghost btn-lg" data-i18n="hero_plans">See plans</a>
       </div>
       <div class="trust-pills">
-        <span>7-day free trial</span>
-        <span>No credit card</span>
-        <span>2-minute setup</span>
+        <span data-i18n="trust_1">7-day free trial</span>
+        <span data-i18n="trust_2">No credit card</span>
+        <span data-i18n="trust_3">2-minute setup</span>
       </div>
     </div>
-
     <div class="demo-card">
       <div class="demo-head">
         <div class="demo-title">▸ Live Risk Engine · Inbound Orders</div>
-        <div class="demo-live"><span class="pulse"></span> <span id="scan-count">1,284</span> scanned today</div>
+        <div class="demo-live"><span class="pulse"></span> <span id="scan-count">1,284</span> <span data-i18n="scanned_today">scanned today</span></div>
       </div>
-      <div id="demo-orders">
-        <div class="order-item">
-          <div class="order-top">
-            <div><div class="order-id">#ORD-4821</div><div style="font-size:14px;font-weight:700;margin-top:2px">$247.00</div></div>
-            <span class="risk-chip risk-high">HIGH · 87%</span>
-          </div>
-          <div class="order-reason">New account (2d) · Romania IP · Ships Miami · 3rd card attempt</div>
-          <div class="order-bar-bg"><div class="order-bar" style="width:87%;background:var(--danger)"></div></div>
-        </div>
-        <div class="order-item">
-          <div class="order-top">
-            <div><div class="order-id">#ORD-4822</div><div style="font-size:14px;font-weight:700;margin-top:2px">$89.00</div></div>
-            <span class="risk-chip risk-low">LOW · 12%</span>
-          </div>
-          <div class="order-reason">Returning customer (14 orders) · IP matches billing · Normal pattern</div>
-          <div class="order-bar-bg"><div class="order-bar" style="width:12%;background:var(--good)"></div></div>
-        </div>
-        <div class="order-item">
-          <div class="order-top">
-            <div><div class="order-id">#ORD-4823</div><div style="font-size:14px;font-weight:700;margin-top:2px">$412.00</div></div>
-            <span class="risk-chip risk-med">MED · 64%</span>
-          </div>
-          <div class="order-reason">New account · Device mismatch · Higher than avg cart value</div>
-          <div class="order-bar-bg"><div class="order-bar" style="width:64%;background:var(--warn)"></div></div>
-        </div>
+      <div class="order-item">
+        <div class="order-top"><div><div class="order-id">#ORD-4821</div><div style="font-size:14px;font-weight:700;margin-top:2px">$247.00</div></div><span class="risk-chip risk-high">HIGH · 87%</span></div>
+        <div class="order-reason">New account (2d) · Romania IP · Ships Miami · 3rd card attempt</div>
+        <div class="order-bar-bg"><div class="order-bar" style="width:87%;background:var(--danger)"></div></div>
+      </div>
+      <div class="order-item">
+        <div class="order-top"><div><div class="order-id">#ORD-4822</div><div style="font-size:14px;font-weight:700;margin-top:2px">$89.00</div></div><span class="risk-chip risk-low">LOW · 12%</span></div>
+        <div class="order-reason">Returning customer (14 orders) · IP matches billing · Normal pattern</div>
+        <div class="order-bar-bg"><div class="order-bar" style="width:12%;background:var(--good)"></div></div>
+      </div>
+      <div class="order-item">
+        <div class="order-top"><div><div class="order-id">#ORD-4823</div><div style="font-size:14px;font-weight:700;margin-top:2px">$412.00</div></div><span class="risk-chip risk-med">MED · 64%</span></div>
+        <div class="order-reason">New account · Device mismatch · Higher than avg cart value</div>
+        <div class="order-bar-bg"><div class="order-bar" style="width:64%;background:var(--warn)"></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- TICKER -->
 <div class="ticker">
-  <div class="ticker-track" id="ticker">
-    <span class="ticker-item"><b>47</b> high-risk orders blocked this hour</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>$4,122</b> revenue protected this month</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>68%</b> avg dispute win rate via AI</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>312</b> Shopify stores protected</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>0.48%</b> network-wide chargeback ratio</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>200ms</b> avg risk scoring latency</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>47</b> high-risk orders blocked this hour</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>$4,122</b> revenue protected this month</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>68%</b> avg dispute win rate via AI</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>312</b> Shopify stores protected</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>0.48%</b> network-wide chargeback ratio</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item"><b>200ms</b> avg risk scoring latency</span><span class="ticker-sep">✦</span>
+  <div class="ticker-track">
+    <span class="ticker-item"><b>47</b> <span data-i18n="t1">high-risk orders blocked this hour</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>$4,122</b> <span data-i18n="t2">revenue protected this month</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>68%</b> <span data-i18n="t3">avg dispute win rate via AI</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>312</b> <span data-i18n="t4">Shopify stores protected</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>0.48%</b> <span data-i18n="t5">network-wide chargeback ratio</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>200ms</b> <span data-i18n="t6">avg risk scoring latency</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>47</b> <span data-i18n="t1">high-risk orders blocked this hour</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>$4,122</b> <span data-i18n="t2">revenue protected this month</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>68%</b> <span data-i18n="t3">avg dispute win rate via AI</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>312</b> <span data-i18n="t4">Shopify stores protected</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>0.48%</b> <span data-i18n="t5">network-wide chargeback ratio</span></span><span class="ticker-sep">✦</span>
+    <span class="ticker-item"><b>200ms</b> <span data-i18n="t6">avg risk scoring latency</span></span><span class="ticker-sep">✦</span>
   </div>
 </div>
 
-<!-- WHY -->
 <div class="section" id="why">
   <div class="sec-head">
-    <div class="sec-label">§ 01 · Why BELY AI</div>
-    <h2 class="sec-title">Others react. We prevent.</h2>
-    <p class="sec-sub">Enterprise-grade fraud defense rebuilt for the 99% of sellers who can't afford $150/mo tools — or $150 losses.</p>
+    <div class="sec-label">§ 01 · <span data-i18n="why_label">Why BELY AI</span></div>
+    <h2 class="sec-title" data-i18n="why_title">Others react. We prevent.</h2>
+    <p class="sec-sub" data-i18n="why_sub">Enterprise-grade fraud defense rebuilt for the 99% of sellers who can't afford $150/mo tools.</p>
   </div>
   <div class="why-grid">
     <div class="why-cell">
       <div class="why-num">01 / 03</div>
-      <div class="why-ico">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 6v6c0 5.5 3.8 10.5 9 12 5.2-1.5 9-6.5 9-12V6l-9-4z"/></svg>
-      </div>
-      <h3 class="why-head">Pre-shipment fraud scoring</h3>
-      <p class="why-body">Every order scored in &lt;200ms using 40+ signals — IP geolocation, account age, velocity, address mismatch, payment history. Flagged before you pack the box.</p>
+      <div class="why-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 6v6c0 5.5 3.8 10.5 9 12 5.2-1.5 9-6.5 9-12V6l-9-4z"/></svg></div>
+      <h3 class="why-head" data-i18n="w1h">Pre-shipment fraud scoring</h3>
+      <p class="why-body" data-i18n="w1b">Every order scored in &lt;200ms using 40+ signals — IP, account age, velocity, address mismatch, payment history.</p>
     </div>
     <div class="why-cell">
       <div class="why-num">02 / 03</div>
-      <div class="why-ico">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      </div>
-      <h3 class="why-head">Account-health early warning</h3>
-      <p class="why-body">We watch your chargeback ratio against Visa VAMP and Shopify limits every 24h. You get a warning before your threshold is breached — not after your account is flagged.</p>
+      <div class="why-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <h3 class="why-head" data-i18n="w2h">Account-health early warning</h3>
+      <p class="why-body" data-i18n="w2b">We watch your chargeback ratio against Visa VAMP and Shopify limits every 24h. Warning before breach.</p>
     </div>
     <div class="why-cell">
       <div class="why-num">03 / 03</div>
-      <div class="why-ico">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      </div>
-      <h3 class="why-head">AI dispute responses</h3>
-      <p class="why-body">When a chargeback lands, our AI drafts a response letter with the right evidence attached. 68% win rate — 4× the industry average.</p>
+      <div class="why-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+      <h3 class="why-head" data-i18n="w3h">AI dispute responses</h3>
+      <p class="why-body" data-i18n="w3b">When a chargeback lands, AI drafts a winning response. 68% win rate — 4× industry average.</p>
     </div>
   </div>
 </div>
 
-<!-- ROI PROOF -->
 <div class="section" style="padding-top:0">
   <div class="roi-proof">
-    <h3>🎯 Your biggest advantage? One blocked fraud = months of BELY AI.</h3>
-    <p>The average Shopify dropshipper or boutique seller operates on 15–30% margins. A single $150 fraudulent order doesn't just cost $150 — it costs you the product, shipping, payment processing fees, and lost ad spend. That's often $300–400 in real losses. BELY AI costs $29.90/month. Do the math.</p>
-    <p style="font-size:14px;color:var(--ink-3)">We don't promise to protect you 100%. We promise to give you <strong style="color:var(--ink)">Shopify-level insight that Shopify doesn't give you</strong> — so you can make smarter decisions before goods leave your warehouse.</p>
+    <h3 data-i18n="roi_title">🎯 One blocked fraud = months of BELY AI.</h3>
+    <p data-i18n="roi_p">The average Shopify seller operates on 15–30% margins. A single $150 fraudulent order costs product, shipping, fees, and ad spend — often $300–400 in real losses. BELY AI costs $29.90/month.</p>
     <div class="roi-numbers">
-      <div class="roi-num-card"><div class="num">2.6×</div><div class="label">True loss multiplier per chargeback (product + shipping + fees + ad spend)</div></div>
-      <div class="roi-num-card"><div class="num">$358</div><div class="label">Average real cost of one fraudulent order for a $10K/mo store</div></div>
-      <div class="roi-num-card"><div class="num">12×</div><div class="label">Average ROI for BELY AI users in the first 90 days</div></div>
+      <div class="roi-num-card"><div class="num">2.6×</div><div class="label" data-i18n="rn1">True loss multiplier per chargeback</div></div>
+      <div class="roi-num-card"><div class="num">$358</div><div class="label" data-i18n="rn2">Average real cost of one fraudulent order</div></div>
+      <div class="roi-num-card"><div class="num">12×</div><div class="label" data-i18n="rn3">Average ROI in first 90 days</div></div>
     </div>
   </div>
-
   <div class="sec-head">
-    <div class="sec-label">§ 02 · Your Savings</div>
-    <h2 class="sec-title">What does unprotected cost you?</h2>
-    <p class="sec-sub">Slide to match your store. Numbers update live.</p>
+    <div class="sec-label">§ 02 · <span data-i18n="calc_label">Your Savings</span></div>
+    <h2 class="sec-title" data-i18n="calc_title">What does unprotected cost you?</h2>
+    <p class="sec-sub" data-i18n="calc_sub">Slide to match your store. Numbers update live.</p>
   </div>
   <div class="roi-panel">
     <div class="roi-left">
-      <div class="slider-row">
-        <div class="slider-label"><span>Monthly revenue</span><span id="out-rev">$15,000</span></div>
-        <input type="range" id="in-rev" min="1000" max="200000" step="1000" value="15000"/>
-      </div>
-      <div class="slider-row">
-        <div class="slider-label"><span>Chargeback rate</span><span id="out-cb">1.2%</span></div>
-        <input type="range" id="in-cb" min="0.1" max="3" step="0.1" value="1.2"/>
-      </div>
-      <div class="slider-row">
-        <div class="slider-label"><span>Cost of goods</span><span id="out-cogs">40%</span></div>
-        <input type="range" id="in-cogs" min="10" max="80" step="5" value="40"/>
-      </div>
-      <div style="margin-top:24px;padding-top:20px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink-3);line-height:1.6">
-        <strong style="color:var(--ink)">Industry reality:</strong> merchants lose 2.6× the chargeback amount once you factor in product cost, shipping, fees, and lost marketing spend.
-      </div>
+      <div class="slider-row"><div class="slider-label"><span data-i18n="sl1">Monthly revenue</span><span id="out-rev">$15,000</span></div><input type="range" id="in-rev" min="1000" max="200000" step="1000" value="15000"/></div>
+      <div class="slider-row"><div class="slider-label"><span data-i18n="sl2">Chargeback rate</span><span id="out-cb">1.2%</span></div><input type="range" id="in-cb" min="0.1" max="3" step="0.1" value="1.2"/></div>
+      <div class="slider-row"><div class="slider-label"><span data-i18n="sl3">Cost of goods</span><span id="out-cogs">40%</span></div><input type="range" id="in-cogs" min="10" max="80" step="5" value="40"/></div>
     </div>
     <div class="roi-right">
-      <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Annual savings with BELY AI</div>
-      <div class="save-big">$<span id="out-save">22,410</span></div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px" data-i18n="calc_annual">Annual savings with BELY AI</div>
+      <div class="save-big">$<span id="out-save">0</span></div>
       <div class="save-breakdown">
-        <div class="save-row"><span>Blocked fraudulent orders</span><span id="out-b1">$8,640</span></div>
-        <div class="save-row"><span>Reclaimed product + shipping</span><span id="out-b2">$11,520</span></div>
-        <div class="save-row"><span>Won dispute responses (AI)</span><span id="out-b3">$2,250</span></div>
-        <div class="save-row total"><span>Net — minus BELY AI annual fee</span><span id="out-b4">$22,052</span></div>
+        <div class="save-row"><span data-i18n="cb1">Blocked fraudulent orders</span><span id="out-b1">$0</span></div>
+        <div class="save-row"><span data-i18n="cb2">Reclaimed product + shipping</span><span id="out-b2">$0</span></div>
+        <div class="save-row"><span data-i18n="cb3">Won dispute responses (AI)</span><span id="out-b3">$0</span></div>
+        <div class="save-row total"><span data-i18n="cb4">Net — minus BELY AI annual fee</span><span id="out-b4">$0</span></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PRICING -->
 <div class="section" id="pricing">
   <div class="sec-head">
-    <div class="sec-label">§ 03 · Pricing</div>
-    <h2 class="sec-title">Priced for stores, not enterprises.</h2>
-    <p class="sec-sub">Enterprise tools start at $150/mo. We start at $29.90. Same protection. 1/5th the price.</p>
+    <div class="sec-label">§ 03 · <span data-i18n="pr_label">Pricing</span></div>
+    <h2 class="sec-title" data-i18n="pr_title">Priced for stores, not enterprises.</h2>
+    <p class="sec-sub" data-i18n="pr_sub">Enterprise tools start at $150/mo. We start at $29.90.</p>
   </div>
   <div class="price-grid">
     <div class="price-card">
-      <div class="price-name">Trial</div>
-      <div class="price-val">$0<span class="per">/ 7 days</span></div>
-      <div class="price-desc">Full access to all features for 7 days. No credit card required.</div>
-      <div class="savings-callout">🎯 See your store's real risk exposure before you pay a cent.</div>
+      <div class="price-name" data-i18n="p1n">Trial</div>
+      <div class="price-val">$0<span class="per">/ 7 <span data-i18n="days">days</span></span></div>
+      <div class="price-desc" data-i18n="p1d">Full access for 7 days. No credit card required.</div>
+      <div class="s-callout" data-i18n="p1c">🎯 See your real risk exposure before paying.</div>
       <ul class="feat-list">
-        <li><span class="feat-check">✓</span> Fraud scoring (all orders)</li>
-        <li><span class="feat-check">✓</span> Account health dashboard</li>
-        <li><span class="feat-check">✓</span> Risk alerts (email)</li>
-        <li><span class="feat-check">✓</span> 1 AI dispute response</li>
+        <li><span class="feat-check">✓</span><span data-i18n="p1f1">Fraud scoring (all orders)</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p1f2">Account health dashboard</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p1f3">Risk alerts (email)</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p1f4">1 AI dispute response</span></li>
       </ul>
-      <button class="btn btn-ghost" style="justify-content:center" onclick="openAuth('signup')">Start 7-day trial free</button>
+      <button class="btn btn-ghost" style="justify-content:center" onclick="openAuth('signup')" data-i18n="p1btn">Start 7-day trial free</button>
     </div>
     <div class="price-card featured">
-      <div class="price-badge">MOST POPULAR</div>
+      <div class="price-badge" data-i18n="popular">MOST POPULAR</div>
       <div class="price-name">Shield Pro</div>
-      <div class="price-val">$29.90<span class="per">/ month</span></div>
-      <div class="price-desc">Full protection for stores doing $5K–$50K/mo. Every order scored, every dispute handled.</div>
-      <div class="savings-callout">💡 <strong>Block 1 fraud order = ~3 months paid.</strong> Average store saves $797/mo.</div>
+      <div class="price-val">$29.90<span class="per">/ <span data-i18n="month">month</span></span></div>
+      <div class="price-desc" data-i18n="p2d">Full protection for stores doing $5K–$50K/mo.</div>
+      <div class="s-callout">💡 <strong data-i18n="p2c">Block 1 fraud = ~3 months paid.</strong></div>
       <ul class="feat-list">
-        <li><span class="feat-check">✓</span> Unlimited fraud scoring</li>
-        <li><span class="feat-check">✓</span> Real-time email alerts</li>
-        <li><span class="feat-check">✓</span> Per-order risk reports</li>
-        <li><span class="feat-check">✓</span> Unlimited AI dispute responses</li>
-        <li><span class="feat-check">✓</span> Priority support</li>
+        <li><span class="feat-check">✓</span><span data-i18n="p2f1">Unlimited fraud scoring</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p2f2">Real-time email alerts</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p2f3">Per-order risk reports</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p2f4">Unlimited AI dispute responses</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p2f5">Priority support</span></li>
       </ul>
-      <button class="btn btn-primary" style="justify-content:center" onclick="openAuth('signup')">Start Shield Pro free →</button>
+      <button class="btn btn-primary" style="justify-content:center" onclick="openAuth('signup')" data-i18n="p2btn">Start Shield Pro free →</button>
     </div>
     <div class="price-card">
       <div class="price-name">Shield Elite</div>
-      <div class="price-val">$49.90<span class="per">/ month</span></div>
-      <div class="price-desc">For stores doing $50K+/mo. Advanced analytics, webhooks, and dedicated account monitoring.</div>
-      <div class="savings-callout">🏆 Designed for high-volume sellers where one missed fraud = thousands lost.</div>
+      <div class="price-val">$49.90<span class="per">/ <span data-i18n="month">month</span></span></div>
+      <div class="price-desc" data-i18n="p3d">For stores doing $50K+/mo. Advanced analytics.</div>
+      <div class="s-callout" data-i18n="p3c">🏆 High-volume sellers — one missed fraud = thousands lost.</div>
       <ul class="feat-list">
-        <li><span class="feat-check">✓</span> Everything in Shield Pro</li>
-        <li><span class="feat-check">✓</span> Advanced velocity rules</li>
-        <li><span class="feat-check">✓</span> Chargeback ratio forecasting</li>
-        <li><span class="feat-check">✓</span> Shopify webhook integration</li>
-        <li><span class="feat-check">✓</span> Dedicated account manager</li>
+        <li><span class="feat-check">✓</span><span data-i18n="p3f1">Everything in Shield Pro</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p3f2">Advanced velocity rules</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p3f3">Chargeback forecasting</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p3f4">Shopify webhook integration</span></li>
+        <li><span class="feat-check">✓</span><span data-i18n="p3f5">Dedicated account manager</span></li>
       </ul>
-      <button class="btn btn-ghost" style="justify-content:center" onclick="openAuth('signup')">Start Shield Elite free →</button>
+      <button class="btn btn-ghost" style="justify-content:center" onclick="openAuth('signup')" data-i18n="p3btn">Start Shield Elite free →</button>
     </div>
   </div>
 </div>
 
-<!-- COMPARE -->
 <div class="section" id="compare">
   <div class="sec-head">
-    <div class="sec-label">§ 04 · Compare</div>
-    <h2 class="sec-title">Enterprise protection. Startup price.</h2>
+    <div class="sec-label">§ 04 · <span data-i18n="cmp_label">Compare</span></div>
+    <h2 class="sec-title" data-i18n="cmp_title">Enterprise protection. Startup price.</h2>
   </div>
   <div class="compare-wrap">
     <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th class="us">BELY AI<br><span style="font-size:11px;font-weight:400">$29.90/mo</span></th>
-          <th>Enterprise Tools<br><span style="font-size:11px;font-weight:400">$150–200+</span></th>
-          <th>Basic Apps<br><span style="font-size:11px;font-weight:400">$30–80</span></th>
-          <th>No Protection<br><span style="font-size:11px;font-weight:400">–$800/mo avg</span></th>
-        </tr>
-      </thead>
+      <thead><tr>
+        <th></th>
+        <th class="us">BELY AI<br><span style="font-size:11px;font-weight:400">$29.90/mo</span></th>
+        <th><span data-i18n="cmp_ent">Enterprise Tools</span><br><span style="font-size:11px;font-weight:400">$150+</span></th>
+        <th><span data-i18n="cmp_basic">Basic Apps</span><br><span style="font-size:11px;font-weight:400">$30–80</span></th>
+        <th><span data-i18n="cmp_none">No Protection</span></th>
+      </tr></thead>
       <tbody>
-        <tr><td>Pre-shipment fraud scoring</td><td class="ck">✓</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td></tr>
-        <tr><td>Account health monitoring</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td><td class="xx">✗</td></tr>
-        <tr><td>AI dispute response writer</td><td class="ck">✓</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td></tr>
-        <tr><td>Chargeback limit warnings</td><td class="ck">✓</td><td class="ck">✓</td><td class="ck">✓</td><td class="xx">✗</td></tr>
-        <tr><td>2-min setup — no developer</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td><td>—</td></tr>
-        <tr><td>Avg. savings — $10K/mo store</td><td style="color:var(--good);font-weight:700">+$797</td><td>+$200</td><td>+$80</td><td style="color:var(--danger)">–$800</td></tr>
+        <tr><td data-i18n="cr1">Pre-shipment fraud scoring</td><td class="ck">✓</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td></tr>
+        <tr><td data-i18n="cr2">Account health monitoring</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td><td class="xx">✗</td></tr>
+        <tr><td data-i18n="cr3">AI dispute response writer</td><td class="ck">✓</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td></tr>
+        <tr><td data-i18n="cr4">2-min setup</td><td class="ck">✓</td><td class="xx">✗</td><td class="xx">✗</td><td>—</td></tr>
+        <tr><td data-i18n="cr5">Avg. savings $10K/mo store</td><td style="color:var(--good);font-weight:700">+$797</td><td>+$200</td><td>+$80</td><td style="color:var(--danger)">–$800</td></tr>
       </tbody>
     </table>
   </div>
@@ -507,100 +430,62 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
     <div class="trust-badge"><div class="trust-badge-icon">🔒</div><div><strong>GDPR Aligned</strong><span>EU data protection standards</span></div></div>
     <div class="trust-badge"><div class="trust-badge-icon">💳</div><div><strong>PCI DSS Ready</strong><span>We never store card data</span></div></div>
     <div class="trust-badge"><div class="trust-badge-icon">🛡️</div><div><strong>256-bit Encryption</strong><span>All data encrypted in transit</span></div></div>
-    <div class="trust-badge"><div class="trust-badge-icon">🔑</div><div><strong>Server-Side Processing</strong><span>Your data never exposed client-side</span></div></div>
-    <div class="trust-badge"><div class="trust-badge-icon">🏪</div><div><strong>Shopify Partner</strong><span>Official integration · OAuth secured</span></div></div>
+    <div class="trust-badge"><div class="trust-badge-icon">🏪</div><div><strong>Shopify Partner</strong><span>OAuth secured</span></div></div>
   </div>
 </div>
 
-<!-- FAQ -->
 <div class="section" id="faq">
   <div class="sec-head">
     <div class="sec-label">§ 05 · FAQ</div>
-    <h2 class="sec-title">Straight answers.</h2>
+    <h2 class="sec-title" data-i18n="faq_title">Straight answers.</h2>
   </div>
   <div style="max-width:820px">
     <details class="faq-item" open>
-      <summary>How does BELY AI score an order? <span class="faq-plus"></span></summary>
-      <p>We pull order data from Shopify's API the moment a new order is placed: IP address, customer account age, email, shipping vs billing address match, payment method, order velocity, and more. Our algorithm assigns a 0–100 risk score in under 200ms. HIGH risk orders trigger an immediate alert so you can hold shipment before goods leave your warehouse.</p>
+      <summary><span data-i18n="faq1q">How does BELY AI score an order?</span><span class="faq-plus"></span></summary>
+      <p data-i18n="faq1a">We pull order data from Shopify's API: IP address, account age, address match, payment method, order velocity. Score assigned in under 200ms. HIGH risk triggers an immediate alert.</p>
     </details>
     <details class="faq-item">
-      <summary>Can BELY AI access my customer's device fingerprint? <span class="faq-plus"></span></summary>
-      <p>Standard Shopify API provides IP, account data, and order signals — which alone give us strong scoring power. Deep device fingerprinting (browser fonts, hardware ID) requires a Script Tag installation in your storefront, which is our next feature release. For now, our current algorithm catches the vast majority of fraud with the data Shopify provides.</p>
+      <summary><span data-i18n="faq2q">Will you slow down my checkout?</span><span class="faq-plus"></span></summary>
+      <p data-i18n="faq2a">Zero impact. Risk scoring happens post-order, pre-fulfillment — entirely on our servers.</p>
     </details>
     <details class="faq-item">
-      <summary>What if Shopify has already flagged my account? <span class="faq-plus"></span></summary>
-      <p>We can still help. Tighter defense thresholds immediately reduce your chargeback ratio. Most accounts recover in 30–45 days with aggressive pre-shipment scoring + AI dispute responses. We'll give you an honest assessment when you connect your store.</p>
+      <summary><span data-i18n="faq3q">Is my store data safe?</span><span class="faq-plus"></span></summary>
+      <p data-i18n="faq3a">Yes. API keys stored encrypted server-side. We never sell or share your data. You can request deletion at any time.</p>
     </details>
     <details class="faq-item">
-      <summary>Will you slow down my checkout? <span class="faq-plus"></span></summary>
-      <p>Zero impact on checkout. Risk scoring happens post-order, pre-fulfillment — entirely on our servers. Shoppers see no extra step. You see a risk score in your dashboard within seconds of an order landing.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Is my store data safe? <span class="faq-plus"></span></summary>
-      <p>Yes. API keys are stored encrypted in server environment variables — never in client-side code. All analysis runs server-side on Vercel's infrastructure. We process only the order data needed for risk scoring and never sell or share your data. You can request deletion at any time.</p>
-    </details>
-    <details class="faq-item">
-      <summary>What's your promise, exactly? <span class="faq-plus"></span></summary>
-      <p>Not "we'll protect you 100%." Our promise is: <strong>we give you the insight Shopify doesn't give you</strong> — deep order risk analysis, pre-shipment alerts, and AI-drafted dispute responses. Think of us as an always-on alarm system, not an insurance policy.</p>
+      <summary><span data-i18n="faq4q">What if Shopify has already flagged my account?</span><span class="faq-plus"></span></summary>
+      <p data-i18n="faq4a">We can still help. Most accounts recover in 30–45 days with aggressive pre-shipment scoring + AI dispute responses.</p>
     </details>
   </div>
 </div>
 
-<!-- FINAL CTA -->
 <div class="section" style="padding-top:0">
   <div class="final-cta">
-    <span class="eyebrow" style="margin-bottom:20px"><span class="pulse"></span> 7-Day Free Trial · No Credit Card</span>
-    <h2>Your store deserves a <em style="font-family:var(--serif);font-style:italic;color:var(--accent);font-weight:400">silent guardian</em>.</h2>
-    <p>Connect your Shopify store in 2 minutes. See your risk posture in 5. One blocked fraud order pays for months of BELY AI.</p>
+    <span class="eyebrow" style="margin-bottom:20px"><span class="pulse"></span> <span data-i18n="cta_ey">7-Day Free Trial · No Credit Card</span></span>
+    <h2>Your store deserves a <em style="font-family:var(--serif);font-style:italic;color:var(--accent);font-weight:400" data-i18n="cta_em">silent guardian</em>.</h2>
+    <p data-i18n="cta_p">Connect your Shopify store in 2 minutes. See your risk posture in 5.</p>
     <div class="final-btns">
-      <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">Connect your store — free →</button>
-      <a href="#pricing" class="btn btn-ghost btn-lg">See plans</a>
+      <button class="btn btn-primary btn-lg" onclick="openAuth('signup')" data-i18n="hero_cta">Connect your store — free →</button>
+      <a href="#pricing" class="btn btn-ghost btn-lg" data-i18n="hero_plans">See plans</a>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="foot-inner">
     <div class="foot-grid">
       <div>
-        <div class="brand" style="margin-bottom:12px">
-          <div class="brand-icon"><span>B</span></div>
-          BELY<span style="color:var(--accent);font-family:var(--mono);font-weight:500;margin-left:3px">AI</span>
-        </div>
-        <p style="max-width:260px;line-height:1.6;color:var(--ink-2)">Silent guardian for Shopify sellers. Fraud stopped. Accounts protected. Revenue saved.</p>
-        <div class="cert-row">
-          <span class="cert-badge">GDPR Aligned</span>
-          <span class="cert-badge">PCI DSS Ready</span>
-          <span class="cert-badge">256-bit SSL</span>
-        </div>
+        <div class="brand" style="margin-bottom:12px"><div class="brand-icon"><span>B</span></div>BELY<span style="color:var(--accent);font-family:var(--mono);font-weight:500;margin-left:3px">AI</span></div>
+        <p style="max-width:260px;line-height:1.6;color:var(--ink-2)" data-i18n="foot_desc">Silent guardian for Shopify sellers. Fraud stopped. Revenue saved.</p>
+        <div class="cert-row"><span class="cert-badge">GDPR Aligned</span><span class="cert-badge">PCI DSS Ready</span><span class="cert-badge">256-bit SSL</span></div>
       </div>
-      <div>
-        <h5>Product</h5>
-        <a href="#why">Fraud Scoring</a>
-        <a href="#why">Account Health</a>
-        <a href="#why">AI Disputes</a>
-        <a href="#pricing">Pricing</a>
-      </div>
-      <div>
-        <h5>Company</h5>
-        <a href="#">About</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-      </div>
-      <div>
-        <h5>Legal</h5>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
-        <a href="refund.html">Refund Policy</a>
-      </div>
+      <div><h5 data-i18n="foot_product">Product</h5><a href="#why" data-i18n="foot_fraud">Fraud Scoring</a><a href="#why" data-i18n="foot_health">Account Health</a><a href="#why" data-i18n="foot_ai">AI Disputes</a><a href="#pricing" data-i18n="nav_pricing">Pricing</a></div>
+      <div><h5 data-i18n="foot_company">Company</h5><a href="#" data-i18n="foot_about">About</a><a href="#" data-i18n="foot_blog">Blog</a><a href="#" data-i18n="foot_contact">Contact</a></div>
+      <div><h5 data-i18n="foot_legal">Legal</h5><a href="privacy.html" data-i18n="foot_privacy">Privacy Policy</a><a href="terms.html" data-i18n="foot_terms">Terms of Service</a><a href="refund.html" data-i18n="foot_refund">Refund Policy</a></div>
     </div>
     <div class="foot-bottom">
-      <div>
-        <div>© 2026 BELY AI · All rights reserved.</div>
-        <div class="foot-powered" style="margin-top:6px">Powered by <span>Bely Security Systems</span></div>
-      </div>
-      <div style="text-align:right;color:var(--ink-3);font-size:12px">Built for Shopify sellers who can't afford to lose.</div>
+      <div><div>© 2026 BELY AI · All rights reserved.</div><div class="foot-powered" style="margin-top:6px">Powered by <span>Bely Security Systems</span></div></div>
+      <div style="text-align:right;color:var(--ink-3);font-size:12px" data-i18n="foot_tag">Built for Shopify sellers who can't afford to lose.</div>
     </div>
   </div>
 </footer>
@@ -617,63 +502,53 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
         <div class="auth-hero">Connect your store. Get your <em>risk score</em> in 5 minutes.</div>
       </div>
       <div class="auth-stats">
-        <div class="auth-stat"><span>Orders scanned today</span><b>1,284</b></div>
-        <div class="auth-stat"><span>High-risk blocked (7d)</span><b>47</b></div>
-        <div class="auth-stat"><span>Revenue protected (mo)</span><b style="color:var(--good)">$4,122</b></div>
-        <div class="auth-stat"><span>Avg dispute win rate</span><b>68%</b></div>
+        <div class="auth-stat"><span data-i18n="st1">Orders scanned today</span><b>1,284</b></div>
+        <div class="auth-stat"><span data-i18n="st2">High-risk blocked (7d)</span><b>47</b></div>
+        <div class="auth-stat"><span data-i18n="st3">Revenue protected (mo)</span><b style="color:var(--good)">$4,122</b></div>
+        <div class="auth-stat"><span data-i18n="st4">Avg dispute win rate</span><b>68%</b></div>
       </div>
     </div>
     <div class="auth-right">
       <div class="auth-tabs">
-        <button class="auth-tab" aria-selected="true" data-tab="signin">Sign in</button>
-        <button class="auth-tab" aria-selected="false" data-tab="signup">Create account</button>
+        <button class="auth-tab" aria-selected="true" data-tab="signin" data-i18n="tab_si">Sign in</button>
+        <button class="auth-tab" aria-selected="false" data-tab="signup" data-i18n="tab_su">Connect store</button>
       </div>
 
-      <!-- SIGNIN -->
+      <!-- SIGN IN -->
       <div id="panel-signin">
         <form id="signin-form" novalidate>
           <div class="input-field">
-            <label>Email</label>
+            <label data-i18n="lbl_email">Email</label>
             <input type="email" name="email" placeholder="you@store.com" autocomplete="email" required/>
-            <div class="help"></div>
+            <div class="field-help" id="si-err"></div>
           </div>
           <div class="input-field">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required minlength="6"/>
-            <div class="help"></div>
+            <label data-i18n="lbl_pw">Password</label>
+            <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required/>
           </div>
-          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px" type="submit">Sign in to dashboard →</button>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" type="submit" id="si-btn" data-i18n="si_btn">Sign in to dashboard →</button>
         </form>
-        <p style="font-size:12px;color:var(--ink-3);text-align:center">Don't have an account? <a href="#" style="color:var(--accent)" onclick="openAuth('signup');return false">Create one free</a></p>
+        <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:14px">
+          <span data-i18n="no_acc">Don't have an account?</span> <a href="#" style="color:var(--accent)" onclick="openAuth('signup');return false" data-i18n="create_free">Create one free</a>
+        </p>
       </div>
 
-      <!-- SIGNUP -->
+      <!-- CONNECT STORE — sadece Shopify OAuth -->
       <div id="panel-signup" style="display:none">
-        <button class="btn-shopify" id="btn-shopify-connect" type="button">
-          <svg width="18" height="18" viewBox="0 0 32 32"><path fill="#fff" d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.1-.1-.2-.1-.3-.1l-1.8 18.7 10.2-2.2S27.6 7.6 27.6 7.3zM19.5 4.8l-1.6.5c0-1.1-.2-2.6-.7-3.8 1.5.3 2.2 1.9 2.3 3.3zm-3.1-3.3c.5 1.2.8 2.8.8 4l-3.6 1.1c.7-2.5 2-3.9 2.8-5.1z"/></svg>
-          Connect with Shopify →
+        <p style="font-size:13px;color:var(--ink-2);margin-bottom:20px;line-height:1.6" data-i18n="conn_desc">Enter your Shopify store URL. We'll connect securely via OAuth — no password needed.</p>
+        <div class="input-field">
+          <label data-i18n="lbl_store">Your Shopify Store URL</label>
+          <input type="text" id="store-url-input" placeholder="your-store.myshopify.com" autocomplete="off"/>
+          <div class="field-help err" id="store-err" style="display:none"></div>
+          <div class="store-hint"><span data-i18n="store_ex">Example:</span> <strong style="color:var(--accent)">belyai.myshopify.com</strong></div>
+        </div>
+        <button class="btn-shopify-full" id="btn-oauth" onclick="startOAuth()">
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="white"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.1-.1-.2-.1-.3-.1l-1.8 18.7 10.2-2.2S27.6 7.6 27.6 7.3zM19.5 4.8l-1.6.5c0-1.1-.2-2.6-.7-3.8 1.5.3 2.2 1.9 2.3 3.3zm-3.1-3.3c.5 1.2.8 2.8.8 4l-3.6 1.1c.7-2.5 2-3.9 2.8-5.1z"/></svg>
+          <span data-i18n="oauth_btn">Connect with Shopify →</span>
         </button>
-        <div class="divider">OR SIGN UP WITH EMAIL</div>
-        <form id="signup-form" novalidate>
-          <div class="input-field">
-            <label>Your Shopify Store URL <span style="color:#ff3d57">*</span></label>
-            <input type="text" name="store" placeholder="your-store.myshopify.com" required/>
-            <div class="help"></div>
-            <div class="store-hint">Example: <strong style="color:var(--accent)">belyai.myshopify.com</strong></div>
-          </div>
-          <div class="input-field">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="you@store.com" required/>
-            <div class="help"></div>
-          </div>
-          <div class="input-field">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="min. 6 characters" minlength="6" required/>
-            <div class="help"></div>
-          </div>
-          <button class="btn btn-primary" style="width:100%;justify-content:center" type="submit">Create account — start free →</button>
-          <p style="font-size:12px;color:var(--ink-3);margin-top:12px;text-align:center">7-day free trial · No credit card · Cancel anytime</p>
-        </form>
+        <div class="connect-note">
+          <span data-i18n="have_acc">Already have an account?</span> <a href="#" onclick="openAuth('signin');return false" data-i18n="si_link">Sign in</a>
+        </div>
       </div>
     </div>
   </div>
@@ -684,8 +559,6 @@ const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
-
-// ── DOĞRU CLIENT ID ──
 const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
 const SHOPIFY_REDIRECT  = 'https://bely-ai.vercel.app/auth-callback.html';
 const SHOPIFY_SCOPES    = 'read_orders,read_customers';
@@ -695,41 +568,43 @@ function getCleanShop(raw) {
   if (!s.includes('.myshopify.com')) s = s.split('.')[0] + '.myshopify.com';
   return s;
 }
-
 function buildOAuthUrl(shop) {
   const state = Math.random().toString(36).substring(2) + Date.now().toString(36);
   sessionStorage.setItem('shopify_state', state);
   sessionStorage.setItem('shopify_shop', shop);
   return `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
 }
+function startOAuth() {
+  const raw = document.getElementById('store-url-input').value.trim();
+  const err = document.getElementById('store-err');
+  err.style.display = 'none';
+  if (!raw) {
+    err.textContent = currentLang === 'tr' ? 'Lütfen mağaza URL\'ini girin.' : 'Please enter your store URL.';
+    err.style.display = 'block';
+    return;
+  }
+  const shop = getCleanShop(raw);
+  const btn = document.getElementById('btn-oauth');
+  btn.disabled = true;
+  btn.innerHTML = `<span>${currentLang === 'tr' ? 'Yönlendiriliyor...' : 'Redirecting...'}</span>`;
+  setTimeout(() => window.location.href = buildOAuthUrl(shop), 400);
+}
 
-// ── AUTH CHECK ──
+// Auth check
 async function checkAuth() {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
-    const si = document.getElementById('btn-signin');
-    const su = document.getElementById('btn-signup');
-    si.textContent = 'Dashboard →';
-    si.onclick = () => location.href = 'dashboard.html';
-    su.textContent = 'Go to dashboard →';
-    su.onclick = () => location.href = 'dashboard.html';
+    ['btn-signin','btn-signup'].forEach(id => {
+      const el = document.getElementById(id);
+      el.setAttribute('data-i18n','nav_dashboard');
+      el.onclick = () => location.href = 'dashboard.html';
+    });
+    applyLang(currentLang);
   }
 }
 checkAuth();
 
-// ── CONNECT WITH SHOPIFY BUTTON (yeşil buton) ──
-document.getElementById('btn-shopify-connect').addEventListener('click', () => {
-  const storeInput = document.querySelector('#signup-form input[name="store"]');
-  let raw = storeInput ? storeInput.value.trim() : '';
-  if (!raw) {
-    raw = prompt('Shopify store adresinizi girin:\n(örnek: belyai.myshopify.com)');
-    if (!raw) return;
-  }
-  const shop = getCleanShop(raw);
-  window.location.href = buildOAuthUrl(shop);
-});
-
-// ── AUTH MODAL ──
+// Modal
 function openAuth(which) {
   document.getElementById('auth-overlay').classList.add('open');
   document.querySelectorAll('.auth-tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === which ? 'true' : 'false'));
@@ -737,7 +612,6 @@ function openAuth(which) {
   document.getElementById('panel-signup').style.display = which === 'signup' ? 'block' : 'none';
 }
 function closeAuth() { document.getElementById('auth-overlay').classList.remove('open'); }
-
 document.getElementById('btn-signin').addEventListener('click', () => openAuth('signin'));
 document.getElementById('btn-signup').addEventListener('click', () => openAuth('signup'));
 document.getElementById('btn-hero-signup').addEventListener('click', () => openAuth('signup'));
@@ -746,103 +620,168 @@ document.getElementById('auth-overlay').addEventListener('click', e => { if (e.t
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
 document.querySelectorAll('.auth-tab').forEach(b => b.addEventListener('click', () => openAuth(b.dataset.tab)));
 
-// ── SIGN IN FORM ──
+// Sign in
 document.getElementById('signin-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = 'Signing in…'; btn.disabled = true;
-  const email = e.target.querySelector('input[type=email]').value;
+  const btn = document.getElementById('si-btn');
+  const err = document.getElementById('si-err');
+  err.textContent = ''; err.classList.remove('err');
+  btn.textContent = currentLang === 'tr' ? 'Giriş yapılıyor...' : 'Signing in…';
+  btn.disabled = true;
+  const email    = e.target.querySelector('input[type=email]').value;
   const password = e.target.querySelector('input[type=password]').value;
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) {
-    btn.textContent = 'Sign in to dashboard →'; btn.disabled = false;
-    const help = e.target.querySelectorAll('.help');
-    help[1].textContent = error.message;
-    help[1].classList.add('err');
+    btn.disabled = false;
+    btn.setAttribute('data-i18n','si_btn');
+    applyLang(currentLang);
+    err.textContent = error.message;
+    err.classList.add('err');
   } else {
-    btn.textContent = '✓ Signed in!';
-    setTimeout(() => location.href = 'dashboard.html', 700);
+    btn.textContent = '✓';
+    setTimeout(() => location.href = 'dashboard.html', 600);
   }
 });
 
-// ── SIGN UP FORM ──
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = e.target.querySelector('button[type=submit]');
-  const helps = e.target.querySelectorAll('.help');
-  helps.forEach(h => { h.textContent = ''; h.classList.remove('err'); });
-
-  const rawStore = e.target.querySelector('input[name=store]').value.trim();
-  const email    = e.target.querySelector('input[name=email]').value.trim();
-  const password = e.target.querySelector('input[name=password]').value;
-
-  if (!rawStore) {
-    helps[0].textContent = 'Please enter your Shopify store URL.';
-    helps[0].classList.add('err');
-    return;
-  }
-  if (!email || !password) {
-    helps[1].textContent = 'Please fill in all fields.';
-    helps[1].classList.add('err');
-    return;
-  }
-
-  const shop = getCleanShop(rawStore);
-  btn.textContent = 'Creating account…'; btn.disabled = true;
-
-  // Önce sign in dene (zaten kayıtlıysa)
-  const { data: siData, error: siErr } = await sb.auth.signInWithPassword({ email, password });
-  if (!siErr && siData.session) {
-    btn.textContent = '✓ Signed in! Connecting Shopify…';
-    setTimeout(() => window.location.href = buildOAuthUrl(shop), 800);
-    return;
-  }
-
-  // Yeni kayıt
-  const { error: suErr } = await sb.auth.signUp({ email, password });
-  if (suErr) {
-    btn.textContent = 'Create account — start free →'; btn.disabled = false;
-    helps[1].textContent = suErr.message;
-    helps[1].classList.add('err');
-    return;
-  }
-
-  btn.textContent = '✓ Account created! Connecting Shopify…';
-  setTimeout(() => window.location.href = buildOAuthUrl(shop), 800);
-});
-
-// ── ROI CALCULATOR ──
+// ROI
 function fmt(n) { return n.toLocaleString('en-US', {maximumFractionDigits:0}); }
 function updateROI() {
   const rev  = +document.getElementById('in-rev').value;
   const cb   = +document.getElementById('in-cb').value;
   const cogs = +document.getElementById('in-cogs').value;
-  const annualExposure = rev * 12 * (cb / 100) * 2.6;
-  const fraudBlocked   = annualExposure * 0.48;
-  const reclaimed      = (annualExposure * 0.40) * (cogs/100 + 0.20);
-  const disputeWins    = annualExposure * 0.12 * 0.68;
-  const total  = fraudBlocked + reclaimed + disputeWins;
-  const net    = Math.max(0, total - 358.80);
-  document.getElementById('out-rev').textContent  = '$' + fmt(rev);
-  document.getElementById('out-cb').textContent   = cb.toFixed(1) + '%';
-  document.getElementById('out-cogs').textContent = cogs + '%';
+  const exp  = rev * 12 * (cb/100) * 2.6;
+  const b1   = exp * 0.48;
+  const b2   = exp * 0.40 * (cogs/100 + 0.20);
+  const b3   = exp * 0.12 * 0.68;
+  const net  = Math.max(0, b1+b2+b3-358.80);
+  document.getElementById('out-rev').textContent  = '$'+fmt(rev);
+  document.getElementById('out-cb').textContent   = cb.toFixed(1)+'%';
+  document.getElementById('out-cogs').textContent = cogs+'%';
   document.getElementById('out-save').textContent = fmt(Math.round(net));
-  document.getElementById('out-b1').textContent   = '$' + fmt(Math.round(fraudBlocked));
-  document.getElementById('out-b2').textContent   = '$' + fmt(Math.round(reclaimed));
-  document.getElementById('out-b3').textContent   = '$' + fmt(Math.round(disputeWins));
-  document.getElementById('out-b4').textContent   = '$' + fmt(Math.round(net));
+  document.getElementById('out-b1').textContent   = '$'+fmt(Math.round(b1));
+  document.getElementById('out-b2').textContent   = '$'+fmt(Math.round(b2));
+  document.getElementById('out-b3').textContent   = '$'+fmt(Math.round(b3));
+  document.getElementById('out-b4').textContent   = '$'+fmt(Math.round(net));
 }
 ['in-rev','in-cb','in-cogs'].forEach(id => document.getElementById(id).addEventListener('input', updateROI));
 updateROI();
 
-// ── SCAN COUNT ──
+// Scan counter
 let count = 1284;
-setInterval(() => {
-  if (Math.random() > 0.7) {
-    count += Math.floor(Math.random() * 3) + 1;
-    document.getElementById('scan-count').textContent = count.toLocaleString();
+setInterval(() => { if (Math.random()>.7){count+=Math.floor(Math.random()*3)+1;document.getElementById('scan-count').textContent=count.toLocaleString();} }, 3000);
+
+// ── LANGUAGE ──
+const T = {
+  en:{
+    nav_why:'Why BELY',nav_pricing:'Pricing',nav_compare:'Compare',nav_faq:'FAQ',
+    nav_signin:'Sign in',nav_signup:'Protect my store →',nav_dashboard:'Dashboard →',
+    hero_eyebrow:'Live · 312 Stores Protected',
+    hero_h1:'Stop fraud <em>before</em><br>you ship.',
+    hero_sub:'Other tools alert after the chargeback lands. BELY AI scores every order pre-shipment and warns you before Shopify flags your account.',
+    hero_roi_s:'One blocked fraud order = 3–4 months of BELY AI.',
+    hero_roi_t:"For dropshippers and boutique sellers with thin margins, a single scam can erase an entire week's profit.",
+    hero_cta:'Connect your store — free →',hero_plans:'See plans',
+    trust_1:'7-day free trial',trust_2:'No credit card',trust_3:'2-minute setup',
+    scanned_today:'scanned today',
+    t1:'high-risk orders blocked this hour',t2:'revenue protected this month',t3:'avg dispute win rate via AI',t4:'Shopify stores protected',t5:'network-wide chargeback ratio',t6:'avg risk scoring latency',
+    why_label:'Why BELY AI',why_title:'Others react. We prevent.',why_sub:"Enterprise-grade fraud defense for the 99% of sellers who can't afford $150/mo tools.",
+    w1h:'Pre-shipment fraud scoring',w1b:'Every order scored in <200ms using 40+ signals — IP, account age, velocity, address mismatch.',
+    w2h:'Account-health early warning',w2b:'We watch your chargeback ratio against Visa VAMP and Shopify limits every 24h.',
+    w3h:'AI dispute responses',w3b:'When a chargeback lands, AI drafts a winning response. 68% win rate — 4× industry average.',
+    roi_title:'🎯 One blocked fraud = months of BELY AI.',
+    roi_p:"The average Shopify seller operates on 15–30% margins. A single $150 fraudulent order costs product, shipping, fees, and ad spend — often $300–400 in real losses.",
+    rn1:'True loss multiplier per chargeback',rn2:'Average real cost of one fraudulent order',rn3:'Average ROI in first 90 days',
+    calc_label:'Your Savings',calc_title:'What does unprotected cost you?',calc_sub:'Slide to match your store. Numbers update live.',
+    sl1:'Monthly revenue',sl2:'Chargeback rate',sl3:'Cost of goods',calc_annual:'Annual savings with BELY AI',
+    cb1:'Blocked fraudulent orders',cb2:'Reclaimed product + shipping',cb3:'Won dispute responses (AI)',cb4:'Net — minus BELY AI annual fee',
+    pr_label:'Pricing',pr_title:'Priced for stores, not enterprises.',pr_sub:'Enterprise tools start at $150/mo. We start at $29.90.',
+    p1n:'Trial',days:'days',p1d:'Full access for 7 days. No credit card required.',p1c:'🎯 See your real risk exposure before paying.',
+    p1f1:'Fraud scoring (all orders)',p1f2:'Account health dashboard',p1f3:'Risk alerts (email)',p1f4:'1 AI dispute response',p1btn:'Start 7-day trial free',
+    popular:'MOST POPULAR',month:'month',p2d:'Full protection for stores doing $5K–$50K/mo.',p2c:'Block 1 fraud = ~3 months paid.',
+    p2f1:'Unlimited fraud scoring',p2f2:'Real-time email alerts',p2f3:'Per-order risk reports',p2f4:'Unlimited AI dispute responses',p2f5:'Priority support',p2btn:'Start Shield Pro free →',
+    p3d:'For stores doing $50K+/mo. Advanced analytics.',p3c:'🏆 High-volume — one missed fraud = thousands lost.',
+    p3f1:'Everything in Shield Pro',p3f2:'Advanced velocity rules',p3f3:'Chargeback forecasting',p3f4:'Shopify webhook integration',p3f5:'Dedicated account manager',p3btn:'Start Shield Elite free →',
+    cmp_label:'Compare',cmp_title:'Enterprise protection. Startup price.',cmp_ent:'Enterprise Tools',cmp_basic:'Basic Apps',cmp_none:'No Protection',
+    cr1:'Pre-shipment fraud scoring',cr2:'Account health monitoring',cr3:'AI dispute response writer',cr4:'2-min setup',cr5:'Avg. savings $10K/mo store',
+    faq_title:'Straight answers.',
+    faq1q:'How does BELY AI score an order?',faq1a:"We pull order data from Shopify's API: IP address, account age, address match, payment method, velocity. Score assigned in under 200ms.",
+    faq2q:'Will you slow down my checkout?',faq2a:'Zero impact. Risk scoring happens post-order, pre-fulfillment — entirely on our servers.',
+    faq3q:'Is my store data safe?',faq3a:'Yes. API keys stored encrypted server-side. We never sell or share your data.',
+    faq4q:'What if Shopify has already flagged my account?',faq4a:'We can still help. Most accounts recover in 30–45 days.',
+    cta_ey:'7-Day Free Trial · No Credit Card',cta_em:'silent guardian',cta_p:'Connect your Shopify store in 2 minutes. See your risk posture in 5.',
+    foot_desc:'Silent guardian for Shopify sellers. Fraud stopped. Revenue saved.',foot_product:'Product',foot_fraud:'Fraud Scoring',foot_health:'Account Health',foot_ai:'AI Disputes',
+    foot_company:'Company',foot_about:'About',foot_blog:'Blog',foot_contact:'Contact',foot_legal:'Legal',foot_privacy:'Privacy Policy',foot_terms:'Terms of Service',foot_refund:'Refund Policy',
+    foot_tag:"Built for Shopify sellers who can't afford to lose.",
+    st1:'Orders scanned today',st2:'High-risk blocked (7d)',st3:'Revenue protected (mo)',st4:'Avg dispute win rate',
+    tab_si:'Sign in',tab_su:'Connect store',
+    lbl_email:'Email',lbl_pw:'Password',lbl_store:'Your Shopify Store URL',store_ex:'Example:',
+    si_btn:'Sign in to dashboard →',no_acc:"Don't have an account?",create_free:'Create one free',
+    conn_desc:"Enter your Shopify store URL. We'll connect securely via OAuth — no password needed.",
+    oauth_btn:'Connect with Shopify →',have_acc:'Already have an account?',si_link:'Sign in',
+  },
+  tr:{
+    nav_why:'Neden BELY',nav_pricing:'Fiyatlar',nav_compare:'Karşılaştır',nav_faq:'SSS',
+    nav_signin:'Giriş yap',nav_signup:'Mağazamı koru →',nav_dashboard:'Dashboard →',
+    hero_eyebrow:'Canlı · 312 Mağaza Koruması Altında',
+    hero_h1:'Dolandırıcılığı <em>göndermeden</em><br>durdurun.',
+    hero_sub:"Diğer araçlar iade sonrası uyarır. BELY AI her siparişi gönderi öncesi tarar ve Shopify hesabınız tehlikeye girmeden sizi uyarır.",
+    hero_roi_s:'1 engellenen sahte sipariş = 3–4 aylık BELY AI.',
+    hero_roi_t:"Düşük marjlarla çalışan dropshipper'lar için tek bir dolandırıcılık haftalık kârı silebilir. BELY AI sürekli açık alarm sisteminizdir.",
+    hero_cta:'Mağazanı bağla — ücretsiz →',hero_plans:'Planları gör',
+    trust_1:'7 gün ücretsiz deneme',trust_2:'Kredi kartı gerekmez',trust_3:'2 dakikada kurulum',
+    scanned_today:'bugün tarandı',
+    t1:'bu saatte engellenen yüksek riskli sipariş',t2:'bu ay korunan gelir',t3:'ort. itiraz kazanma oranı',t4:'korunan Shopify mağazası',t5:'ağ geneli iade oranı',t6:'ort. risk puanlama gecikmesi',
+    why_label:'Neden BELY AI',why_title:'Diğerleri tepki verir. Biz önleriz.',why_sub:"150$/ay araçları karşılayamayan %99'luk satıcılar için kurumsal kalitede dolandırıcılık koruması.",
+    w1h:'Kargo öncesi sipariş risk puanlaması',w1b:'Her sipariş 200ms altında 40+ sinyalle puanlanır — IP, hesap yaşı, hız, adres uyumsuzluğu.',
+    w2h:'Hesap sağlığı erken uyarı sistemi',w2b:'Visa VAMP ve Shopify limitlerini 24 saatte bir takip ediyoruz. Eşiğiniz aşılmadan uyarı alırsınız.',
+    w3h:'AI itiraz yanıt yazıcı',w3b:'İade geldiğinde AI saniyeler içinde kazandıran yanıt oluşturur. %68 kazanma oranı.',
+    roi_title:'🎯 Bir engellenen dolandırıcılık = aylarca BELY AI.',
+    roi_p:"Ortalama Shopify satıcısı %15–30 marjla çalışır. 150$'lık sahte sipariş yalnızca 150$ kaybettirmez — ürün, kargo, komisyon ve reklam da gider.",
+    rn1:'Chargeback başına gerçek zarar çarpanı',rn2:'Bir sahte siparişin ortalama gerçek maliyeti',rn3:'İlk 90 günde ortalama ROI',
+    calc_label:'Tasarrufunuz',calc_title:'Korumasız olmak size ne kadara mal oluyor?',calc_sub:'Mağazanıza göre kaydırın. Sayılar anlık güncellenir.',
+    sl1:'Aylık gelir',sl2:'İade oranı',sl3:'Mal maliyeti',calc_annual:'BELY AI ile yıllık tasarruf',
+    cb1:'Engellenen sahte siparişler',cb2:'Kurtarılan ürün + kargo',cb3:'Kazanılan itiraz yanıtları (AI)',cb4:'Net — yıllık BELY AI ücreti düşülmüş',
+    pr_label:'Fiyatlandırma',pr_title:'Mağazalar için fiyatlandırıldı, kurumlar için değil.',pr_sub:'Kurumsal araçlar 150$/ay\'dan başlar. Biz 29.90$\'dan.',
+    p1n:'Deneme',days:'gün',p1d:'7 gün tüm özelliklere tam erişim. Kredi kartı gerekmez.',p1c:'🎯 Bir kuruş ödemeden gerçek risk profilinizi görün.',
+    p1f1:'Sipariş risk puanlaması',p1f2:'Hesap sağlığı paneli',p1f3:'Risk uyarıları (e-posta)',p1f4:'1 AI itiraz yanıtı',p1btn:'7 günlük denemeyi başlat',
+    popular:'EN POPÜLER',month:'ay',p2d:'Aylık 5K–50K$ ciro yapan mağazalar için tam koruma.',p2c:'1 sahte siparişi engelle = ~3 aylık ücret.',
+    p2f1:'Sınırsız risk puanlaması',p2f2:'Gerçek zamanlı e-posta uyarıları',p2f3:'Sipariş bazlı risk raporu',p2f4:'Sınırsız AI itiraz yanıtı',p2f5:'Öncelikli destek',p2btn:'Shield Pro\'yu ücretsiz başlat →',
+    p3d:'Aylık 50K$+ ciro için gelişmiş analitik ve özel izleme.',p3c:'🏆 Yüksek hacimli — bir kaçırılan = binlerce dolar kayıp.',
+    p3f1:"Shield Pro'daki her şey",p3f2:'Gelişmiş hız kuralları',p3f3:'İade oranı tahmini',p3f4:'Shopify webhook entegrasyonu',p3f5:'Özel hesap yöneticisi',p3btn:"Shield Elite'i ücretsiz başlat →",
+    cmp_label:'Karşılaştırma',cmp_title:'Kurumsal koruma. Startup fiyatı.',cmp_ent:'Kurumsal Araçlar',cmp_basic:'Temel Uygulamalar',cmp_none:'Koruma Yok',
+    cr1:'Kargo öncesi sipariş taraması',cr2:'Hesap sağlığı izleme',cr3:'AI itiraz yanıt yazıcı',cr4:'2 dk kurulum',cr5:'Ort. tasarruf aylık 10K$ mağaza',
+    faq_title:'Doğrudan yanıtlar.',
+    faq1q:'BELY AI bir siparişi nasıl puanlar?',faq1a:"Sipariş geldiğinde Shopify API'sinden veri çekeriz: IP, hesap yaşı, adres uyumu, ödeme yöntemi, hız. 200ms altında 0–100 risk skoru atanır.",
+    faq2q:'Ödeme sayfamı yavaşlatır mı?',faq2a:'Sıfır etki. Risk puanlaması sipariş sonrası, kargo öncesinde — tamamen sunucularımızda gerçekleşir.',
+    faq3q:'Mağaza verilerim güvende mi?',faq3a:'Evet. API anahtarları şifrelenmiş sunucu tarafında tutulur. Verilerinizi asla satmayız.',
+    faq4q:'Shopify hesabım zaten işaretlendiyse ne olur?',faq4a:'Yine de yardımcı olabiliriz. Çoğu hesap 30–45 günde toparlanır.',
+    cta_ey:'7 Gün Ücretsiz · Kredi Kartı Gerekmez',cta_em:'sessiz koruyucu',cta_p:'Shopify mağazanızı 2 dakikada bağlayın. 5 dakikada risk profilinizi görün.',
+    foot_desc:'Shopify satıcıları için sessiz koruyucu. Dolandırıcılık durdu. Gelir kurtarıldı.',foot_product:'Ürün',foot_fraud:'Dolandırıcılık Puanlaması',foot_health:'Hesap Sağlığı',foot_ai:'AI İtirazlar',
+    foot_company:'Şirket',foot_about:'Hakkında',foot_blog:'Blog',foot_contact:'İletişim',foot_legal:'Yasal',foot_privacy:'Gizlilik Politikası',foot_terms:'Kullanım Şartları',foot_refund:'İade Politikası',
+    foot_tag:'Kaybedemeyecek Shopify satıcıları için inşa edildi.',
+    st1:'Bugün taranan sipariş',st2:'Engellenen yüksek riskli (7g)',st3:'Korunan gelir (ay)',st4:'Ort. itiraz kazanma oranı',
+    tab_si:'Giriş yap',tab_su:'Mağaza bağla',
+    lbl_email:'E-posta',lbl_pw:'Şifre',lbl_store:'Shopify Mağaza URL\'iniz',store_ex:'Örnek:',
+    si_btn:'Panele giriş yap →',no_acc:'Hesabınız yok mu?',create_free:'Ücretsiz oluştur',
+    conn_desc:"Shopify mağaza URL'inizi girin. OAuth ile güvenli bağlanıyoruz — şifre gerekmez.",
+    oauth_btn:'Shopify ile bağlan →',have_acc:'Zaten hesabınız var mı?',si_link:'Giriş yap',
   }
-}, 3000);
+};
+
+let currentLang = localStorage.getItem('bely_lang') || 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('bely_lang', lang);
+  document.getElementById('lang-en').classList.toggle('on', lang === 'en');
+  document.getElementById('lang-tr').classList.toggle('on', lang === 'tr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
+  });
+}
+function setLang(lang) { applyLang(lang); }
+applyLang(currentLang);
 </script>
 </body>
 </html>
