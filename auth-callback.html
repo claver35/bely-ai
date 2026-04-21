@@ -47,7 +47,7 @@ async function handleCallback() {
       body: JSON.stringify({ code, shop })
     });
     const tokenData = await tokenRes.json();
-    if (!tokenData.access_token) { showError('Connection failed. Please try again.'); return; }
+    if (!tokenData.access_token) { showError('Connection failed: ' + JSON.stringify(tokenData)); return; }
     setStatus('Saving store connection...');
     localStorage.setItem('shopify_token', tokenData.access_token);
     localStorage.setItem('shopify_shop', shop);
