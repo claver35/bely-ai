@@ -8,44 +8,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#03050a;
-  --bg2:#070b14;
-  --bg3:#0a0f1c;
-  --cyan:#00e5ff;
-  --green:#00ff88;
-  --red:#ff3d57;
-  --orange:#ffab00;
-  --line:rgba(0,229,255,0.1);
-  --line2:rgba(255,255,255,0.06);
-  --ink:#f0f4ff;
-  --ink2:#8b90a8;
-  --ink3:#3a3f55;
-  --sans:'Syne',system-ui,sans-serif;
-  --mono:'DM Mono',monospace;
+  --bg:#03050a;--bg2:#070b14;--bg3:#0a0f1c;
+  --cyan:#00e5ff;--green:#00ff88;--red:#ff3d57;--orange:#ffab00;
+  --line:rgba(0,229,255,0.1);--line2:rgba(255,255,255,0.07);
+  --ink:#ffffff;--ink2:#a0a8c0;--ink3:#3a3f55;
+  --sans:'Syne',system-ui,sans-serif;--mono:'DM Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
-
-/* SCANLINE OVERLAY */
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,0.015) 2px,rgba(0,229,255,0.015) 4px);pointer-events:none;z-index:1000}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,0.012) 2px,rgba(0,229,255,0.012) 4px);pointer-events:none;z-index:1000}
 
 /* PAYWALL */
-.paywall{position:fixed;inset:0;background:rgba(3,5,10,0.95);backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
-.paywall-inner{max-width:720px;width:100%;text-align:center}
-.paywall-inner h2{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.03em}
+.paywall{position:fixed;inset:0;background:rgba(3,5,10,0.96);backdrop-filter:blur(20px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
+.paywall-inner{max-width:740px;width:100%;text-align:center}
+.paywall-inner h2{font-size:34px;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.03em}
 .paywall-inner p{font-size:15px;color:var(--ink2);margin-bottom:36px;line-height:1.65}
 .pw-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 @media(max-width:560px){.pw-plans{grid-template-columns:1fr}}
 .pw-plan{border-radius:16px;padding:28px;text-align:left;position:relative;overflow:hidden}
-.pw-plan::before{content:'';position:absolute;inset:0;opacity:.06}
-.pw-pro{background:#060d1a;border:2px solid var(--cyan);box-shadow:0 0 40px rgba(0,229,255,0.15),inset 0 0 40px rgba(0,229,255,0.03)}
-.pw-elite{background:#06140a;border:2px solid var(--green);box-shadow:0 0 40px rgba(0,255,136,0.12),inset 0 0 40px rgba(0,255,136,0.03)}
+.pw-pro{background:#060d1a;border:2px solid var(--cyan);box-shadow:0 0 50px rgba(0,229,255,0.15)}
+.pw-elite{background:#06140a;border:2px solid var(--green);box-shadow:0 0 50px rgba(0,255,136,0.12)}
 .pw-label{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;padding:3px 10px;border-radius:4px;margin-bottom:16px}
 .pw-pro .pw-label{background:var(--cyan);color:#000}
 .pw-elite .pw-label{background:var(--green);color:#000}
 .pw-icon{font-size:32px;display:block;margin-bottom:10px}
 .pw-name{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
-.pw-tagline{font-size:13px;color:var(--ink2);margin-bottom:18px;line-height:1.5}
+.pw-tagline{font-size:13px;color:var(--ink2);margin-bottom:18px}
 .pw-price{display:flex;align-items:baseline;gap:4px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)}
 .pw-amount{font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1;font-family:var(--mono)}
 .pw-pro .pw-amount{color:var(--cyan);text-shadow:0 0 20px rgba(0,229,255,0.5)}
@@ -59,7 +47,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .pw-feats li .fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800;flex-shrink:0}
 .pw-pro .fi{background:rgba(0,229,255,0.15);color:var(--cyan)}
 .pw-elite .fi{background:rgba(0,255,136,0.12);color:var(--green)}
-.pw-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;border:none;transition:all .2s;letter-spacing:.02em;font-family:var(--sans)}
+.pw-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;border:none;transition:all .2s;font-family:var(--sans)}
 .pw-btn-pro{background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000}
 .pw-btn-elite{background:linear-gradient(90deg,#00ff88,#00b050);color:#000}
 .pw-btn-pro:hover{box-shadow:0 8px 30px rgba(0,229,255,0.4);transform:translateY(-2px)}
@@ -67,172 +55,169 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .pw-note{font-size:12px;color:var(--ink3)}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.02em}
-.nav-logo-icon{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:#000;font-weight:700;box-shadow:0 0 12px rgba(0,229,255,0.4)}
+nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line2);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em}
+.nav-logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:#000;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,0.45)}
 .nav-logo-ai{color:var(--cyan)}
-.nav-center{display:flex;align-items:center;gap:6px}
-.nav-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ink2);background:rgba(0,229,255,0.05);border:1px solid var(--line);border-radius:6px;padding:5px 10px}
-.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.nav-sys{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ink2);background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.15);border-radius:6px;padding:5px 12px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-email{font-size:12px;color:var(--ink2);font-family:var(--mono)}
-.plan-chip{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px}
+.plan-chip{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:20px}
 .chip-trial{background:rgba(255,171,0,0.15);color:var(--orange);border:1px solid rgba(255,171,0,0.3)}
 .chip-pro{background:rgba(0,229,255,0.15);color:var(--cyan);border:1px solid rgba(0,229,255,0.3)}
 .chip-elite{background:rgba(0,255,136,0.15);color:var(--green);border:1px solid rgba(0,255,136,0.3)}
-.btn-signout{font-size:12px;padding:6px 14px;border-radius:7px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;font-family:var(--sans)}
-.btn-signout:hover{background:rgba(255,255,255,0.05);color:#fff}
+.btn-so{font-size:12px;padding:6px 14px;border-radius:7px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.btn-so:hover{background:rgba(255,255,255,0.06);color:#fff}
 
 /* UPGRADE BANNER */
-.upgrade-banner{background:linear-gradient(90deg,rgba(255,171,0,0.06),rgba(255,171,0,0.02));border-bottom:1px solid rgba(255,171,0,0.2);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.ub-text{font-size:13px;color:var(--ink2)}
-.ub-text strong{color:var(--orange)}
-.ub-btns{display:flex;gap:8px;flex-shrink:0}
-.ub-btn{padding:7px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans)}
-.ub-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
-.ub-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
+.up-banner{background:linear-gradient(90deg,rgba(255,171,0,0.07),rgba(255,171,0,0.02));border-bottom:1px solid rgba(255,171,0,0.2);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.up-text{font-size:13px;color:var(--ink2)}
+.up-text strong{color:var(--orange)}
+.up-btns{display:flex;gap:8px;flex-shrink:0}
+.up-btn{padding:7px 18px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans);transition:all .15s}
+.up-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
+.up-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
+.up-pro:hover,.up-elite:hover{filter:brightness(1.1);transform:translateY(-1px)}
 
-/* MAIN LAYOUT */
-.dash{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 60px)}
+/* LAYOUT */
+.dash{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 58px)}
 
 /* SIDEBAR */
-.sidebar{background:var(--bg2);border-right:1px solid var(--line2);padding:20px;display:flex;flex-direction:column;gap:6px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
-.sidebar-section{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);padding:8px 12px 4px;margin-top:8px}
-.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all .15s;border:1px solid transparent}
-.sidebar-item:hover{background:rgba(0,229,255,0.05);color:#fff;border-color:var(--line)}
-.sidebar-item.active{background:rgba(0,229,255,0.08);color:var(--cyan);border-color:rgba(0,229,255,0.2)}
-.sidebar-item .si-icon{font-size:16px;width:20px;text-align:center}
-.sidebar-item .si-badge{margin-left:auto;font-size:10px;font-weight:700;background:var(--red);color:#fff;border-radius:10px;padding:1px 7px}
+.sidebar{background:var(--bg2);border-right:1px solid var(--line2);padding:16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sb-section{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink3);padding:10px 10px 4px;margin-top:6px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all .15s;border:1px solid transparent;text-decoration:none}
+.sb-item:hover{background:rgba(0,229,255,0.06);color:#fff;border-color:rgba(0,229,255,0.15)}
+.sb-item.active{background:rgba(0,229,255,0.1);color:var(--cyan);border-color:rgba(0,229,255,0.25)}
+.sb-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0}
+.sb-badge{margin-left:auto;font-size:10px;font-weight:700;background:var(--red);color:#fff;border-radius:10px;padding:2px 7px;box-shadow:0 0 8px rgba(255,61,87,0.5)}
+.sb-shopify{background:linear-gradient(135deg,rgba(149,191,71,0.08),rgba(149,191,71,0.03));border:1px solid rgba(149,191,71,0.2);border-radius:10px;padding:14px;margin-top:auto}
+.sb-shopify-head{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#95bf47;margin-bottom:8px}
+.sb-shop-name{font-size:12px;color:var(--green);font-family:var(--mono);font-weight:600}
+.sb-shop-status{font-size:11px;color:var(--ink2);margin-top:2px}
+.sb-disconnect{margin-top:8px;font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s}
+.sb-disconnect:hover{background:rgba(255,61,87,0.1)}
+.sb-connect-btn{margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;cursor:pointer;font-family:var(--sans);width:100%;font-weight:700;transition:all .15s}
+.sb-connect-btn:hover{filter:brightness(1.1)}
 
-/* SHOPIFY CONNECT */
-.shopify-connect{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,229,255,0.03));border:1px solid rgba(0,229,255,0.2);border-radius:10px;padding:14px;margin-top:auto}
-.shopify-logo{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#95bf47;margin-bottom:8px}
-.shopify-connected{font-size:11px;color:var(--ink2);font-family:var(--mono)}
-.shopify-shop{color:var(--green);font-weight:600;font-size:12px;margin-top:2px}
-.btn-disconnect-small{margin-top:8px;font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);width:100%}
+/* CONTENT */
+.content{padding:20px 24px;display:flex;flex-direction:column;gap:18px;overflow:hidden}
 
-/* MAIN CONTENT */
-.content{padding:24px;display:flex;flex-direction:column;gap:20px}
+/* PAGE HEADER */
+.page-header{display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.03em}
+.page-sub{font-size:13px;color:var(--ink2);margin-top:3px;display:flex;align-items:center;gap:6px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
 
-/* HERO METRICS ROW */
+/* METRIC CARDS */
 .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.metric-card{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:18px;position:relative;overflow:hidden;transition:border-color .2s}
-.metric-card:hover{border-color:var(--line)}
-.metric-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.metric-card.m-green::after{background:linear-gradient(90deg,transparent,var(--green),transparent)}
-.metric-card.m-cyan::after{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
-.metric-card.m-orange::after{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
-.metric-card.m-red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.m-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.m-value{font-size:36px;font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:4px}
-.m-green .m-value{color:var(--green);text-shadow:0 0 20px rgba(0,255,136,0.3)}
-.m-cyan .m-value{color:var(--cyan);text-shadow:0 0 20px rgba(0,229,255,0.3)}
-.m-orange .m-value{color:var(--orange);text-shadow:0 0 20px rgba(255,171,0,0.3)}
-.m-red .m-value{color:var(--red);text-shadow:0 0 20px rgba(255,61,87,0.3)}
-.m-sub{font-size:11px;color:var(--ink2)}
-.m-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:10px}
-.m-bar-fill{height:3px;border-radius:2px;transition:width 1.5s ease}
+.mc{background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:all .2s}
+.mc:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-2px)}
+.mc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
+.mc-green::after{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.mc-orange::after{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.mc-cyan::after{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.mc-red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.mc-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.mc-label-icon{font-size:16px}
+.mc-value{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.04em;margin-bottom:6px;font-family:var(--mono)}
+.mc-green .mc-value{color:var(--green);text-shadow:0 0 24px rgba(0,255,136,0.4)}
+.mc-orange .mc-value{color:var(--orange);text-shadow:0 0 24px rgba(255,171,0,0.4)}
+.mc-cyan .mc-value{color:var(--cyan);text-shadow:0 0 24px rgba(0,229,255,0.4)}
+.mc-red .mc-value{color:var(--red);text-shadow:0 0 24px rgba(255,61,87,0.4)}
+.mc-sub{font-size:12px;color:var(--ink2);font-weight:500}
+.mc-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:12px}
+.mc-bar-fill{height:3px;border-radius:2px;transition:width 1.8s ease}
 
-/* MIDDLE ROW */
-.mid-row{display:grid;grid-template-columns:1fr 1.8fr;gap:14px}
+/* MID ROW */
+.mid-row{display:grid;grid-template-columns:260px 1fr;gap:14px}
 
 /* RADAR */
-.radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
-.radar-panel::before{content:'BELY AI RADAR';position:absolute;top:16px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
+.radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.18);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;animation:float 5s ease-in-out infinite}
 .radar-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,229,255,0.04),transparent 70%);pointer-events:none}
-.radar-wrap{position:relative;width:180px;height:180px;margin:28px 0 10px}
-.radar-svg{width:180px;height:180px}
-.radar-live-badge{font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:.15em;display:flex;align-items:center;gap:5px;margin-bottom:8px}
-.radar-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
+.radar-header{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:4px;width:100%}
+.radar-title{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--cyan);text-align:center}
+.radar-live{font-family:var(--mono);font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px;letter-spacing:.1em}
+.radar-live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 1.2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.7)}
+.radar-wrap{position:relative;width:190px;height:190px;margin:8px 0}
+.radar-svg{width:190px;height:190px}
 .radar-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:8px}
-.radar-stat{background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);border-radius:8px;padding:8px;text-align:center}
-.radar-stat-val{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--cyan)}
-.radar-stat-label{font-size:10px;color:var(--ink2);margin-top:2px}
-.radar-threats{font-family:var(--mono);font-size:12px;color:var(--red);font-weight:600;margin-top:4px;text-align:center}
+.rs{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,255,0.12);border-radius:8px;padding:10px;text-align:center}
+.rs-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,0.4)}
+.rs-label{font-size:10px;color:var(--ink2);margin-top:3px;letter-spacing:.05em}
+.radar-threat{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:10px;text-align:center;padding:6px 12px;border-radius:6px}
+.threat-active{color:var(--red);background:rgba(255,61,87,0.08);border:1px solid rgba(255,61,87,0.2)}
+.threat-clear{color:var(--green);background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.15)}
 
 /* ORDERS PANEL */
-.orders-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
-.panel-header{padding:16px 20px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
+.orders-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.panel-head{padding:16px 20px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .panel-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
-.panel-title-icon{width:20px;height:20px;border-radius:5px;background:rgba(0,229,255,0.1);display:grid;place-items:center;font-size:11px}
+.pt-icon{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:12px}
+.pt-icon-blue{background:rgba(0,229,255,0.1)}
+.pt-icon-red{background:rgba(255,61,87,0.1)}
 .panel-meta{font-family:var(--mono);font-size:11px;color:var(--ink2)}
-.orders-list{padding:12px}
-.order-item{background:var(--bg3);border:1px solid var(--line2);border-radius:10px;padding:14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:8px;transition:border-color .15s;position:relative;overflow:hidden}
-.order-item:last-child{margin-bottom:0}
-.order-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
-.order-item.risk-h::before{background:var(--red)}
-.order-item.risk-m::before{background:var(--orange)}
-.order-item.risk-l::before{background:var(--green)}
-.order-item:hover{border-color:rgba(255,255,255,0.1)}
-.order-num{font-family:var(--mono);font-size:12px;color:var(--ink2)}
-.order-amount{font-size:15px;font-weight:800;color:#fff;margin-top:2px}
-.order-country{font-size:11px;color:var(--ink2);margin-top:2px}
-.order-reason{font-size:12px;color:var(--ink2);margin-top:6px;padding:6px 10px;border-radius:6px;line-height:1.5}
-.reason-h{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid var(--red)}
-.reason-m{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid var(--orange)}
-.reason-l{background:rgba(0,255,136,0.07);color:#86efac;border-left:2px solid var(--green)}
-.risk-badge{padding:4px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;font-weight:700;align-self:start;white-space:nowrap}
-.badge-h{background:rgba(255,61,87,0.15);color:var(--red);border:1px solid rgba(255,61,87,0.3)}
-.badge-m{background:rgba(255,171,0,0.15);color:var(--orange);border:1px solid rgba(255,171,0,0.3)}
-.badge-l{background:rgba(0,255,136,0.15);color:var(--green);border:1px solid rgba(0,255,136,0.3)}
-.loading-orders,.no-store{padding:40px;text-align:center;color:var(--ink2);font-size:13px}
+.orders-body{padding:14px;flex:1;overflow-y:auto;max-height:340px}
+.order-card{background:var(--bg3);border:1px solid var(--line2);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative;overflow:hidden;transition:border-color .15s}
+.order-card:last-child{margin-bottom:0}
+.order-card:hover{border-color:rgba(255,255,255,0.12)}
+.order-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.oc-high::before{background:var(--red);box-shadow:0 0 8px rgba(255,61,87,0.5)}
+.oc-med::before{background:var(--orange);box-shadow:0 0 8px rgba(255,171,0,0.4)}
+.oc-low::before{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.4)}
+.order-left{padding-left:4px}
+.order-num{font-family:var(--mono);font-size:11px;color:var(--ink2);margin-bottom:3px}
+.order-price{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:2px}
+.order-loc{font-size:11px;color:var(--ink2);margin-bottom:8px}
+.order-reason{font-size:12px;padding:6px 10px;border-radius:6px;line-height:1.5}
+.or-high{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid var(--red)}
+.or-med{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid var(--orange)}
+.or-low{background:rgba(0,255,136,0.07);color:#86efac;border-left:2px solid var(--green)}
+.risk-tag{padding:5px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.rt-high{background:rgba(255,61,87,0.15);color:var(--red);border:1px solid rgba(255,61,87,0.3)}
+.rt-med{background:rgba(255,171,0,0.15);color:var(--orange);border:1px solid rgba(255,171,0,0.3)}
+.rt-low{background:rgba(0,255,136,0.15);color:var(--green);border:1px solid rgba(0,255,136,0.3)}
+.empty-state{padding:40px;text-align:center;color:var(--ink2);font-size:13px}
+.empty-state .es-icon{font-size:32px;margin-bottom:12px}
 
 /* BOTTOM ROW */
 .bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-/* ALERTS PANEL */
+/* ALERTS */
 .alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
-.alert-row{padding:14px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
-.alert-row:last-child{border-bottom:none}
-.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.ad-red{background:var(--red);box-shadow:0 0 8px rgba(255,61,87,0.6)}
-.ad-orange{background:var(--orange);box-shadow:0 0 8px rgba(255,171,0,0.5)}
-.ad-green{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5)}
-.alert-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
-.alert-time{font-size:11px;color:var(--ink2);font-family:var(--mono)}
-.alert-body{font-size:12px;line-height:1.55;padding:7px 10px;border-radius:6px;margin-top:6px}
-.ab-red{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid var(--red)}
-.ab-orange{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid var(--orange)}
-.ab-green{background:rgba(0,255,136,0.07);color:#86efac;border-left:2px solid var(--green)}
+.alert-item{padding:14px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
+.alert-item:last-child{border-bottom:none}
+.ai-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.aid-red{background:var(--red);box-shadow:0 0 8px rgba(255,61,87,0.6)}
+.aid-orange{background:var(--orange);box-shadow:0 0 8px rgba(255,171,0,0.5)}
+.aid-green{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5)}
+.ai-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.35}
+.ai-time{font-size:11px;color:var(--ink2);font-family:var(--mono)}
+.ai-body{font-size:12px;line-height:1.55;padding:7px 10px;border-radius:6px;margin-top:6px}
+.aib-red{background:rgba(255,61,87,0.07);color:#fca5a5;border-left:2px solid var(--red)}
+.aib-orange{background:rgba(255,171,0,0.07);color:#fde68a;border-left:2px solid var(--orange)}
+.aib-green{background:rgba(0,255,136,0.07);color:#86efac;border-left:2px solid var(--green)}
 
-/* COMPARE PANEL */
-.compare-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
-.cmp-table{width:100%;border-collapse:collapse}
-.cmp-table th{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:12px 14px;text-align:left;border-bottom:1px solid var(--line2);color:var(--ink2)}
-.cmp-table th.us{color:var(--cyan);background:rgba(0,229,255,0.05);border-left:2px solid rgba(0,229,255,0.3);border-right:2px solid rgba(0,229,255,0.3)}
-.cmp-table td{padding:10px 14px;border-bottom:1px solid var(--line2);font-size:12px;color:#d0d4e8;vertical-align:middle}
-.cmp-table td:first-child{color:#fff;font-weight:600}
-.cmp-table tr:last-child td{border-bottom:none}
-.cmp-table td.us{background:rgba(0,229,255,0.04);border-left:2px solid rgba(0,229,255,0.2);border-right:2px solid rgba(0,229,255,0.2);text-align:center}
-.cmp-table tr:last-child td.us{border-bottom:2px solid rgba(0,229,255,0.3)}
-.cmp-table td.center{text-align:center}
-.ck-c{color:#00ffff;font-size:15px;font-weight:900;text-shadow:0 0 6px rgba(0,255,255,0.5)}
-.ck-g{color:#00ff88;font-size:15px;font-weight:900;text-shadow:0 0 6px rgba(0,255,136,0.5)}
-.ck-dim{color:#555;font-size:14px}
-.xx-dim{color:rgba(255,61,87,0.5);font-size:14px}
-.ptag-c{display:inline-block;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.4);border-radius:5px;padding:3px 8px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono)}
-.ptag-g{display:inline-block;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.35);border-radius:5px;padding:3px 8px;font-size:11px;font-weight:800;color:var(--green);font-family:var(--mono);margin-left:3px}
-.ptag-bad{display:inline-block;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:3px 8px;font-size:11px;color:#444;font-family:var(--mono)}
+/* SHOPIFY STATS PANEL */
+.shopify-panel{background:var(--bg2);border:1px solid rgba(149,191,71,0.2);border-radius:16px;overflow:hidden}
+.shopify-panel .panel-head{border-color:rgba(149,191,71,0.15)}
+.sp-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(149,191,71,0.08)}
+.sp-stat{background:var(--bg2);padding:18px 20px}
+.sp-stat-val{font-size:28px;font-weight:800;color:#95bf47;font-family:var(--mono);letter-spacing:-.02em;margin-bottom:4px}
+.sp-stat-label{font-size:12px;color:var(--ink2);font-weight:500}
+.sp-connect-cta{padding:20px;text-align:center}
+.sp-connect-cta p{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6}
+.sp-connect-btn{padding:12px 24px;border-radius:10px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:all .2s}
+.sp-connect-btn:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 20px rgba(149,191,71,0.3)}
 
 /* FOOTER */
-.dash-footer{padding:16px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
-.dash-footer span{color:var(--cyan)}
+.dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
+.dash-footer a{color:var(--cyan);text-decoration:none}
 
 /* ANIMATIONS */
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
-@keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
-@keyframes glow-pulse{0%,100%{box-shadow:0 0 20px rgba(0,229,255,0.2)}50%{box-shadow:0 0 40px rgba(0,229,255,0.4)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes counter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-.animate-glow{animation:glow-pulse 3s infinite}
-.animate-float{animation:float 4s ease-in-out infinite}
-
-/* SHOPIFY BADGE */
-.shopify-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(149,191,71,0.1);border:1px solid rgba(149,191,71,0.25);border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;color:#95bf47}
-.shopify-badge svg{width:14px;height:14px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
 
 @media(max-width:1100px){.dash{grid-template-columns:1fr}.sidebar{display:none}.metrics-row{grid-template-columns:1fr 1fr}.mid-row,.bottom-row{grid-template-columns:1fr}}
 </style>
@@ -242,14 +227,14 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
 <!-- PAYWALL -->
 <div class="paywall" id="paywall" style="display:none">
   <div class="paywall-inner">
-    <div style="font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
-      <span style="width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite"></span>
-      PROTECTION EXPIRED
+    <div style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite;box-shadow:0 0 8px rgba(255,61,87,0.6)"></span>
+      PROTECTION EXPIRED — ACTION REQUIRED
     </div>
     <h2>Your free trial has ended</h2>
     <p>Upgrade now to keep your store protected from fraud and chargebacks.<br>One blocked fraud order pays for months of BELY AI.</p>
     <div class="pw-plans">
-      <div class="pw-plan pw-pro animate-glow">
+      <div class="pw-plan pw-pro">
         <span class="pw-label">★ Most Popular</span>
         <span class="pw-icon">🛡️</span>
         <div class="pw-name">Shield Pro</div>
@@ -269,7 +254,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
         <span class="pw-label">🏆 High Volume</span>
         <span class="pw-icon">⚡</span>
         <div class="pw-name">Shield Elite</div>
-        <div class="pw-tagline">For stores doing $50K+/mo. Advanced analytics & monitoring.</div>
+        <div class="pw-tagline">For stores doing $50K+/mo. Advanced analytics.</div>
         <div class="pw-price"><span class="pw-amount">$49.90</span><span class="pw-per">/month</span></div>
         <div class="pw-roi">🏆 Dedicated monitoring + forecasting</div>
         <ul class="pw-feats">
@@ -292,27 +277,25 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
     <div class="nav-logo-icon">B</div>
     BELY <span class="nav-logo-ai">AI</span>
   </div>
-  <div class="nav-center">
-    <div class="nav-status">
-      <span class="nav-dot"></span>
-      <span>SYSTEM ONLINE</span>
-      <span style="color:var(--ink3)">·</span>
-      <span id="live-time">--:--:--</span>
-    </div>
+  <div class="nav-sys">
+    <span class="nav-dot"></span>
+    <span>SYSTEM ONLINE</span>
+    <span style="color:var(--ink3)">·</span>
+    <span id="live-time" style="color:var(--cyan)">--:--:--</span>
   </div>
   <div class="nav-right">
     <span class="nav-email" id="user-email"></span>
     <span class="plan-chip" id="plan-chip" style="display:none"></span>
-    <button class="btn-signout" onclick="logout()">Sign out</button>
+    <button class="btn-so" onclick="logout()">Sign out</button>
   </div>
 </nav>
 
 <!-- UPGRADE BANNER -->
-<div class="upgrade-banner" id="upgrade-banner" style="display:none">
-  <div class="ub-text">⚡ <strong>Trial active</strong> — <span id="trial-days-text">7 days left</span>. Upgrade to keep your store protected after trial ends.</div>
-  <div class="ub-btns">
-    <button class="ub-btn ub-pro" onclick="startCheckout('pro')">Shield Pro $29.90/mo</button>
-    <button class="ub-btn ub-elite" onclick="startCheckout('elite')">Shield Elite $49.90/mo</button>
+<div class="up-banner" id="upgrade-banner" style="display:none">
+  <div class="up-text">⚡ <strong>Trial active</strong> — <span id="trial-days-text">7 days left</span>. Upgrade to keep your store protected after trial ends.</div>
+  <div class="up-btns">
+    <button class="up-btn up-pro" onclick="startCheckout('pro')">Shield Pro — $29.90/mo</button>
+    <button class="up-btn up-elite" onclick="startCheckout('elite')">Shield Elite — $49.90/mo</button>
   </div>
 </div>
 
@@ -321,29 +304,28 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="sidebar-section">Command Center</div>
-    <div class="sidebar-item active"><span class="si-icon">⚡</span> Dashboard</div>
-    <div class="sidebar-item"><span class="si-icon">📦</span> Orders <span class="si-badge" id="high-risk-count">0</span></div>
-    <div class="sidebar-item"><span class="si-icon">🛡️</span> Risk Rules</div>
-    <div class="sidebar-item"><span class="si-icon">📊</span> Analytics</div>
+    <div class="sb-section">Command Center</div>
+    <div class="sb-item active"><span class="sb-icon">⚡</span> Dashboard</div>
+    <div class="sb-item"><span class="sb-icon">📦</span> Orders <span class="sb-badge" id="hr-count">0</span></div>
+    <div class="sb-item"><span class="sb-icon">🛡️</span> Risk Rules</div>
+    <div class="sb-item"><span class="sb-icon">📊</span> Analytics</div>
+    <div class="sb-section">Protection</div>
+    <div class="sb-item"><span class="sb-icon">🔔</span> Alerts</div>
+    <div class="sb-item"><span class="sb-icon">🤖</span> Dispute AI</div>
+    <div class="sb-item"><span class="sb-icon">📈</span> Chargeback Report</div>
+    <div class="sb-section">Account</div>
+    <div class="sb-item"><span class="sb-icon">⚙️</span> Settings</div>
+    <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
 
-    <div class="sidebar-section">Protection</div>
-    <div class="sidebar-item"><span class="si-icon">🔔</span> Alerts</div>
-    <div class="sidebar-item"><span class="si-icon">📝</span> Dispute AI</div>
-    <div class="sidebar-item"><span class="si-icon">📈</span> Chargeback Report</div>
-
-    <div class="sidebar-section">Account</div>
-    <div class="sidebar-item"><span class="si-icon">⚙️</span> Settings</div>
-    <div class="sidebar-item"><span class="si-icon">💳</span> Billing</div>
-
-    <!-- SHOPIFY CONNECT -->
-    <div class="shopify-connect" id="shopify-sidebar">
-      <div class="shopify-logo">
-        <svg viewBox="0 0 32 32" width="16" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
+    <!-- SHOPIFY -->
+    <div class="sb-shopify" id="sb-shopify">
+      <div class="sb-shopify-head">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
         Shopify Store
       </div>
-      <div id="sidebar-store-info">
-        <div class="shopify-connected">Not connected</div>
+      <div id="sb-store-content">
+        <div style="font-size:11px;color:var(--ink2)">No store connected</div>
+        <button class="sb-connect-btn" onclick="connectShopify()">Connect Store →</button>
       </div>
     </div>
   </div>
@@ -351,173 +333,168 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
   <!-- CONTENT -->
   <div class="content">
 
-    <!-- METRICS -->
-    <div class="metrics-row">
-      <div class="metric-card m-green">
-        <div class="m-label">Account Health <span>↑</span></div>
-        <div class="m-value" id="m-health">—</div>
-        <div class="m-sub" id="m-health-sub">Connecting...</div>
-        <div class="m-bar"><div class="m-bar-fill" id="m-hbar" style="background:var(--green)"></div></div>
-      </div>
-      <div class="metric-card m-orange">
-        <div class="m-label">Chargeback Rate <span style="color:var(--orange)">⚠</span></div>
-        <div class="m-value">0.48%</div>
-        <div class="m-sub">Limit: 0.65% · 26% buffer</div>
-        <div class="m-bar"><div class="m-bar-fill" style="width:74%;background:var(--orange)"></div></div>
-      </div>
-      <div class="metric-card m-cyan">
-        <div class="m-label">Orders Scanned</div>
-        <div class="m-value" id="m-scanned">0</div>
-        <div class="m-sub" id="m-scan-sub">Today</div>
-      </div>
-      <div class="metric-card m-red">
-        <div class="m-label">Fraud Blocked <span>🚨</span></div>
-        <div class="m-value" id="m-fraud">0</div>
-        <div class="m-sub">High-risk this session</div>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div>
+        <div class="page-title">Store Dashboard</div>
+        <div class="page-sub"><span class="live-dot"></span> Live monitoring — updating in real time</div>
       </div>
     </div>
 
-    <!-- MID ROW: RADAR + ORDERS -->
+    <!-- METRICS -->
+    <div class="metrics-row">
+      <div class="mc mc-green">
+        <div class="mc-label">Account Health <span class="mc-label-icon">💚</span></div>
+        <div class="mc-value" id="m-health">—</div>
+        <div class="mc-sub" id="m-health-sub">Connecting to store...</div>
+        <div class="mc-bar"><div class="mc-bar-fill" id="m-hbar" style="background:var(--green)"></div></div>
+      </div>
+      <div class="mc mc-orange">
+        <div class="mc-label">Chargeback Rate <span class="mc-label-icon">⚠️</span></div>
+        <div class="mc-value">0.48%</div>
+        <div class="mc-sub">Limit: 0.65% · 26% buffer remaining</div>
+        <div class="mc-bar"><div class="mc-bar-fill" style="width:74%;background:var(--orange)"></div></div>
+      </div>
+      <div class="mc mc-cyan">
+        <div class="mc-label">Orders Scanned <span class="mc-label-icon">📦</span></div>
+        <div class="mc-value" id="m-scanned">0</div>
+        <div class="mc-sub" id="m-scan-sub">Today — all analyzed</div>
+      </div>
+      <div class="mc mc-red">
+        <div class="mc-label">Fraud Blocked <span class="mc-label-icon">🚨</span></div>
+        <div class="mc-value" id="m-fraud">0</div>
+        <div class="mc-sub">High-risk orders this session</div>
+      </div>
+    </div>
+
+    <!-- MID: RADAR + ORDERS -->
     <div class="mid-row">
 
       <!-- RADAR -->
-      <div class="radar-panel animate-float">
-        <div class="radar-live-badge"><span class="radar-live-dot"></span> LIVE SCAN</div>
+      <div class="radar-panel">
+        <div class="radar-header">
+          <div class="radar-title">BELY AI Radar</div>
+          <div class="radar-live"><span class="radar-live-dot"></span> LIVE SCAN</div>
+        </div>
         <div class="radar-wrap">
-          <svg class="radar-svg" viewBox="0 0 180 180">
+          <svg class="radar-svg" viewBox="0 0 190 190">
             <defs>
-              <radialGradient id="rg2" cx="50%" cy="50%">
-                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8"/>
+              <radialGradient id="rg3" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.9"/>
                 <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
               </radialGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
+              <filter id="glow2"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
-            <!-- Grid circles -->
-            <circle cx="90" cy="90" r="84" fill="none" stroke="rgba(0,229,255,0.08)" stroke-width="1"/>
-            <circle cx="90" cy="90" r="63" fill="none" stroke="rgba(0,229,255,0.12)" stroke-width="1"/>
-            <circle cx="90" cy="90" r="42" fill="none" stroke="rgba(0,229,255,0.16)" stroke-width="1"/>
-            <circle cx="90" cy="90" r="21" fill="none" stroke="rgba(0,229,255,0.22)" stroke-width="1"/>
-            <!-- Cross hairs -->
-            <line x1="90" y1="6" x2="90" y2="174" stroke="rgba(0,229,255,0.07)" stroke-width="1"/>
-            <line x1="6" y1="90" x2="174" y2="90" stroke="rgba(0,229,255,0.07)" stroke-width="1"/>
-            <!-- Sweep -->
-            <g id="radar-sweep" style="transform-origin:90px 90px">
-              <path d="M90 90 L90 6 A84 84 0 0 1 174 90 Z" fill="url(#rg2)" opacity="0.6"/>
-              <line x1="90" y1="90" x2="90" y2="6" stroke="var(--cyan)" stroke-width="1.5" opacity="0.8"/>
+            <circle cx="95" cy="95" r="88" fill="none" stroke="rgba(0,229,255,0.07)" stroke-width="1"/>
+            <circle cx="95" cy="95" r="66" fill="none" stroke="rgba(0,229,255,0.1)" stroke-width="1"/>
+            <circle cx="95" cy="95" r="44" fill="none" stroke="rgba(0,229,255,0.14)" stroke-width="1"/>
+            <circle cx="95" cy="95" r="22" fill="none" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+            <line x1="95" y1="7" x2="95" y2="183" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
+            <line x1="7" y1="95" x2="183" y2="95" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
+            <line x1="32" y1="32" x2="158" y2="158" stroke="rgba(0,229,255,0.04)" stroke-width="1"/>
+            <line x1="158" y1="32" x2="32" y2="158" stroke="rgba(0,229,255,0.04)" stroke-width="1"/>
+            <g id="radar-sweep" style="transform-origin:95px 95px">
+              <path d="M95 95 L95 7 A88 88 0 0 1 183 95 Z" fill="url(#rg3)" opacity="0.5"/>
+              <line x1="95" y1="95" x2="95" y2="7" stroke="var(--cyan)" stroke-width="1.5" opacity="0.9"/>
             </g>
-            <!-- Center dot -->
-            <circle cx="90" cy="90" r="4" fill="var(--cyan)" filter="url(#glow)"/>
-            <circle cx="90" cy="90" r="8" fill="none" stroke="var(--cyan)" stroke-width="0.5" opacity="0.4"/>
-            <!-- Threat blips -->
-            <circle cx="62" cy="45" r="4" fill="var(--red)" filter="url(#glow)">
-              <animate attributeName="r" values="4;7;4" dur="1.2s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/>
+            <circle cx="95" cy="95" r="5" fill="var(--cyan)" filter="url(#glow2)"/>
+            <circle cx="95" cy="95" r="10" fill="none" stroke="var(--cyan)" stroke-width="0.5" opacity="0.3">
+              <animate attributeName="r" values="10;16;10" dur="3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
             </circle>
-            <circle cx="130" cy="100" r="3.5" fill="var(--orange)" filter="url(#glow)">
-              <animate attributeName="r" values="3.5;6;3.5" dur="1.8s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/>
+            <circle cx="65" cy="48" r="4.5" fill="var(--red)" filter="url(#glow2)">
+              <animate attributeName="r" values="4.5;8;4.5" dur="1.3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.2;1" dur="1.3s" repeatCount="indefinite"/>
             </circle>
-            <circle cx="48" cy="120" r="3" fill="var(--red)" filter="url(#glow)">
-              <animate attributeName="r" values="3;5.5;3" dur="2.2s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="1;0.2;1" dur="2.2s" repeatCount="indefinite"/>
+            <circle cx="138" cy="108" r="4" fill="var(--orange)" filter="url(#glow2)">
+              <animate attributeName="r" values="4;7;4" dur="1.9s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.2;1" dur="1.9s" repeatCount="indefinite"/>
             </circle>
-            <circle cx="140" cy="55" r="2.5" fill="var(--green)" filter="url(#glow)">
-              <animate attributeName="r" values="2.5;4;2.5" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/>
+            <circle cx="50" cy="130" r="3.5" fill="var(--red)" filter="url(#glow2)">
+              <animate attributeName="r" values="3.5;6.5;3.5" dur="2.3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.2;1" dur="2.3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="148" cy="58" r="3" fill="var(--green)" filter="url(#glow2)">
+              <animate attributeName="r" values="3;5;3" dur="3.2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.3;1" dur="3.2s" repeatCount="indefinite"/>
             </circle>
           </svg>
         </div>
         <div class="radar-stats">
-          <div class="radar-stat">
-            <div class="radar-stat-val" id="r-threats">2</div>
-            <div class="radar-stat-label">Threats</div>
+          <div class="rs">
+            <div class="rs-val" id="r-threats">2</div>
+            <div class="rs-label">Threats</div>
           </div>
-          <div class="radar-stat">
-            <div class="radar-stat-val" style="color:var(--green)">A7</div>
-            <div class="radar-stat-label">Sector</div>
+          <div class="rs">
+            <div class="rs-val" style="color:var(--green)">A7</div>
+            <div class="rs-label">Sector</div>
           </div>
         </div>
-        <div class="radar-threats" id="radar-status" style="margin-top:8px">⚠ Scanning for threats...</div>
+        <div class="radar-threat threat-active" id="radar-status">⚠ Scanning for threats...</div>
       </div>
 
       <!-- ORDERS -->
       <div class="orders-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <span class="panel-title-icon">📦</span>
-            Recent Orders — Risk Scores
-          </div>
-          <div class="panel-meta" id="orders-meta">Loading...</div>
+        <div class="panel-head">
+          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Recent Orders — Risk Scores</div>
+          <div class="panel-meta" id="orders-meta">Connecting...</div>
         </div>
-        <div class="orders-list" id="orders-list">
-          <div class="loading-orders">
-            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">▋ Connecting to Shopify...</div>
+        <div class="orders-body" id="orders-body">
+          <div class="empty-state">
+            <div class="es-icon">🔄</div>
+            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Connecting to Shopify...</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM ROW: ALERTS + COMPARE -->
+    <!-- BOTTOM: ALERTS + SHOPIFY STATS -->
     <div class="bottom-row">
 
       <!-- ALERTS -->
       <div class="alerts-panel">
-        <div class="panel-header">
-          <div class="panel-title"><span class="panel-title-icon">🔔</span> Account Alerts</div>
+        <div class="panel-head">
+          <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Account Alerts</div>
           <div class="panel-meta">Active monitoring</div>
         </div>
-        <div id="alerts-list">
-          <div class="alert-row">
-            <div class="alert-dot ad-orange"></div>
+        <div id="alerts-body">
+          <div class="alert-item">
+            <div class="ai-dot aid-orange"></div>
             <div>
-              <div class="alert-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div>
-              <div class="alert-time">Today, 09:14</div>
-              <div class="alert-body ab-orange">Visa limit 0.65%. You're 0.17% away. Stop shipping high-risk orders now.</div>
+              <div class="ai-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div>
+              <div class="ai-time">Today, 09:14</div>
+              <div class="ai-body aib-orange">Visa limit 0.65%. You're 0.17% away. Stop shipping high-risk orders now.</div>
             </div>
           </div>
-          <div class="alert-row">
-            <div class="alert-dot ad-green"></div>
+          <div class="alert-item">
+            <div class="ai-dot aid-green"></div>
             <div>
-              <div class="alert-title">✔ Account Health Improved: 78 → 82</div>
-              <div class="alert-time">3 days ago</div>
-              <div class="alert-body ab-green">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
+              <div class="ai-title">✔ Account Health Improved: 78 → 82</div>
+              <div class="ai-time">3 days ago</div>
+              <div class="ai-body aib-green">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COMPARE -->
-      <div class="compare-panel">
-        <div class="panel-header">
-          <div class="panel-title"><span class="panel-title-icon">📊</span> Why BELY AI Wins</div>
-          <div class="panel-meta">1 blocked fraud = ~3 months paid</div>
+      <!-- SHOPIFY STATS -->
+      <div class="shopify-panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <span class="pt-icon" style="background:rgba(149,191,71,0.12)">
+              <svg width="14" height="14" viewBox="0 0 32 32" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
+            </span>
+            Shopify Integration
+          </div>
+          <div class="panel-meta" id="shopify-status">Checking...</div>
         </div>
-        <table class="cmp-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th class="us" style="text-align:center">BELY AI<br><span style="color:var(--cyan);font-size:9px;opacity:.8">$29.90–$49.90</span></th>
-              <th style="text-align:center;color:#444">Enterprise<br><span style="font-size:9px">$150–300+</span></th>
-              <th style="text-align:center;color:#444">Basic Apps<br><span style="font-size:9px">$30–80</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Monthly price</td>
-              <td class="us"><span class="ptag-c">$29.90</span><span class="ptag-g">$49.90</span></td>
-              <td class="center"><span class="ptag-bad">$150–300+</span></td>
-              <td class="center"><span class="ptag-bad">$30–80</span></td>
-            </tr>
-            <tr><td>Pre-shipment fraud scoring</td><td class="us"><span class="ck-c">✔</span></td><td class="center"><span class="ck-dim">✔</span></td><td class="center"><span class="xx-dim">✗</span></td></tr>
-            <tr><td>Account health monitoring</td><td class="us"><span class="ck-c">✔</span></td><td class="center"><span class="xx-dim">✗</span></td><td class="center"><span class="xx-dim">✗</span></td></tr>
-            <tr><td>AI dispute responses</td><td class="us"><span class="ck-g">✔</span></td><td class="center"><span class="ck-dim">✔</span></td><td class="center"><span class="xx-dim">✗</span></td></tr>
-            <tr><td>2-min setup · no developer</td><td class="us"><span class="ck-g">✔</span></td><td class="center"><span class="xx-dim">✗</span></td><td class="center"><span class="xx-dim">✗</span></td></tr>
-            <tr><td style="font-weight:700;color:#fff">Avg. savings ($10K store)</td><td class="us" style="color:var(--green);font-weight:800;font-size:14px;text-shadow:0 0 8px rgba(0,255,136,0.4)">+$797/mo</td><td class="center" style="color:#444">+$200</td><td class="center" style="color:#444">+$80</td></tr>
-          </tbody>
-        </table>
+        <div id="shopify-panel-content">
+          <div class="sp-connect-cta">
+            <div class="es-icon">🛍️</div>
+            <p>Connect your Shopify store to start scanning orders and protecting your revenue in real time.</p>
+            <button class="sp-connect-btn" onclick="connectShopify()">Connect Shopify Store →</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -526,8 +503,8 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.9);backdrop-filte
 
 <!-- FOOTER -->
 <div class="dash-footer">
-  <span>Powered by <span>Bely Security Systems</span> · GDPR Aligned · PCI DSS Ready</span>
-  <span style="color:var(--ink3)">256-bit SSL · Shopify Partner · <span style="color:var(--cyan)">bely-ai.vercel.app</span></span>
+  <span>Powered by <span style="color:var(--cyan)">Bely Security Systems</span> · GDPR Aligned · PCI DSS Ready · 256-bit SSL</span>
+  <span>Shopify Partner · <a href="index.html">bely-ai.vercel.app</a></span>
 </div>
 
 <script>
@@ -535,232 +512,182 @@ const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
-
-const PRICE_IDS = {
-  pro: 'pri_01kpntvkyjz86f9abj5g8396dv',
-  elite: 'pri_01kpnv1whkq97tr638rt08vz09'
-};
-
+const PRICE_IDS = { pro:'pri_01kpntvkyjz86f9abj5g8396dv', elite:'pri_01kpnv1whkq97tr638rt08vz09' };
 const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
 const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
 const SHOPIFY_SCOPES = 'read_orders,read_customers';
-
 let currentUser = null;
 
-// Live clock
-function updateClock() {
-  const now = new Date();
-  document.getElementById('live-time').textContent = now.toTimeString().slice(0,8);
-}
-setInterval(updateClock, 1000);
-updateClock();
+// Clock
+setInterval(() => { document.getElementById('live-time').textContent = new Date().toTimeString().slice(0,8); }, 1000);
 
-// Radar sweep animation
+// Radar
 let ra = 0;
-const sweep = document.getElementById('radar-sweep');
-setInterval(() => { ra = (ra + 2) % 360; sweep.style.transform = `rotate(${ra}deg)`; }, 25);
+setInterval(() => { ra=(ra+2)%360; document.getElementById('radar-sweep').style.transform=`rotate(${ra}deg)`; }, 25);
 
 async function startCheckout(plan) {
   if (!currentUser) return;
-  const btns = document.querySelectorAll('.pw-btn, .ub-btn');
-  btns.forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
+  const btns = document.querySelectorAll('.pw-btn,.up-btn');
+  btns.forEach(b=>{b.disabled=true;b.style.opacity='.6'});
   try {
-    const res = await fetch('/api/paddle-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        priceId: PRICE_IDS[plan],
-        email: currentUser.email,
-        userId: currentUser.id,
-        shopDomain: localStorage.getItem('shopify_shop') || ''
-      })
-    });
+    const res = await fetch('/api/paddle-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId:PRICE_IDS[plan],email:currentUser.email,userId:currentUser.id,shopDomain:localStorage.getItem('shopify_shop')||''})});
     const data = await res.json();
-    if (data.checkoutUrl) { window.location.href = data.checkoutUrl; }
-    else { alert('Could not start checkout. Please try again.'); btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; }); }
-  } catch (e) {
-    alert('Error. Please try again.');
-    btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
-  }
+    if (data.checkoutUrl) { window.location.href=data.checkoutUrl; }
+    else { alert('Could not start checkout.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1'}); }
+  } catch(e) { alert('Error. Try again.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1'}); }
 }
 
 function connectShopify() {
   let shop = prompt('Enter your Shopify store URL:\n(e.g. your-store.myshopify.com)');
   if (!shop) return;
   shop = shop.trim().replace('https://','').replace('http://','');
-  if (!shop.includes('.myshopify.com')) shop += '.myshopify.com';
+  if (!shop.includes('.myshopify.com')) shop+='.myshopify.com';
   const state = Math.random().toString(36).substring(2);
-  sessionStorage.setItem('shopify_state', state);
-  sessionStorage.setItem('shopify_shop', shop);
-  window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+  sessionStorage.setItem('shopify_state',state);
+  window.location.href=`https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
 }
 
 function checkPlanStatus(storeData) {
-  const paywall = document.getElementById('paywall');
-  const banner = document.getElementById('upgrade-banner');
-  const chip = document.getElementById('plan-chip');
-
-  if (!storeData) { chip.style.display = 'none'; return; }
-
-  const plan = storeData.plan || 'free';
-  const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
-  const now = new Date();
-
-  chip.style.display = 'inline-block';
-
-  if (plan === 'pro' || plan === 'starter') {
-    chip.className = 'plan-chip chip-pro';
-    chip.textContent = '★ Shield Pro';
-    paywall.style.display = 'none';
-    banner.style.display = 'none';
-    return;
+  const paywall=document.getElementById('paywall');
+  const banner=document.getElementById('upgrade-banner');
+  const chip=document.getElementById('plan-chip');
+  if (!storeData) { chip.style.display='none'; return; }
+  const plan=storeData.plan||'free';
+  const trialEnd=storeData.trial_end_date?new Date(storeData.trial_end_date):null;
+  const now=new Date();
+  chip.style.display='inline-block';
+  if (plan==='pro'||plan==='starter') { chip.className='plan-chip chip-pro'; chip.textContent='★ Shield Pro'; paywall.style.display='none'; banner.style.display='none'; return; }
+  if (plan==='elite') { chip.className='plan-chip chip-elite'; chip.textContent='★ Shield Elite'; paywall.style.display='none'; banner.style.display='none'; return; }
+  if (trialEnd&&now<trialEnd) {
+    const d=Math.ceil((trialEnd-now)/86400000);
+    chip.className='plan-chip chip-trial'; chip.textContent=`Trial — ${d}d`;
+    document.getElementById('trial-days-text').textContent=`${d} days left`;
+    banner.style.display='flex'; paywall.style.display='none'; return;
   }
-  if (plan === 'elite') {
-    chip.className = 'plan-chip chip-elite';
-    chip.textContent = '★ Shield Elite';
-    paywall.style.display = 'none';
-    banner.style.display = 'none';
-    return;
-  }
-  if (trialEnd && now < trialEnd) {
-    const daysLeft = Math.ceil((trialEnd - now) / 86400000);
-    chip.className = 'plan-chip chip-trial';
-    chip.textContent = `Trial — ${daysLeft}d left`;
-    document.getElementById('trial-days-text').textContent = `${daysLeft} days left`;
-    banner.style.display = 'flex';
-    paywall.style.display = 'none';
-    return;
-  }
-  chip.className = 'plan-chip chip-trial';
-  chip.textContent = 'Trial Ended';
-  banner.style.display = 'none';
-  paywall.style.display = 'flex';
+  chip.className='plan-chip chip-trial'; chip.textContent='Trial Ended';
+  banner.style.display='none'; paywall.style.display='flex';
 }
 
 function getRiskScore(order) {
-  let score = 0; const risks = [];
+  let score=0; const risks=[];
   if (order.customer) {
-    const d = (Date.now() - new Date(order.customer.created_at)) / 86400000;
-    if (d < 7) { score += 30; risks.push('New account (< 7 days)'); }
-    if (d < 1) { score += 15; risks.push('Account created today'); }
+    const d=(Date.now()-new Date(order.customer.created_at))/86400000;
+    if (d<7){score+=30;risks.push('New account (< 7 days)'); }
+    if (d<1){score+=15;risks.push('Account created today');}
   }
-  const price = parseFloat(order.total_price);
-  if (price > 200) { score += 20; risks.push(`High order value ($${price.toFixed(0)})`); }
-  if (price > 500) { score += 15; risks.push('Very high order value'); }
-  if (order.billing_address && order.shipping_address) {
-    if (order.billing_address.country_code !== order.shipping_address.country_code) { score += 35; risks.push('Billing & shipping in different countries'); }
-  }
-  score = Math.min(score, 99);
-  let level, cls, badgeCls, reasonCls, itemCls;
-  if (score >= 50) { level = `HIGH — ${score}%`; cls = 'badge-h'; reasonCls = 'reason-h'; itemCls = 'risk-h'; }
-  else if (score >= 25) { level = `MED — ${score}%`; cls = 'badge-m'; reasonCls = 'reason-m'; itemCls = 'risk-m'; }
-  else { level = `LOW — ${Math.max(score,4)}%`; cls = 'badge-l'; reasonCls = 'reason-l'; itemCls = 'risk-l'; }
-  return { score, level, cls, reasonCls, itemCls, risks };
+  const p=parseFloat(order.total_price);
+  if (p>200){score+=20;risks.push(`High order value ($${p.toFixed(0)})`);}
+  if (p>500){score+=15;risks.push('Very high order value');}
+  if (order.billing_address&&order.shipping_address&&order.billing_address.country_code!==order.shipping_address.country_code){score+=35;risks.push('Billing & shipping in different countries');}
+  score=Math.min(score,99);
+  let level,tagCls,reasonCls,cardCls;
+  if (score>=50){level=`HIGH — ${score}%`;tagCls='rt-high';reasonCls='or-high';cardCls='oc-high';}
+  else if (score>=25){level=`MED — ${score}%`;tagCls='rt-med';reasonCls='or-med';cardCls='oc-med';}
+  else{level=`LOW — ${Math.max(score,4)}%`;tagCls='rt-low';reasonCls='or-low';cardCls='oc-low';}
+  return {score,level,tagCls,reasonCls,cardCls,risks};
 }
 
 function renderOrders(orders) {
-  const list = document.getElementById('orders-list');
-  const meta = document.getElementById('orders-meta');
-  if (!orders || orders.length === 0) {
-    list.innerHTML = '<div class="no-store" style="font-family:var(--mono);font-size:12px;color:var(--cyan)">▋ No orders found. Place a test order in your Shopify store.</div>';
+  const body=document.getElementById('orders-body');
+  const meta=document.getElementById('orders-meta');
+  if (!orders||orders.length===0) {
+    body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">No orders found. Place a test order in your Shopify store.</div></div>';
     return;
   }
-  let highRisk = 0;
-  let html = '';
-  orders.slice(0, 6).forEach(order => {
-    const risk = getRiskScore(order);
-    if (risk.score >= 50) highRisk++;
-    const reason = risk.risks.length > 0 ? risk.risks.join(' · ') : 'No risk signals — Safe to ship.';
-    html += `<div class="order-item ${risk.itemCls}">
-      <div>
-        <div class="order-num">${order.order_number}</div>
-        <div class="order-amount">$${parseFloat(order.total_price).toFixed(2)}</div>
-        <div class="order-country">${order.shipping_address?.country || 'Unknown'}</div>
+  let highRisk=0; let html='';
+  orders.slice(0,8).forEach(order=>{
+    const risk=getRiskScore(order);
+    if (risk.score>=50) highRisk++;
+    const reason=risk.risks.length>0?risk.risks.join(' · '):'No risk signals detected — Safe to ship.';
+    html+=`<div class="order-card ${risk.cardCls}">
+      <div class="order-left">
+        <div class="order-num">#${order.order_number}</div>
+        <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
+        <div class="order-loc">${order.shipping_address?.country||'Unknown location'}</div>
         <div class="order-reason ${risk.reasonCls}">${reason}</div>
       </div>
-      <span class="risk-badge ${risk.cls}">${risk.level}</span>
+      <span class="risk-tag ${risk.tagCls}">${risk.level}</span>
     </div>`;
   });
-  list.innerHTML = html;
-  meta.textContent = `${orders.length} orders · ${highRisk} high-risk`;
-  document.getElementById('m-scanned').textContent = orders.length;
-  document.getElementById('m-fraud').textContent = highRisk;
-  document.getElementById('high-risk-count').textContent = highRisk;
-  document.getElementById('r-threats').textContent = highRisk;
-  document.getElementById('radar-status').textContent = highRisk > 0 ? `🚨 ${highRisk} threat${highRisk > 1 ? 's' : ''} detected` : '✔ No threats detected';
-  document.getElementById('radar-status').style.color = highRisk > 0 ? 'var(--red)' : 'var(--green)';
-
-  if (highRisk > 0) {
-    const alertsList = document.getElementById('alerts-list');
-    alertsList.innerHTML = `<div class="alert-row"><div class="alert-dot ad-red" style="animation:pulse 1s infinite"></div><div><div class="alert-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="alert-time">Just now</div><div class="alert-body ab-red">Review these orders immediately before shipping.</div></div></div>` + alertsList.innerHTML;
+  body.innerHTML=html;
+  meta.textContent=`${orders.length} orders · ${highRisk} high-risk`;
+  document.getElementById('m-scanned').textContent=orders.length;
+  document.getElementById('m-fraud').textContent=highRisk;
+  document.getElementById('hr-count').textContent=highRisk;
+  document.getElementById('r-threats').textContent=highRisk;
+  const radarStatus=document.getElementById('radar-status');
+  if (highRisk>0) {
+    radarStatus.textContent=`🚨 ${highRisk} threat${highRisk>1?'s':''} detected`;
+    radarStatus.className='radar-threat threat-active';
+    const alertsBody=document.getElementById('alerts-body');
+    alertsBody.innerHTML=`<div class="alert-item"><div class="ai-dot aid-red" style="animation:pulse 1s infinite"></div><div><div class="ai-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="ai-time">Just now</div><div class="ai-body aib-red">Review these orders immediately. Hold until verified.</div></div></div>`+alertsBody.innerHTML;
+  } else {
+    radarStatus.textContent='✔ No threats detected';
+    radarStatus.className='radar-threat threat-clear';
   }
 }
 
-function updateSidebar(shop) {
-  document.getElementById('sidebar-store-info').innerHTML = `
-    <div class="shopify-connected">Connected</div>
-    <div class="shopify-shop">${shop}</div>
-    <button class="btn-disconnect-small" onclick="disconnectStore()">Disconnect</button>
+function showShopifyConnected(shop) {
+  document.getElementById('sb-store-content').innerHTML=`
+    <div class="sb-shop-name">${shop}</div>
+    <div class="sb-shop-status">✔ Connected & protected</div>
+    <button class="sb-disconnect" onclick="disconnectStore()">Disconnect</button>
   `;
+  document.getElementById('shopify-status').textContent='Connected';
+  document.getElementById('shopify-panel-content').innerHTML=`
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">✔</div><div class="sp-stat-label">Store Connected</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">${shop.split('.')[0]}</div><div class="sp-stat-label">Store Name</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--green)">Live</div><div class="sp-stat-label">Webhook Status</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">OAuth</div><div class="sp-stat-label">Auth Method</div></div>
+    </div>
+  `;
+  document.getElementById('m-health').textContent='82%';
+  document.getElementById('m-health-sub').textContent='Healthy — No critical issues';
+  setTimeout(()=>{document.getElementById('m-hbar').style.width='82%';},400);
 }
 
 function disconnectStore() {
   if (!confirm('Disconnect your Shopify store?')) return;
   localStorage.removeItem('shopify_token');
   localStorage.removeItem('shopify_shop');
-  window.location.href = 'index.html';
+  window.location.href='index.html';
 }
 
 async function init() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlToken = urlParams.get('token');
-  const urlShop = urlParams.get('shop');
-  if (urlToken && urlShop) {
-    localStorage.setItem('shopify_token', urlToken);
-    localStorage.setItem('shopify_shop', urlShop);
-    window.history.replaceState({}, document.title, 'dashboard.html');
+  const urlParams=new URLSearchParams(window.location.search);
+  const urlToken=urlParams.get('token');
+  const urlShop=urlParams.get('shop');
+  if (urlToken&&urlShop) {
+    localStorage.setItem('shopify_token',urlToken);
+    localStorage.setItem('shopify_shop',urlShop);
+    window.history.replaceState({},'','dashboard.html');
   }
-
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = 'index.html'; return; }
-
-  currentUser = session.user;
-  document.getElementById('user-email').textContent = session.user.email;
-
-  const { data: storeData } = await sb
-    .from('shopify_stores')
-    .select('plan, subscription_status, trial_end_date, shop_domain, access_token')
-    .eq('user_id', session.user.id)
-    .single();
-
+  const {data:{session}}=await sb.auth.getSession();
+  if (!session){window.location.href='index.html';return;}
+  currentUser=session.user;
+  document.getElementById('user-email').textContent=session.user.email;
+  const {data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain,access_token').eq('user_id',session.user.id).single();
   checkPlanStatus(storeData);
-
-  const token = localStorage.getItem('shopify_token') || storeData?.access_token || null;
-  const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
-
-  if (token && shop) {
-    updateSidebar(shop);
-    document.getElementById('m-health').textContent = '82%';
-    document.getElementById('m-health-sub').textContent = 'Healthy — No critical issues';
-    setTimeout(() => { document.getElementById('m-hbar').style.width = '82%'; }, 400);
+  const token=localStorage.getItem('shopify_token')||storeData?.access_token||null;
+  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
+  if (token&&shop) {
+    showShopifyConnected(shop);
     try {
-      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}&token=${encodeURIComponent(token)}`);
-      const data = await res.json();
-      renderOrders(data.orders || []);
+      const res=await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}&token=${encodeURIComponent(token)}`);
+      const data=await res.json();
+      renderOrders(data.orders||[]);
     } catch(e) {
-      document.getElementById('orders-list').innerHTML = '<div class="no-store">Could not load orders.</div>';
+      document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Could not load orders. Check your connection.</div></div>';
     }
   } else {
-    document.getElementById('orders-list').innerHTML = `<div class="no-store" style="font-family:var(--mono);font-size:12px"><span style="color:var(--cyan)">▋</span> No store connected.<br><br><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px">Connect Shopify Store →</button></div>`;
+    document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Connect your Shopify store to start scanning orders.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Connect Shopify →</button></div>';
+    document.getElementById('m-health').textContent='—';
+    document.getElementById('m-health-sub').textContent='Connect store to start';
   }
 }
 
-async function logout() {
-  await sb.auth.signOut();
-  localStorage.removeItem('shopify_token');
-  localStorage.removeItem('shopify_shop');
-  window.location.href = 'index.html';
-}
+async function logout(){await sb.auth.signOut();localStorage.removeItem('shopify_token');localStorage.removeItem('shopify_shop');window.location.href='index.html';}
 
 init();
 </script>
