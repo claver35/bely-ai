@@ -7,39 +7,254 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:48px 40px;text-align:center;max-width:420px;width:100%}
-.logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:32px}.logo span{color:#4ea8ff}
-.spinner{width:48px;height:48px;border:3px solid rgba(78,168,255,0.15);border-top-color:#4ea8ff;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
+body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:48px 40px;text-align:center;max-width:440px;width:100%}
+.logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:28px}.logo span{color:#00e5ff}
+.spinner{width:48px;height:48px;border:3px solid rgba(0,229,255,0.15);border-top-color:#00e5ff;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
+.title{font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
 .sub{font-size:14px;color:#8a96ad;line-height:1.6}
-.status{font-size:13px;color:#4ea8ff;margin-top:16px;font-weight:500}
-.err-box{background:rgba(255,93,108,0.1);border:0.5px solid rgba(255,93,108,0.25);border-radius:8px;padding:14px;margin-top:20px;font-size:13px;color:#ff8a96;display:none}
-.btn{padding:12px 28px;border-radius:8px;background:#4ea8ff;border:none;color:#001024;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;display:none}
+.status{font-size:13px;color:#00e5ff;margin-top:16px;font-weight:500;min-height:20px}
+.err-box{background:rgba(255,61,87,0.1);border:0.5px solid rgba(255,61,87,0.3);border-radius:8px;padding:14px;margin-top:20px;font-size:13px;color:#ff8a96;display:none;text-align:left}
+
+/* Account form */
+.form-section{display:none;text-align:left;margin-top:24px}
+.form-section .form-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
+.form-section .form-sub{font-size:13px;color:#8a96ad;margin-bottom:20px;line-height:1.5}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:#8a96ad;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.field input{width:100%;padding:12px 14px;background:#0f1220;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:border-color .15s}
+.field input:focus{border-color:#00e5ff;box-shadow:0 0 0 3px rgba(0,229,255,0.1)}
+.field input::placeholder{color:#555870}
+.shop-display{background:#0a1628;border:1px solid rgba(0,229,255,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:#00e5ff;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.shop-display span{color:#8a96ad;font-size:12px}
+.btn-main{width:100%;padding:13px;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000;transition:opacity .15s;margin-top:4px}
+.btn-main:hover{opacity:.9}
+.btn-main:disabled{opacity:.4;cursor:not-allowed}
+.field-err{font-size:12px;color:#ff6b82;margin-top:4px;display:none}
+
+.btn-retry{padding:12px 28px;border-radius:8px;background:#00e5ff;border:none;color:#000;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;display:none}
+.success-icon{font-size:48px;margin-bottom:16px;display:none}
 </style>
 </head>
 <body>
 <div class="card">
   <div class="logo">BELY <span>AI</span></div>
-  <div class="spinner" id="spinner"></div>
-  <div class="title" id="title">Connecting your Shopify store...</div>
-  <div class="sub" id="sub">Please wait while we securely connect your store to BELY AI.</div>
-  <div class="status" id="status">Verifying authorization...</div>
-  <div class="err-box" id="err"></div>
-  <button class="btn" id="btn">Go to Dashboard</button>
+
+  <!-- Loading state -->
+  <div id="loading-section">
+    <div class="spinner" id="spinner"></div>
+    <div class="title" id="title">Connecting your Shopify store...</div>
+    <div class="sub" id="sub">Please wait while we securely connect your store to BELY AI.</div>
+    <div class="status" id="status">Verifying authorization...</div>
+    <div class="err-box" id="err"></div>
+    <button class="btn-retry" id="btn-retry" onclick="location.href='index.html'">Try Again</button>
+  </div>
+
+  <!-- Account creation form (shown when no session) -->
+  <div class="form-section" id="form-section">
+    <div class="success-icon" id="success-icon">🔗</div>
+    <div class="form-title">Shopify store connected!</div>
+    <div class="form-sub">Create your BELY AI account to access your dashboard and start protecting your store.</div>
+    <div class="shop-display" id="shop-display">
+      <span>🛍️</span> <div><span>Connected store:</span><br><strong id="shop-name-display"></strong></div>
+    </div>
+    <div class="field">
+      <label>Email address</label>
+      <input type="email" id="f-email" placeholder="you@store.com" autocomplete="email"/>
+      <div class="field-err" id="err-email"></div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="f-pw" placeholder="Min. 6 characters" autocomplete="new-password"/>
+      <div class="field-err" id="err-pw"></div>
+    </div>
+    <button class="btn-main" id="f-btn" onclick="createAccount()">Create account & go to dashboard →</button>
+    <div class="field-err" id="err-general" style="display:none;margin-top:12px;font-size:13px"></div>
+    <p style="font-size:12px;color:#555870;text-align:center;margin-top:14px">Already have an account? <a href="#" style="color:#00e5ff" onclick="signInMode()">Sign in</a></p>
+  </div>
+
+  <!-- Sign in form (alternative) -->
+  <div class="form-section" id="signin-section">
+    <div class="form-title">Sign in to your account</div>
+    <div class="form-sub">Sign in to link this Shopify store to your existing BELY AI account.</div>
+    <div class="shop-display" id="shop-display-2">
+      <span>🛍️</span> <div><span>Connecting:</span><br><strong id="shop-name-display-2"></strong></div>
+    </div>
+    <div class="field">
+      <label>Email address</label>
+      <input type="email" id="si-email" placeholder="you@store.com" autocomplete="email"/>
+      <div class="field-err" id="si-err-email"></div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="si-pw" placeholder="••••••••" autocomplete="current-password"/>
+      <div class="field-err" id="si-err-pw"></div>
+    </div>
+    <button class="btn-main" id="si-btn" onclick="signIn()">Sign in & connect store →</button>
+    <div class="field-err" id="si-err-general" style="display:none;margin-top:12px;font-size:13px"></div>
+    <p style="font-size:12px;color:#555870;text-align:center;margin-top:14px">New to BELY AI? <a href="#" style="color:#00e5ff" onclick="registerMode()">Create account</a></p>
+  </div>
 </div>
+
 <script>
 const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
+
+let pendingShop = '';
+let pendingToken = '';
+
+function setStatus(msg) {
+  const el = document.getElementById('status');
+  if (el) el.textContent = msg;
+}
+
+function showError(msg) {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('title').textContent = 'Connection failed';
+  document.getElementById('sub').textContent = 'Something went wrong while connecting your store.';
+  document.getElementById('status').style.display = 'none';
+  const err = document.getElementById('err');
+  err.textContent = msg;
+  err.style.display = 'block';
+  document.getElementById('btn-retry').style.display = 'inline-block';
+}
+
+async function saveStoreToSupabase(userId, shop, token) {
+  const trialEnd = new Date();
+  trialEnd.setDate(trialEnd.getDate() + 7);
+  const { error } = await sb.from('shopify_stores').upsert({
+    user_id: userId,
+    shop_domain: shop,
+    access_token: token,
+    connected_at: new Date().toISOString(),
+    trial_end_date: trialEnd.toISOString(),
+    status: 'trial'
+  });
+  return error;
+}
+
+function showAccountForm(shop, token) {
+  pendingShop = shop;
+  pendingToken = token;
+  document.getElementById('loading-section').style.display = 'none';
+  document.getElementById('form-section').style.display = 'block';
+  document.getElementById('success-icon').style.display = 'block';
+  document.getElementById('shop-name-display').textContent = shop;
+  document.getElementById('shop-name-display-2').textContent = shop;
+  localStorage.setItem('pending_shop', shop);
+  localStorage.setItem('pending_token', token);
+}
+
+function signInMode() {
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('signin-section').style.display = 'block';
+}
+function registerMode() {
+  document.getElementById('signin-section').style.display = 'none';
+  document.getElementById('form-section').style.display = 'block';
+}
+
+async function createAccount() {
+  const email = document.getElementById('f-email').value.trim();
+  const pw    = document.getElementById('f-pw').value;
+  const btn   = document.getElementById('f-btn');
+
+  // Reset errors
+  ['err-email','err-pw','err-general'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+    document.getElementById(id).textContent = '';
+  });
+
+  if (!email) { showFieldErr('err-email', 'Please enter your email.'); return; }
+  if (pw.length < 6) { showFieldErr('err-pw', 'Password must be at least 6 characters.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  // Önce sign in dene (zaten kayıtlıysa)
+  const { data: siData, error: siErr } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (!siErr && siData.session) {
+    btn.textContent = 'Saving store...';
+    await saveStoreToSupabase(siData.session.user.id, pendingShop, pendingToken);
+    localStorage.setItem('shopify_token', pendingToken);
+    localStorage.setItem('shopify_shop', pendingShop);
+    btn.textContent = '✓ Done! Redirecting...';
+    setTimeout(() => location.href = 'dashboard.html', 800);
+    return;
+  }
+
+  // Yeni kayıt
+  const { data: suData, error: suErr } = await sb.auth.signUp({ email, password: pw });
+  if (suErr) {
+    btn.disabled = false;
+    btn.textContent = 'Create account & go to dashboard →';
+    showFieldErr('err-general', suErr.message);
+    return;
+  }
+
+  // Store kaydet
+  if (suData.session) {
+    await saveStoreToSupabase(suData.session.user.id, pendingShop, pendingToken);
+  }
+  localStorage.setItem('shopify_token', pendingToken);
+  localStorage.setItem('shopify_shop', pendingShop);
+  btn.textContent = '✓ Done! Redirecting...';
+  setTimeout(() => location.href = 'dashboard.html', 800);
+}
+
+async function signIn() {
+  const email = document.getElementById('si-email').value.trim();
+  const pw    = document.getElementById('si-pw').value;
+  const btn   = document.getElementById('si-btn');
+
+  ['si-err-email','si-err-pw','si-err-general'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+    document.getElementById(id).textContent = '';
+  });
+
+  if (!email) { showFieldErr('si-err-email', 'Please enter your email.'); return; }
+  if (!pw)    { showFieldErr('si-err-pw', 'Please enter your password.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) {
+    btn.disabled = false;
+    btn.textContent = 'Sign in & connect store →';
+    showFieldErr('si-err-general', error.message);
+    return;
+  }
+
+  btn.textContent = 'Saving store...';
+  await saveStoreToSupabase(data.session.user.id, pendingShop, pendingToken);
+  localStorage.setItem('shopify_token', pendingToken);
+  localStorage.setItem('shopify_shop', pendingShop);
+  btn.textContent = '✓ Done! Redirecting...';
+  setTimeout(() => location.href = 'dashboard.html', 800);
+}
+
+function showFieldErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
 async function handleCallback() {
   const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  const shop = params.get('shop');
-  if (!code || !shop) { showError('Missing authorization parameters.'); return; }
+  const code  = params.get('code');
+  const shop  = params.get('shop') || sessionStorage.getItem('shopify_shop') || localStorage.getItem('pending_shop');
+
+  if (!code || !shop) {
+    showError('Missing authorization parameters. Please try connecting again.');
+    return;
+  }
+
   setStatus('Exchanging authorization code...');
+
   try {
     const tokenRes = await fetch('/api/shopify-token', {
       method: 'POST',
@@ -47,47 +262,41 @@ async function handleCallback() {
       body: JSON.stringify({ code, shop })
     });
     const tokenData = await tokenRes.json();
-    if (!tokenData.access_token) { showError('Connection failed: ' + JSON.stringify(tokenData)); return; }
-    setStatus('Saving store connection...');
-    localStorage.setItem('shopify_token', tokenData.access_token);
-    localStorage.setItem('shopify_shop', shop);
-    const { data: { session } } = await sb.auth.getSession();
-    if (session) {
-      const trialEnd = new Date();
-      trialEnd.setDate(trialEnd.getDate() + 7);
-      await sb.from('shopify_stores').upsert({
-        user_id: session.user.id,
-        shop_domain: shop,
-        access_token: tokenData.access_token,
-        connected_at: new Date().toISOString(),
-        trial_end_date: trialEnd.toISOString(),
-        status: 'trial'
-      });
+
+    if (!tokenData.access_token) {
+      showError('Token exchange failed: ' + (tokenData.error || JSON.stringify(tokenData)));
+      return;
     }
-    document.getElementById('spinner').style.display = 'none';
-    document.getElementById('title').textContent = 'Store connected!';
-    document.getElementById('sub').textContent = shop + ' is now protected. Your 7-day free trial has started!';
-    document.getElementById('status').style.color = '#3ddc97';
-    document.getElementById('status').textContent = 'Connection verified — redirecting...';
-    document.getElementById('btn').style.display = 'inline-block';
-    document.getElementById('btn').onclick = () => location.href = 'dashboard.html';
-    setTimeout(() => location.href = 'dashboard.html?token=' + encodeURIComponent(tokenData.access_token) + '&shop=' + encodeURIComponent(shop), 2000);
+
+    setStatus('Checking account...');
+
+    // Mevcut session var mı?
+    const { data: { session } } = await sb.auth.getSession();
+
+    if (session) {
+      // Session var → direkt kaydet
+      setStatus('Saving store connection...');
+      await saveStoreToSupabase(session.user.id, shop, tokenData.access_token);
+      localStorage.setItem('shopify_token', tokenData.access_token);
+      localStorage.setItem('shopify_shop', shop);
+
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('title').textContent = '✓ Store connected!';
+      document.getElementById('sub').textContent = shop + ' is now protected. Redirecting to dashboard...';
+      document.getElementById('status').style.color = '#00e676';
+      document.getElementById('status').textContent = '7-day free trial started!';
+      setTimeout(() => location.href = 'dashboard.html', 1500);
+    } else {
+      // Session yok → hesap formu göster
+      setStatus('Almost there...');
+      setTimeout(() => showAccountForm(shop, tokenData.access_token), 500);
+    }
+
   } catch (e) {
-    showError('Connection error. Please try again.');
+    showError('Connection error: ' + e.message + '. Please try again.');
   }
 }
-function setStatus(msg) { document.getElementById('status').textContent = msg; }
-function showError(msg) {
-  document.getElementById('spinner').style.display = 'none';
-  document.getElementById('title').textContent = 'Connection failed';
-  document.getElementById('sub').textContent = 'Something went wrong while connecting your store.';
-  document.getElementById('status').style.display = 'none';
-  const err = document.getElementById('err');
-  err.textContent = msg; err.style.display = 'block';
-  document.getElementById('btn').textContent = 'Try Again';
-  document.getElementById('btn').onclick = () => location.href = 'index.html';
-  document.getElementById('btn').style.display = 'inline-block';
-}
+
 handleCallback();
 </script>
 </body>
