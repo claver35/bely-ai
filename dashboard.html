@@ -119,19 +119,29 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
 .compare-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
 .compare-sub{font-size:13px;color:#8b90a8;margin-bottom:16px}
 .compare-table{width:100%;border-collapse:collapse;flex:1}
-.compare-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;text-align:left;color:#8b90a8;border-bottom:1px solid rgba(255,255,255,0.08);line-height:1.4}
+.compare-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:10px 10px;text-align:left;color:#fff;border-bottom:1px solid rgba(255,255,255,0.1);line-height:1.5}
 .compare-table th.center{text-align:center}
-.compare-table th.us{color:#00e5ff;background:rgba(0,229,255,0.05)}
-.compare-table td{padding:10px 10px;border-bottom:0.5px solid rgba(255,255,255,0.06);font-size:13px;color:#c2c0d8;vertical-align:middle}
-.compare-table td:first-child{color:#eeedf8;font-weight:500}
+.compare-table th.us{background:linear-gradient(180deg,rgba(0,229,255,0.12),rgba(0,229,255,0.04));border-left:2px solid #00e5ff;border-right:2px solid #00e5ff}
+.compare-table th.us-top{border-top:2px solid #00e5ff;border-radius:8px 8px 0 0}
+.compare-table td{padding:11px 10px;border-bottom:0.5px solid rgba(255,255,255,0.07);font-size:13px;color:#fff;vertical-align:middle}
+.compare-table td:first-child{color:#fff;font-weight:600;font-size:13px}
 .compare-table tr:last-child td{border-bottom:none}
 .compare-table td.center{text-align:center}
-.compare-table tr:hover td{background:rgba(255,255,255,0.02)}
-.ck{color:#00e676;font-size:16px;font-weight:700}
-.xx{color:#ff3d57;font-size:16px}
-.price-tag{display:inline-block;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.4);border-radius:6px;padding:4px 10px;font-size:13px;font-weight:700;color:#00e5ff}
-.price-tag-bad{display:inline-block;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 10px;font-size:12px;color:#6b7080}
-.highlight-row td{background:rgba(0,229,255,0.04)}
+.compare-table td.us-col{background:rgba(0,229,255,0.06);border-left:2px solid rgba(0,229,255,0.3);border-right:2px solid rgba(0,229,255,0.3)}
+.compare-table tr:last-child td.us-col{border-bottom:2px solid #00e5ff;border-radius:0 0 6px 6px}
+.compare-table tr:hover td{background:rgba(255,255,255,0.03)}
+/* BELY tik — neon cyan */
+.ck-bely{color:#00ffff;font-size:18px;font-weight:900;text-shadow:0 0 8px rgba(0,255,255,0.6)}
+/* BELY pro tik — neon green */
+.ck-pro{color:#00ff88;font-size:18px;font-weight:900;text-shadow:0 0 8px rgba(0,255,136,0.6)}
+/* Rakip tik — soluk beyaz */
+.ck{color:#aaaaaa;font-size:16px;font-weight:400}
+.xx{color:#ff3d57;font-size:16px;opacity:.7}
+.price-tag-bely{display:inline-block;background:rgba(0,229,255,0.15);border:1.5px solid #00e5ff;border-radius:6px;padding:4px 10px;font-size:13px;font-weight:800;color:#00e5ff;text-shadow:0 0 8px rgba(0,229,255,0.4)}
+.price-tag-elite{display:inline-block;background:rgba(0,230,118,0.15);border:1.5px solid #00e676;border-radius:6px;padding:4px 10px;font-size:13px;font-weight:800;color:#00e676;text-shadow:0 0 8px rgba(0,230,118,0.4);margin-left:4px}
+.price-tag{display:inline-block;background:rgba(0,229,255,0.15);border:1.5px solid #00e5ff;border-radius:6px;padding:4px 10px;font-size:13px;font-weight:800;color:#00e5ff}
+.price-tag-bad{display:inline-block;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:4px 10px;font-size:12px;color:#888;font-weight:400}
+.highlight-row td{background:rgba(0,229,255,0.03)}
 .bely-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,rgba(0,229,255,0.1),rgba(0,229,255,0.05));border:0.5px solid rgba(0,229,255,0.3);border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;color:#00e5ff;margin-left:6px}
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .card{background:#0a0d18;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px}
@@ -319,29 +329,29 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <table class="compare-table">
         <thead>
           <tr>
-            <th style="width:32%">Feature</th>
-            <th class="center us" style="width:17%">BELY AI<br><span style="font-size:10px;color:#00e5ff;opacity:.7;font-weight:400;text-transform:none">$29.90 – $49.90/mo</span></th>
-            <th class="center" style="width:17%">Enterprise Tools<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">$150–300+/mo</span></th>
-            <th class="center" style="width:17%">Basic Fraud Apps<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">$30–80/mo</span></th>
-            <th class="center" style="width:17%">No Protection<br><span style="font-size:10px;color:#ff3d57;font-weight:400;text-transform:none">avg –$800/mo loss</span></th>
+            <th style="width:30%">Feature</th>
+            <th class="center us us-top" style="width:18%">BELY AI<br><span style="font-size:10px;color:#00e5ff;font-weight:600;text-transform:none;opacity:.9">$29.90 – $49.90/mo</span></th>
+            <th class="center" style="width:17%;color:#888;font-weight:500">Enterprise Tools<br><span style="font-size:10px;color:#555;font-weight:400;text-transform:none">$150–300+/mo</span></th>
+            <th class="center" style="width:17%;color:#888;font-weight:500">Basic Fraud Apps<br><span style="font-size:10px;color:#555;font-weight:400;text-transform:none">$30–80/mo</span></th>
+            <th class="center" style="width:18%;color:#888;font-weight:500">No Protection<br><span style="font-size:10px;color:#ff3d57;font-weight:400;text-transform:none">avg –$800/mo loss</span></th>
           </tr>
         </thead>
         <tbody>
           <tr class="highlight-row">
             <td>Monthly price</td>
-            <td class="center"><span class="price-tag">$29.90</span> <span class="price-tag">$49.90</span></td>
+            <td class="center us-col"><span class="price-tag-bely">$29.90</span><span class="price-tag-elite">$49.90</span></td>
             <td class="center"><span class="price-tag-bad">$150–300+</span></td>
             <td class="center"><span class="price-tag-bad">$30–80</span></td>
             <td class="center"><span class="price-tag-bad">$0</span></td>
           </tr>
-          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>Account health monitoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>Chargeback limit warnings</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>AI dispute response writer</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>Real-time email alerts</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>2-min setup · no developer</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
-          <tr><td>7-day free trial · no card</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
-          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings ($10K store)</td><td class="center" style="color:#00e676;font-weight:700">+$797</td><td class="center" style="color:#555870">+$200</td><td class="center" style="color:#555870">+$80</td><td class="center" style="color:#ff3d57">–$800+</td></tr>
+          <tr><td>Pre-shipment fraud scoring</td><td class="center us-col"><span class="ck-bely">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>Account health monitoring</td><td class="center us-col"><span class="ck-bely">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>Chargeback limit warnings</td><td class="center us-col"><span class="ck-bely">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>AI dispute response writer</td><td class="center us-col"><span class="ck-bely">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>Real-time email alerts</td><td class="center us-col"><span class="ck-pro">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>2-min setup · no developer</td><td class="center us-col"><span class="ck-pro">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center" style="color:#555">—</td></tr>
+          <tr><td>7-day free trial · no card</td><td class="center us-col"><span class="ck-pro">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center" style="color:#555">—</td></tr>
+          <tr class="highlight-row"><td style="font-weight:700;color:#fff">Avg. monthly savings ($10K store)</td><td class="center us-col" style="color:#00ff88;font-weight:800;font-size:15px;text-shadow:0 0 8px rgba(0,255,136,0.5)">+$797</td><td class="center" style="color:#555">+$200</td><td class="center" style="color:#555">+$80</td><td class="center" style="color:#ff3d57;font-weight:700">–$800+</td></tr>
         </tbody>
       </table>
     </div>
