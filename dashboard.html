@@ -268,14 +268,31 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="compare-title">Why stores choose BELY AI <span class="bely-badge">★ Best Value</span></div>
       <div class="compare-sub">One blocked fraud order = ~3 months of Shield Pro paid</div>
       <table class="compare-table">
-        <thead><tr><th>Feature</th><th class="center">BELY AI</th><th class="center">Enterprise</th><th class="center">Basic App</th><th class="center">No Tool</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="center" style="color:#00e5ff">BELY AI<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">$29.90–$49.90/mo</span></th>
+            <th class="center">Enterprise Fraud Tools<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">$150–300+/mo</span></th>
+            <th class="center">Basic Fraud Apps<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">$30–80/mo</span></th>
+            <th class="center">No Protection<br><span style="font-size:10px;color:#555870;font-weight:400;text-transform:none">avg –$800/mo loss</span></th>
+          </tr>
+        </thead>
         <tbody>
-          <tr class="highlight-row"><td>Monthly price</td><td class="center"><span class="price-tag">$29.90</span></td><td class="center"><span class="price-tag-bad">$150+</span></td><td class="center"><span class="price-tag-bad">$50+</span></td><td class="center"><span class="price-tag-bad">$0</span></td></tr>
-          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr class="highlight-row">
+            <td>Monthly price</td>
+            <td class="center"><span class="price-tag">$29.90</span><br><span class="price-tag" style="margin-top:4px;display:inline-block">$49.90</span></td>
+            <td class="center"><span class="price-tag-bad">$150–300+</span></td>
+            <td class="center"><span class="price-tag-bad">$30–80</span></td>
+            <td class="center"><span class="price-tag-bad">$0</span></td>
+          </tr>
+          <tr><td>Pre-shipment fraud scoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
           <tr><td>Account health monitoring</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>Chargeback limit warnings</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td></tr>
           <tr><td>AI dispute response writer</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
-          <tr><td>2-minute setup, no code</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
-          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings</td><td class="center" style="color:#00e676;font-weight:700">$797</td><td class="center" style="color:#555870">$200</td><td class="center" style="color:#555870">$80</td><td class="center" style="color:#ff3d57">-$800+</td></tr>
+          <tr><td>Real-time email alerts</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td></tr>
+          <tr><td>2-min setup · no developer</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
+          <tr><td>7-day free trial · no card</td><td class="center"><span class="ck">✔</span></td><td class="center"><span class="xx">✗</span></td><td class="center"><span class="xx">✗</span></td><td class="center">—</td></tr>
+          <tr class="highlight-row"><td style="font-weight:600;color:#fff">Avg. monthly savings ($10K store)</td><td class="center" style="color:#00e676;font-weight:700">+$797</td><td class="center" style="color:#555870">+$200</td><td class="center" style="color:#555870">+$80</td><td class="center" style="color:#ff3d57">–$800+</td></tr>
         </tbody>
       </table>
     </div>
@@ -311,7 +328,7 @@ const PRICE_IDS = {
   elite: 'pri_01kpnv1whkq97tr638rt08vz09'
 };
 
-const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
+const SHOPIFY_CLIENT_ID = '07d3e8554d200c9b99309796104d9434';
 const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
 const SHOPIFY_SCOPES = 'read_orders,read_customers';
 
