@@ -22,7 +22,7 @@ module.exports = async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        client_id: '07d3e8554d200c9b99309796104d9434',
+        client_id: '0c6c69853d601c94138ac794687a25c0',
         client_secret: secret,
         code
       })
