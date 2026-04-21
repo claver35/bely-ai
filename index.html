@@ -72,11 +72,9 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
 .trust-pills span::before{content:'✓ ';color:var(--good)}
 
-/* ROI HIGHLIGHT BOX */
 .roi-highlight{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6}
 .roi-highlight strong{color:var(--accent);font-size:16px}
 
-/* HERO DEMO CARD */
 .demo-card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:20px;overflow:hidden;position:relative}
 .demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
 .demo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
@@ -110,7 +108,6 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .sec-sub{font-size:16px;color:var(--ink-2);line-height:1.6;max-width:600px}
 .sec-head{margin-bottom:48px}
 
-/* ── WHY GRID ── */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 @media(max-width:860px){.why-grid{grid-template-columns:1fr}}
 .why-cell{background:var(--bg);padding:32px;display:flex;flex-direction:column;gap:14px}
@@ -119,7 +116,6 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .why-head{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
 .why-body{font-size:14px;color:var(--ink-2);line-height:1.65}
 
-/* ── ROI PROOF SECTION ── */
 .roi-proof{background:linear-gradient(135deg,rgba(0,229,255,0.06),rgba(0,153,204,0.02));border:1px solid rgba(0,229,255,0.15);border-radius:16px;padding:48px;margin-bottom:48px}
 .roi-proof h3{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
 .roi-proof p{font-size:16px;color:var(--ink-2);line-height:1.65;margin-bottom:20px;max-width:680px}
@@ -129,7 +125,6 @@ h1 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--acc
 .roi-num-card .num{font-family:var(--mono);font-size:42px;font-weight:500;letter-spacing:-.03em;color:var(--accent);line-height:1}
 .roi-num-card .label{font-size:13px;color:var(--ink-2);margin-top:8px}
 
-/* ── ROI CALCULATOR ── */
 .roi-panel{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:var(--card)}
 @media(max-width:860px){.roi-panel{grid-template-columns:1fr}}
 .roi-left{padding:36px;border-right:1px solid var(--line)}
@@ -147,7 +142,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .save-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line)}
 .save-row.total{border-bottom:0;font-weight:600;color:var(--ink);padding-top:14px}
 
-/* ── PRICING ── */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:860px){.price-grid{grid-template-columns:1fr}}
 .price-card{border:1px solid var(--line-2);border-radius:16px;padding:28px;background:var(--card);display:flex;flex-direction:column;gap:16px;position:relative;transition:transform .15s}
@@ -163,12 +157,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .feat-list li.off{color:var(--ink-3);text-decoration:line-through}
 .feat-check{color:var(--good);font-weight:700;flex-shrink:0}
 .feat-x{color:var(--ink-3);flex-shrink:0}
-
-/* SAVINGS CALLOUT */
 .savings-callout{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--good);margin-top:4px}
 .savings-callout strong{font-weight:700}
 
-/* ── COMPARE ── */
 .compare-wrap{border:1px solid var(--line-2);border-radius:14px;overflow:hidden}
 .compare-wrap table{width:100%;border-collapse:collapse;font-size:14px}
 .compare-wrap th,.compare-wrap td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
@@ -179,14 +170,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .compare-wrap .xx{color:var(--danger);opacity:.6}
 .compare-wrap tbody td:not(:first-child){text-align:center;font-family:var(--mono)}
 
-/* ── TRUST BADGES ── */
 .trust-badges{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
 .trust-badge{display:flex;align-items:center;gap:10px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--ink-2)}
 .trust-badge-icon{font-size:18px}
 .trust-badge strong{color:var(--ink);display:block;font-size:13px;margin-bottom:2px}
 .trust-badge span{font-size:11px;color:var(--ink-3)}
 
-/* ── FAQ ── */
 .faq-item{border-bottom:1px solid var(--line);padding:20px 0}
 .faq-item summary{list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:600;cursor:pointer;gap:20px;letter-spacing:-.01em}
 .faq-item summary::-webkit-details-marker{display:none}
@@ -197,7 +186,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .faq-item[open] .faq-plus::after{transform:translateX(-50%) rotate(90deg);opacity:0}
 .faq-item p{margin:14px 0 0;color:var(--ink-2);line-height:1.65;max-width:720px;font-size:15px}
 
-/* ── FINAL CTA ── */
 .final-cta{border:1px solid var(--line-2);border-radius:20px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;background:var(--card)}
 .final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 130%,rgba(0,229,255,0.18),transparent 60%);pointer-events:none}
 .final-cta>*{position:relative}
@@ -205,7 +193,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .final-cta p{font-size:17px;color:var(--ink-2);max-width:520px;margin:0 auto 28px;line-height:1.55}
 .final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* ── FOOTER ── */
 footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2);font-size:13px}
 .foot-inner{max-width:1280px;margin:0 auto}
 .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px}
@@ -213,7 +200,7 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
 .foot-grid h5{color:var(--ink);font-size:13px;margin-bottom:14px;font-weight:600}
 .foot-grid a{display:block;padding:4px 0;color:var(--ink-2)}
 .foot-grid a:hover{color:var(--ink)}
-.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line);flex-wrap:gap}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:12px}
 .foot-powered{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
 .foot-powered span{color:var(--accent)}
 .cert-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
@@ -245,16 +232,13 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
 .input-field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.15)}
 .input-field .help{margin-top:5px;font-size:12px;color:var(--ink-2)}
 .input-field .help.err{color:var(--danger)}
+.store-hint{margin-top:5px;font-size:12px;color:var(--ink-3)}
 .divider{text-align:center;margin:14px 0;position:relative;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
 .divider::before,.divider::after{content:'';position:absolute;top:50%;width:calc(50% - 28px);height:1px;background:var(--line)}
 .divider::before{left:0}.divider::after{right:0}
 .auth-close{position:absolute;top:16px;right:16px;z-index:210;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
-
-/* SHOPIFY CONNECT BUTTON */
 .btn-shopify{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border-radius:10px;background:#5E8E3E;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:14px;transition:all .15s}
 .btn-shopify:hover{background:#4d7533;box-shadow:0 4px 20px rgba(94,142,62,0.4)}
-
-/* LOADING STATE */
 .btn-loading{opacity:.7;cursor:not-allowed}
 </style>
 </head>
@@ -287,12 +271,10 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       <div class="eyebrow"><span class="pulse"></span> Live · 312 Stores Protected</div>
       <h1>Stop fraud <em>before</em><br>you ship.</h1>
       <p class="hero-sub">Other tools alert after the chargeback lands. BELY AI scores every order pre-shipment and warns you before Shopify flags your account.</p>
-
       <div class="roi-highlight">
         💡 <strong>One blocked fraud order = 3–4 months of BELY AI.</strong><br>
         For dropshippers and boutique sellers with thin margins, a single scam can erase an entire week's profit. BELY AI is your always-on alarm system.
       </div>
-
       <div class="hero-ctas">
         <button class="btn btn-primary btn-lg" id="btn-hero-signup">Connect your store — free →</button>
         <a href="#pricing" class="btn btn-ghost btn-lg">See plans</a>
@@ -304,7 +286,6 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       </div>
     </div>
 
-    <!-- DEMO CARD -->
     <div class="demo-card">
       <div class="demo-head">
         <div class="demo-title">▸ Live Risk Engine · Inbound Orders</div>
@@ -400,22 +381,12 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
     <p>The average Shopify dropshipper or boutique seller operates on 15–30% margins. A single $150 fraudulent order doesn't just cost $150 — it costs you the product, shipping, payment processing fees, and lost ad spend. That's often $300–400 in real losses. BELY AI costs $29.90/month. Do the math.</p>
     <p style="font-size:14px;color:var(--ink-3)">We don't promise to protect you 100%. We promise to give you <strong style="color:var(--ink)">Shopify-level insight that Shopify doesn't give you</strong> — so you can make smarter decisions before goods leave your warehouse.</p>
     <div class="roi-numbers">
-      <div class="roi-num-card">
-        <div class="num">2.6×</div>
-        <div class="label">True loss multiplier per chargeback (product + shipping + fees + ad spend)</div>
-      </div>
-      <div class="roi-num-card">
-        <div class="num">$358</div>
-        <div class="label">Average real cost of one fraudulent order for a $10K/mo store</div>
-      </div>
-      <div class="roi-num-card">
-        <div class="num">12×</div>
-        <div class="label">Average ROI for BELY AI users in the first 90 days</div>
-      </div>
+      <div class="roi-num-card"><div class="num">2.6×</div><div class="label">True loss multiplier per chargeback (product + shipping + fees + ad spend)</div></div>
+      <div class="roi-num-card"><div class="num">$358</div><div class="label">Average real cost of one fraudulent order for a $10K/mo store</div></div>
+      <div class="roi-num-card"><div class="num">12×</div><div class="label">Average ROI for BELY AI users in the first 90 days</div></div>
     </div>
   </div>
 
-  <!-- ROI CALCULATOR -->
   <div class="sec-head">
     <div class="sec-label">§ 02 · Your Savings</div>
     <h2 class="sec-title">What does unprotected cost you?</h2>
@@ -460,7 +431,6 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
     <p class="sec-sub">Enterprise tools start at $150/mo. We start at $29.90. Same protection. 1/5th the price.</p>
   </div>
   <div class="price-grid">
-    <!-- TRIAL -->
     <div class="price-card">
       <div class="price-name">Trial</div>
       <div class="price-val">$0<span class="per">/ 7 days</span></div>
@@ -474,7 +444,6 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       </ul>
       <button class="btn btn-ghost" style="justify-content:center" onclick="openAuth('signup')">Start 7-day trial free</button>
     </div>
-    <!-- PRO -->
     <div class="price-card featured">
       <div class="price-badge">MOST POPULAR</div>
       <div class="price-name">Shield Pro</div>
@@ -490,7 +459,6 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       </ul>
       <button class="btn btn-primary" style="justify-content:center" onclick="openAuth('signup')">Start Shield Pro free →</button>
     </div>
-    <!-- ENTERPRISE -->
     <div class="price-card">
       <div class="price-name">Shield Elite</div>
       <div class="price-val">$49.90<span class="per">/ month</span></div>
@@ -535,29 +503,12 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       </tbody>
     </table>
   </div>
-
-  <!-- TRUST BADGES -->
   <div class="trust-badges">
-    <div class="trust-badge">
-      <div class="trust-badge-icon">🔒</div>
-      <div><strong>GDPR Aligned</strong><span>EU data protection standards</span></div>
-    </div>
-    <div class="trust-badge">
-      <div class="trust-badge-icon">💳</div>
-      <div><strong>PCI DSS Ready</strong><span>We never store card data</span></div>
-    </div>
-    <div class="trust-badge">
-      <div class="trust-badge-icon">🛡️</div>
-      <div><strong>256-bit Encryption</strong><span>All data encrypted in transit</span></div>
-    </div>
-    <div class="trust-badge">
-      <div class="trust-badge-icon">🔑</div>
-      <div><strong>Server-Side Processing</strong><span>Your data never exposed client-side</span></div>
-    </div>
-    <div class="trust-badge">
-      <div class="trust-badge-icon">🏪</div>
-      <div><strong>Shopify Partner</strong><span>Official integration · OAuth secured</span></div>
-    </div>
+    <div class="trust-badge"><div class="trust-badge-icon">🔒</div><div><strong>GDPR Aligned</strong><span>EU data protection standards</span></div></div>
+    <div class="trust-badge"><div class="trust-badge-icon">💳</div><div><strong>PCI DSS Ready</strong><span>We never store card data</span></div></div>
+    <div class="trust-badge"><div class="trust-badge-icon">🛡️</div><div><strong>256-bit Encryption</strong><span>All data encrypted in transit</span></div></div>
+    <div class="trust-badge"><div class="trust-badge-icon">🔑</div><div><strong>Server-Side Processing</strong><span>Your data never exposed client-side</span></div></div>
+    <div class="trust-badge"><div class="trust-badge-icon">🏪</div><div><strong>Shopify Partner</strong><span>Official integration · OAuth secured</span></div></div>
   </div>
 </div>
 
@@ -590,7 +541,7 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
     </details>
     <details class="faq-item">
       <summary>What's your promise, exactly? <span class="faq-plus"></span></summary>
-      <p>Not "we'll protect you 100%." Our promise is: <strong>we give you the insight Shopify doesn't give you</strong> — deep order risk analysis, pre-shipment alerts, and AI-drafted dispute responses. Think of us as an always-on alarm system, not an insurance policy. The decisions remain yours; we just make sure you're making them with full information.</p>
+      <p>Not "we'll protect you 100%." Our promise is: <strong>we give you the insight Shopify doesn't give you</strong> — deep order risk analysis, pre-shipment alerts, and AI-drafted dispute responses. Think of us as an always-on alarm system, not an insurance policy.</p>
     </details>
   </div>
 </div>
@@ -705,9 +656,10 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
         <div class="divider">OR SIGN UP WITH EMAIL</div>
         <form id="signup-form" novalidate>
           <div class="input-field">
-            <label>Your Shopify Store URL</label>
+            <label>Your Shopify Store URL <span style="color:#ff3d57">*</span></label>
             <input type="text" name="store" placeholder="your-store.myshopify.com" required/>
             <div class="help"></div>
+            <div class="store-hint">Example: <strong style="color:var(--accent)">belyai.myshopify.com</strong></div>
           </div>
           <div class="input-field">
             <label>Email</label>
@@ -716,7 +668,7 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
           </div>
           <div class="input-field">
             <label>Password</label>
-            <input type="password" name="password" placeholder="min. 8 characters" minlength="8" required/>
+            <input type="password" name="password" placeholder="min. 6 characters" minlength="6" required/>
             <div class="help"></div>
           </div>
           <button class="btn btn-primary" style="width:100%;justify-content:center" type="submit">Create account — start free →</button>
@@ -733,40 +685,49 @@ const sb = window.supabase.createClient(
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
 
+// ── DOĞRU CLIENT ID ──
+const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
+const SHOPIFY_REDIRECT  = 'https://bely-ai.vercel.app/auth-callback.html';
+const SHOPIFY_SCOPES    = 'read_orders,read_customers';
+
+function getCleanShop(raw) {
+  let s = raw.trim().replace(/^https?:\/\//i,'').replace(/\/$/,'').toLowerCase();
+  if (!s.includes('.myshopify.com')) s = s.split('.')[0] + '.myshopify.com';
+  return s;
+}
+
+function buildOAuthUrl(shop) {
+  const state = Math.random().toString(36).substring(2) + Date.now().toString(36);
+  sessionStorage.setItem('shopify_state', state);
+  sessionStorage.setItem('shopify_shop', shop);
+  return `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+}
+
 // ── AUTH CHECK ──
 async function checkAuth() {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
-    document.getElementById('btn-signin').textContent = 'Dashboard →';
-    document.getElementById('btn-signin').onclick = () => location.href = 'dashboard.html';
-    document.getElementById('btn-signup').textContent = 'Go to dashboard →';
-    document.getElementById('btn-signup').onclick = () => location.href = 'dashboard.html';
+    const si = document.getElementById('btn-signin');
+    const su = document.getElementById('btn-signup');
+    si.textContent = 'Dashboard →';
+    si.onclick = () => location.href = 'dashboard.html';
+    su.textContent = 'Go to dashboard →';
+    su.onclick = () => location.href = 'dashboard.html';
   }
 }
 checkAuth();
 
-// ── SHOPIFY CONNECT ──
-const SHOPIFY_CLIENT_ID = '07d3e8554d200c9b99309796104d9434';
-const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
-const SHOPIFY_SCOPES = 'read_orders,read_customers';
-
-function connectShopify() {
+// ── CONNECT WITH SHOPIFY BUTTON (yeşil buton) ──
+document.getElementById('btn-shopify-connect').addEventListener('click', () => {
   const storeInput = document.querySelector('#signup-form input[name="store"]');
-  let shop = storeInput ? storeInput.value.trim() : '';
-  if (!shop) {
-    shop = prompt('Enter your Shopify store URL (e.g. your-store.myshopify.com):');
-    if (!shop) return;
+  let raw = storeInput ? storeInput.value.trim() : '';
+  if (!raw) {
+    raw = prompt('Shopify store adresinizi girin:\n(örnek: belyai.myshopify.com)');
+    if (!raw) return;
   }
-  if (!shop.includes('.myshopify.com')) shop = shop + '.myshopify.com';
-  shop = shop.replace('https://','').replace('http://','');
-  const state = Math.random().toString(36).substring(2);
-  sessionStorage.setItem('shopify_state', state);
-  sessionStorage.setItem('shopify_shop', shop);
-  const authUrl = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
-  window.location.href = authUrl;
-}
-
-document.getElementById('btn-shopify-connect').addEventListener('click', connectShopify);
+  const shop = getCleanShop(raw);
+  window.location.href = buildOAuthUrl(shop);
+});
 
 // ── AUTH MODAL ──
 function openAuth(which) {
@@ -785,7 +746,7 @@ document.getElementById('auth-overlay').addEventListener('click', e => { if (e.t
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
 document.querySelectorAll('.auth-tab').forEach(b => b.addEventListener('click', () => openAuth(b.dataset.tab)));
 
-// ── FORMS ──
+// ── SIGN IN FORM ──
 document.getElementById('signin-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
@@ -795,102 +756,92 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) {
     btn.textContent = 'Sign in to dashboard →'; btn.disabled = false;
-    e.target.querySelector('.help').textContent = error.message;
-    e.target.querySelector('.help').classList.add('err');
+    const help = e.target.querySelectorAll('.help');
+    help[1].textContent = error.message;
+    help[1].classList.add('err');
   } else {
     btn.textContent = '✓ Signed in!';
     setTimeout(() => location.href = 'dashboard.html', 700);
   }
 });
 
+// ── SIGN UP FORM ──
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
-  const email = e.target.querySelector('input[type=email]').value;
-  const password = e.target.querySelector('input[type=password]').value;
-  let shop = e.target.querySelector('input[name=store]').value.trim();
+  const helps = e.target.querySelectorAll('.help');
+  helps.forEach(h => { h.textContent = ''; h.classList.remove('err'); });
 
-  // Validasyon
+  const rawStore = e.target.querySelector('input[name=store]').value.trim();
+  const email    = e.target.querySelector('input[name=email]').value.trim();
+  const password = e.target.querySelector('input[name=password]').value;
+
+  if (!rawStore) {
+    helps[0].textContent = 'Please enter your Shopify store URL.';
+    helps[0].classList.add('err');
+    return;
+  }
   if (!email || !password) {
-    e.target.querySelectorAll('.help')[1].textContent = 'Please fill all fields.';
-    e.target.querySelectorAll('.help')[1].classList.add('err');
-    return;
-  }
-  if (!shop) {
-    e.target.querySelectorAll('.help')[0].textContent = 'Please enter your Shopify store URL.';
-    e.target.querySelectorAll('.help')[0].classList.add('err');
+    helps[1].textContent = 'Please fill in all fields.';
+    helps[1].classList.add('err');
     return;
   }
 
-  // Shop URL düzenle
-  shop = shop.replace('https://','').replace('http://','').replace(/\/$/,'');
-  if (!shop.includes('.myshopify.com')) shop = shop + '.myshopify.com';
-
+  const shop = getCleanShop(rawStore);
   btn.textContent = 'Creating account…'; btn.disabled = true;
 
-  // Önce mevcut kullanıcı var mı dene (sign in)
-  const { data: signInData, error: signInError } = await sb.auth.signInWithPassword({ email, password });
-
-  if (!signInError && signInData.session) {
-    // Zaten kayıtlı, giriş yaptı → Shopify'a yönlendir
+  // Önce sign in dene (zaten kayıtlıysa)
+  const { data: siData, error: siErr } = await sb.auth.signInWithPassword({ email, password });
+  if (!siErr && siData.session) {
     btn.textContent = '✓ Signed in! Connecting Shopify…';
-    sessionStorage.setItem('pending_shop', shop);
-    setTimeout(() => {
-      const state = Math.random().toString(36).substring(2);
-      sessionStorage.setItem('shopify_state', state);
-      window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
-    }, 800);
+    setTimeout(() => window.location.href = buildOAuthUrl(shop), 800);
     return;
   }
 
   // Yeni kayıt
-  const { error: signUpError } = await sb.auth.signUp({ email, password });
-  if (signUpError) {
+  const { error: suErr } = await sb.auth.signUp({ email, password });
+  if (suErr) {
     btn.textContent = 'Create account — start free →'; btn.disabled = false;
-    e.target.querySelectorAll('.help')[1].textContent = signUpError.message;
-    e.target.querySelectorAll('.help')[1].classList.add('err');
+    helps[1].textContent = suErr.message;
+    helps[1].classList.add('err');
     return;
   }
 
-  // Kayıt başarılı → Shopify'a yönlendir
   btn.textContent = '✓ Account created! Connecting Shopify…';
-  sessionStorage.setItem('pending_shop', shop);
-  setTimeout(() => {
-    const state = Math.random().toString(36).substring(2);
-    sessionStorage.setItem('shopify_state', state);
-    window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
-  }, 800);
+  setTimeout(() => window.location.href = buildOAuthUrl(shop), 800);
 });
 
 // ── ROI CALCULATOR ──
 function fmt(n) { return n.toLocaleString('en-US', {maximumFractionDigits:0}); }
 function updateROI() {
-  const rev = +document.getElementById('in-rev').value;
-  const cb = +document.getElementById('in-cb').value;
+  const rev  = +document.getElementById('in-rev').value;
+  const cb   = +document.getElementById('in-cb').value;
   const cogs = +document.getElementById('in-cogs').value;
   const annualExposure = rev * 12 * (cb / 100) * 2.6;
-  const fraudBlocked = annualExposure * 0.48;
-  const reclaimed = (annualExposure * 0.40) * (cogs/100 + 0.20);
-  const disputeWins = annualExposure * 0.12 * 0.68;
-  const total = fraudBlocked + reclaimed + disputeWins;
-  const belyFee = 358.80;
-  const net = Math.max(0, total - belyFee);
-  document.getElementById('out-rev').textContent = '$' + fmt(rev);
-  document.getElementById('out-cb').textContent = cb.toFixed(1) + '%';
+  const fraudBlocked   = annualExposure * 0.48;
+  const reclaimed      = (annualExposure * 0.40) * (cogs/100 + 0.20);
+  const disputeWins    = annualExposure * 0.12 * 0.68;
+  const total  = fraudBlocked + reclaimed + disputeWins;
+  const net    = Math.max(0, total - 358.80);
+  document.getElementById('out-rev').textContent  = '$' + fmt(rev);
+  document.getElementById('out-cb').textContent   = cb.toFixed(1) + '%';
   document.getElementById('out-cogs').textContent = cogs + '%';
   document.getElementById('out-save').textContent = fmt(Math.round(net));
-  document.getElementById('out-b1').textContent = '$' + fmt(Math.round(fraudBlocked));
-  document.getElementById('out-b2').textContent = '$' + fmt(Math.round(reclaimed));
-  document.getElementById('out-b3').textContent = '$' + fmt(Math.round(disputeWins));
-  document.getElementById('out-b4').textContent = '$' + fmt(Math.round(net));
+  document.getElementById('out-b1').textContent   = '$' + fmt(Math.round(fraudBlocked));
+  document.getElementById('out-b2').textContent   = '$' + fmt(Math.round(reclaimed));
+  document.getElementById('out-b3').textContent   = '$' + fmt(Math.round(disputeWins));
+  document.getElementById('out-b4').textContent   = '$' + fmt(Math.round(net));
 }
 ['in-rev','in-cb','in-cogs'].forEach(id => document.getElementById(id).addEventListener('input', updateROI));
 updateROI();
 
-// ── SCAN COUNT ANIMATION ──
+// ── SCAN COUNT ──
 let count = 1284;
 setInterval(() => {
-  if (Math.random() > 0.7) { count += Math.floor(Math.random() * 3) + 1; document.getElementById('scan-count').textContent = count.toLocaleString(); }
+  if (Math.random() > 0.7) {
+    count += Math.floor(Math.random() * 3) + 1;
+    document.getElementById('scan-count').textContent = count.toLocaleString();
+  }
 }, 3000);
 </script>
 </body>
