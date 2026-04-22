@@ -37,7 +37,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.88);backdrop-filt
 .nav-links a:hover{color:var(--ink)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:600;border:1px solid transparent;transition:all .15s;font-family:var(--sans)}
-.btn-ghost{background:transparent;border-color:var(--line-2);color:var(--ink)}
+.btn-ghost{background:transparent;border-color:rgba(255,255,255,0.3);color:#e8ecf8}
 .btn-ghost:hover{background:var(--card-2)}
 .btn-primary{background:var(--accent);color:#000;border-color:var(--accent)}
 .btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 20px var(--accent-glow)}
@@ -87,23 +87,22 @@ h1 em{
   100% {opacity:1;transform:translate(0,0) rotateY(720deg) scale(1);}
 }
 
-.hero-sub{font-size:16px;line-height:1.7;color:var(--ink-2);max-width:520px;margin-bottom:30px;font-weight:400}
+.hero-sub{font-size:17px;line-height:1.75;color:#c8cee8;max-width:520px;margin-bottom:30px;font-weight:500}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
-.trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);font-weight:500}
+.trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:15px;color:#c8cee8;font-weight:600}
 .trust-pills span::before{content:'✓ ';color:var(--good)}
 .roi-hl{
   position:relative;
-  background:linear-gradient(135deg,rgba(0,229,255,0.07),rgba(0,153,204,0.03));
   border-radius:var(--r);
-  padding:16px 20px;
+  padding:18px 22px;
   margin-bottom:24px;
-  font-size:14px;
-  color:#d0d6ee;
-  line-height:1.7;
-  font-weight:400;
-  overflow:hidden;
+  font-size:15px;
+  color:#e8ecf8;
+  line-height:1.75;
+  font-weight:500;
   z-index:0;
 }
+/* Neon çerçeve katmanı */
 .roi-hl::before{
   content:'';
   position:absolute;inset:-2px;
@@ -113,14 +112,20 @@ h1 em{
   animation:neon-border 3s linear infinite;
   z-index:-1;
 }
+/* Koyu içerik arka planı */
 .roi-hl::after{
   content:'';
   position:absolute;inset:2px;
   border-radius:calc(var(--r) - 1px);
-  background:linear-gradient(135deg,rgba(0,229,255,0.09),rgba(5,7,13,0.97));
+  background:#060a14;
   z-index:-1;
 }
-.roi-hl strong{color:#00eeff;font-size:15px;font-weight:700;text-shadow:0 0 12px rgba(0,229,255,0.4)}
+.roi-hl strong{
+  color:#00eeff;
+  font-size:16px;
+  font-weight:700;
+  text-shadow:0 0 10px rgba(0,229,255,0.35);
+}
 
 /* DEMO */
 /* DEMO CARD — hareketli neon çerçeve */
