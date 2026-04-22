@@ -76,13 +76,14 @@ h1 em{
 /* Scatter: her .sc-letter bağımsız animasyon alır */
 .sc-letter{
   display:inline-block;
-  animation:scatterLetter 4s ease-in-out infinite;
+  animation:scatterLetter 7s ease-in-out infinite;
   will-change:transform,opacity;
 }
 @keyframes scatterLetter{
   0%   {opacity:1;transform:translate(0,0) rotateY(0deg) scale(1);}
-  28%  {opacity:0;transform:translate(var(--tx),var(--ty)) rotateY(180deg) scale(.25);}
-  55%  {opacity:0;transform:translate(var(--tx2),var(--ty2)) rotateY(360deg) scale(.15);}
+  55%  {opacity:1;transform:translate(0,0) rotateY(0deg) scale(1);}
+  68%  {opacity:0;transform:translate(var(--tx),var(--ty)) rotateY(180deg) scale(.25);}
+  78%  {opacity:0;transform:translate(var(--tx2),var(--ty2)) rotateY(360deg) scale(.15);}
   100% {opacity:1;transform:translate(0,0) rotateY(720deg) scale(1);}
 }
 
@@ -90,26 +91,77 @@ h1 em{
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
 .trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);font-weight:500}
 .trust-pills span::before{content:'✓ ';color:var(--good)}
-.roi-hl{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.7;font-weight:400}
-.roi-hl strong{color:var(--accent);font-size:15px;font-weight:700}
+.roi-hl{
+  position:relative;
+  background:linear-gradient(135deg,rgba(0,229,255,0.07),rgba(0,153,204,0.03));
+  border-radius:var(--r);
+  padding:16px 20px;
+  margin-bottom:24px;
+  font-size:14px;
+  color:#d0d6ee;
+  line-height:1.7;
+  font-weight:400;
+  overflow:hidden;
+  z-index:0;
+}
+.roi-hl::before{
+  content:'';
+  position:absolute;inset:-2px;
+  border-radius:calc(var(--r) + 2px);
+  background:linear-gradient(90deg,#00e5ff,#0066ff,#00e5ff,#00ffaa,#00e5ff);
+  background-size:300% 100%;
+  animation:neon-border 3s linear infinite;
+  z-index:-1;
+}
+.roi-hl::after{
+  content:'';
+  position:absolute;inset:2px;
+  border-radius:calc(var(--r) - 1px);
+  background:linear-gradient(135deg,rgba(0,229,255,0.09),rgba(5,7,13,0.97));
+  z-index:-1;
+}
+.roi-hl strong{color:#00eeff;font-size:15px;font-weight:700;text-shadow:0 0 12px rgba(0,229,255,0.4)}
 
 /* DEMO */
-.demo-card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:20px;position:relative;overflow:hidden}
-.demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.demo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.demo-title{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
+/* DEMO CARD — hareketli neon çerçeve */
+.demo-card{
+  background:var(--bg-2);
+  border-radius:16px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.demo-card::before{
+  content:'';
+  position:absolute;inset:-2px;
+  border-radius:18px;
+  background:linear-gradient(90deg,#00e5ff,#0066ff,#00e5ff,#00ffaa,#00e5ff);
+  background-size:300% 100%;
+  animation:neon-border 3s linear infinite;
+  z-index:0;
+}
+.demo-card::after{
+  content:'';
+  position:absolute;inset:2px;
+  border-radius:14px;
+  background:var(--bg-2);
+  z-index:1;
+}
+.demo-card > *{position:relative;z-index:2;}
+.demo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.demo-title{font-family:var(--mono);font-size:11px;color:#c0c8e0;text-transform:uppercase;letter-spacing:.1em}
 .demo-live{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--good)}
-.order-item{background:var(--bg-3);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
+.order-item{background:var(--bg-3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px;margin-bottom:10px}
 .order-item:last-child{margin-bottom:0}
 .order-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.order-id{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.order-id{font-family:var(--mono);font-size:12px;color:#c0c8e0}
 .risk-chip{font-family:var(--mono);font-size:11px;font-weight:500;padding:3px 10px;border-radius:5px}
-.risk-high{background:rgba(255,61,87,0.15);color:#ff6b82;border:1px solid rgba(255,61,87,0.3)}
-.risk-med{background:rgba(255,171,0,0.15);color:#ffbc33;border:1px solid rgba(255,171,0,0.3)}
-.risk-low{background:rgba(0,230,118,0.15);color:#33eb95;border:1px solid rgba(0,230,118,0.3)}
-.order-bar-bg{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:8px}
+.risk-high{background:rgba(255,61,87,0.2);color:#ff8096;border:1px solid rgba(255,61,87,0.45)}
+.risk-med{background:rgba(255,171,0,0.2);color:#ffd066;border:1px solid rgba(255,171,0,0.45)}
+.risk-low{background:rgba(0,230,118,0.2);color:#5ef5a0;border:1px solid rgba(0,230,118,0.45)}
+.order-bar-bg{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-top:8px}
 .order-bar{height:3px;border-radius:2px}
-.order-reason{font-size:11px;color:var(--ink-3);margin-top:6px;font-family:var(--mono)}
+.order-reason{font-size:11px;color:#8b96b8;margin-top:6px;font-family:var(--mono)}
 
 /* TICKER */
 .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);padding:13px 0;overflow:hidden;margin:48px 0 0}
@@ -318,17 +370,17 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
         <div class="demo-live"><span class="pulse"></span> <span id="scan-count">1,284</span> <span data-i18n="scanned_today">scanned today</span></div>
       </div>
       <div class="order-item">
-        <div class="order-top"><div><div class="order-id">#ORD-4821</div><div style="font-size:14px;font-weight:700;margin-top:2px">$247.00</div></div><span class="risk-chip risk-high">HIGH · 87%</span></div>
+        <div class="order-top"><div><div class="order-id">#ORD-4821</div><div style="font-size:14px;font-weight:700;margin-top:2px;color:#fff">$247.00</div></div><span class="risk-chip risk-high">HIGH · 87%</span></div>
         <div class="order-reason">New account (2d) · Romania IP · Ships Miami · 3rd card attempt</div>
         <div class="order-bar-bg"><div class="order-bar" style="width:87%;background:var(--danger)"></div></div>
       </div>
       <div class="order-item">
-        <div class="order-top"><div><div class="order-id">#ORD-4822</div><div style="font-size:14px;font-weight:700;margin-top:2px">$89.00</div></div><span class="risk-chip risk-low">LOW · 12%</span></div>
+        <div class="order-top"><div><div class="order-id">#ORD-4822</div><div style="font-size:14px;font-weight:700;margin-top:2px;color:#fff">$89.00</div></div><span class="risk-chip risk-low">LOW · 12%</span></div>
         <div class="order-reason">Returning customer (14 orders) · IP matches billing · Normal pattern</div>
         <div class="order-bar-bg"><div class="order-bar" style="width:12%;background:var(--good)"></div></div>
       </div>
       <div class="order-item">
-        <div class="order-top"><div><div class="order-id">#ORD-4823</div><div style="font-size:14px;font-weight:700;margin-top:2px">$412.00</div></div><span class="risk-chip risk-med">MED · 64%</span></div>
+        <div class="order-top"><div><div class="order-id">#ORD-4823</div><div style="font-size:14px;font-weight:700;margin-top:2px;color:#fff">$412.00</div></div><span class="risk-chip risk-med">MED · 64%</span></div>
         <div class="order-reason">New account · Device mismatch · Higher than avg cart value</div>
         <div class="order-bar-bg"><div class="order-bar" style="width:64%;background:var(--warn)"></div></div>
       </div>
