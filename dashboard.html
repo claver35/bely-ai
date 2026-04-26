@@ -68,7 +68,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .chip-pro{background:rgba(0,229,255,0.2);color:var(--cyan);border:1px solid rgba(0,229,255,0.5)}
 .chip-elite{background:rgba(0,255,136,0.2);color:var(--green);border:1px solid rgba(0,255,136,0.5)}
 .btn-so{font-size:13px;padding:7px 16px;border-radius:7px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);transition:all .15s;font-weight:600}
-.btn-so:hover{background:rgba(255,255,255,0.1);color:#fff}
+.btn-so:hover{background:rgba(255,255,255,0.1)}
 
 /* UPGRADE BANNER */
 .up-banner{background:linear-gradient(90deg,rgba(255,171,0,0.07),rgba(255,171,0,0.02));border-bottom:1px solid rgba(255,171,0,0.2);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -133,7 +133,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .mid-row{display:grid;grid-template-columns:260px 1fr;gap:14px}
 
 /* RADAR */
-.radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.18);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;animation:float 5s ease-in-out infinite}
+.radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.18);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
 .radar-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,229,255,0.04),transparent 70%);pointer-events:none}
 .radar-header{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:4px;width:100%}
 .radar-title{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--cyan);text-align:center}
@@ -174,9 +174,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .or-med{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .or-low{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
 .risk-tag{padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0;letter-spacing:.04em}
-.rt-high{background:rgba(255,61,87,0.2);color:#ff6b82;border:1.5px solid rgba(255,61,87,0.6);text-shadow:0 0 8px rgba(255,61,87,0.4)}
-.rt-med{background:rgba(255,171,0,0.2);color:#ffbc33;border:1.5px solid rgba(255,171,0,0.6);text-shadow:0 0 8px rgba(255,171,0,0.4)}
-.rt-low{background:rgba(0,255,136,0.15);color:#00ff88;border:1.5px solid rgba(0,255,136,0.5);text-shadow:0 0 8px rgba(0,255,136,0.4)}
+.rt-high{background:rgba(255,61,87,0.2);color:#ff6b82;border:1.5px solid rgba(255,61,87,0.6)}
+.rt-med{background:rgba(255,171,0,0.2);color:#ffbc33;border:1.5px solid rgba(255,171,0,0.6)}
+.rt-low{background:rgba(0,255,136,0.15);color:#00ff88;border:1.5px solid rgba(0,255,136,0.5)}
 .empty-state{padding:40px;text-align:center;color:#c0c8e0;font-size:13px}
 .empty-state .es-icon{font-size:32px;margin-bottom:12px}
 
@@ -198,7 +198,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .aib-orange{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .aib-green{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
 
-/* SHOPIFY STATS PANEL */
+/* SHOPIFY PANEL */
 .shopify-panel{background:var(--bg2);border:1px solid rgba(149,191,71,0.2);border-radius:16px;overflow:hidden}
 .shopify-panel .panel-head{border-color:rgba(149,191,71,0.15)}
 .sp-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(149,191,71,0.08)}
@@ -208,42 +208,35 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .sp-connect-cta{padding:20px;text-align:center}
 .sp-connect-cta p{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6}
 .sp-connect-btn{padding:12px 24px;border-radius:10px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:all .2s}
-.sp-connect-btn:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 20px rgba(149,191,71,0.3)}
+.sp-connect-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
 
 /* FOOTER */
 .dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
 .dash-footer a{color:var(--cyan);text-decoration:none}
 
+/* COMING SOON */
+.sb-item[data-soon]{position:relative}
+.sb-item[data-soon]:hover::after{content:'Coming Soon';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--cyan);padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
+
 /* ANIMATIONS */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-@keyframes border-flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes border-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-@keyframes glow-border{0%,100%{box-shadow:0 0 6px rgba(0,229,255,0.2),inset 0 0 6px rgba(0,229,255,0.05)}50%{box-shadow:0 0 18px rgba(0,229,255,0.45),inset 0 0 12px rgba(0,229,255,0.08)}}
-@keyframes glow-border-green{0%,100%{box-shadow:0 0 6px rgba(0,255,136,0.15),inset 0 0 6px rgba(0,255,136,0.04)}50%{box-shadow:0 0 18px rgba(0,255,136,0.35),inset 0 0 12px rgba(0,255,136,0.07)}}
+@keyframes glow-border{0%,100%{box-shadow:0 0 6px rgba(0,229,255,0.2)}50%{box-shadow:0 0 18px rgba(0,229,255,0.45)}}
+@keyframes glow-border-green{0%,100%{box-shadow:0 0 6px rgba(0,255,136,0.15)}50%{box-shadow:0 0 18px rgba(0,255,136,0.35)}}
 @keyframes glow-border-orange{0%,100%{box-shadow:0 0 6px rgba(255,171,0,0.15)}50%{box-shadow:0 0 18px rgba(255,171,0,0.35)}}
 @keyframes glow-border-red{0%,100%{box-shadow:0 0 6px rgba(255,61,87,0.15)}50%{box-shadow:0 0 18px rgba(255,61,87,0.35)}}
 @keyframes top-line-slide{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
-/* Animated borders on cards */
 .mc-green{animation:glow-border-green 3s ease-in-out infinite}
 .mc-orange{animation:glow-border-orange 3s ease-in-out infinite}
 .mc-cyan{animation:glow-border 3s ease-in-out infinite}
 .mc-red{animation:glow-border-red 3s ease-in-out infinite}
 .mc::after{background-size:200% auto!important;animation:top-line-slide 3s linear infinite!important}
-
-/* Animated borders on panels */
 .alerts-panel{animation:glow-border-orange 4s ease-in-out infinite}
 .shopify-panel{animation:glow-border-green 4s ease-in-out infinite}
 .orders-panel{animation:glow-border 4s ease-in-out infinite}
 .radar-panel{animation:float 5s ease-in-out infinite,glow-border 3s ease-in-out infinite}
-
-/* Coming soon tooltip */
-.sb-item[data-soon]{position:relative}
-.sb-item[data-soon]:hover::after{content:'Coming Soon';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--cyan);padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
-.sb-item.billing-btn{cursor:pointer}
-.sb-item.billing-btn:hover{background:rgba(0,229,255,0.08);color:var(--cyan);border-color:rgba(0,229,255,0.2)}
 
 @media(max-width:1100px){.dash{grid-template-columns:1fr}.sidebar{display:none}.metrics-row{grid-template-columns:1fr 1fr}.mid-row,.bottom-row{grid-template-columns:1fr}}
 </style>
@@ -254,7 +247,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 <div class="paywall" id="paywall" style="display:none">
   <div class="paywall-inner">
     <div style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite;box-shadow:0 0 8px rgba(255,61,87,0.6)"></span>
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite"></span>
       PROTECTION EXPIRED — ACTION REQUIRED
     </div>
     <h2>Your free trial has ended</h2>
@@ -327,8 +320,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 
 <!-- LAYOUT -->
 <div class="dash">
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sb-section">Command Center</div>
     <div class="sb-item active"><span class="sb-icon">⚡</span> Dashboard</div>
@@ -341,9 +332,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
     <div class="sb-item" data-soon onclick="showComingSoon('Chargeback Report')"><span class="sb-icon">📈</span> Chargeback Report</div>
     <div class="sb-section">Account</div>
     <div class="sb-item" data-soon onclick="showComingSoon('Settings')"><span class="sb-icon">⚙️</span> Settings</div>
-    <div class="sb-item billing-btn" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
-
-    <!-- SHOPIFY -->
+    <div class="sb-item" style="cursor:pointer" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
     <div class="sb-shopify" id="sb-shopify">
       <div class="sb-shopify-head">
         <svg width="16" height="16" viewBox="0 0 32 32" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
@@ -356,51 +345,44 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
-
-    <!-- PAGE HEADER -->
     <div class="page-header">
       <div>
-        <div class="page-title">Store Dashboard</div>
-        <div class="page-sub"><span class="live-dot"></span> Live monitoring — updating in real time</div>
+        <div class="page-title">Mağaza Kontrol Paneli</div>
+        <div class="page-sub"><span class="live-dot"></span> Canlı izleme — gerçek zamanlı olarak güncelleniyor</div>
       </div>
     </div>
 
-    <!-- METRICS -->
     <div class="metrics-row">
       <div class="mc mc-green">
-        <div class="mc-label">Account Health <span class="mc-label-icon">💚</span></div>
+        <div class="mc-label">Hesap Sağlığı <span class="mc-label-icon">💚</span></div>
         <div class="mc-value" id="m-health">—</div>
-        <div class="mc-sub" id="m-health-sub">Connecting to store...</div>
+        <div class="mc-sub" id="m-health-sub">Mağazaya bağlanıyor...</div>
         <div class="mc-bar"><div class="mc-bar-fill" id="m-hbar" style="background:var(--green)"></div></div>
       </div>
       <div class="mc mc-orange">
-        <div class="mc-label">Chargeback Rate <span class="mc-label-icon">⚠️</span></div>
-        <div class="mc-value">0.48%</div>
-        <div class="mc-sub">Limit: 0.65% · 26% buffer remaining</div>
+        <div class="mc-label">Geri Ödeme Oranı <span class="mc-label-icon">⚠️</span></div>
+        <div class="mc-value">0,48%</div>
+        <div class="mc-sub">Limit: %0,65 · Kalan tampon %26</div>
         <div class="mc-bar"><div class="mc-bar-fill" style="width:74%;background:var(--orange)"></div></div>
       </div>
       <div class="mc mc-cyan">
-        <div class="mc-label">Orders Scanned <span class="mc-label-icon">📦</span></div>
+        <div class="mc-label">Siparişler Tarandı <span class="mc-label-icon">📦</span></div>
         <div class="mc-value" id="m-scanned">0</div>
-        <div class="mc-sub" id="m-scan-sub">Today — all analyzed</div>
+        <div class="mc-sub" id="m-scan-sub">Bugün — tüm analizler yapıldı</div>
       </div>
       <div class="mc mc-red">
-        <div class="mc-label">Fraud Blocked <span class="mc-label-icon">🚨</span></div>
+        <div class="mc-label">Dolandırıcılık Engellendi <span class="mc-label-icon">🚨</span></div>
         <div class="mc-value" id="m-fraud">0</div>
-        <div class="mc-sub">High-risk orders this session</div>
+        <div class="mc-sub">Bu oturumda yüksek riskli emirler</div>
       </div>
     </div>
 
-    <!-- MID: RADAR + ORDERS -->
     <div class="mid-row">
-
-      <!-- RADAR -->
       <div class="radar-panel">
         <div class="radar-header">
-          <div class="radar-title">BELY AI Radar</div>
-          <div class="radar-live"><span class="radar-live-dot"></span> LIVE SCAN</div>
+          <div class="radar-title">BELY YAPAY ZEKA RADARI</div>
+          <div class="radar-live"><span class="radar-live-dot"></span> CANLI TARAMA</div>
         </div>
         <div class="radar-wrap">
           <svg class="radar-svg" viewBox="0 0 190 190">
@@ -417,17 +399,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
             <circle cx="95" cy="95" r="22" fill="none" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
             <line x1="95" y1="7" x2="95" y2="183" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
             <line x1="7" y1="95" x2="183" y2="95" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
-            <line x1="32" y1="32" x2="158" y2="158" stroke="rgba(0,229,255,0.04)" stroke-width="1"/>
-            <line x1="158" y1="32" x2="32" y2="158" stroke="rgba(0,229,255,0.04)" stroke-width="1"/>
             <g id="radar-sweep" style="transform-origin:95px 95px">
               <path d="M95 95 L95 7 A88 88 0 0 1 183 95 Z" fill="url(#rg3)" opacity="0.5"/>
               <line x1="95" y1="95" x2="95" y2="7" stroke="var(--cyan)" stroke-width="1.5" opacity="0.9"/>
             </g>
             <circle cx="95" cy="95" r="5" fill="var(--cyan)" filter="url(#glow2)"/>
-            <circle cx="95" cy="95" r="10" fill="none" stroke="var(--cyan)" stroke-width="0.5" opacity="0.3">
-              <animate attributeName="r" values="10;16;10" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
-            </circle>
             <circle cx="65" cy="48" r="4.5" fill="var(--red)" filter="url(#glow2)">
               <animate attributeName="r" values="4.5;8;4.5" dur="1.3s" repeatCount="indefinite"/>
               <animate attributeName="opacity" values="1;0.2;1" dur="1.3s" repeatCount="indefinite"/>
@@ -447,104 +423,113 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
           </svg>
         </div>
         <div class="radar-stats">
-          <div class="rs">
-            <div class="rs-val" id="r-threats">2</div>
-            <div class="rs-label">Threats</div>
-          </div>
-          <div class="rs">
-            <div class="rs-val" style="color:var(--green)">A7</div>
-            <div class="rs-label">Sector</div>
-          </div>
+          <div class="rs"><div class="rs-val" id="r-threats">0</div><div class="rs-label">Tehditler</div></div>
+          <div class="rs"><div class="rs-val" style="color:var(--green)">A7</div><div class="rs-label">Sektör</div></div>
         </div>
-        <div class="radar-threat threat-active" id="radar-status">⚠ Scanning for threats...</div>
+        <div class="radar-threat threat-active" id="radar-status">⚠ Tehditler taranıyor...</div>
       </div>
 
-      <!-- ORDERS -->
       <div class="orders-panel">
         <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Recent Orders — Risk Scores</div>
-          <div class="panel-meta" id="orders-meta">Connecting...</div>
+          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>
+          <div class="panel-meta" id="orders-meta">Bağlanıyor...</div>
         </div>
         <div class="orders-body" id="orders-body">
           <div class="empty-state">
             <div class="es-icon">🔄</div>
-            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Connecting to Shopify...</div>
+            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Shopify'a bağlanıyor...</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM: ALERTS + SHOPIFY STATS -->
     <div class="bottom-row">
-
-      <!-- ALERTS -->
       <div class="alerts-panel">
         <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Account Alerts</div>
-          <div class="panel-meta">Active monitoring</div>
+          <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
+          <div class="panel-meta">Aktif izleme</div>
         </div>
         <div id="alerts-body">
           <div class="alert-item">
             <div class="ai-dot aid-orange"></div>
             <div>
-              <div class="ai-title">⚠ Chargeback Rate 0.48% — Approaching Visa Limit</div>
-              <div class="ai-time">Today, 09:14</div>
-              <div class="ai-body aib-orange">Visa limit 0.65%. You're 0.17% away. Stop shipping high-risk orders now.</div>
+              <div class="ai-title">⚠ Geri Ödeme Oranı %0,48 — Visa Limitine Yaklaşıyor</div>
+              <div class="ai-time">Bugün, 09:14</div>
+              <div class="ai-body aib-orange">Visa limiti 0,65%. 0,17% uzaktasınız. Yüksek riskli siparişleri şimdi durdurun.</div>
             </div>
           </div>
           <div class="alert-item">
             <div class="ai-dot aid-green"></div>
             <div>
-              <div class="ai-title">✔ Account Health Improved: 78 → 82</div>
-              <div class="ai-time">3 days ago</div>
-              <div class="ai-body aib-green">No new chargebacks in 7 days. 2 disputes resolved in your favor.</div>
+              <div class="ai-title">✔ 1 Yüksek Riskli Sipariş Tespit Edildi</div>
+              <div class="ai-time">Şu anda</div>
+              <div class="ai-body aib-green">Bu siparişleri derhal inceleyin. Doğrulanana kadar bekletin.</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- SHOPIFY STATS -->
       <div class="shopify-panel">
         <div class="panel-head">
           <div class="panel-title">
             <span class="pt-icon" style="background:rgba(149,191,71,0.12)">
               <svg width="14" height="14" viewBox="0 0 32 32" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
             </span>
-            Shopify Integration
+            Shopify Entegrasyonu
           </div>
-          <div class="panel-meta" id="shopify-status">Checking...</div>
+          <div class="panel-meta" id="shopify-status">Kontrol ediliyor...</div>
         </div>
         <div id="shopify-panel-content">
           <div class="sp-connect-cta">
             <div class="es-icon">🛍️</div>
-            <p>Connect your Shopify store to start scanning orders and protecting your revenue in real time.</p>
-            <button class="sp-connect-btn" onclick="connectShopify()">Connect Shopify Store →</button>
+            <p>Siparişleri taramaya ve gelirinizi gerçek zamanlı olarak korumaya başlamak için Shopify mağazanızı bağlayın.</p>
+            <button class="sp-connect-btn" onclick="connectShopify()">Shopify Mağazasını Bağla →</button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="dash-footer">
   <span>Powered by <span style="color:var(--cyan)">Bely Security Systems</span> · GDPR Aligned · PCI DSS Ready · 256-bit SSL</span>
-  <span>Shopify Partner · <a href="index.html">bely-ai.vercel.app</a></span>
+  <span>Shopify Partner · <a href="index.html">belyshield.com</a></span>
 </div>
 
 <script>
+// ── Supabase — publishable key, güvenli ──
 const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
-const PRICE_IDS = { pro:'pri_01kpntvkyjz86f9abj5g8396dv', elite:'pri_01kpnv1whkq97tr638rt08vz09' };
+
+// ── Price ID'ler ──
+const PRICE_IDS = {
+  pro:   'pri_01kpntvkyjz86f9abj5g8396dv',
+  elite: 'pri_01kpnv1whkq97tr638rt08vz09'
+};
+
+// ── Shopify OAuth ──
 const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
-const SHOPIFY_REDIRECT = 'https://bely-ai.vercel.app/auth-callback.html';
-const SHOPIFY_SCOPES = 'read_orders,read_customers';
+const SHOPIFY_REDIRECT  = 'https://bely-ai.vercel.app/auth-callback.html';
+const SHOPIFY_SCOPES    = 'read_orders,read_customers';
+
 let currentUser = null;
 
-// Coming soon toast
+// ── Canlı saat ──
+setInterval(() => {
+  document.getElementById('live-time').textContent =
+    new Date().toLocaleTimeString('tr-TR');
+}, 1000);
+
+// ── Radar sweep ──
+let ra = 0;
+setInterval(() => {
+  ra = (ra + 2) % 360;
+  document.getElementById('radar-sweep').style.transform = `rotate(${ra}deg)`;
+}, 25);
+
+// ── Coming soon toast ──
 function showComingSoon(name) {
   let toast = document.getElementById('cs-toast');
   if (!toast) {
@@ -553,179 +538,270 @@ function showComingSoon(name) {
     toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';
     document.body.appendChild(toast);
   }
-  toast.textContent = `⚡ ${name} — Coming Soon`;
+  toast.textContent = `⚡ ${name} — Yakında`;
   toast.style.opacity = '1';
   clearTimeout(toast._t);
   toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
 }
 
-// Radar
-let ra = 0;
-setInterval(() => { ra=(ra+2)%360; document.getElementById('radar-sweep').style.transform=`rotate(${ra}deg)`; }, 25);
-
+// ── Checkout ──
 async function startCheckout(plan) {
   if (!currentUser) return;
   const btns = document.querySelectorAll('.pw-btn,.up-btn');
-  btns.forEach(b=>{b.disabled=true;b.style.opacity='.6'});
+  btns.forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
   try {
-    const res = await fetch('/api/paddle-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId:PRICE_IDS[plan],email:currentUser.email,userId:currentUser.id,shopDomain:localStorage.getItem('shopify_shop')||''})});
+    const res = await fetch('/api/paddle-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId:    PRICE_IDS[plan],
+        email:      currentUser.email,
+        userId:     currentUser.id,
+        shopDomain: localStorage.getItem('shopify_shop') || ''
+      })
+    });
     const data = await res.json();
-    if (data.checkoutUrl) { window.location.href=data.checkoutUrl; }
-    else { alert('Could not start checkout.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1'}); }
-  } catch(e) { alert('Error. Try again.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1'}); }
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
+    } else {
+      alert('Ödeme başlatılamadı. Lütfen tekrar deneyin.');
+      btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
+    }
+  } catch (e) {
+    alert('Hata oluştu. Lütfen tekrar deneyin.');
+    btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
+  }
 }
 
+// ── Shopify bağlantısı ──
 function connectShopify() {
-  let shop = prompt('Enter your Shopify store URL:\n(e.g. your-store.myshopify.com)');
+  let shop = prompt('Shopify mağaza adresinizi girin:\n(örnek: magaza-adiniz.myshopify.com)');
   if (!shop) return;
-  shop = shop.trim().replace('https://','').replace('http://','');
-  if (!shop.includes('.myshopify.com')) shop+='.myshopify.com';
-  const state = Math.random().toString(36).substring(2);
-  sessionStorage.setItem('shopify_state',state);
-  window.location.href=`https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
-}
-
-function checkPlanStatus(storeData) {
-  const paywall=document.getElementById('paywall');
-  const banner=document.getElementById('upgrade-banner');
-  const chip=document.getElementById('plan-chip');
-  if (!storeData) { chip.style.display='none'; return; }
-  const plan=storeData.plan||'free';
-  const trialEnd=storeData.trial_end_date?new Date(storeData.trial_end_date):null;
-  const now=new Date();
-  chip.style.display='inline-block';
-  if (plan==='pro'||plan==='starter') { chip.className='plan-chip chip-pro'; chip.textContent='★ Shield Pro'; paywall.style.display='none'; banner.style.display='none'; return; }
-  if (plan==='elite') { chip.className='plan-chip chip-elite'; chip.textContent='★ Shield Elite'; paywall.style.display='none'; banner.style.display='none'; return; }
-  if (trialEnd&&now<trialEnd) {
-    const d=Math.ceil((trialEnd-now)/86400000);
-    chip.className='plan-chip chip-trial'; chip.textContent=`Trial — ${d}d`;
-    document.getElementById('trial-days-text').textContent=`${d} days left`;
-    banner.style.display='flex'; paywall.style.display='none'; return;
-  }
-  chip.className='plan-chip chip-trial'; chip.textContent='Trial Ended';
-  banner.style.display='none'; paywall.style.display='flex';
-}
-
-function getRiskScore(order) {
-  let score=0; const risks=[];
-  if (order.customer) {
-    const d=(Date.now()-new Date(order.customer.created_at))/86400000;
-    if (d<7){score+=30;risks.push('New account (< 7 days)'); }
-    if (d<1){score+=15;risks.push('Account created today');}
-  }
-  const p=parseFloat(order.total_price);
-  if (p>200){score+=20;risks.push(`High order value ($${p.toFixed(0)})`);}
-  if (p>500){score+=15;risks.push('Very high order value');}
-  if (order.billing_address&&order.shipping_address&&order.billing_address.country_code!==order.shipping_address.country_code){score+=35;risks.push('Billing & shipping in different countries');}
-  score=Math.min(score,99);
-  let level,tagCls,reasonCls,cardCls;
-  if (score>=50){level=`HIGH — ${score}%`;tagCls='rt-high';reasonCls='or-high';cardCls='oc-high';}
-  else if (score>=25){level=`MED — ${score}%`;tagCls='rt-med';reasonCls='or-med';cardCls='oc-med';}
-  else{level=`LOW — ${Math.max(score,4)}%`;tagCls='rt-low';reasonCls='or-low';cardCls='oc-low';}
-  return {score,level,tagCls,reasonCls,cardCls,risks};
-}
-
-function renderOrders(orders) {
-  const body=document.getElementById('orders-body');
-  const meta=document.getElementById('orders-meta');
-  if (!orders||orders.length===0) {
-    body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">No orders found. Place a test order in your Shopify store.</div></div>';
+  shop = shop.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '').toLowerCase();
+  if (!shop.includes('.myshopify.com')) shop += '.myshopify.com';
+  if (!shop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
+    alert('Geçersiz mağaza adresi.');
     return;
   }
-  let highRisk=0; let html='';
-  orders.slice(0,8).forEach(order=>{
-    const risk=getRiskScore(order);
-    if (risk.score>=50) highRisk++;
-    const reason=risk.risks.length>0?risk.risks.join(' · '):'No risk signals detected — Safe to ship.';
-    html+=`<div class="order-card ${risk.cardCls}">
+  const state = Math.random().toString(36).substring(2) + Date.now().toString(36);
+  sessionStorage.setItem('shopify_state', state);
+  sessionStorage.setItem('shopify_shop', shop);
+  window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+}
+
+// ── Plan kontrolü ──
+function checkPlanStatus(storeData) {
+  const paywall = document.getElementById('paywall');
+  const banner  = document.getElementById('upgrade-banner');
+  const chip    = document.getElementById('plan-chip');
+
+  if (!storeData) { chip.style.display = 'none'; return; }
+
+  const plan     = storeData.plan || 'free';
+  const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
+  const now      = new Date();
+
+  chip.style.display = 'inline-block';
+
+  if (plan === 'pro' || plan === 'starter') {
+    chip.className = 'plan-chip chip-pro';
+    chip.textContent = '★ Shield Pro';
+    paywall.style.display = 'none';
+    banner.style.display  = 'none';
+    return;
+  }
+  if (plan === 'elite') {
+    chip.className = 'plan-chip chip-elite';
+    chip.textContent = '★ Shield Elite';
+    paywall.style.display = 'none';
+    banner.style.display  = 'none';
+    return;
+  }
+  if (trialEnd && now < trialEnd) {
+    const d = Math.ceil((trialEnd - now) / 86400000);
+    chip.className = 'plan-chip chip-trial';
+    chip.textContent = `DURUŞMA — ${d} GÜN`;
+    document.getElementById('trial-days-text').textContent = `${d} gün kaldı`;
+    banner.style.display  = 'flex';
+    paywall.style.display = 'none';
+    return;
+  }
+  chip.className = 'plan-chip chip-trial';
+  chip.textContent = 'Trial Bitti';
+  banner.style.display  = 'none';
+  paywall.style.display = 'flex';
+}
+
+// ── Sipariş render ──
+function renderOrders(orders) {
+  const body = document.getElementById('orders-body');
+  const meta = document.getElementById('orders-meta');
+
+  if (!orders || orders.length === 0) {
+    body.innerHTML = '<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı. Shopify mağazanızda test siparişi oluşturun.</div></div>';
+    return;
+  }
+
+  let highRisk = 0;
+  let html = '';
+
+  orders.slice(0, 8).forEach(order => {
+    // ── Risk puanlaması backend'den gelecek, şimdilik temel sinyaller ──
+    let score = 0;
+    const risks = [];
+
+    if (order.customer) {
+      const d = (Date.now() - new Date(order.customer.created_at)) / 86400000;
+      if (d < 7)  { score += 30; risks.push(`Yeni hesap (< 7 gün)`); }
+      if (d < 1)  { score += 15; risks.push('Bugün oluşturulan hesap'); }
+    }
+
+    const p = parseFloat(order.total_price);
+    if (p > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${p.toFixed(0)})`); }
+    if (p > 500) { score += 15; risks.push('Çok yüksek sipariş tutarı'); }
+
+    if (
+      order.billing_address && order.shipping_address &&
+      order.billing_address.country_code !== order.shipping_address.country_code
+    ) {
+      score += 35;
+      risks.push('Fatura ve teslimat farklı ülkelerde');
+    }
+
+    score = Math.min(score, 99);
+
+    let level, tagCls, reasonCls, cardCls;
+    if (score >= 50) {
+      level = `YÜKSEK — %${score}`; tagCls = 'rt-high'; reasonCls = 'or-high'; cardCls = 'oc-high';
+      highRisk++;
+    } else if (score >= 25) {
+      level = `ORTA — %${score}`; tagCls = 'rt-med'; reasonCls = 'or-med'; cardCls = 'oc-med';
+    } else {
+      level = `DÜŞÜK — %${Math.max(score, 4)}`; tagCls = 'rt-low'; reasonCls = 'or-low'; cardCls = 'oc-low';
+    }
+
+    const reason = risks.length > 0
+      ? risks.join(' · ')
+      : 'Risk sinyali yok — Göndermek güvenli.';
+
+    html += `<div class="order-card ${cardCls}">
       <div class="order-left">
         <div class="order-num">#${order.order_number}</div>
         <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
-        <div class="order-loc">${order.shipping_address?.country||'Unknown location'}</div>
-        <div class="order-reason ${risk.reasonCls}">${reason}</div>
+        <div class="order-loc">${order.shipping_address?.country || 'Bilinmeyen konum'}</div>
+        <div class="order-reason ${reasonCls}">${reason}</div>
       </div>
-      <span class="risk-tag ${risk.tagCls}">${risk.level}</span>
+      <span class="risk-tag ${tagCls}">${level}</span>
     </div>`;
   });
-  body.innerHTML=html;
-  meta.textContent=`${orders.length} orders · ${highRisk} high-risk`;
-  document.getElementById('m-scanned').textContent=orders.length;
-  document.getElementById('m-fraud').textContent=highRisk;
-  document.getElementById('hr-count').textContent=highRisk;
-  document.getElementById('r-threats').textContent=highRisk;
-  const radarStatus=document.getElementById('radar-status');
-  if (highRisk>0) {
-    radarStatus.textContent=`🚨 ${highRisk} threat${highRisk>1?'s':''} detected`;
-    radarStatus.className='radar-threat threat-active';
-    const alertsBody=document.getElementById('alerts-body');
-    alertsBody.innerHTML=`<div class="alert-item"><div class="ai-dot aid-red" style="animation:pulse 1s infinite"></div><div><div class="ai-title">🚨 ${highRisk} HIGH RISK Order(s) Detected</div><div class="ai-time">Just now</div><div class="ai-body aib-red">Review these orders immediately. Hold until verified.</div></div></div>`+alertsBody.innerHTML;
+
+  body.innerHTML = html;
+  meta.textContent = `${orders.length} sipariş · ${highRisk} yüksek riskli`;
+  document.getElementById('m-scanned').textContent = orders.length;
+  document.getElementById('m-fraud').textContent   = highRisk;
+  document.getElementById('hr-count').textContent  = highRisk;
+  document.getElementById('r-threats').textContent = highRisk;
+
+  const radarStatus = document.getElementById('radar-status');
+  if (highRisk > 0) {
+    radarStatus.textContent = `🚨 ${highRisk} tehdit tespit edildi`;
+    radarStatus.className   = 'radar-threat threat-active';
   } else {
-    radarStatus.textContent='✔ No threats detected';
-    radarStatus.className='radar-threat threat-clear';
+    radarStatus.textContent = '✔ Tehdit tespit edilmedi';
+    radarStatus.className   = 'radar-threat threat-clear';
   }
 }
 
+// ── Mağaza bağlı göster ──
 function showShopifyConnected(shop) {
-  document.getElementById('sb-store-content').innerHTML=`
+  document.getElementById('sb-store-content').innerHTML = `
     <div class="sb-shop-name">${shop}</div>
-    <div class="sb-shop-status">✔ Connected & protected</div>
-    <button class="sb-disconnect" onclick="disconnectStore()">Disconnect</button>
+    <div class="sb-shop-status">✔ Bağlantılı ve korumalı</div>
+    <button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>
   `;
-  document.getElementById('shopify-status').textContent='Connected';
-  document.getElementById('shopify-panel-content').innerHTML=`
+  document.getElementById('shopify-status').textContent = 'Bağlı';
+  document.getElementById('shopify-panel-content').innerHTML = `
     <div class="sp-stats">
-      <div class="sp-stat"><div class="sp-stat-val">✔</div><div class="sp-stat-label">Store Connected</div></div>
-      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">${shop.split('.')[0]}</div><div class="sp-stat-label">Store Name</div></div>
-      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--green)">Live</div><div class="sp-stat-label">Webhook Status</div></div>
-      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">OAuth</div><div class="sp-stat-label">Auth Method</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">✔</div><div class="sp-stat-label">Mağazaya Bağlı</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">${shop.split('.')[0]}</div><div class="sp-stat-label">Mağaza Adı</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--green)">Canlı</div><div class="sp-stat-label">Webhook Durumu</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">OAuth</div><div class="sp-stat-label">Kimlik Doğrulama Yöntemi</div></div>
     </div>
   `;
-  document.getElementById('m-health').textContent='82%';
-  document.getElementById('m-health-sub').textContent='Healthy — No critical issues';
-  setTimeout(()=>{document.getElementById('m-hbar').style.width='82%';},400);
+  document.getElementById('m-health').textContent    = '%82';
+  document.getElementById('m-health-sub').textContent = 'Sağlıklı — Kritik bir sorun yok.';
+  setTimeout(() => { document.getElementById('m-hbar').style.width = '82%'; }, 400);
 }
 
+// ── Mağaza bağlantısını kes ──
 function disconnectStore() {
-  if (!confirm('Disconnect your Shopify store?')) return;
-  localStorage.removeItem('shopify_token');
+  if (!confirm('Shopify mağazanızın bağlantısını kesmek istediğinizden emin misiniz?')) return;
   localStorage.removeItem('shopify_shop');
-  window.location.href='index.html';
+  window.location.href = 'index.html';
 }
 
+// ── Logout ──
+async function logout() {
+  await sb.auth.signOut();
+  localStorage.removeItem('shopify_shop');
+  window.location.href = 'index.html';
+}
+
+// ── Ana init ──
 async function init() {
-  const urlParams=new URLSearchParams(window.location.search);
-  const urlToken=urlParams.get('token');
-  const urlShop=urlParams.get('shop');
-  if (urlToken&&urlShop) {
-    localStorage.setItem('shopify_token',urlToken);
-    localStorage.setItem('shopify_shop',urlShop);
-    window.history.replaceState({},'','dashboard.html');
+  // URL'den token kabul etmiyoruz — güvenlik açığı
+  // Token sadece auth-callback.html üzerinden localStorage'a yazılır
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('token')) {
+    // Token URL'den temizle, güvenlik gereği
+    window.history.replaceState({}, '', 'dashboard.html');
   }
-  const {data:{session}}=await sb.auth.getSession();
-  if (!session){window.location.href='index.html';return;}
-  currentUser=session.user;
-  document.getElementById('user-email').textContent=session.user.email;
-  const {data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain,access_token').eq('user_id',session.user.id).single();
+
+  // Session kontrolü
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'index.html';
+    return;
+  }
+
+  currentUser = session.user;
+  document.getElementById('user-email').textContent = session.user.email;
+
+  // Supabase'den store ve plan bilgisi çek
+  // access_token frontend'e gelmiyor — sadece shop_domain
+  const { data: storeData } = await sb.from('shopify_stores')
+    .select('plan, subscription_status, trial_end_date, shop_domain')
+    .eq('user_id', session.user.id)
+    .single();
+
   checkPlanStatus(storeData);
-  const token=localStorage.getItem('shopify_token')||storeData?.access_token||null;
-  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
-  if (token&&shop) {
+
+  // Shop bilgisini localStorage veya Supabase'den al
+  const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
+
+  if (shop) {
     showShopifyConnected(shop);
     try {
-      const res=await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}&token=${encodeURIComponent(token)}`);
-      const data=await res.json();
-      renderOrders(data.orders||[]);
-    } catch(e) {
-      document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Could not load orders. Check your connection.</div></div>';
+      // Token URL'de değil, backend kendisi Supabase'den alıyor
+      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
+        headers: {
+          // Supabase session token'ı Authorization header'da gönder
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
+      const data = await res.json();
+      renderOrders(data.orders || []);
+    } catch (e) {
+      document.getElementById('orders-body').innerHTML =
+        '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
     }
   } else {
-    document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Connect your Shopify store to start scanning orders.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Connect Shopify →</button></div>';
-    document.getElementById('m-health').textContent='—';
-    document.getElementById('m-health-sub').textContent='Connect store to start';
+    document.getElementById('orders-body').innerHTML =
+      '<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Siparişleri taramaya başlamak için Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
+    document.getElementById('m-health').textContent     = '—';
+    document.getElementById('m-health-sub').textContent = 'Başlamak için mağaza bağlayın';
   }
 }
-
-async function logout(){await sb.auth.signOut();localStorage.removeItem('shopify_token');localStorage.removeItem('shopify_shop');window.location.href='index.html';}
 
 init();
 </script>
