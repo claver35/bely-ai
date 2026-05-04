@@ -1,10 +1,11 @@
 name = "BELY AI"
-client_id = "07d3e8554d200c9b99309796104d9434"
-application_url = "https://bely-ai.vercel.app"
+client_id = "0c6c69853d601c94138ac794687a25c0"
+application_url = "https://belyshield.com"
 embedded = true
 
 [auth]
 redirect_urls = [
+  "https://belyshield.com/auth-callback.html",
   "https://bely-ai.vercel.app/auth-callback.html"
 ]
 
