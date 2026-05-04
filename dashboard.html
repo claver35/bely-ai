@@ -783,12 +783,7 @@ async function init() {
     showShopifyConnected(shop);
     try {
       // Token URL'de değil, backend kendisi Supabase'den alıyor
-      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
-        headers: {
-          // Supabase session token'ı Authorization header'da gönder
-          'Authorization': `Bearer ${session.access_token}`
-        }
-      });
+      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`);
       const data = await res.json();
       renderOrders(data.orders || []);
     } catch (e) {
