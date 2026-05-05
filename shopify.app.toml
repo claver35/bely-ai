@@ -9,6 +9,8 @@ redirect_urls = [
   "https://bely-ai.vercel.app/auth-callback.html"
 ]
 
+[access_scopes]
+scopes = "read_orders,read_customers"
 [webhooks]
 api_version = "2026-04"
 
