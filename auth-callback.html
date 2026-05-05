@@ -123,23 +123,13 @@ function showError(msg) {
 }
 
 async function saveStoreToSupabase(userId, shop, token) {
-  const trialEnd = new Date();
-  trialEnd.setDate(trialEnd.getDate() + 7);
-  
-  // Önce sil, sonra ekle
-  await sb.from('shopify_stores').delete().eq('user_id', userId);
-  
-  const { error } = await sb.from('shopify_stores').insert({
-    user_id: userId,
-    shop_domain: shop,
-    access_token: token,
-    connected_at: new Date().toISOString(),
-    trial_end_date: trialEnd.toISOString(),
-    status: 'trial',
-    plan: 'free',
-    subscription_status: 'trial'
+  const res = await fetch('/api/save-token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, shop, token })
   });
-  return error;
+  const data = await res.json();
+  return data.success ? null : data.error;
 }
 
 function showAccountForm(shop, token) {
