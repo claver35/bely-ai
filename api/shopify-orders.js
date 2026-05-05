@@ -61,15 +61,17 @@ module.exports = async function handler(req, res) {
   const status = storeData.subscription_status;
 
   let limit = 5;
-  if (plan === 'elite' && status === 'active') {
-    limit = 250;
-  } else if (plan === 'pro' && status === 'active') {
-    limit = 10;
-  } else if (isTrialActive || status === 'trial') {
-    limit = 5;
-  } else {
-    return res.status(403).json({ error: 'subscription_required' });
-  }
+if (plan === 'elite' && status === 'active') {
+  limit = 250;
+} else if (plan === 'pro' && status === 'active') {
+  limit = 10;
+} else if (status === 'trial' || isTrialActive) {
+  limit = 5;
+} else if (plan === 'free') {
+  limit = 5;
+} else {
+  return res.status(403).json({ error: 'subscription_required' });
+}
 
   // Shop domain doğrulama
   const shop = req.query.shop;
