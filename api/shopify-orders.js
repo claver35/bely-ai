@@ -15,83 +15,28 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  const shop = req.query.shop;
+  if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
+  const cleanShop = shop.toLowerCase().trim();
+  if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
+    return res.status(400).json({ error: 'Invalid shop domain' });
   }
-  const userToken = authHeader.split(' ')[1];
 
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+  const token = process.env.SHOPIFY_PRIVATE_TOKEN;
+  if (!token) {
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
 
   try {
-    const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'apikey': SUPABASE_SERVICE_KEY
-      }
-    });
-    const userData = await userRes.json();
-    if (!userData.id) {
-      return res.status(401).json({ error: 'Invalid token' });
-    }
-
-    const storeRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain&limit=1`,
-      {
-        headers: {
-          'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-          'apikey': SUPABASE_SERVICE_KEY
-        }
-      }
+    const response = await fetch(
+      `https://${cleanShop}/admin/api/2024-01/orders.json?limit=10&status=any`,
+      { headers: { 'X-Shopify-Access-Token': token } }
     );
-    const stores = await storeRes.json();
-    const storeData = stores[0];
-
-    if (!storeData) {
-      return res.status(404).json({ error: 'Store not found' });
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Shopify API error' });
     }
-
-    const now = new Date();
-    const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
-    const isTrialActive = trialEnd && now < trialEnd;
-    const plan = storeData.plan;
-    const status = storeData.subscription_status;
-
-    let limit = 5;
-    if (plan === 'elite' && status === 'active') {
-      limit = 250;
-    } else if (plan === 'pro' && status === 'active') {
-      limit = 10;
-    } else if (status === 'trial' || isTrialActive || plan === 'free') {
-      limit = 5;
-    } else {
-      return res.status(403).json({ error: 'subscription_required' });
-    }
-
-    const shop = req.query.shop;
-    if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
-    const cleanShop = shop.toLowerCase().trim();
-    if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
-      return res.status(400).json({ error: 'Invalid shop domain' });
-    }
-
-    // Hem Supabase token hem de environment variable dene
-    const shopifyToken = storeData.access_token || process.env.SHOPIFY_PRIVATE_TOKEN;
-    if (!shopifyToken) {
-      return res.status(500).json({ error: 'No Shopify token found' });
-    }
-
-    const shopifyRes = await fetch(
-      `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
-      { headers: { 'X-Shopify-Access-Token': shopifyToken } }
-    );
-    if (!shopifyRes.ok) {
-      return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
-    }
-    const data = await shopifyRes.json();
-    return res.status(200).json({ ...data, _plan: plan, _limit: limit });
-
+    const data = await response.json();
+    return res.status(200).json(data);
   } catch (e) {
     console.error('[shopify-orders] Error:', e.message);
     return res.status(500).json({ error: 'Internal server error' });
