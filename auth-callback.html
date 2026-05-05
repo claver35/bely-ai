@@ -125,7 +125,11 @@ function showError(msg) {
 async function saveStoreToSupabase(userId, shop, token) {
   const trialEnd = new Date();
   trialEnd.setDate(trialEnd.getDate() + 7);
-  const { error } = await sb.from('shopify_stores').upsert({
+  
+  // Önce sil, sonra ekle
+  await sb.from('shopify_stores').delete().eq('user_id', userId);
+  
+  const { error } = await sb.from('shopify_stores').insert({
     user_id: userId,
     shop_domain: shop,
     access_token: token,
@@ -134,7 +138,7 @@ async function saveStoreToSupabase(userId, shop, token) {
     status: 'trial',
     plan: 'free',
     subscription_status: 'trial'
-  }, { onConflict: 'user_id', ignoreDuplicates: false });
+  });
   return error;
 }
 
