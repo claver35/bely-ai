@@ -1,11 +1,11 @@
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
 );
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const allowedOrigins = [
     'https://belyshield.com',
     'https://www.belyshield.com',
@@ -22,20 +22,17 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Auth token kontrolü
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   const token = authHeader.split(' ')[1];
 
-  // Supabase'den kullanıcıyı doğrula
   const { data: { user }, error: authError } = await supabase.auth.getUser(token);
   if (authError || !user) {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  // Kullanıcının mağaza bilgilerini çek
   const { data: storeData, error: storeError } = await supabase
     .from('shopify_stores')
     .select('plan, subscription_status, trial_end_date, access_token, shop_domain')
@@ -46,7 +43,6 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'Store not found' });
   }
 
-  // Plan kontrolü ve limit belirleme
   const now = new Date();
   const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
   const isTrialActive = trialEnd && now < trialEnd;
@@ -64,7 +60,6 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'subscription_required' });
   }
 
-  // Shop domain doğrulama
   const shop = req.query.shop;
   if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
   const cleanShop = shop.toLowerCase().trim();
@@ -72,13 +67,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid shop domain' });
   }
 
-  // Kullanıcının kendi Shopify access token'ı
   const shopifyToken = storeData.access_token;
   if (!shopifyToken) {
     return res.status(500).json({ error: 'No Shopify token found' });
   }
 
-  // Shopify API isteği
   try {
     const response = await fetch(
       `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
@@ -93,4 +86,4 @@ export default async function handler(req, res) {
     console.error('[shopify-orders] Error:', e.message);
     return res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
