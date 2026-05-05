@@ -104,7 +104,7 @@ export default async function handler(req, res) {
       // Mağazanın user_id'sini bul
       const { data: storeData, error: storeError } = await supabase
         .from('shopify_stores')
-        .select('user_id')
+        .select('user_id, plan, subscription_status, trial_end_date')
         .eq('shop_domain', shop)
         .single();
 
