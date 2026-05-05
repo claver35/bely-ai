@@ -125,16 +125,12 @@ function showError(msg) {
 async function saveStoreToSupabase(userId, shop, token) {
   const trialEnd = new Date();
   trialEnd.setDate(trialEnd.getDate() + 7);
-  const { error } = await sb.from('shopify_stores').upsert({
-    user_id: userId,
-    shop_domain: shop,
-    access_token: token,
-    connected_at: new Date().toISOString(),
-    trial_end_date: trialEnd.toISOString(),
-    status: 'trial',
-    plan: 'free',
-    subscription_status: 'trial'
-  }, { onConflict: 'user_id' });
+  const { error } = await sb.from('shopify_stores')
+    .update({
+      access_token: token,
+      connected_at: new Date().toISOString(),
+    })
+    .eq('user_id', userId);
   return error;
 }
 
