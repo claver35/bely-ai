@@ -131,8 +131,10 @@ async function saveStoreToSupabase(userId, shop, token) {
     access_token: token,
     connected_at: new Date().toISOString(),
     trial_end_date: trialEnd.toISOString(),
-    status: 'trial'
-  });
+    status: 'trial',
+    plan: 'free',
+    subscription_status: 'trial'
+  }, { onConflict: 'user_id' });
   return error;
 }
 
