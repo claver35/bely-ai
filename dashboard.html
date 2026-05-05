@@ -515,7 +515,7 @@ const SHOPIFY_REDIRECT  = 'https://belyshield.com/auth-callback.html';
 const SHOPIFY_SCOPES    = 'read_orders,read_customers';
 
 let currentUser = null;
-
+let currentPlan = 'free';
 // ── Canlı saat ──
 setInterval(() => {
   document.getElementById('live-time').textContent =
@@ -598,6 +598,7 @@ function checkPlanStatus(storeData) {
   if (!storeData) { chip.style.display = 'none'; return; }
 
   const plan     = storeData.plan || 'free';
+currentPlan = plan;
   const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
   const now      = new Date();
 
