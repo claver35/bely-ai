@@ -681,9 +681,13 @@ function renderOrders(orders) {
       level = `DÜŞÜK — %${Math.max(score, 4)}`; tagCls = 'rt-low'; reasonCls = 'or-low'; cardCls = 'oc-low';
     }
 
-    const reason = risks.length > 0
+    const reasonText = risks.length > 0
       ? risks.join(' · ')
       : 'Risk sinyali yok — Göndermek güvenli.';
+
+const reason = (currentPlan === 'pro' || currentPlan === 'elite')
+      ? reasonText
+      : `<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;
 
     html += `<div class="order-card ${cardCls}">
       <div class="order-left">
