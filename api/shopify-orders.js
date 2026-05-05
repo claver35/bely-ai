@@ -76,7 +76,8 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
 
-    const shopifyToken = storeData.access_token;
+    // Hem Supabase token hem de environment variable dene
+    const shopifyToken = storeData.access_token || process.env.SHOPIFY_PRIVATE_TOKEN;
     if (!shopifyToken) {
       return res.status(500).json({ error: 'No Shopify token found' });
     }
