@@ -1,10 +1,3 @@
-const { createClient } = require('@supabase/supabase-js');
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
-
 module.exports = async function handler(req, res) {
   const allowedOrigins = [
     'https://belyshield.com',
@@ -26,23 +19,41 @@ module.exports = async function handler(req, res) {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  const token = authHeader.split(' ')[1];
+  const userToken = authHeader.split(' ')[1];
 
-  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-  if (authError || !user) {
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+  // Kullanıcıyı doğrula
+  const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: {
+      'Authorization': `Bearer ${userToken}`,
+      'apikey': SUPABASE_SERVICE_KEY
+    }
+  });
+  const userData = await userRes.json();
+  if (!userData.id) {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  const { data: storeData, error: storeError } = await supabase
-    .from('shopify_stores')
-    .select('plan, subscription_status, trial_end_date, access_token, shop_domain')
-    .eq('user_id', user.id)
-    .single();
+  // Mağaza bilgilerini çek
+  const storeRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain`,
+    {
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+        'apikey': SUPABASE_SERVICE_KEY
+      }
+    }
+  );
+  const stores = await storeRes.json();
+  const storeData = stores[0];
 
-  if (storeError || !storeData) {
+  if (!storeData) {
     return res.status(404).json({ error: 'Store not found' });
   }
 
+  // Plan kontrolü
   const now = new Date();
   const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
   const isTrialActive = trialEnd && now < trialEnd;
@@ -60,6 +71,7 @@ module.exports = async function handler(req, res) {
     return res.status(403).json({ error: 'subscription_required' });
   }
 
+  // Shop domain doğrulama
   const shop = req.query.shop;
   if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
   const cleanShop = shop.toLowerCase().trim();
@@ -72,6 +84,7 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'No Shopify token found' });
   }
 
+  // Shopify API isteği
   try {
     const response = await fetch(
       `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
