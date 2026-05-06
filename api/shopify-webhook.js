@@ -145,7 +145,10 @@ export default async function handler(req, res) {
       if (userEmail) {
         await fetch(ALERT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-internal-secret': process.env.CRON_SECRET
+          },
           body: JSON.stringify({
             to:          userEmail,
             orderNumber: order.order_number,
