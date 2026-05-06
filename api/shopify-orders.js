@@ -25,7 +25,6 @@ module.exports = async function handler(req, res) {
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
   try {
-    // Kullanıcıyı doğrula
     const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
       headers: {
         'Authorization': `Bearer ${userToken}`,
@@ -37,7 +36,6 @@ module.exports = async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid token' });
     }
 
-    // Supabase'den store bilgisi çek
     const storeRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain&limit=1`,
       {
@@ -54,7 +52,6 @@ module.exports = async function handler(req, res) {
       return res.status(404).json({ error: 'Store not found' });
     }
 
-    // Plan kontrolü
     const now = new Date();
     const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
     const isTrialActive = trialEnd && now < trialEnd;
@@ -72,7 +69,6 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ error: 'subscription_required' });
     }
 
-    // Shop parametresi kontrolü
     const shop = req.query.shop;
     if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
 
@@ -81,24 +77,20 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
 
-    // GÜVENLİK: URL'den gelen shop, Supabase'deki kayıtla eşleşmeli
     if (storeData.shop_domain !== cleanShop) {
       return res.status(403).json({ error: 'Shop domain mismatch' });
     }
 
-    // Token kontrolü
     const shopifyToken = storeData.access_token;
     if (!shopifyToken) {
       return res.status(500).json({ error: 'No Shopify token found' });
     }
 
-    // Shopify API isteği
     const shopifyRes = await fetch(
       `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
       { headers: { 'X-Shopify-Access-Token': shopifyToken } }
     );
 
-    // Shopify hata mesajını logla
     if (!shopifyRes.ok) {
       const errorText = await shopifyRes.text();
       console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
@@ -110,7 +102,63 @@ module.exports = async function handler(req, res) {
     }
 
     const data = await shopifyRes.json();
-    return res.status(200).json({ ...data, _plan: plan, _limit: limit });
+
+    // ── Risk Algoritması (ticari sır — backend'de kalır) ──
+    const scoredOrders = (data.orders || []).map(order => {
+      let score = 0;
+      const risks = [];
+
+      if (order.customer) {
+        const daysSince = (Date.now() - new Date(order.customer.created_at)) / 86400000;
+        if (daysSince < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
+        else if (daysSince < 7) { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
+      }
+
+      const price = parseFloat(order.total_price);
+      if (price > 500) { score += 35; risks.push('Çok yüksek sipariş tutarı'); }
+      else if (price > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${price.toFixed(0)})`); }
+
+      if (
+        order.billing_address && order.shipping_address &&
+        order.billing_address.country_code !== order.shipping_address.country_code
+      ) {
+        score += 35;
+        risks.push('Fatura ve teslimat farklı ülkelerde');
+      }
+
+      if (!order.customer) {
+        score += 20;
+        risks.push('Misafir sipariş');
+      }
+
+      if (order.financial_status === 'voided' || order.financial_status === 'refunded') {
+        score += 25;
+        risks.push('İptal/iade geçmişi');
+      }
+
+      score = Math.min(score, 99);
+
+      let level;
+      if (score >= 50) level = 'high';
+      else if (score >= 25) level = 'medium';
+      else level = 'low';
+
+      return {
+        id: order.id,
+        order_number: order.order_number,
+        total_price: order.total_price,
+        financial_status: order.financial_status,
+        country: order.shipping_address?.country || null,
+        customer_created_at: order.customer?.created_at || null,
+        risk: { score, level, risks }
+      };
+    });
+
+    return res.status(200).json({
+      orders: scoredOrders,
+      _plan: plan,
+      _limit: limit
+    });
 
   } catch (e) {
     console.error('[shopify-orders] Error:', e.message);
