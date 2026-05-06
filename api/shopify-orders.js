@@ -54,7 +54,7 @@ module.exports = async function handler(req, res) {
     const status = storeData.subscription_status;
 
     let limit = 5;
-    let accessLevel = 'trial'; // trial | pro | elite
+    let accessLevel = 'trial';
 
     if (plan === 'elite' && status === 'active') {
       limit = 250;
@@ -84,10 +84,28 @@ module.exports = async function handler(req, res) {
     const shopifyToken = storeData.access_token;
     if (!shopifyToken) return res.status(500).json({ error: 'No Shopify token found' });
 
-    const shopifyRes = await fetch(
-      `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
-      { headers: { 'X-Shopify-Access-Token': shopifyToken } }
-    );
+    // Shopify siparişleri ve chargeback verisi paralel çek
+    const [shopifyRes, chargebackRes, totalOrdersRes] = await Promise.all([
+      fetch(
+        `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
+        { headers: { 'X-Shopify-Access-Token': shopifyToken } }
+      ),
+      // Supabase'den chargeback sayısı
+      fetch(
+        `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${cleanShop}&select=id,amount,status`,
+        {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY
+          }
+        }
+      ),
+      // Son 30 günlük toplam sipariş sayısı
+      fetch(
+        `https://${cleanShop}/admin/api/2024-01/orders/count.json?status=any&created_at_min=${new Date(Date.now() - 30 * 86400000).toISOString()}`,
+        { headers: { 'X-Shopify-Access-Token': shopifyToken } }
+      )
+    ]);
 
     if (!shopifyRes.ok) {
       const errorText = await shopifyRes.text();
@@ -100,6 +118,21 @@ module.exports = async function handler(req, res) {
     }
 
     const data = await shopifyRes.json();
+
+    // Chargeback oranı hesapla
+    let chargebackRate = null;
+    try {
+      const chargebacks = await chargebackRes.json();
+      const totalOrdersData = await totalOrdersRes.json();
+      const totalOrders = totalOrdersData.count || 0;
+      const chargebackCount = Array.isArray(chargebacks) ? chargebacks.length : 0;
+
+      if (totalOrders > 0) {
+        chargebackRate = ((chargebackCount / totalOrders) * 100).toFixed(2);
+      }
+    } catch (e) {
+      console.warn('[shopify-orders] Chargeback rate calc error:', e.message);
+    }
 
     const scoredOrders = (data.orders || []).map(order => {
       let score = 0;
@@ -135,7 +168,6 @@ module.exports = async function handler(req, res) {
       else if (score >= 25) level = 'medium';
       else level = 'low';
 
-      // ── Plan bazlı veri erişimi — backend'de kontrol edilir ──
       const baseOrder = {
         id: order.id,
         order_number: order.order_number,
@@ -145,39 +177,35 @@ module.exports = async function handler(req, res) {
         risk: {
           score,
           level,
-          // Trial: risk nedenleri gizli
           risks: accessLevel === 'trial' ? [] : risks
         },
-        // Trial ve Pro: detaylar yok
         details: null
       };
 
-      // Pro: risk nedenleri açık, detaylar kilitli
       if (accessLevel === 'pro') {
         baseOrder.risk.risks = risks;
         baseOrder.details = null;
       }
 
-      // Elite: her şey açık
       if (accessLevel === 'elite') {
         baseOrder.risk.risks = risks;
         baseOrder.details = {
           customerName: order.customer
             ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim() || '—'
             : 'Misafir',
-          customerEmail:    order.customer?.email || null,
-          accountAgeDays:   order.customer?.created_at
+          customerEmail:     order.customer?.email || null,
+          accountAgeDays:    order.customer?.created_at
             ? Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000)
             : null,
-          totalOrders:      order.customer?.orders_count ?? 0,
-          billingCountry:   order.billing_address?.country || null,
-          shippingCountry:  order.shipping_address?.country || null,
-          billingCity:      order.billing_address?.city || null,
-          shippingCity:     order.shipping_address?.city || null,
-          financialStatus:  order.financial_status || null,
+          totalOrders:       order.customer?.orders_count ?? 0,
+          billingCountry:    order.billing_address?.country || null,
+          shippingCountry:   order.shipping_address?.country || null,
+          billingCity:       order.billing_address?.city || null,
+          shippingCity:      order.shipping_address?.city || null,
+          financialStatus:   order.financial_status || null,
           fulfillmentStatus: order.fulfillment_status || 'unfulfilled',
-          gateway:          order.gateway || 'bilinmiyor',
-          totalPrice:       price
+          gateway:           order.gateway || 'bilinmiyor',
+          totalPrice:        price
         };
       }
 
@@ -188,7 +216,8 @@ module.exports = async function handler(req, res) {
       orders: scoredOrders,
       _plan: plan,
       _limit: limit,
-      _access: accessLevel
+      _access: accessLevel,
+      _chargebackRate: chargebackRate // Dashboard'da kullanılacak
     });
 
   } catch (e) {
