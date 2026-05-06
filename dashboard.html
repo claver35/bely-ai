@@ -497,19 +497,16 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 </div>
 
 <script>
-// ── Supabase — publishable key, güvenli ──
 const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
 
-// ── Price ID'ler ──
 const PRICE_IDS = {
   pro:   'pri_01kpntvkyjz86f9abj5g8396dv',
   elite: 'pri_01kpnv1whkq97tr638rt08vz09'
 };
 
-// ── Shopify OAuth ──
 const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
 const SHOPIFY_REDIRECT  = 'https://belyshield.com/auth-callback.html';
 const SHOPIFY_SCOPES    = 'read_orders,read_customers';
@@ -517,20 +514,17 @@ const SHOPIFY_SCOPES    = 'read_orders,read_customers';
 let currentUser = null;
 let currentPlan = 'free';
 
-// ── Canlı saat ──
 setInterval(() => {
   document.getElementById('live-time').textContent =
     new Date().toLocaleTimeString('tr-TR');
 }, 1000);
 
-// ── Radar sweep ──
 let ra = 0;
 setInterval(() => {
   ra = (ra + 2) % 360;
   document.getElementById('radar-sweep').style.transform = `rotate(${ra}deg)`;
 }, 25);
 
-// ── Coming soon toast ──
 function showComingSoon(name) {
   let toast = document.getElementById('cs-toast');
   if (!toast) {
@@ -545,7 +539,6 @@ function showComingSoon(name) {
   toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
 }
 
-// ── Checkout ──
 async function startCheckout(plan) {
   if (!currentUser) return;
   const btns = document.querySelectorAll('.pw-btn,.up-btn');
@@ -574,7 +567,6 @@ async function startCheckout(plan) {
   }
 }
 
-// ── Shopify bağlantısı ──
 function connectShopify() {
   let shop = prompt('Shopify mağaza adresinizi girin:\n(örnek: magaza-adiniz.myshopify.com)');
   if (!shop) return;
@@ -590,7 +582,6 @@ function connectShopify() {
   window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
 }
 
-// ── Plan kontrolü ──
 function checkPlanStatus(storeData) {
   const paywall = document.getElementById('paywall');
   const banner  = document.getElementById('upgrade-banner');
@@ -599,7 +590,7 @@ function checkPlanStatus(storeData) {
   if (!storeData) { chip.style.display = 'none'; return; }
 
   const plan     = storeData.plan || 'free';
-currentPlan = plan;
+  currentPlan = plan;
   const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
   const now      = new Date();
 
@@ -634,8 +625,8 @@ currentPlan = plan;
   paywall.style.display = 'flex';
 }
 
-// ── Sipariş render ──
-function renderOrders(orders) {
+// ── Sipariş render — risk verisi backend'den geliyor ──
+function renderOrders(orders, plan) {
   const body = document.getElementById('orders-body');
   const meta = document.getElementById('orders-meta');
 
@@ -647,46 +638,30 @@ function renderOrders(orders) {
   let highRisk = 0;
   let html = '';
 
-  orders.slice(0, 8).forEach(order => {
-    // ── Risk puanlaması backend'den gelecek, şimdilik temel sinyaller ──
-    let score = 0;
-    const risks = [];
+  orders.forEach(order => {
+    const risk = order.risk;
+    const score = risk.score;
+    const level = risk.level;
+    const risks = risk.risks;
 
-    if (order.customer) {
-      const d = (Date.now() - new Date(order.customer.created_at)) / 86400000;
-      if (d < 7)  { score += 30; risks.push(`Yeni hesap (< 7 gün)`); }
-      if (d < 1)  { score += 15; risks.push('Bugün oluşturulan hesap'); }
-    }
-
-    const p = parseFloat(order.total_price);
-    if (p > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${p.toFixed(0)})`); }
-    if (p > 500) { score += 15; risks.push('Çok yüksek sipariş tutarı'); }
-
-    if (
-      order.billing_address && order.shipping_address &&
-      order.billing_address.country_code !== order.shipping_address.country_code
-    ) {
-      score += 35;
-      risks.push('Fatura ve teslimat farklı ülkelerde');
-    }
-
-    score = Math.min(score, 99);
-
-    let level, tagCls, reasonCls, cardCls;
-    if (score >= 50) {
-      level = `YÜKSEK — %${score}`; tagCls = 'rt-high'; reasonCls = 'or-high'; cardCls = 'oc-high';
+    let tagCls, reasonCls, cardCls, levelText;
+    if (level === 'high') {
+      levelText = `YÜKSEK — %${score}`;
+      tagCls = 'rt-high'; reasonCls = 'or-high'; cardCls = 'oc-high';
       highRisk++;
-    } else if (score >= 25) {
-      level = `ORTA — %${score}`; tagCls = 'rt-med'; reasonCls = 'or-med'; cardCls = 'oc-med';
+    } else if (level === 'medium') {
+      levelText = `ORTA — %${score}`;
+      tagCls = 'rt-med'; reasonCls = 'or-med'; cardCls = 'oc-med';
     } else {
-      level = `DÜŞÜK — %${Math.max(score, 4)}`; tagCls = 'rt-low'; reasonCls = 'or-low'; cardCls = 'oc-low';
+      levelText = `DÜŞÜK — %${Math.max(score, 4)}`;
+      tagCls = 'rt-low'; reasonCls = 'or-low'; cardCls = 'oc-low';
     }
 
     const reasonText = risks.length > 0
       ? risks.join(' · ')
       : 'Risk sinyali yok — Göndermek güvenli.';
 
-const reason = (currentPlan === 'pro' || currentPlan === 'elite')
+    const reason = (plan === 'pro' || plan === 'elite')
       ? reasonText
       : `<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;
 
@@ -694,10 +669,10 @@ const reason = (currentPlan === 'pro' || currentPlan === 'elite')
       <div class="order-left">
         <div class="order-num">#${order.order_number}</div>
         <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
-        <div class="order-loc">${order.shipping_address?.country || 'Bilinmeyen konum'}</div>
+        <div class="order-loc">${order.country || 'Bilinmeyen konum'}</div>
         <div class="order-reason ${reasonCls}">${reason}</div>
       </div>
-      <span class="risk-tag ${tagCls}">${level}</span>
+      <span class="risk-tag ${tagCls}">${levelText}</span>
     </div>`;
   });
 
@@ -718,7 +693,6 @@ const reason = (currentPlan === 'pro' || currentPlan === 'elite')
   }
 }
 
-// ── Mağaza bağlı göster ──
 function showShopifyConnected(shop) {
   document.getElementById('sb-store-content').innerHTML = `
     <div class="sb-shop-name">${shop}</div>
@@ -731,7 +705,7 @@ function showShopifyConnected(shop) {
       <div class="sp-stat"><div class="sp-stat-val">✔</div><div class="sp-stat-label">Mağazaya Bağlı</div></div>
       <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">${shop.split('.')[0]}</div><div class="sp-stat-label">Mağaza Adı</div></div>
       <div class="sp-stat"><div class="sp-stat-val" style="color:var(--green)">Canlı</div><div class="sp-stat-label">Webhook Durumu</div></div>
-      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">OAuth</div><div class="sp-stat-label">Kimlik Doğrulama Yöntemi</div></div>
+      <div class="sp-stat"><div class="sp-stat-val" style="color:var(--cyan)">OAuth</div><div class="sp-stat-label">Kimlik Doğrulama</div></div>
     </div>
   `;
   document.getElementById('m-health').textContent    = '%82';
@@ -739,31 +713,24 @@ function showShopifyConnected(shop) {
   setTimeout(() => { document.getElementById('m-hbar').style.width = '82%'; }, 400);
 }
 
-// ── Mağaza bağlantısını kes ──
 function disconnectStore() {
   if (!confirm('Shopify mağazanızın bağlantısını kesmek istediğinizden emin misiniz?')) return;
   localStorage.removeItem('shopify_shop');
   window.location.href = 'index.html';
 }
 
-// ── Logout ──
 async function logout() {
   await sb.auth.signOut();
   localStorage.removeItem('shopify_shop');
   window.location.href = 'index.html';
 }
 
-// ── Ana init ──
 async function init() {
-  // URL'den token kabul etmiyoruz — güvenlik açığı
-  // Token sadece auth-callback.html üzerinden localStorage'a yazılır
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has('token')) {
-    // Token URL'den temizle, güvenlik gereği
     window.history.replaceState({}, '', 'dashboard.html');
   }
 
-  // Session kontrolü
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
     window.location.href = 'index.html';
@@ -773,27 +740,24 @@ async function init() {
   currentUser = session.user;
   document.getElementById('user-email').textContent = session.user.email;
 
-  // Supabase'den store ve plan bilgisi çek
-  // access_token frontend'e gelmiyor — sadece shop_domain
   const { data: storeData } = await sb.from('shopify_stores')
     .select('plan, subscription_status, trial_end_date, shop_domain')
     .eq('user_id', session.user.id)
     .single();
 
   checkPlanStatus(storeData);
+  currentPlan = storeData?.plan || 'free';
 
-  // Shop bilgisini localStorage veya Supabase'den al
   const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
 
   if (shop) {
     showShopifyConnected(shop);
     try {
-      // Token URL'de değil, backend kendisi Supabase'den alıyor
-     const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
-  headers: { 'Authorization': `Bearer ${session.access_token}` }
-});
+      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
       const data = await res.json();
-      renderOrders(data.orders || []);
+      renderOrders(data.orders || [], data._plan || currentPlan);
     } catch (e) {
       document.getElementById('orders-body').innerHTML =
         '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
