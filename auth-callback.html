@@ -16,8 +16,6 @@ body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFo
 .sub{font-size:14px;color:#8a96ad;line-height:1.6}
 .status{font-size:13px;color:#00e5ff;margin-top:16px;font-weight:500;min-height:20px}
 .err-box{background:rgba(255,61,87,0.1);border:0.5px solid rgba(255,61,87,0.3);border-radius:8px;padding:14px;margin-top:20px;font-size:13px;color:#ff8a96;display:none;text-align:left}
-
-/* Account form */
 .form-section{display:none;text-align:left;margin-top:24px}
 .form-section .form-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
 .form-section .form-sub{font-size:13px;color:#8a96ad;margin-bottom:20px;line-height:1.5}
@@ -32,7 +30,6 @@ body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFo
 .btn-main:hover{opacity:.9}
 .btn-main:disabled{opacity:.4;cursor:not-allowed}
 .field-err{font-size:12px;color:#ff6b82;margin-top:4px;display:none}
-
 .btn-retry{padding:12px 28px;border-radius:8px;background:#00e5ff;border:none;color:#000;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;display:none}
 .success-icon{font-size:48px;margin-bottom:16px;display:none}
 </style>
@@ -40,8 +37,6 @@ body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFo
 <body>
 <div class="card">
   <div class="logo">BELY <span>AI</span></div>
-
-  <!-- Loading state -->
   <div id="loading-section">
     <div class="spinner" id="spinner"></div>
     <div class="title" id="title">Connecting your Shopify store...</div>
@@ -50,14 +45,12 @@ body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFo
     <div class="err-box" id="err"></div>
     <button class="btn-retry" id="btn-retry" onclick="location.href='index.html'">Try Again</button>
   </div>
-
-  <!-- Account creation form (shown when no session) -->
   <div class="form-section" id="form-section">
     <div class="success-icon" id="success-icon">🔗</div>
     <div class="form-title">Shopify store connected!</div>
     <div class="form-sub">Create your BELY AI account to access your dashboard and start protecting your store.</div>
     <div class="shop-display" id="shop-display">
-      <span>🛍️</span> <div><span>Connected store:</span><br><strong id="shop-name-display"></strong></div>
+      <span>🛍️</span><div><span>Connected store:</span><br><strong id="shop-name-display"></strong></div>
     </div>
     <div class="field">
       <label>Email address</label>
@@ -73,13 +66,11 @@ body{background:#05070d;color:#e8eefb;font-family:-apple-system,BlinkMacSystemFo
     <div class="field-err" id="err-general" style="display:none;margin-top:12px;font-size:13px"></div>
     <p style="font-size:12px;color:#555870;text-align:center;margin-top:14px">Already have an account? <a href="#" style="color:#00e5ff" onclick="signInMode()">Sign in</a></p>
   </div>
-
-  <!-- Sign in form (alternative) -->
   <div class="form-section" id="signin-section">
     <div class="form-title">Sign in to your account</div>
     <div class="form-sub">Sign in to link this Shopify store to your existing BELY AI account.</div>
     <div class="shop-display" id="shop-display-2">
-      <span>🛍️</span> <div><span>Connecting:</span><br><strong id="shop-name-display-2"></strong></div>
+      <span>🛍️</span><div><span>Connecting:</span><br><strong id="shop-name-display-2"></strong></div>
     </div>
     <div class="field">
       <label>Email address</label>
@@ -140,14 +131,14 @@ function showAccountForm(shop, token) {
   document.getElementById('success-icon').style.display = 'block';
   document.getElementById('shop-name-display').textContent = shop;
   document.getElementById('shop-name-display-2').textContent = shop;
-  localStorage.setItem('pending_shop', shop);
-  localStorage.setItem('pending_token', token);
+  // Token sadece memory'de tutuluyor — localStorage'a yazılmıyor
 }
 
 function signInMode() {
   document.getElementById('form-section').style.display = 'none';
   document.getElementById('signin-section').style.display = 'block';
 }
+
 function registerMode() {
   document.getElementById('signin-section').style.display = 'none';
   document.getElementById('form-section').style.display = 'block';
@@ -158,7 +149,6 @@ async function createAccount() {
   const pw    = document.getElementById('f-pw').value;
   const btn   = document.getElementById('f-btn');
 
-  // Reset errors
   ['err-email','err-pw','err-general'].forEach(id => {
     document.getElementById(id).style.display = 'none';
     document.getElementById(id).textContent = '';
@@ -170,12 +160,11 @@ async function createAccount() {
   btn.disabled = true;
   btn.textContent = 'Creating account...';
 
-  // Önce sign in dene (zaten kayıtlıysa)
+  // Önce sign in dene
   const { data: siData, error: siErr } = await sb.auth.signInWithPassword({ email, password: pw });
   if (!siErr && siData.session) {
     btn.textContent = 'Saving store...';
     await saveStoreToSupabase(siData.session.user.id, pendingShop, pendingToken);
-    localStorage.setItem('shopify_token', pendingToken);
     localStorage.setItem('shopify_shop', pendingShop);
     btn.textContent = '✓ Done! Redirecting...';
     setTimeout(() => location.href = 'dashboard.html', 800);
@@ -191,11 +180,9 @@ async function createAccount() {
     return;
   }
 
-  // Store kaydet
   if (suData.session) {
     await saveStoreToSupabase(suData.session.user.id, pendingShop, pendingToken);
   }
-  localStorage.setItem('shopify_token', pendingToken);
   localStorage.setItem('shopify_shop', pendingShop);
   btn.textContent = '✓ Done! Redirecting...';
   setTimeout(() => location.href = 'dashboard.html', 800);
@@ -227,7 +214,6 @@ async function signIn() {
 
   btn.textContent = 'Saving store...';
   await saveStoreToSupabase(data.session.user.id, pendingShop, pendingToken);
-  localStorage.setItem('shopify_token', pendingToken);
   localStorage.setItem('shopify_shop', pendingShop);
   btn.textContent = '✓ Done! Redirecting...';
   setTimeout(() => location.href = 'dashboard.html', 800);
@@ -242,10 +228,18 @@ function showFieldErr(id, msg) {
 async function handleCallback() {
   const params = new URLSearchParams(window.location.search);
   const code  = params.get('code');
-  const shop  = params.get('shop') || sessionStorage.getItem('shopify_shop') || localStorage.getItem('pending_shop');
+  const shop  = params.get('shop') || sessionStorage.getItem('shopify_shop');
 
   if (!code || !shop) {
     showError('Missing authorization parameters. Please try connecting again.');
+    return;
+  }
+
+  // State doğrulama — CSRF koruması
+  const savedState   = sessionStorage.getItem('shopify_state');
+  const incomingState = params.get('state');
+  if (savedState && incomingState && savedState !== incomingState) {
+    showError('Security check failed. Please try connecting again.');
     return;
   }
 
@@ -260,20 +254,18 @@ async function handleCallback() {
     const tokenData = await tokenRes.json();
 
     if (!tokenData.access_token) {
-      showError('Token exchange failed: ' + (tokenData.error || JSON.stringify(tokenData)));
+      showError('Token exchange failed: ' + (tokenData.error || 'Unknown error'));
       return;
     }
 
     setStatus('Checking account...');
 
-    // Mevcut session var mı?
     const { data: { session } } = await sb.auth.getSession();
 
     if (session) {
-      // Session var → direkt kaydet
       setStatus('Saving store connection...');
       await saveStoreToSupabase(session.user.id, shop, tokenData.access_token);
-      localStorage.setItem('shopify_token', tokenData.access_token);
+      // Sadece shop domain localStorage'a yazılıyor — token değil
       localStorage.setItem('shopify_shop', shop);
 
       document.getElementById('spinner').style.display = 'none';
@@ -283,15 +275,18 @@ async function handleCallback() {
       document.getElementById('status').textContent = '7-day free trial started!';
       setTimeout(() => location.href = 'dashboard.html', 1500);
     } else {
-      // Session yok → hesap formu göster
       setStatus('Almost there...');
       setTimeout(() => showAccountForm(shop, tokenData.access_token), 500);
     }
 
   } catch (e) {
-    showError('Connection error: ' + e.message + '. Please try again.');
+    showError('Connection error: ' + e.message);
   }
 }
+
+// State ve shop session'dan temizle
+sessionStorage.removeItem('shopify_state');
+sessionStorage.removeItem('shopify_shop');
 
 handleCallback();
 </script>
