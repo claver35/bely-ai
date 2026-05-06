@@ -32,9 +32,7 @@ module.exports = async function handler(req, res) {
       }
     });
     const userData = await userRes.json();
-    if (!userData.id) {
-      return res.status(401).json({ error: 'Invalid token' });
-    }
+    if (!userData.id) return res.status(401).json({ error: 'Invalid token' });
 
     const storeRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain&limit=1`,
@@ -47,10 +45,7 @@ module.exports = async function handler(req, res) {
     );
     const stores = await storeRes.json();
     const storeData = stores[0];
-
-    if (!storeData) {
-      return res.status(404).json({ error: 'Store not found' });
-    }
+    if (!storeData) return res.status(404).json({ error: 'Store not found' });
 
     const now = new Date();
     const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
@@ -71,20 +66,16 @@ module.exports = async function handler(req, res) {
 
     const shop = req.query.shop;
     if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
-
     const cleanShop = shop.toLowerCase().trim();
     if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
-
     if (storeData.shop_domain !== cleanShop) {
       return res.status(403).json({ error: 'Shop domain mismatch' });
     }
 
     const shopifyToken = storeData.access_token;
-    if (!shopifyToken) {
-      return res.status(500).json({ error: 'No Shopify token found' });
-    }
+    if (!shopifyToken) return res.status(500).json({ error: 'No Shopify token found' });
 
     const shopifyRes = await fetch(
       `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
@@ -103,38 +94,40 @@ module.exports = async function handler(req, res) {
 
     const data = await shopifyRes.json();
 
-    // ── Risk Algoritması (ticari sır — backend'de kalır) ──
     const scoredOrders = (data.orders || []).map(order => {
       let score = 0;
       const risks = [];
 
-      if (order.customer) {
-        const daysSince = (Date.now() - new Date(order.customer.created_at)) / 86400000;
-        if (daysSince < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
-        else if (daysSince < 7) { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
+      // Müşteri yaşı
+      let accountAgeDays = null;
+      if (order.customer && order.customer.created_at) {
+        accountAgeDays = Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000);
+        if (accountAgeDays < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
+        else if (accountAgeDays < 7)  { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
+        else if (accountAgeDays < 30) { score += 10; risks.push('Hesap < 30 gün'); }
+      } else {
+        score += 20;
+        risks.push('Misafir sipariş');
       }
 
+      // Tutar
       const price = parseFloat(order.total_price);
-      if (price > 500) { score += 35; risks.push('Çok yüksek sipariş tutarı'); }
+      if (price > 500) { score += 35; risks.push('Çok yüksek sipariş tutarı (>$500)'); }
       else if (price > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${price.toFixed(0)})`); }
 
+      // Adres uyuşmazlığı
       if (
         order.billing_address && order.shipping_address &&
         order.billing_address.country_code !== order.shipping_address.country_code
       ) {
         score += 35;
-        risks.push('Fatura ve teslimat farklı ülkelerde');
+        risks.push(`Fatura ve teslimat farklı ülkelerde`);
       }
 
-      if (!order.customer) {
-        score += 20;
-        risks.push('Misafir sipariş');
-      }
-
-      if (order.financial_status === 'voided' || order.financial_status === 'refunded') {
-        score += 25;
-        risks.push('İptal/iade geçmişi');
-      }
+      // Finansal durum
+      if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
+      else if (order.financial_status === 'partially_refunded') { score += 15; risks.push('Kısmi iade yapılmış'); }
+      else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
       score = Math.min(score, 99);
 
@@ -143,20 +136,38 @@ module.exports = async function handler(req, res) {
       else if (score >= 25) level = 'medium';
       else level = 'low';
 
+      // Tüm detaylar — Elite için
+      const details = {
+        customerName: order.customer
+          ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim() || '—'
+          : 'Misafir',
+        customerEmail:    order.customer?.email || null,
+        accountAgeDays:   accountAgeDays,
+        totalOrders:      order.customer?.orders_count ?? 0,
+        billingCountry:   order.billing_address?.country || null,
+        shippingCountry:  order.shipping_address?.country || null,
+        billingCity:      order.billing_address?.city || null,
+        shippingCity:     order.shipping_address?.city || null,
+        financialStatus:  order.financial_status || null,
+        fulfillmentStatus: order.fulfillment_status || 'unfulfilled',
+        gateway:          order.gateway || 'bilinmiyor',
+        totalPrice:       price
+      };
+
       return {
-        id: order.id,
+        id:           order.id,
         order_number: order.order_number,
-        total_price: order.total_price,
-        financial_status: order.financial_status,
-        country: order.shipping_address?.country || null,
-        customer_created_at: order.customer?.created_at || null,
+        total_price:  order.total_price,
+        country:      order.shipping_address?.country || null,
+        created_at:   order.created_at,
+        details,
         risk: { score, level, risks }
       };
     });
 
     return res.status(200).json({
       orders: scoredOrders,
-      _plan: plan,
+      _plan:  plan,
       _limit: limit
     });
 
