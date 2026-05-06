@@ -885,6 +885,22 @@ async function init() {
       });
       const data = await res.json();
       renderOrders(data.orders || [], data._plan || currentPlan);
+
+      // Gerçek chargeback oranını göster
+      if (data._chargebackRate !== null && data._chargebackRate !== undefined) {
+        const rate = parseFloat(data._chargebackRate);
+        const rateEl = document.querySelector('.mc-orange .mc-value');
+        const subEl = document.getElementById('m-health-sub') ? document.querySelector('.mc-orange .mc-sub') : null;
+        if (rateEl) rateEl.textContent = '%' + data._chargebackRate;
+        const barEl = document.querySelector('.mc-orange .mc-bar-fill');
+        if (barEl) {
+          const pct = Math.min((rate / 0.65) * 100, 100);
+          barEl.style.width = pct + '%';
+          const remaining = Math.max(0, ((0.65 - rate) / 0.65) * 100).toFixed(0);
+          const subText = document.querySelector('.mc-orange .mc-sub');
+          if (subText) subText.textContent = `Limit: %0,65 · Kalan tampon %${remaining}`;
+        }
+      }
     } catch (e) {
       document.getElementById('orders-body').innerHTML =
         '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
