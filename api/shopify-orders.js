@@ -25,6 +25,7 @@ module.exports = async function handler(req, res) {
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
   try {
+    // Kullanıcıyı doğrula
     const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
       headers: {
         'Authorization': `Bearer ${userToken}`,
@@ -36,6 +37,7 @@ module.exports = async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid token' });
     }
 
+    // Supabase'den store bilgisi çek
     const storeRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain&limit=1`,
       {
@@ -52,6 +54,7 @@ module.exports = async function handler(req, res) {
       return res.status(404).json({ error: 'Store not found' });
     }
 
+    // Plan kontrolü
     const now = new Date();
     const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
     const isTrialActive = trialEnd && now < trialEnd;
@@ -69,25 +72,43 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ error: 'subscription_required' });
     }
 
+    // Shop parametresi kontrolü
     const shop = req.query.shop;
     if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
+
     const cleanShop = shop.toLowerCase().trim();
     if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
 
+    // GÜVENLİK: URL'den gelen shop, Supabase'deki kayıtla eşleşmeli
+    if (storeData.shop_domain !== cleanShop) {
+      return res.status(403).json({ error: 'Shop domain mismatch' });
+    }
+
+    // Token kontrolü
     const shopifyToken = storeData.access_token;
     if (!shopifyToken) {
       return res.status(500).json({ error: 'No Shopify token found' });
     }
 
+    // Shopify API isteği
     const shopifyRes = await fetch(
       `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
       { headers: { 'X-Shopify-Access-Token': shopifyToken } }
     );
+
+    // Shopify hata mesajını logla
     if (!shopifyRes.ok) {
-      return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
+      const errorText = await shopifyRes.text();
+      console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
+      return res.status(shopifyRes.status).json({
+        error: 'Shopify API error',
+        shopify_status: shopifyRes.status,
+        detail: errorText
+      });
     }
+
     const data = await shopifyRes.json();
     return res.status(200).json({ ...data, _plan: plan, _limit: limit });
 
