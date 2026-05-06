@@ -1,7 +1,7 @@
 name = "BELY AI"
 client_id = "0c6c69853d601c94138ac794687a25c0"
 application_url = "https://belyshield.com"
-embedded = true
+embedded = false
 
 [auth]
 redirect_urls = [
