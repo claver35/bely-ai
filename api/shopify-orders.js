@@ -54,22 +54,29 @@ module.exports = async function handler(req, res) {
     const status = storeData.subscription_status;
 
     let limit = 5;
+    let accessLevel = 'trial'; // trial | pro | elite
+
     if (plan === 'elite' && status === 'active') {
       limit = 250;
+      accessLevel = 'elite';
     } else if (plan === 'pro' && status === 'active') {
       limit = 10;
+      accessLevel = 'pro';
     } else if (status === 'trial' || isTrialActive || plan === 'free') {
       limit = 5;
+      accessLevel = 'trial';
     } else {
       return res.status(403).json({ error: 'subscription_required' });
     }
 
     const shop = req.query.shop;
     if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
+
     const cleanShop = shop.toLowerCase().trim();
     if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
+
     if (storeData.shop_domain !== cleanShop) {
       return res.status(403).json({ error: 'Shop domain mismatch' });
     }
@@ -98,35 +105,27 @@ module.exports = async function handler(req, res) {
       let score = 0;
       const risks = [];
 
-      // Müşteri yaşı
-      let accountAgeDays = null;
-      if (order.customer && order.customer.created_at) {
-        accountAgeDays = Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000);
-        if (accountAgeDays < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
-        else if (accountAgeDays < 7)  { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
-        else if (accountAgeDays < 30) { score += 10; risks.push('Hesap < 30 gün'); }
+      if (order.customer?.created_at) {
+        const days = Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000);
+        if (days < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
+        else if (days < 7)  { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
+        else if (days < 30) { score += 10; risks.push('Hesap < 30 gün'); }
       } else {
-        score += 20;
-        risks.push('Misafir sipariş');
+        score += 20; risks.push('Misafir sipariş');
       }
 
-      // Tutar
       const price = parseFloat(order.total_price);
       if (price > 500) { score += 35; risks.push('Çok yüksek sipariş tutarı (>$500)'); }
       else if (price > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${price.toFixed(0)})`); }
 
-      // Adres uyuşmazlığı
       if (
         order.billing_address && order.shipping_address &&
         order.billing_address.country_code !== order.shipping_address.country_code
       ) {
-        score += 35;
-        risks.push(`Fatura ve teslimat farklı ülkelerde`);
+        score += 35; risks.push('Fatura ve teslimat farklı ülkelerde');
       }
 
-      // Finansal durum
       if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
-      else if (order.financial_status === 'partially_refunded') { score += 15; risks.push('Kısmi iade yapılmış'); }
       else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
       score = Math.min(score, 99);
@@ -136,39 +135,60 @@ module.exports = async function handler(req, res) {
       else if (score >= 25) level = 'medium';
       else level = 'low';
 
-      // Tüm detaylar — Elite için
-      const details = {
-        customerName: order.customer
-          ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim() || '—'
-          : 'Misafir',
-        customerEmail:    order.customer?.email || null,
-        accountAgeDays:   accountAgeDays,
-        totalOrders:      order.customer?.orders_count ?? 0,
-        billingCountry:   order.billing_address?.country || null,
-        shippingCountry:  order.shipping_address?.country || null,
-        billingCity:      order.billing_address?.city || null,
-        shippingCity:     order.shipping_address?.city || null,
-        financialStatus:  order.financial_status || null,
-        fulfillmentStatus: order.fulfillment_status || 'unfulfilled',
-        gateway:          order.gateway || 'bilinmiyor',
-        totalPrice:       price
+      // ── Plan bazlı veri erişimi — backend'de kontrol edilir ──
+      const baseOrder = {
+        id: order.id,
+        order_number: order.order_number,
+        total_price: order.total_price,
+        country: order.shipping_address?.country || null,
+        created_at: order.created_at,
+        risk: {
+          score,
+          level,
+          // Trial: risk nedenleri gizli
+          risks: accessLevel === 'trial' ? [] : risks
+        },
+        // Trial ve Pro: detaylar yok
+        details: null
       };
 
-      return {
-        id:           order.id,
-        order_number: order.order_number,
-        total_price:  order.total_price,
-        country:      order.shipping_address?.country || null,
-        created_at:   order.created_at,
-        details,
-        risk: { score, level, risks }
-      };
+      // Pro: risk nedenleri açık, detaylar kilitli
+      if (accessLevel === 'pro') {
+        baseOrder.risk.risks = risks;
+        baseOrder.details = null;
+      }
+
+      // Elite: her şey açık
+      if (accessLevel === 'elite') {
+        baseOrder.risk.risks = risks;
+        baseOrder.details = {
+          customerName: order.customer
+            ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim() || '—'
+            : 'Misafir',
+          customerEmail:    order.customer?.email || null,
+          accountAgeDays:   order.customer?.created_at
+            ? Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000)
+            : null,
+          totalOrders:      order.customer?.orders_count ?? 0,
+          billingCountry:   order.billing_address?.country || null,
+          shippingCountry:  order.shipping_address?.country || null,
+          billingCity:      order.billing_address?.city || null,
+          shippingCity:     order.shipping_address?.city || null,
+          financialStatus:  order.financial_status || null,
+          fulfillmentStatus: order.fulfillment_status || 'unfulfilled',
+          gateway:          order.gateway || 'bilinmiyor',
+          totalPrice:       price
+        };
+      }
+
+      return baseOrder;
     });
 
     return res.status(200).json({
       orders: scoredOrders,
-      _plan:  plan,
-      _limit: limit
+      _plan: plan,
+      _limit: limit,
+      _access: accessLevel
     });
 
   } catch (e) {
