@@ -564,6 +564,16 @@ function showDashboard() {
   // Sipariş ve harita yeniden render
   if (cachedOrders.length > 0) {
     renderOrders(cachedOrders, cachedPlan);
+    updateHealthScore(cachedOrders, window._lastCbRate || '0.00');
+    if (window._lastCbRate) {
+      const rate = parseFloat(window._lastCbRate);
+      const rateEl = document.getElementById('m-cb-rate');
+      if (rateEl) rateEl.textContent = '%' + window._lastCbRate;
+      const barEl = document.getElementById('m-cbbar');
+      if (barEl) { const pct = Math.min((rate/0.65)*100,100); barEl.style.width = pct+'%'; }
+      const subEl = document.getElementById('m-cb-sub');
+      if (subEl) subEl.textContent = `Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
+    }
   }
   loadWorldMap();
 }
