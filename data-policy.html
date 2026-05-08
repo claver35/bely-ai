@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Policy — BELY AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070d;--bg-2:#0a0d18;--ink:#eeedf8;--ink-2:#8b90a8;--ink-3:#555870;--line:rgba(255,255,255,0.07);--accent:#00e5ff;--good:#00e676;--warn:#ffab00;--danger:#ff3d57;--sans:'Syne',system-ui,sans-serif;--mono:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em;color:var(--ink)}
+.brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:#000;font-weight:700}
+.brand-ai{color:var(--accent);font-family:var(--mono);font-weight:500;margin-left:3px}
+.wrap{max-width:860px;margin:0 auto;padding:60px 32px 80px}
+.page-eyebrow{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;margin-bottom:16px}
+.page-title{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.03em;margin-bottom:16px;line-height:1.05}
+.page-sub{font-size:16px;color:var(--ink-2);line-height:1.65;max-width:680px;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+.section{margin-bottom:48px}
+.section-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-icon{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.si-green{background:rgba(0,230,118,0.12)}
+.si-red{background:rgba(255,61,87,0.12)}
+.si-cyan{background:rgba(0,229,255,0.12)}
+.si-orange{background:rgba(255,171,0,0.12)}
+.section-body{font-size:15px;color:var(--ink-2);line-height:1.75}
+.section-body p{margin-bottom:14px}
+.section-body p:last-child{margin-bottom:0}
+.data-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+.data-table th{text-align:left;padding:10px 14px;background:rgba(0,229,255,0.06);border:1px solid var(--line);color:var(--accent);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.data-table td{padding:12px 14px;border:1px solid var(--line);color:var(--ink-2);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:rgba(255,255,255,0.02)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;font-family:var(--mono)}
+.tag-yes{background:rgba(0,230,118,0.15);color:var(--good);border:1px solid rgba(0,230,118,0.3)}
+.tag-no{background:rgba(255,61,87,0.12);color:var(--danger);border:1px solid rgba(255,61,87,0.25)}
+.tag-enc{background:rgba(0,229,255,0.1);color:var(--accent);border:1px solid rgba(0,229,255,0.25)}
+.highlight-box{border-radius:12px;padding:20px 24px;margin:20px 0;font-size:14px;line-height:1.65}
+.hb-green{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);color:#a0f0c0}
+.hb-red{background:rgba(255,61,87,0.06);border:1px solid rgba(255,61,87,0.2);color:#ffa0b0}
+.hb-cyan{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);color:#a0e8f8}
+.hb-title{font-weight:700;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.contact-box{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:28px;margin-top:32px;text-align:center}
+.contact-box h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.contact-box p{font-size:14px;color:var(--ink-2);margin-bottom:16px;line-height:1.65}
+.contact-btn{display:inline-block;padding:11px 24px;border-radius:9px;background:var(--accent);color:#000;font-weight:700;font-size:14px;font-family:var(--sans)}
+footer{border-top:1px solid var(--line);padding:32px;text-align:center;font-size:13px;color:var(--ink-3)}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="index.html">
+    <div class="brand-icon">B</div>
+    BELY<span class="brand-ai">AI</span>
+  </a>
+  <a href="dashboard.html" style="font-size:13px;color:var(--ink-2);font-weight:600">← Dashboard</a>
+</nav>
+
+<div class="wrap">
+  <div class="page-eyebrow">§ Veri Politikası · BELY AI</div>
+  <h1 class="page-title">Verileriniz tam olarak nerede?</h1>
+  <p class="page-sub">BELY AI olarak mağazanızı bağladığınızda hangi verilere eriştiğimizi, bu verileri nasıl kullandığımızı ve neyi asla yapmadığımızı açıkça belirtiyoruz. Şeffaflık bizim için pazarlama değil, taahhüttür.</p>
+
+  <!-- ÇEKTIĞIMIZ VERİLER -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-green">✅</span>Shopify'dan çektiğimiz veriler</div>
+    <div class="section-body">
+      <p>Mağazanızı bağladığınızda, yalnızca aşağıdaki veriler Shopify API üzerinden alınır:</p>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Veri Türü</th>
+          <th>Ne İçin Kullanıyoruz</th>
+          <th>Depolama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Sipariş numarası, tutarı, tarihi</td><td>Risk skoru hesaplama</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Müşteri hesap oluşturma tarihi</td><td>Yeni hesap riski tespiti</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Fatura ve teslimat ülkesi/şehri</td><td>Adres uyuşmazlığı tespiti</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Ödeme yöntemi (gateway adı)</td><td>Ödeme risk analizi</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Finansal durum (ödendi/iade)</td><td>Chargeback oranı hesaplama</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Müşteri adı ve email (Elite)</td><td>Detaylı fraud raporu</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Ürün adı ve miktarı (Elite)</td><td>Chargeback raporu detayı</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+        <tr><td>Shopify OAuth access token</td><td>API bağlantısı için zorunlu</td><td><span class="tag tag-enc">Şifreli · Sunucu taraflı</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ÇEKMEDİĞİMİZ VERİLER -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-red">🚫</span>Asla erişmediğimiz veriler</div>
+    <div class="highlight-box hb-red">
+      <div class="hb-title">🚫 Bunlara hiçbir zaman erişmiyoruz</div>
+      Kredi kartı numarası · CVV · Şifre · Banka hesabı · Kişisel kimlik belgesi · Shopify admin şifresi · Müşteri ödeme bilgileri · Mağaza gelir istatistikleri · Reklam verileri
+    </div>
+    <div class="section-body">
+      <p>Shopify, kart ve ödeme bilgilerini hiçbir zaman üçüncü taraf uygulamalarla paylaşmaz — bu Shopify'ın kendi güvenlik politikasıdır ve biz de bu kapsamın dışına çıkmıyoruz.</p>
+    </div>
+  </div>
+
+  <!-- NEREDE SAKLIYORUZ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-cyan">🔐</span>Veriler nerede saklanıyor?</div>
+    <div class="section-body">
+      <p>Tüm veriler <strong style="color:#fff">Supabase</strong> altyapısında saklanmaktadır. Supabase, AB veri merkezlerini kullanan ve GDPR uyumlu bir platformdur.</p>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Bileşen</th><th>Platform</th><th>Konum</th><th>Uyumluluk</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Veritabanı</td><td>Supabase (PostgreSQL)</td><td>AB Veri Merkezi</td><td><span class="tag tag-yes">GDPR</span></td></tr>
+        <tr><td>API Sunucusu</td><td>Vercel Edge Network</td><td>Global CDN</td><td><span class="tag tag-yes">SOC2</span></td></tr>
+        <tr><td>İletim</td><td>TLS 1.3</td><td>Uçtan uca</td><td><span class="tag tag-yes">256-bit SSL</span></td></tr>
+        <tr><td>Shopify Token</td><td>Sunucu taraflı</td><td>Tarayıcıya gönderilmez</td><td><span class="tag tag-enc">Şifreli</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- KİMSEYLE PAYLAŞMIYORUZ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-orange">🤝</span>Verilerinizi kimseyle paylaşmıyoruz</div>
+    <div class="highlight-box hb-green">
+      <div class="hb-title">✅ Net taahhüt</div>
+      Mağaza verilerinizi hiçbir üçüncü tarafla satmıyor, paylaşmıyor veya reklam amaçlı kullanmıyoruz. Verileriniz yalnızca sizin fraud korumanız için işlenir.
+    </div>
+    <div class="section-body">
+      <p>BELY AI gelir modelimiz abonelik ücretine dayanır — veri satışına değil. Verilerinizi reklam ağlarına, veri brokerlarına veya herhangi bir üçüncü tarafa aktarmıyoruz.</p>
+    </div>
+  </div>
+
+  <!-- VERİ SAKLAMA SÜRESİ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-cyan">📅</span>Saklama süresi</div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Veri Türü</th><th>Saklama Süresi</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sipariş risk verileri</td><td>Hesap aktif olduğu sürece</td></tr>
+        <tr><td>Chargeback kayıtları</td><td>Hesap aktif olduğu sürece</td></tr>
+        <tr><td>Shopify access token</td><td>Bağlantı kesilene kadar</td></tr>
+        <tr><td>Kullanıcı email</td><td>Hesap silinene kadar</td></tr>
+        <tr><td>Tüm veriler (hesap silme)</td><td>Talep sonrası 30 gün içinde tamamen silinir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SİLME TALEBİ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-red">🗑️</span>Verilerinizi silin</div>
+    <div class="section-body">
+      <p>Hesabınızı ve tüm mağaza verilerinizi silmek istiyorsanız aşağıdaki adımları izleyin:</p>
+      <p>1. Dashboard → Settings → "Hesabı Sil" butonuna basın.<br>
+      2. Alternatif olarak <a href="mailto:info@belyshield.com">info@belyshield.com</a> adresine email gönderin.<br>
+      3. Talebiniz 30 gün içinde işleme alınır ve tüm verileriniz kalıcı olarak silinir.</p>
+    </div>
+  </div>
+
+  <!-- GÜVENLİK İHLALİ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon si-orange">⚠️</span>Güvenlik ihlali prosedürü</div>
+    <div class="section-body">
+      <p>Herhangi bir güvenlik ihlali tespit edilmesi durumunda:</p>
+      <p>— Etkilenen kullanıcılar <strong style="color:#fff">72 saat içinde</strong> email ile bilgilendirilir.<br>
+      — İhlal kapsamı ve etkilenen veriler açıkça paylaşılır.<br>
+      — Gerekli durumlarda ilgili veri koruma otoritelerine bildirim yapılır.</p>
+    </div>
+  </div>
+
+  <div class="contact-box">
+    <h3>Sorunuz mu var?</h3>
+    <p>Veri politikamız veya gizlilik konusunda herhangi bir sorunuz için bize ulaşın.</p>
+    <a class="contact-btn" href="mailto:info@belyshield.com">info@belyshield.com</a>
+  </div>
+</div>
+
+<footer>
+  © 2026 BELY AI · <a href="privacy.html">Gizlilik Politikası</a> · <a href="terms.html">Kullanım Şartları</a> · <a href="index.html">Ana Sayfa</a>
+</footer>
+</body>
+</html>
