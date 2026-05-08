@@ -112,40 +112,35 @@ export default async function handler(req, res) {
 
     if (risk.level === 'HIGH' || risk.level === 'MED') {
       try {
-        const { data: storeData, error: storeError } = await supabase
+        const { data: storeData } = await supabase
           .from('shopify_stores')
           .select('user_id, plan, subscription_status')
           .eq('shop_domain', shop)
           .single();
 
-        if (storeError || !storeData) {
-          return res.status(200).json({ received: true, risk: risk.level });
-        }
-
-        const isPaid = storeData.plan === 'pro' || storeData.plan === 'elite';
-        if (!isPaid) {
-          return res.status(200).json({ received: true, risk: risk.level });
-        }
-
-        const { data: userData } = await supabase.auth.admin.getUserById(storeData.user_id);
-        const userEmail = userData?.user?.email;
-
-        if (userEmail) {
-          await fetch(ALERT_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-internal-secret': process.env.CRON_SECRET
-            },
-            body: JSON.stringify({
-              to:          userEmail,
-              orderNumber: order.order_number,
-              orderAmount: parseFloat(order.total_price).toFixed(2),
-              riskLevel:   risk.level,
-              riskReasons: risk.risks,
-              shop
-            })
-          });
+        if (storeData) {
+          const isPaid = storeData.plan === 'pro' || storeData.plan === 'elite';
+          if (isPaid) {
+            const { data: userData } = await supabase.auth.admin.getUserById(storeData.user_id);
+            const userEmail = userData?.user?.email;
+            if (userEmail) {
+              await fetch(ALERT_URL, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-internal-secret': process.env.CRON_SECRET
+                },
+                body: JSON.stringify({
+                  to:          userEmail,
+                  orderNumber: order.order_number,
+                  orderAmount: parseFloat(order.total_price).toFixed(2),
+                  riskLevel:   risk.level,
+                  riskReasons: risk.risks,
+                  shop
+                })
+              });
+            }
+          }
         }
       } catch (e) {
         console.error('[shopify-webhook] Alert error:', e.message);
@@ -153,7 +148,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── İade / Chargeback kaydı ──
+  // ── İade / Chargeback — detaylı kayıt ──
   if (topic === 'orders/updated' || topic === 'refunds/create') {
     try {
       const financialStatus = order.financial_status;
@@ -166,7 +161,7 @@ export default async function handler(req, res) {
           .single();
 
         if (storeData?.user_id) {
-          // Aynı sipariş zaten kayıtlı mı kontrol et
+          // Duplicate kontrolü
           const { data: existing } = await supabase
             .from('chargebacks')
             .select('id')
@@ -175,15 +170,41 @@ export default async function handler(req, res) {
             .single();
 
           if (!existing) {
+            // Müşteri adı
+            const customerName = order.customer
+              ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim()
+              : 'Misafir';
+
+            // Ürün listesi — sadece gerekli alanlar
+            const lineItems = (order.line_items || []).map(item => ({
+              title:    item.title,
+              quantity: item.quantity,
+              price:    item.price,
+              sku:      item.sku || null
+            }));
+
+            // İade nedeni
+            const refundReason = order.refunds?.[0]?.note || null;
+
+            // İade tarihi
+            const refundedAt = order.refunds?.[0]?.created_at || null;
+
             await supabase.from('chargebacks').insert({
-              user_id:      storeData.user_id,
-              shop_domain:  shop,
-              order_id:     String(order.id),
-              order_number: String(order.order_number),
-              amount:       parseFloat(order.total_price),
-              status:       financialStatus
+              user_id:        storeData.user_id,
+              shop_domain:    shop,
+              order_id:       String(order.id),
+              order_number:   String(order.order_number),
+              amount:         parseFloat(order.total_price),
+              status:         financialStatus,
+              customer_name:  customerName,
+              customer_email: order.customer?.email || null,
+              line_items:     lineItems,
+              refund_reason:  refundReason,
+              refunded_at:    refundedAt,
+              gateway:        order.payment_gateway || null
             });
-            console.log(`[shopify-webhook] Chargeback kaydedildi: #${order.order_number} | ${shop}`);
+
+            console.log(`[shopify-webhook] Chargeback kaydedildi: #${order.order_number} | ${customerName} | ${shop}`);
           }
         }
       }
