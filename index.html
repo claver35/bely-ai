@@ -592,12 +592,23 @@ function buildH1(lang){
   const parts=H1_DEFS[lang]||H1_DEFS.en;
   parts.forEach(p=>{
     if(p.br){h1.appendChild(document.createElement('br'));return;}
-    [...p.t].forEach(c=>{
-      const sp=document.createElement('span');
-      sp.className=p.em?'sl-em':'sl';
-      sp.textContent=c;
-      h1.appendChild(sp);
-      sLetters.push(sp);
+    const words=p.t.split(/(\s+)/);
+    words.forEach(w=>{
+      if(!w)return;
+      if(/^\s+$/.test(w)){
+        const sp=document.createElement('span');
+        sp.style.whiteSpace='pre';
+        sp.textContent=w;
+        h1.appendChild(sp);
+        return;
+      }
+      [...w].forEach(c=>{
+        const sp=document.createElement('span');
+        sp.className=p.em?'sl-em':'sl';
+        sp.textContent=c;
+        h1.appendChild(sp);
+        sLetters.push(sp);
+      });
     });
   });
 }
