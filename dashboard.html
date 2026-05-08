@@ -5,94 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BELY AI — Command Center</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#03050a;--bg2:#070b14;--bg3:#0a0f1c;
   --cyan:#00e5ff;--green:#00ff88;--red:#ff3d57;--orange:#ffab00;
   --line:rgba(0,229,255,0.1);--line2:rgba(255,255,255,0.07);
-  --ink:#ffffff;--ink2:#a0a8c0;--ink3:#3a3f55;
-  --sans:'Syne',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --ink:#ffffff;--ink2:#c8cfe0;--ink3:#7a82a0;
+  --sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden;font-weight:400;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,0.012) 2px,rgba(0,229,255,0.012) 4px);pointer-events:none;z-index:1000}
 .paywall{position:fixed;inset:0;background:rgba(3,5,10,0.96);backdrop-filter:blur(20px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
 .paywall-inner{max-width:740px;width:100%;text-align:center}
-.paywall-inner h2{font-size:34px;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.03em}
+.paywall-inner h2{font-size:34px;font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.02em}
 .paywall-inner p{font-size:15px;color:var(--ink2);margin-bottom:36px;line-height:1.65}
 .pw-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 @media(max-width:560px){.pw-plans{grid-template-columns:1fr}}
 .pw-plan{border-radius:16px;padding:28px;text-align:left;position:relative;overflow:hidden}
 .pw-pro{background:#060d1a;border:2px solid var(--cyan);box-shadow:0 0 50px rgba(0,229,255,0.15)}
 .pw-elite{background:#06140a;border:2px solid var(--green);box-shadow:0 0 50px rgba(0,255,136,0.12)}
-.pw-label{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;padding:3px 10px;border-radius:4px;margin-bottom:16px}
+.pw-label{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;padding:3px 10px;border-radius:4px;margin-bottom:16px}
 .pw-pro .pw-label{background:var(--cyan);color:#000}
 .pw-elite .pw-label{background:var(--green);color:#000}
 .pw-icon{font-size:32px;display:block;margin-bottom:10px}
-.pw-name{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
-.pw-tagline{font-size:13px;color:var(--ink2);margin-bottom:18px}
+.pw-name{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
+.pw-tagline{font-size:13px;color:var(--ink2);margin-bottom:18px;font-weight:400}
 .pw-price{display:flex;align-items:baseline;gap:4px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.pw-amount{font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1;font-family:var(--mono)}
+.pw-amount{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1;font-family:var(--mono)}
 .pw-pro .pw-amount{color:var(--cyan);text-shadow:0 0 20px rgba(0,229,255,0.5)}
 .pw-elite .pw-amount{color:var(--green);text-shadow:0 0 20px rgba(0,255,136,0.4)}
 .pw-per{font-size:14px;color:var(--ink2)}
-.pw-roi{font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:16px;text-align:center;font-weight:600}
+.pw-roi{font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:16px;text-align:center;font-weight:500}
 .pw-pro .pw-roi{background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);color:var(--cyan)}
 .pw-elite .pw-roi{background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.18);color:var(--green)}
 .pw-feats{list-style:none;display:grid;gap:10px;margin-bottom:20px}
-.pw-feats li{display:flex;align-items:center;gap:10px;font-size:13px;color:#d0d4e8}
-.pw-feats li .fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800;flex-shrink:0}
+.pw-feats li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);font-weight:400}
+.pw-feats li .fi{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0}
 .pw-pro .fi{background:rgba(0,229,255,0.15);color:var(--cyan)}
 .pw-elite .fi{background:rgba(0,255,136,0.12);color:var(--green)}
-.pw-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;border:none;transition:all .2s;font-family:var(--sans)}
+.pw-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:var(--sans)}
 .pw-btn-pro{background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000}
 .pw-btn-elite{background:linear-gradient(90deg,#00ff88,#00b050);color:#000}
 .pw-btn-pro:hover{box-shadow:0 8px 30px rgba(0,229,255,0.4);transform:translateY(-2px)}
 .pw-btn-elite:hover{box-shadow:0 8px 30px rgba(0,255,136,0.3);transform:translateY(-2px)}
 .pw-note{font-size:12px;color:var(--ink3)}
 nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line2);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em}
-.nav-logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:#000;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,0.45)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.nav-logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:#000;font-weight:500;box-shadow:0 0 16px rgba(0,229,255,0.45)}
 .nav-logo-ai{color:var(--cyan)}
 .nav-sys{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:#fff;background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.15);border-radius:6px;padding:5px 12px}
 .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
 .nav-right{display:flex;align-items:center;gap:10px}
-.nav-email{font-size:13px;color:#fff;font-family:var(--mono);font-weight:500}
-.plan-chip{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:5px 14px;border-radius:20px}
+.nav-email{font-size:13px;color:#fff;font-family:var(--mono);font-weight:400}
+.plan-chip{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:5px 14px;border-radius:20px}
 .chip-trial{background:rgba(255,171,0,0.2);color:var(--orange);border:1px solid rgba(255,171,0,0.5)}
 .chip-pro{background:rgba(0,229,255,0.2);color:var(--cyan);border:1px solid rgba(0,229,255,0.5)}
 .chip-elite{background:rgba(0,255,136,0.2);color:var(--green);border:1px solid rgba(0,255,136,0.5)}
-.btn-so{font-size:13px;padding:7px 16px;border-radius:7px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);transition:all .15s;font-weight:600}
+.btn-so{font-size:13px;padding:7px 16px;border-radius:7px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);transition:all .15s;font-weight:500}
 .btn-so:hover{background:rgba(255,255,255,0.1)}
 .up-banner{background:linear-gradient(90deg,rgba(255,171,0,0.07),rgba(255,171,0,0.02));border-bottom:1px solid rgba(255,171,0,0.2);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.up-text{font-size:14px;color:#fff;font-weight:500}
-.up-text strong{color:var(--orange)}
+.up-text{font-size:14px;color:#fff;font-weight:400}
+.up-text strong{color:var(--orange);font-weight:600}
 .up-btns{display:flex;gap:8px;flex-shrink:0}
-.up-btn{padding:7px 18px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans);transition:all .15s}
+.up-btn{padding:7px 18px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:var(--sans);transition:all .15s}
 .up-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
 .up-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
 .up-pro:hover,.up-elite:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .dash{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 58px)}
 .sidebar{background:var(--bg2);border-right:1px solid var(--line2);padding:16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
-.sb-section{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6a7090;padding:10px 10px 4px;margin-top:6px}
-.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:600;color:#c0c8e0;cursor:pointer;transition:all .15s;border:1px solid transparent;text-decoration:none}
+.sb-section{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#8890b0;padding:10px 10px 4px;margin-top:6px;font-weight:500}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:500;color:#d0d8f0;cursor:pointer;transition:all .15s;border:1px solid transparent;text-decoration:none}
 .sb-item:hover{background:rgba(0,229,255,0.06);color:#fff;border-color:rgba(0,229,255,0.2)}
 .sb-item.active{background:rgba(0,229,255,0.12);color:var(--cyan);border-color:rgba(0,229,255,0.3)}
 .sb-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0}
-.sb-badge{margin-left:auto;font-size:10px;font-weight:700;background:var(--red);color:#fff;border-radius:10px;padding:2px 7px;box-shadow:0 0 8px rgba(255,61,87,0.5)}
+.sb-badge{margin-left:auto;font-size:10px;font-weight:600;background:var(--red);color:#fff;border-radius:10px;padding:2px 7px;box-shadow:0 0 8px rgba(255,61,87,0.5)}
 .sb-shopify{background:linear-gradient(135deg,rgba(149,191,71,0.08),rgba(149,191,71,0.03));border:1px solid rgba(149,191,71,0.2);border-radius:10px;padding:14px;margin-top:auto}
-.sb-shopify-head{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#95bf47;margin-bottom:8px}
-.sb-shop-name{font-size:12px;color:var(--green);font-family:var(--mono);font-weight:600}
+.sb-shopify-head{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#95bf47;margin-bottom:8px}
+.sb-shop-name{font-size:12px;color:var(--green);font-family:var(--mono);font-weight:500}
 .sb-shop-status{font-size:11px;color:var(--ink2);margin-top:2px}
 .sb-disconnect{margin-top:8px;font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s}
 .sb-disconnect:hover{background:rgba(255,61,87,0.1)}
-.sb-connect-btn{margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;cursor:pointer;font-family:var(--sans);width:100%;font-weight:700;transition:all .15s}
+.sb-connect-btn{margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;cursor:pointer;font-family:var(--sans);width:100%;font-weight:600;transition:all .15s}
 .sb-connect-btn:hover{filter:brightness(1.1)}
 .content{padding:20px 24px;display:flex;flex-direction:column;gap:18px;overflow:hidden}
 .page-header{display:flex;align-items:center;justify-content:space-between}
-.page-title{font-size:22px;font-weight:600;color:#fff;letter-spacing:-.02em}
-.page-sub{font-size:13px;color:var(--ink2);margin-top:3px;display:flex;align-items:center;gap:6px}
+.page-title{font-size:22px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.page-sub{font-size:13px;color:var(--ink2);margin-top:3px;display:flex;align-items:center;gap:6px;font-weight:400}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
 .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .mc{background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:all .2s}
@@ -102,39 +102,39 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .mc-orange::after{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
 .mc-cyan::after{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
 .mc-red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.mc-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.mc-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#9aa2c0;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;font-weight:500}
 .mc-label-icon{font-size:16px}
-.mc-value{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.04em;margin-bottom:6px;font-family:var(--mono)}
+.mc-value{font-size:40px;font-weight:600;line-height:1;letter-spacing:-.03em;margin-bottom:6px;font-family:var(--mono)}
 .mc-green .mc-value{color:var(--green);text-shadow:0 0 24px rgba(0,255,136,0.4)}
 .mc-orange .mc-value{color:var(--orange);text-shadow:0 0 24px rgba(255,171,0,0.4)}
-.mc-cyan .mc-value{color:var(--cyan);text-shadow:0 0 24px rgba(0,229,255,0.4)}
+.mc-cyan .mc-value{color:var(--green);text-shadow:0 0 24px rgba(0,255,136,0.4)}
 .mc-red .mc-value{color:var(--red);text-shadow:0 0 24px rgba(255,61,87,0.4)}
-.mc-sub{font-size:12px;color:var(--ink2);font-weight:500}
+.mc-sub{font-size:12px;color:#9aa2c0;font-weight:400}
 .mc-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:12px}
 .mc-bar-fill{height:3px;border-radius:2px;transition:width 1.8s ease}
 .mid-row{display:grid;grid-template-columns:260px 1fr;gap:14px}
 .radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.18);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
 .radar-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,229,255,0.04),transparent 70%);pointer-events:none}
 .radar-header{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:4px;width:100%}
-.radar-title{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--cyan);text-align:center}
-.radar-live{font-family:var(--mono);font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px;letter-spacing:.1em}
+.radar-title{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--cyan);text-align:center;font-weight:500}
+.radar-live{font-family:var(--mono);font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px;letter-spacing:.08em}
 .radar-live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 1.2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.7)}
 .radar-wrap{position:relative;width:190px;height:190px;margin:8px 0}
 .radar-svg{width:190px;height:190px}
 .radar-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:8px}
 .rs{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,255,0.12);border-radius:8px;padding:10px;text-align:center}
-.rs-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,0.4)}
-.rs-label{font-size:10px;color:var(--ink2);margin-top:3px;letter-spacing:.05em}
-.radar-threat{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:10px;text-align:center;padding:6px 12px;border-radius:6px}
-.threat-active{color:#ffffff;background:rgba(255,30,57,0.55);border:1px solid #ff3d57;font-weight:500}
+.rs-val{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,0.4)}
+.rs-label{font-size:11px;color:#9aa2c0;margin-top:3px;letter-spacing:.04em;font-weight:400}
+.radar-threat{font-family:var(--mono);font-size:12px;font-weight:500;margin-top:10px;text-align:center;padding:6px 12px;border-radius:6px}
+.threat-active{color:#ffffff;background:rgba(255,30,57,0.55);border:1px solid #ff3d57}
 .threat-clear{color:var(--green);background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.15)}
 .orders-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .panel-head{padding:16px 20px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.panel-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.panel-title{font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px}
 .pt-icon{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:12px}
 .pt-icon-blue{background:rgba(0,229,255,0.1)}
 .pt-icon-red{background:rgba(255,61,87,0.1)}
-.panel-meta{font-family:var(--mono);font-size:12px;color:#fff;font-weight:500}
+.panel-meta{font-family:var(--mono);font-size:12px;color:#c8cfe0;font-weight:400}
 .orders-body{padding:14px;flex:1;overflow-y:auto;max-height:500px}
 .order-card{background:var(--bg3);border:1px solid var(--line2);border-radius:10px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .15s}
 .order-card:last-child{margin-bottom:0}
@@ -147,45 +147,45 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .oc-low::before{background:var(--green);box-shadow:0 0 10px rgba(0,255,136,0.5)}
 .order-main{padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .order-left{padding-left:6px;flex:1}
-.order-num{font-family:var(--mono);font-size:12px;color:#c0c8e0;margin-bottom:3px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
-.order-expand-icon{font-size:11px;color:var(--ink3);transition:transform .2s}
+.order-num{font-family:var(--mono);font-size:12px;color:#b0b8d0;margin-bottom:3px;font-weight:400;display:flex;align-items:center;justify-content:space-between}
+.order-expand-icon{font-size:11px;color:#7a82a0;transition:transform .2s}
 .order-card.expanded .order-expand-icon{transform:rotate(180deg)}
-.order-price{font-size:19px;font-weight:600;color:#fff;letter-spacing:.01em;margin-bottom:2px;font-family:var(--sans)}
-.order-loc{font-size:12px;color:#c0c8e0;margin-bottom:8px;font-weight:500}
-.order-reason{font-size:13px;padding:8px 12px;border-radius:6px;line-height:1.5;font-weight:600}
-.or-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:3px solid #ff3d57;font-weight:600}
+.order-price{font-size:19px;font-weight:600;color:#fff;letter-spacing:.01em;margin-bottom:2px}
+.order-loc{font-size:12px;color:#b0b8d0;margin-bottom:8px;font-weight:400}
+.order-reason{font-size:13px;padding:8px 12px;border-radius:6px;line-height:1.5;font-weight:500}
+.or-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:3px solid #ff3d57}
 .or-med{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .or-low{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
-.risk-tag{padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0;letter-spacing:.04em}
-.rt-high{background:rgba(255,30,57,0.55);color:#ffffff;border:1.5px solid #ff3d57;font-weight:400;letter-spacing:.06em;font-family:var(--sans)}
+.risk-tag{padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;letter-spacing:.03em}
+.rt-high{background:rgba(255,30,57,0.55);color:#ffffff;border:1.5px solid #ff3d57}
 .rt-med{background:rgba(255,171,0,0.2);color:#ffbc33;border:1.5px solid rgba(255,171,0,0.6)}
 .rt-low{background:rgba(0,255,136,0.15);color:#00ff88;border:1.5px solid rgba(0,255,136,0.5)}
 .order-detail{display:none;padding:0 16px 16px;border-top:1px solid var(--line2)}
 .order-card.expanded .order-detail{display:block}
 .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .detail-block{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:12px}
-.db-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#00b8d4;margin-bottom:10px;border-bottom:1px solid rgba(0,229,255,0.15);padding-bottom:6px}
+.db-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#00b8d4;margin-bottom:10px;border-bottom:1px solid rgba(0,229,255,0.15);padding-bottom:6px;font-weight:500}
 .db-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:12px}
 .db-row:last-child{margin-bottom:0}
-.db-key{color:#e0e6f5;font-weight:600;font-size:12px}
-.db-val{color:#ffffff;font-weight:700;font-family:var(--mono);font-size:12px;text-shadow:0 0 8px rgba(255,255,255,0.15)}
+.db-key{color:#c8cfe0;font-weight:500;font-size:12px}
+.db-val{color:#ffffff;font-weight:600;font-family:var(--mono);font-size:12px}
 .db-val.c-risk{color:var(--red)}
 .db-val.c-safe{color:var(--green)}
 .db-val.c-warn{color:var(--orange)}
 .risk-signals{margin-top:12px}
-.rs-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:8px}
+.rs-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#7a82a0;margin-bottom:8px;font-weight:500}
 .rs-list{display:flex;flex-direction:column;gap:6px}
-.rs-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 12px;border-radius:6px}
-.rs-item-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:4px solid #ff3d57;font-weight:400;line-height:1.7;letter-spacing:.02em}
+.rs-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 12px;border-radius:6px;font-weight:400}
+.rs-item-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:4px solid #ff3d57;line-height:1.7}
 .rs-item-med{background:rgba(255,171,0,0.1);color:#ffd080;border-left:3px solid var(--orange)}
 .rs-item-low{background:rgba(0,255,136,0.08);color:#80ffb8;border-left:3px solid var(--green)}
 .locked-detail{margin-top:14px;padding:20px;border:1px dashed rgba(255,255,255,0.1);border-radius:10px;text-align:center;background:rgba(0,0,0,0.2)}
 .locked-icon{font-size:28px;margin-bottom:8px}
-.locked-text{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6}
-.locked-btn{padding:9px 20px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+.locked-text{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6;font-weight:400}
+.locked-btn{padding:9px 20px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
 .locked-btn-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
 .locked-btn-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
-.empty-state{padding:40px;text-align:center;color:#c0c8e0;font-size:13px}
+.empty-state{padding:40px;text-align:center;color:#b0b8d0;font-size:13px}
 .empty-state .es-icon{font-size:32px;margin-bottom:12px}
 .bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
@@ -195,9 +195,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .aid-red{background:var(--red);box-shadow:0 0 8px rgba(255,61,87,0.6)}
 .aid-orange{background:var(--orange);box-shadow:0 0 8px rgba(255,171,0,0.5)}
 .aid-green{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5)}
-.ai-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.35}
-.ai-time{font-size:12px;color:#c0c8e0;font-family:var(--mono);font-weight:500}
-.ai-body{font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:500}
+.ai-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px;line-height:1.35}
+.ai-time{font-size:12px;color:#9aa2c0;font-family:var(--mono);font-weight:400}
+.ai-body{font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400}
 .aib-red{background:rgba(255,61,87,0.12);color:#ff9aaa;border-left:3px solid var(--red)}
 .aib-orange{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .aib-green{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
@@ -206,14 +206,14 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 #world-map-wrap svg{width:100%;height:100%;display:block}
 .map-tooltip{position:absolute;background:rgba(3,5,10,0.95);border:1px solid rgba(0,229,255,0.3);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:#fff;pointer-events:none;display:none;z-index:50;white-space:nowrap;line-height:1.7}
 .map-legend{display:flex;align-items:center;gap:14px;padding:8px 14px 12px;flex-wrap:wrap}
-.map-legend-item{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
+.map-legend-item{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:#9aa2c0;text-transform:uppercase;letter-spacing:.06em;font-weight:400}
 .map-legend-dot{width:10px;height:10px;border-radius:50%}
 .ld-blue{background:rgba(0,229,255,0.7)}
 .ld-red{background:var(--red);box-shadow:0 0 6px rgba(255,61,87,0.8)}
 .ld-gray{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15)}
 /* ── ORDERS SAYFASI ── */
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap}
-.filter-btn{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--ink2);font-family:var(--mono);transition:all .15s;text-transform:uppercase;letter-spacing:.06em}
+.filter-btn{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--line2);background:transparent;color:#9aa2c0;font-family:var(--mono);transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
 .filter-btn:hover{border-color:var(--cyan);color:var(--cyan)}
 .filter-btn.active{background:rgba(0,229,255,0.12);border-color:var(--cyan);color:var(--cyan)}
 .filter-btn.f-high.active{background:rgba(255,61,87,0.15);border-color:var(--red);color:var(--red)}
@@ -230,12 +230,12 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .order-row-main{padding:14px 18px;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:16px}
 .order-row-num{font-family:var(--mono);font-size:13px;color:var(--cyan);font-weight:500;white-space:nowrap}
 .order-row-info{display:flex;flex-direction:column;gap:3px}
-.order-row-price{font-size:17px;font-weight:700;color:#fff}
-.order-row-meta{font-size:12px;color:var(--ink2);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.order-row-date{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.order-row-price{font-size:17px;font-weight:600;color:#fff}
+.order-row-meta{font-size:12px;color:#b0b8d0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-weight:400}
+.order-row-date{font-family:var(--mono);font-size:12px;color:#c0c8e0;font-weight:400}
 .order-row-detail{display:none;padding:0 18px 16px;border-top:1px solid var(--line2)}
 .order-row.expanded .order-row-detail{display:block}
-.dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
+.dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:#7a82a0;text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
 .dash-footer a{color:var(--cyan);text-decoration:none}
 .sb-item[data-soon]{position:relative}
 .sb-item[data-soon]:hover::after{content:'Coming Soon';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--cyan);padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
@@ -249,7 +249,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 @keyframes top-line-slide{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .mc-green{animation:glow-border-green 3s ease-in-out infinite}
 .mc-orange{animation:glow-border-orange 3s ease-in-out infinite}
-.mc-cyan{animation:glow-border 3s ease-in-out infinite}
+.mc-cyan{animation:glow-border-green 3s ease-in-out infinite}
 .mc-red{animation:glow-border-red 3s ease-in-out infinite}
 .mc::after{background-size:200% auto!important;animation:top-line-slide 3s linear infinite!important}
 .alerts-panel{animation:glow-border-orange 4s ease-in-out infinite}
@@ -263,7 +263,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 
 <div class="paywall" id="paywall" style="display:none">
   <div class="paywall-inner">
-    <div style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
       <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite"></span>
       PROTECTION EXPIRED — ACTION REQUIRED
     </div>
@@ -359,9 +359,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
     </div>
   </div>
 
-  <div class="content" id="main-content">
-    <!-- Dashboard içeriği JS ile dolduruluyor -->
-  </div>
+  <div class="content" id="main-content"></div>
 </div>
 
 <div class="dash-footer">
@@ -377,68 +375,65 @@ const sb = window.supabase.createClient(
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
 const PRICE_IDS = { pro:'pri_01kpntvkyjz86f9abj5g8396dv', elite:'pri_01kpnv1whkq97tr638rt08vz09' };
-let currentUser = null, currentPlan = 'free', cachedOrders = [], cachedPlan = 'trial';
+let currentUser=null, currentPlan='free', cachedOrders=[], cachedPlan='trial';
+window._lastCbRate = '0.00';
 
-setInterval(() => { document.getElementById('live-time').textContent = new Date().toLocaleTimeString('tr-TR'); }, 1000);
+setInterval(()=>{ document.getElementById('live-time').textContent=new Date().toLocaleTimeString('tr-TR'); },1000);
 
-function setActiveSb(id) {
-  ['sb-dashboard','sb-orders','sb-chargeback'].forEach(i => {
-    const el = document.getElementById(i);
-    if (el) el.classList.remove('active');
-  });
-  const el = document.getElementById(id);
-  if (el) el.classList.add('active');
+function setActiveSb(id){
+  ['sb-dashboard','sb-orders','sb-chargeback'].forEach(i=>{const el=document.getElementById(i);if(el)el.classList.remove('active');});
+  const el=document.getElementById(id);if(el)el.classList.add('active');
 }
 
-function showComingSoon(name) {
-  let t = document.getElementById('cs-toast');
-  if (!t) { t=document.createElement('div');t.id='cs-toast';t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';document.body.appendChild(t); }
+function showComingSoon(name){
+  let t=document.getElementById('cs-toast');
+  if(!t){t=document.createElement('div');t.id='cs-toast';t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';document.body.appendChild(t);}
   t.textContent=`⚡ ${name} — Yakında`;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>{t.style.opacity='0';},2500);
 }
 
-async function startCheckout(plan) {
-  if (!currentUser) return;
-  const btns = document.querySelectorAll('.pw-btn,.up-btn,.locked-btn');
+async function startCheckout(plan){
+  if(!currentUser)return;
+  const btns=document.querySelectorAll('.pw-btn,.up-btn,.locked-btn');
   btns.forEach(b=>{b.disabled=true;b.style.opacity='.6';});
-  try {
-    const res = await fetch('/api/paddle-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId:PRICE_IDS[plan],email:currentUser.email,userId:currentUser.id,shopDomain:localStorage.getItem('shopify_shop')||''})});
-    const data = await res.json();
-    if (data.checkoutUrl) { window.location.href=data.checkoutUrl; }
-    else { alert('Ödeme başlatılamadı.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1';}); }
-  } catch(e) { alert('Hata oluştu.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1';}); }
+  try{
+    const res=await fetch('/api/paddle-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId:PRICE_IDS[plan],email:currentUser.email,userId:currentUser.id,shopDomain:localStorage.getItem('shopify_shop')||''})});
+    const data=await res.json();
+    if(data.checkoutUrl){window.location.href=data.checkoutUrl;}
+    else{alert('Ödeme başlatılamadı.');btns.forEach(b=>{b.disabled=false;b.style.opacity='1';});}
+  }catch(e){alert('Hata oluştu.');btns.forEach(b=>{b.disabled=false;b.style.opacity='1';});}
 }
 
-function connectShopify() { window.location.href='index.html'; }
+function connectShopify(){window.location.href='index.html';}
 
-function checkPlanStatus(storeData) {
-  const paywall=document.getElementById('paywall'), banner=document.getElementById('upgrade-banner'), chip=document.getElementById('plan-chip');
-  if (!storeData) { chip.style.display='none'; return; }
-  const plan=storeData.plan||'free'; currentPlan=plan;
-  const trialEnd=storeData.trial_end_date?new Date(storeData.trial_end_date):null, now=new Date();
+function checkPlanStatus(storeData){
+  const paywall=document.getElementById('paywall'),banner=document.getElementById('upgrade-banner'),chip=document.getElementById('plan-chip');
+  if(!storeData){chip.style.display='none';return;}
+  const plan=storeData.plan||'free';currentPlan=plan;
+  const trialEnd=storeData.trial_end_date?new Date(storeData.trial_end_date):null,now=new Date();
   chip.style.display='inline-block';
-  if (plan==='pro'||plan==='starter') { chip.className='plan-chip chip-pro';chip.textContent='★ Shield Pro';paywall.style.display='none';banner.style.display='none';return; }
-  if (plan==='elite') { chip.className='plan-chip chip-elite';chip.textContent='★ Shield Elite';paywall.style.display='none';banner.style.display='none';return; }
-  if (trialEnd&&now<trialEnd) { const d=Math.ceil((trialEnd-now)/86400000);chip.className='plan-chip chip-trial';chip.textContent=`DENEME — ${d} GÜN`;document.getElementById('trial-days-text').textContent=`${d} gün kaldı`;banner.style.display='flex';paywall.style.display='none';return; }
+  if(plan==='pro'||plan==='starter'){chip.className='plan-chip chip-pro';chip.textContent='★ Shield Pro';paywall.style.display='none';banner.style.display='none';return;}
+  if(plan==='elite'){chip.className='plan-chip chip-elite';chip.textContent='★ Shield Elite';paywall.style.display='none';banner.style.display='none';return;}
+  if(trialEnd&&now<trialEnd){const d=Math.ceil((trialEnd-now)/86400000);chip.className='plan-chip chip-trial';chip.textContent=`DENEME — ${d} GÜN`;document.getElementById('trial-days-text').textContent=`${d} gün kaldı`;banner.style.display='flex';paywall.style.display='none';return;}
   chip.className='plan-chip chip-trial';chip.textContent='Trial Bitti';banner.style.display='none';paywall.style.display='flex';
 }
 
-function toggleCard(id) { const c=document.getElementById('oc-'+id); if(c)c.classList.toggle('expanded'); }
-function toggleRow(id) { const c=document.getElementById('or-'+id); if(c)c.classList.toggle('expanded'); }
+function toggleCard(id){const c=document.getElementById('oc-'+id);if(c)c.classList.toggle('expanded');}
+function toggleRow(id){const c=document.getElementById('or-'+id);if(c)c.classList.toggle('expanded');}
 
-async function getAISuggestion(orderId, orderData) {
-  const btn=document.getElementById('ai-btn-'+orderId), box=document.getElementById('ai-suggestion-'+orderId), txt=document.getElementById('ai-text-'+orderId);
+async function getAISuggestion(orderId,orderData){
+  const btn=document.getElementById('ai-btn-'+orderId),box=document.getElementById('ai-suggestion-'+orderId),txt=document.getElementById('ai-text-'+orderId);
   btn.disabled=true;btn.textContent='🤖 AI analiz ediyor...';box.style.display='block';txt.textContent='...';
-  try {
+  try{
     const res=await fetch('/api/ai-suggestion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderData})});
     const data=await res.json();
     if(data.suggestion){txt.textContent=data.suggestion;btn.textContent='🤖 AI Öneri Güncelle';btn.disabled=false;}
     else{txt.textContent='Öneri alınamadı.';btn.disabled=false;}
-  } catch(e){txt.textContent='Hata oluştu.';btn.disabled=false;}
+  }catch(e){txt.textContent='Hata oluştu.';btn.disabled=false;}
 }
 
-function escHtml(str) { if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-function sanitizeOrder(order) {
+function sanitizeOrder(order){
   const esc=escHtml;
   if(order.country)order.country=esc(order.country);
   if(order.details){const d=order.details;['customerName','customerEmail','billingCountry','shippingCountry','billingCity','shippingCity','gateway','financialStatus','fulfillmentStatus'].forEach(k=>{if(d[k])d[k]=esc(d[k]);});}
@@ -446,8 +441,18 @@ function sanitizeOrder(order) {
   return order;
 }
 
-function updateHealthScore(orders, chargebackRate) {
-  let score=100; const warnings=[];
+function updateCbRateUI(cbRate){
+  const rate=parseFloat(cbRate)||0;
+  const rateEl=document.getElementById('m-cb-rate');
+  const barEl=document.getElementById('m-cbbar');
+  const subEl=document.getElementById('m-cb-sub');
+  if(rateEl)rateEl.textContent='%'+cbRate;
+  if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';}
+  if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
+}
+
+function updateHealthScore(orders,chargebackRate){
+  let score=100;const warnings=[];
   const cbRate=parseFloat(chargebackRate)||0;
   if(cbRate>=0.65){score-=40;warnings.push('Chargeback limiti aşıldı!');}
   else if(cbRate>=0.50){score-=25;warnings.push('Chargeback oranı kritik seviyede');}
@@ -469,9 +474,9 @@ function updateHealthScore(orders, chargebackRate) {
   if(barEl){barEl.style.background=color;setTimeout(()=>{barEl.style.width=score+'%';},400);}
 }
 
-function buildOrderDetailHtml(order, plan) {
-  const r=order.risk, d=order.details||{};
-  const aiBtnHtml=plan==='elite'?`<div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none"><div class="detail-block" style="border-color:rgba(0,229,255,0.3)"><div class="db-title" style="color:var(--cyan)">🤖 AI Çözüm Önerisi</div><div id="ai-text-${order.id}" style="font-size:13px;color:#d0d4e8;line-height:1.7;padding:4px 0"></div></div></div><button onclick="event.stopPropagation();getAISuggestion('${order.id}',${JSON.stringify({orderNumber:order.order_number,totalPrice:order.total_price,country:order.country,score:r.score,level:r.level,risks:r.risks,customerName:d.customerName,accountAgeDays:d.accountAgeDays,totalOrders:d.totalOrders,billingCountry:d.billingCountry,shippingCountry:d.shippingCountry,financialStatus:d.financialStatus,gateway:d.gateway}).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')})" style="margin-top:12px;padding:9px 18px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s" id="ai-btn-${order.id}">🤖 AI Çözüm Önerisi Al</button>`:'';
+function buildOrderDetailHtml(order,plan){
+  const r=order.risk,d=order.details||{};
+  const aiBtnHtml=plan==='elite'?`<div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none"><div class="detail-block" style="border-color:rgba(0,229,255,0.3)"><div class="db-title" style="color:var(--cyan)">🤖 AI Çözüm Önerisi</div><div id="ai-text-${order.id}" style="font-size:13px;color:#d0d4e8;line-height:1.7;padding:4px 0"></div></div></div><button onclick="event.stopPropagation();getAISuggestion('${order.id}',${JSON.stringify({orderNumber:order.order_number,totalPrice:order.total_price,country:order.country,score:r.score,level:r.level,risks:r.risks,customerName:d.customerName,accountAgeDays:d.accountAgeDays,totalOrders:d.totalOrders,billingCountry:d.billingCountry,shippingCountry:d.shippingCountry,financialStatus:d.financialStatus,gateway:d.gateway}).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')})" style="margin-top:12px;padding:9px 18px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s" id="ai-btn-${order.id}">🤖 AI Çözüm Önerisi Al</button>`:'';
   if(plan==='elite'){
     const fTR={paid:'Ödendi',pending:'Beklemede',refunded:'İade Edildi',partially_refunded:'Kısmi İade',voided:'İptal',authorized:'Onaylandı'}[d.financialStatus]||(d.financialStatus||'—');
     const fuTR={fulfilled:'Gönderildi',unfulfilled:'Gönderilmedi',partial:'Kısmi'}[d.fulfillmentStatus]||(d.fulfillmentStatus||'—');
@@ -479,36 +484,33 @@ function buildOrderDetailHtml(order, plan) {
     const ageCls=d.accountAgeDays!==null&&d.accountAgeDays<7?'c-risk':'c-safe';
     const addrCls=d.billingCountry&&d.shippingCountry&&d.billingCountry!==d.shippingCountry?'c-risk':'c-safe';
     return `<div class="detail-grid"><div class="detail-block"><div class="db-title">👤 Müşteri</div><div class="db-row"><span class="db-key">Ad</span><span class="db-val">${d.customerName||'—'}</span></div><div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail||'Misafir'}</span></div><div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays!==null?d.accountAgeDays+' gün':'Misafir'}</span></div><div class="db-row"><span class="db-key">Siparişler</span><span class="db-val">${d.totalOrders||0}</span></div></div><div class="detail-block"><div class="db-title">📍 Adres</div><div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity||'—'}</span></div></div><div class="detail-block"><div class="db-title">💳 Ödeme</div><div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div><div class="db-row"><span class="db-key">Durum</span><span class="db-val ${finCls}">${fTR}</span></div><div class="db-row"><span class="db-key">Gönderi</span><span class="db-val">${fuTR}</span></div><div class="db-row"><span class="db-key">Yöntem</span><span class="db-val">${d.gateway||'—'}</span></div></div></div><div class="risk-signals" style="margin-top:12px"><div class="rs-title">🚨 Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item rs-item-${r.level==='high'?'high':r.level==='medium'?'med':'low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'}</div></div>${aiBtnHtml}`;
-  } else if(plan==='pro'){
+  }else if(plan==='pro'){
     return `<div class="risk-signals" style="margin-top:12px"><div class="rs-title">🚨 Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item rs-item-${r.level==='high'?'high':r.level==='medium'?'med':'low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'}</div></div><div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri ve AI önerisi <strong style="color:#fff">Shield Elite</strong>'e özeldir.</div><button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button></div>`;
-  } else {
+  }else{
     return `<div class="locked-detail" style="margin-top:12px"><div class="locked-icon">🔒</div><div class="locked-text">Risk detayları <strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div><button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')">Pro'ya Geç →</button></div>`;
   }
 }
 
-/* ── ORDERS SAYFASI ── */
-let currentFilter = 'all';
+let currentFilter='all';
 
-function showOrdersPage() {
+function showOrdersPage(){
   setActiveSb('sb-orders');
-  const content = document.getElementById('main-content');
-  renderOrdersPage(cachedOrders, cachedPlan, currentFilter);
+  renderOrdersPage(cachedOrders,cachedPlan,currentFilter);
 }
 
-function renderOrdersPage(orders, plan, filter) {
-  currentFilter = filter;
-  const filtered = filter === 'all' ? orders : orders.filter(o => o.risk?.level === filter);
-  const high = orders.filter(o=>o.risk?.level==='high').length;
-  const med  = orders.filter(o=>o.risk?.level==='medium').length;
-  const low  = orders.filter(o=>o.risk?.level==='low').length;
-
-  let html = `
+function renderOrdersPage(orders,plan,filter){
+  currentFilter=filter;
+  const filtered=filter==='all'?orders:orders.filter(o=>o.risk?.level===filter);
+  const high=orders.filter(o=>o.risk?.level==='high').length;
+  const med=orders.filter(o=>o.risk?.level==='medium').length;
+  const low=orders.filter(o=>o.risk?.level==='low').length;
+  let html=`
     <div class="page-header">
       <div>
         <div class="page-title">📦 Siparişler</div>
         <div class="page-sub"><span class="live-dot"></span> ${orders.length} sipariş tarandı · ${high} yüksek riskli</div>
       </div>
-      <button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button>
+      <button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500">← Dashboard</button>
     </div>
     <div class="filter-bar">
       <button class="filter-btn ${filter==='all'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'all')">Tümü (${orders.length})</button>
@@ -516,21 +518,20 @@ function renderOrdersPage(orders, plan, filter) {
       <button class="filter-btn f-med ${filter==='medium'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'medium')">🟡 Orta (${med})</button>
       <button class="filter-btn f-low ${filter==='low'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'low')">🟢 Düşük (${low})</button>
     </div>`;
-
-  if (!filtered.length) {
-    html += `<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Bu filtrede sipariş bulunamadı.</div></div>`;
-  } else {
-    html += `<div class="orders-full-body">`;
-    filtered.forEach(order => {
-      order = sanitizeOrder(order);
-      const r = order.risk;
-      const date = order.created_at ? new Date(order.created_at).toLocaleDateString('tr-TR') : '—';
-      let levelText, tagCls, rowCls;
+  if(!filtered.length){
+    html+=`<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Bu filtrede sipariş bulunamadı.</div></div>`;
+  }else{
+    html+=`<div class="orders-full-body">`;
+    filtered.forEach(order=>{
+      order=sanitizeOrder(order);
+      const r=order.risk;
+      const date=order.created_at?new Date(order.created_at).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+      let levelText,tagCls,rowCls;
       if(r.level==='high'){levelText=`YÜKSEK — %${r.score}`;tagCls='rt-high';rowCls='or-row-high';}
       else if(r.level==='medium'){levelText=`ORTA — %${r.score}`;tagCls='rt-med';rowCls='or-row-med';}
       else{levelText=`DÜŞÜK — %${Math.max(r.score,4)}`;tagCls='rt-low';rowCls='or-row-low';}
-      const detailHtml = buildOrderDetailHtml(order, plan);
-      html += `
+      const detailHtml=buildOrderDetailHtml(order,plan);
+      html+=`
         <div class="order-row ${rowCls}" id="or-${order.id}" onclick="toggleRow('${order.id}')">
           <div class="order-row-main">
             <div class="order-row-num">#${order.order_number}</div>
@@ -542,43 +543,30 @@ function renderOrdersPage(orders, plan, filter) {
               </div>
             </div>
             <span class="risk-tag ${tagCls}">${levelText}</span>
-            <span style="color:var(--ink3);font-size:11px;transition:transform .2s" class="expand-icon-${order.id}">▼</span>
+            <span style="color:#7a82a0;font-size:11px">▼</span>
           </div>
           <div class="order-row-detail">${detailHtml}</div>
         </div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   }
-
-  document.getElementById('main-content').innerHTML = html;
+  document.getElementById('main-content').innerHTML=html;
 }
 
-/* ── DASHBOARD SAYFASI ── */
-function showDashboard() {
+function showDashboard(){
   setActiveSb('sb-dashboard');
-  const content = document.getElementById('main-content');
-  content.innerHTML = getDashboardHTML();
-  // Radar
+  document.getElementById('main-content').innerHTML=getDashboardHTML();
   let ra=0;
-  const radarInterval = setInterval(()=>{ra=(ra+2)%360;const el=document.getElementById('radar-sweep');if(el)el.style.transform=`rotate(${ra}deg)`;else clearInterval(radarInterval);},25);
-  // Sipariş ve harita yeniden render
-  if (cachedOrders.length > 0) {
-    renderOrders(cachedOrders, cachedPlan);
-    updateHealthScore(cachedOrders, window._lastCbRate || '0.00');
-    if (window._lastCbRate) {
-      const rate = parseFloat(window._lastCbRate);
-      const rateEl = document.getElementById('m-cb-rate');
-      if (rateEl) rateEl.textContent = '%' + window._lastCbRate;
-      const barEl = document.getElementById('m-cbbar');
-      if (barEl) { const pct = Math.min((rate/0.65)*100,100); barEl.style.width = pct+'%'; }
-      const subEl = document.getElementById('m-cb-sub');
-      if (subEl) subEl.textContent = `Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
-    }
+  const radarInterval=setInterval(()=>{ra=(ra+2)%360;const el=document.getElementById('radar-sweep');if(el)el.style.transform=`rotate(${ra}deg)`;else clearInterval(radarInterval);},25);
+  if(cachedOrders.length>0){
+    renderOrders(cachedOrders,cachedPlan);
+    updateHealthScore(cachedOrders,window._lastCbRate);
+    updateCbRateUI(window._lastCbRate);
   }
   loadWorldMap();
 }
 
-function getDashboardHTML() {
+function getDashboardHTML(){
   return `
     <div class="page-header">
       <div>
@@ -716,11 +704,11 @@ function getDashboardHTML() {
     </div>`;
 }
 
-function renderOrders(orders, plan) {
-  const body=document.getElementById('orders-body'), meta=document.getElementById('orders-meta');
-  if (!body) return;
-  if (!orders||orders.length===0) { body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';updateMap([]);return; }
-  let highRisk=0, html='';
+function renderOrders(orders,plan){
+  const body=document.getElementById('orders-body'),meta=document.getElementById('orders-meta');
+  if(!body)return;
+  if(!orders||orders.length===0){body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';updateMap([]);return;}
+  let highRisk=0,html='';
   orders.forEach(order=>{
     order=sanitizeOrder(order);
     const r=order.risk;
@@ -745,25 +733,25 @@ function renderOrders(orders, plan) {
   updateMap(orders);
 }
 
-function showShopifyConnected(shop) {
+function showShopifyConnected(shop){
   document.getElementById('sb-store-content').innerHTML=`<div class="sb-shop-name">${shop}</div><div class="sb-shop-status">✔ Bağlantılı ve korumalı</div><button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>`;
 }
 
-function disconnectStore() {
+function disconnectStore(){
   if(!confirm('Shopify mağazanızın bağlantısını kesmek istediğinizden emin misiniz?'))return;
   localStorage.removeItem('shopify_shop');window.location.href='index.html';
 }
 
-async function logout() { await sb.auth.signOut();localStorage.removeItem('shopify_shop');window.location.href='index.html'; }
+async function logout(){await sb.auth.signOut();localStorage.removeItem('shopify_shop');window.location.href='index.html';}
 
-async function showChargebackReport() {
+async function showChargebackReport(){
   setActiveSb('sb-chargeback');
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
   const plan=currentPlan;
   const{data:chargebacks}=await sb.from('chargebacks').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
   const content=document.getElementById('main-content');
-  let html=`<div class="page-header"><div><div class="page-title">📈 Chargeback Raporu</div><div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div></div><button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button></div>`;
-  if(!chargebacks||chargebacks.length===0){html+=`<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;}
+  let html=`<div class="page-header"><div><div class="page-title">📈 Chargeback Raporu</div><div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div></div><button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500">← Dashboard</button></div>`;
+  if(!chargebacks||chargebacks.length===0){html+=`<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;}
   else{
     html+=`<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
     chargebacks.forEach(cb=>{
@@ -779,7 +767,7 @@ async function showChargebackReport() {
   content.innerHTML=html;
 }
 
-async function init() {
+async function init(){
   const urlParams=new URLSearchParams(window.location.search);
   if(urlParams.has('token'))window.history.replaceState({},'','dashboard.html');
   const{data:{session}}=await sb.auth.getSession();
@@ -790,14 +778,10 @@ async function init() {
   function resetIdleTimer(){clearTimeout(_idleTimer);_idleTimer=setTimeout(async()=>{await sb.auth.signOut();window.location.href='index.html';},60*60*1000);}
   ['click','keydown','mousemove','touchstart'].forEach(e=>{document.addEventListener(e,resetIdleTimer,{passive:true});});
   resetIdleTimer();
-
   const{data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain').eq('user_id',session.user.id).single();
   checkPlanStatus(storeData);
   currentPlan=storeData?.plan||'free';
-
-  // Dashboard içeriğini yükle
   showDashboard();
-
   const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
   if(shop){
     showShopifyConnected(shop);
@@ -806,24 +790,17 @@ async function init() {
       const data=await res.json();
       cachedOrders=data.orders||[];
       cachedPlan=data._plan||currentPlan;
-      renderOrders(cachedOrders, cachedPlan);
-      updateHealthScore(cachedOrders, data._chargebackRate||'0.00');
-      if(data._chargebackRate!==null&&data._chargebackRate!==undefined){
-        const rate=parseFloat(data._chargebackRate);
-        const rateEl=document.getElementById('m-cb-rate');
-        if(rateEl)rateEl.textContent='%'+data._chargebackRate;
-        const barEl=document.getElementById('m-cbbar');
-        if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';}
-        const subEl=document.getElementById('m-cb-sub');
-        if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
-      }
+      window._lastCbRate=data._chargebackRate||'0.00';
+      renderOrders(cachedOrders,cachedPlan);
+      updateHealthScore(cachedOrders,window._lastCbRate);
+      updateCbRateUI(window._lastCbRate);
     }catch(e){
       const ob=document.getElementById('orders-body');
       if(ob)ob.innerHTML='<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi.</div></div>';
     }
   }else{
     const ob=document.getElementById('orders-body');
-    if(ob)ob.innerHTML='<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
+    if(ob)ob.innerHTML='<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:600;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
     const mh=document.getElementById('m-health'),ms=document.getElementById('m-health-sub');
     if(mh)mh.textContent='—';if(ms)ms.textContent='Başlamak için mağaza bağlayın';
     updateMap([]);
@@ -873,7 +850,7 @@ function renderMap(counts,highRisk){
       if(!counts[name]&&!highRisk[name]){tooltip.style.display='none';return;}
       const rect=wrap.getBoundingClientRect();
       tooltip.style.display='block';tooltip.style.left=(event.clientX-rect.left+14)+'px';tooltip.style.top=(event.clientY-rect.top-12)+'px';
-      let html=`<span style="color:var(--cyan);font-weight:700">${name||'Bilinmiyor'}</span><br>📦 Sipariş: ${counts[name]||0}`;
+      let html=`<span style="color:var(--cyan);font-weight:600">${name||'Bilinmiyor'}</span><br>📦 Sipariş: ${counts[name]||0}`;
       if(highRisk[name])html+=`<br><span style="color:var(--red)">🚨 Yüksek riskli: ${highRisk[name]}</span>`;
       tooltip.innerHTML=html;
     })
