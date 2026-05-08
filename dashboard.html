@@ -725,9 +725,9 @@ function renderOrders(orders, plan) {
             <div class="detail-block">
               <div class="db-title">📍 Adres Analizi</div>
               <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${escHtml(d.billingCountry) || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${escHtml(d.shippingCountry) || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${escHtml(d.billingCity) || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${escHtml(d.shippingCity) || '—'}</span></div>
             </div>
             <div class="detail-block">
               <div class="db-title">💳 Ödeme Bilgileri</div>
