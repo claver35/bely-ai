@@ -651,7 +651,7 @@ async function showChargebackReport() {
   const plan=currentPlan;
   const{data:chargebacks}=await sb.from('chargebacks').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
   const content=document.querySelector('.content');
-  let html=`<div class="page-header"><div><div class="page-title">📈 Chargeback Raporu</div><div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div></div><button onclick="init()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button></div>`;
+  let html=`<div class="page-header"><div><div class="page-title">📈 Chargeback Raporu</div><div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div></div><button onclick="location.reload()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button></div>`;
   if(!chargebacks||chargebacks.length===0){html+=`<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;}
   else{
     html+=`<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
