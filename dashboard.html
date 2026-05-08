@@ -17,8 +17,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,0.012) 2px,rgba(0,229,255,0.012) 4px);pointer-events:none;z-index:1000}
-
-/* PAYWALL */
 .paywall{position:fixed;inset:0;background:rgba(3,5,10,0.96);backdrop-filter:blur(20px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
 .paywall-inner{max-width:740px;width:100%;text-align:center}
 .paywall-inner h2{font-size:34px;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.03em}
@@ -53,8 +51,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .pw-btn-pro:hover{box-shadow:0 8px 30px rgba(0,229,255,0.4);transform:translateY(-2px)}
 .pw-btn-elite:hover{box-shadow:0 8px 30px rgba(0,255,136,0.3);transform:translateY(-2px)}
 .pw-note{font-size:12px;color:var(--ink3)}
-
-/* NAV */
 nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line2);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px}
 .nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em}
 .nav-logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0099cc);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:#000;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,0.45)}
@@ -69,8 +65,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .chip-elite{background:rgba(0,255,136,0.2);color:var(--green);border:1px solid rgba(0,255,136,0.5)}
 .btn-so{font-size:13px;padding:7px 16px;border-radius:7px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);transition:all .15s;font-weight:600}
 .btn-so:hover{background:rgba(255,255,255,0.1)}
-
-/* UPGRADE BANNER */
 .up-banner{background:linear-gradient(90deg,rgba(255,171,0,0.07),rgba(255,171,0,0.02));border-bottom:1px solid rgba(255,171,0,0.2);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .up-text{font-size:14px;color:#fff;font-weight:500}
 .up-text strong{color:var(--orange)}
@@ -79,11 +73,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .up-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
 .up-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
 .up-pro:hover,.up-elite:hover{filter:brightness(1.1);transform:translateY(-1px)}
-
-/* LAYOUT */
 .dash{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 58px)}
-
-/* SIDEBAR */
 .sidebar{background:var(--bg2);border-right:1px solid var(--line2);padding:16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
 .sb-section{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6a7090;padding:10px 10px 4px;margin-top:6px}
 .sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:600;color:#c0c8e0;cursor:pointer;transition:all .15s;border:1px solid transparent;text-decoration:none}
@@ -99,17 +89,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .sb-disconnect:hover{background:rgba(255,61,87,0.1)}
 .sb-connect-btn{margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;cursor:pointer;font-family:var(--sans);width:100%;font-weight:700;transition:all .15s}
 .sb-connect-btn:hover{filter:brightness(1.1)}
-
-/* CONTENT */
 .content{padding:20px 24px;display:flex;flex-direction:column;gap:18px;overflow:hidden}
-
-/* PAGE HEADER */
 .page-header{display:flex;align-items:center;justify-content:space-between}
 .page-title{font-size:22px;font-weight:600;color:#fff;letter-spacing:-.02em}
 .page-sub{font-size:13px;color:var(--ink2);margin-top:3px;display:flex;align-items:center;gap:6px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
-
-/* METRIC CARDS */
 .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .mc{background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:all .2s}
 .mc:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-2px)}
@@ -128,11 +112,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .mc-sub{font-size:12px;color:var(--ink2);font-weight:500}
 .mc-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:12px}
 .mc-bar-fill{height:3px;border-radius:2px;transition:width 1.8s ease}
-
-/* MID ROW */
 .mid-row{display:grid;grid-template-columns:260px 1fr;gap:14px}
-
-/* RADAR */
 .radar-panel{background:var(--bg2);border:1px solid rgba(0,229,255,0.18);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
 .radar-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,229,255,0.04),transparent 70%);pointer-events:none}
 .radar-header{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:4px;width:100%}
@@ -148,8 +128,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .radar-threat{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:10px;text-align:center;padding:6px 12px;border-radius:6px}
 .threat-active{color:#ffffff;background:rgba(255,30,57,0.55);border:1px solid #ff3d57;font-weight:500}
 .threat-clear{color:var(--green);background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.15)}
-
-/* ORDERS PANEL */
 .orders-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .panel-head{padding:16px 20px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .panel-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
@@ -158,8 +136,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .pt-icon-red{background:rgba(255,61,87,0.1)}
 .panel-meta{font-family:var(--mono);font-size:12px;color:#fff;font-weight:500}
 .orders-body{padding:14px;flex:1;overflow-y:auto;max-height:500px}
-
-/* ORDER CARD */
 .order-card{background:var(--bg3);border:1px solid var(--line2);border-radius:10px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .15s}
 .order-card:last-child{margin-bottom:0}
 .order-card:hover{border-color:rgba(255,255,255,0.18)}
@@ -169,8 +145,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .oc-high::before{background:var(--red);box-shadow:0 0 10px rgba(255,61,87,0.7)}
 .oc-med::before{background:var(--orange);box-shadow:0 0 10px rgba(255,171,0,0.6)}
 .oc-low::before{background:var(--green);box-shadow:0 0 10px rgba(0,255,136,0.5)}
-
-/* ORDER MAIN ROW */
 .order-main{padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .order-left{padding-left:6px;flex:1}
 .order-num{font-family:var(--mono);font-size:12px;color:#c0c8e0;margin-bottom:3px;font-weight:500;display:flex;align-items:center;justify-content:space-between}
@@ -186,8 +160,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .rt-high{background:rgba(255,30,57,0.55);color:#ffffff;border:1.5px solid #ff3d57;font-weight:400;letter-spacing:.06em;font-family:var(--sans)}
 .rt-med{background:rgba(255,171,0,0.2);color:#ffbc33;border:1.5px solid rgba(255,171,0,0.6)}
 .rt-low{background:rgba(0,255,136,0.15);color:#00ff88;border:1.5px solid rgba(0,255,136,0.5)}
-
-/* ORDER DETAIL (Elite expand) */
 .order-detail{display:none;padding:0 16px 16px;border-top:1px solid var(--line2)}
 .order-card.expanded .order-detail{display:block}
 .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
@@ -207,23 +179,15 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .rs-item-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:4px solid #ff3d57;font-weight:400;line-height:1.7;letter-spacing:.02em}
 .rs-item-med{background:rgba(255,171,0,0.1);color:#ffd080;border-left:3px solid var(--orange)}
 .rs-item-low{background:rgba(0,255,136,0.08);color:#80ffb8;border-left:3px solid var(--green)}
-
-/* LOCKED OVERLAY */
 .locked-detail{margin-top:14px;padding:20px;border:1px dashed rgba(255,255,255,0.1);border-radius:10px;text-align:center;background:rgba(0,0,0,0.2)}
 .locked-icon{font-size:28px;margin-bottom:8px}
 .locked-text{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6}
 .locked-btn{padding:9px 20px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)}
 .locked-btn-pro{background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000}
 .locked-btn-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
-
-/* EMPTY STATE */
 .empty-state{padding:40px;text-align:center;color:#c0c8e0;font-size:13px}
 .empty-state .es-icon{font-size:32px;margin-bottom:12px}
-
-/* BOTTOM ROW */
 .bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* ALERTS */
 .alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
 .alert-item{padding:14px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
 .alert-item:last-child{border-bottom:none}
@@ -237,8 +201,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .aib-red{background:rgba(255,61,87,0.12);color:#ff9aaa;border-left:3px solid var(--red)}
 .aib-orange{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .aib-green{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
-
-/* SHOPIFY PANEL */
 .shopify-panel{background:var(--bg2);border:1px solid rgba(149,191,71,0.2);border-radius:16px;overflow:hidden}
 .shopify-panel .panel-head{border-color:rgba(149,191,71,0.15)}
 .sp-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(149,191,71,0.08)}
@@ -249,16 +211,10 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .sp-connect-cta p{font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6}
 .sp-connect-btn{padding:12px 24px;border-radius:10px;border:none;background:linear-gradient(90deg,#95bf47,#6a8f2f);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:all .2s}
 .sp-connect-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-
-/* FOOTER */
 .dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
 .dash-footer a{color:var(--cyan);text-decoration:none}
-
-/* COMING SOON */
 .sb-item[data-soon]{position:relative}
 .sb-item[data-soon]:hover::after{content:'Coming Soon';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--cyan);padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
-
-/* ANIMATIONS */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
@@ -267,7 +223,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 @keyframes glow-border-orange{0%,100%{box-shadow:0 0 6px rgba(255,171,0,0.15)}50%{box-shadow:0 0 18px rgba(255,171,0,0.35)}}
 @keyframes glow-border-red{0%,100%{box-shadow:0 0 6px rgba(255,61,87,0.15)}50%{box-shadow:0 0 18px rgba(255,61,87,0.35)}}
 @keyframes top-line-slide{0%{background-position:-200% 0}100%{background-position:200% 0}}
-
 .mc-green{animation:glow-border-green 3s ease-in-out infinite}
 .mc-orange{animation:glow-border-orange 3s ease-in-out infinite}
 .mc-cyan{animation:glow-border 3s ease-in-out infinite}
@@ -277,13 +232,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .shopify-panel{animation:glow-border-green 4s ease-in-out infinite}
 .orders-panel{animation:glow-border 4s ease-in-out infinite}
 .radar-panel{animation:float 5s ease-in-out infinite,glow-border 3s ease-in-out infinite}
-
 @media(max-width:1100px){.dash{grid-template-columns:1fr}.sidebar{display:none}.metrics-row{grid-template-columns:1fr 1fr}.mid-row,.bottom-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- PAYWALL -->
 <div class="paywall" id="paywall" style="display:none">
   <div class="paywall-inner">
     <div style="font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -330,7 +283,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   </div>
 </div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">
     <div class="nav-logo-icon">B</div>
@@ -349,7 +301,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   </div>
 </nav>
 
-<!-- UPGRADE BANNER -->
 <div class="up-banner" id="upgrade-banner" style="display:none">
   <div class="up-text">⚡ <strong>Trial active</strong> — <span id="trial-days-text">7 days left</span>. Upgrade to keep your store protected after trial ends.</div>
   <div class="up-btns">
@@ -358,7 +309,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   </div>
 </div>
 
-<!-- LAYOUT -->
 <div class="dash">
   <div class="sidebar">
     <div class="sb-section">Command Center</div>
@@ -369,7 +319,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
     <div class="sb-section">Protection</div>
     <div class="sb-item" onclick="document.getElementById('alerts-body').scrollIntoView({behavior:'smooth'})"><span class="sb-icon">🔔</span> Alerts</div>
     <div class="sb-item" data-soon onclick="showComingSoon('Dispute AI')"><span class="sb-icon">🤖</span> Dispute AI</div>
-   <div class="sb-item" onclick="showChargebackReport()"><span class="sb-icon">📈</span> Chargeback Report</div>
+    <div class="sb-item" onclick="showChargebackReport()"><span class="sb-icon">📈</span> Chargeback Report</div>
     <div class="sb-section">Account</div>
     <div class="sb-item" data-soon onclick="showComingSoon('Settings')"><span class="sb-icon">⚙️</span> Settings</div>
     <div class="sb-item" style="cursor:pointer" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
@@ -555,8 +505,7 @@ let currentUser = null;
 let currentPlan = 'free';
 
 setInterval(() => {
-  document.getElementById('live-time').textContent =
-    new Date().toLocaleTimeString('tr-TR');
+  document.getElementById('live-time').textContent = new Date().toLocaleTimeString('tr-TR');
 }, 1000);
 
 let ra = 0;
@@ -612,10 +561,7 @@ function connectShopify() {
   if (!shop) return;
   shop = shop.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '').toLowerCase();
   if (!shop.includes('.myshopify.com')) shop += '.myshopify.com';
-  if (!shop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
-    alert('Geçersiz mağaza adresi.');
-    return;
-  }
+  if (!shop.match(/^[a-z0-9-]+\.myshopify\.com$/)) { alert('Geçersiz mağaza adresi.'); return; }
   const state = Math.random().toString(36).substring(2) + Date.now().toString(36);
   sessionStorage.setItem('shopify_state', state);
   sessionStorage.setItem('shopify_shop', shop);
@@ -666,12 +612,41 @@ function toggleCard(id) {
   if (card) card.classList.toggle('expanded');
 }
 
+async function getAISuggestion(orderId, orderData) {
+  const btn = document.getElementById('ai-btn-' + orderId);
+  const box = document.getElementById('ai-suggestion-' + orderId);
+  const txt = document.getElementById('ai-text-' + orderId);
+  btn.disabled = true;
+  btn.textContent = '🤖 AI analiz ediyor...';
+  box.style.display = 'block';
+  txt.textContent = '...';
+  try {
+    const res = await fetch('/api/ai-suggestion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderData })
+    });
+    const data = await res.json();
+    if (data.suggestion) {
+      txt.textContent = data.suggestion;
+      btn.textContent = '🤖 AI Öneri Güncelle';
+      btn.disabled = false;
+    } else {
+      txt.textContent = 'Öneri alınamadı. Tekrar deneyin.';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    txt.textContent = 'Hata oluştu. Tekrar deneyin.';
+    btn.disabled = false;
+  }
+}
+
 function renderOrders(orders, plan) {
   const body = document.getElementById('orders-body');
   const meta = document.getElementById('orders-meta');
 
   if (!orders || orders.length === 0) {
-    body.innerHTML = '<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı. Shopify mağazanızda test siparişi oluşturun.</div></div>';
+    body.innerHTML = '<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';
     return;
   }
 
@@ -697,7 +672,6 @@ function renderOrders(orders, plan) {
 
     const reasonText = r.risks.length > 0 ? r.risks.join(' · ') : 'Risk sinyali yok — Göndermek güvenli.';
 
-    // ── Plan bazlı risk detayı ──
     let reasonHtml = '';
     if (plan === 'pro' || plan === 'elite') {
       reasonHtml = reasonText;
@@ -705,19 +679,39 @@ function renderOrders(orders, plan) {
       reasonHtml = `<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;
     }
 
-    // ── Karta tıklandığında açılacak detay (plan bazlı) ──
-    let detailHtml = '';
     const isExpandable = (plan === 'pro' || plan === 'elite');
 
+    // AI öneri butonu — sadece Elite
+    const aiBtnHtml = plan === 'elite' ? `
+      <div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none">
+        <div class="detail-block" style="border-color:rgba(0,229,255,0.3)">
+          <div class="db-title" style="color:var(--cyan)">🤖 AI Çözüm Önerisi</div>
+          <div id="ai-text-${order.id}" style="font-size:13px;color:#d0d4e8;line-height:1.7;padding:4px 0"></div>
+        </div>
+      </div>
+      <button onclick="event.stopPropagation();getAISuggestion('${order.id}', ${JSON.stringify({
+        orderNumber: order.order_number,
+        totalPrice: order.total_price,
+        country: order.country,
+        score: r.score,
+        level: r.level,
+        risks: r.risks,
+        customerName: d.customerName,
+        accountAgeDays: d.accountAgeDays,
+        totalOrders: d.totalOrders,
+        billingCountry: d.billingCountry,
+        shippingCountry: d.shippingCountry,
+        financialStatus: d.financialStatus,
+        gateway: d.gateway
+      }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;')})" style="margin-top:12px;padding:9px 18px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s" id="ai-btn-${order.id}">
+        🤖 AI Çözüm Önerisi Al
+      </button>` : '';
+
+    let detailHtml = '';
+
     if (plan === 'elite') {
-      // Elite: Tam detay
-      const financialTR = {
-        paid:'Ödendi', pending:'Beklemede', refunded:'İade Edildi',
-        partially_refunded:'Kısmi İade', voided:'İptal', authorized:'Onaylandı'
-      }[d.financialStatus] || (d.financialStatus || '—');
-      const fulfillmentTR = {
-        fulfilled:'Gönderildi', unfulfilled:'Gönderilmedi', partial:'Kısmi'
-      }[d.fulfillmentStatus] || (d.fulfillmentStatus || '—');
+      const financialTR = {paid:'Ödendi',pending:'Beklemede',refunded:'İade Edildi',partially_refunded:'Kısmi İade',voided:'İptal',authorized:'Onaylandı'}[d.financialStatus] || (d.financialStatus || '—');
+      const fulfillmentTR = {fulfilled:'Gönderildi',unfulfilled:'Gönderilmedi',partial:'Kısmi'}[d.fulfillmentStatus] || (d.fulfillmentStatus || '—');
       const finCls = ['refunded','voided'].includes(d.financialStatus) ? 'c-risk' : d.financialStatus === 'paid' ? 'c-safe' : 'c-warn';
       const ageCls = d.accountAgeDays !== null && d.accountAgeDays < 7 ? 'c-risk' : 'c-safe';
       const addrCls = d.billingCountry && d.shippingCountry && d.billingCountry !== d.shippingCountry ? 'c-risk' : 'c-safe';
@@ -756,9 +750,9 @@ function renderOrders(orders, plan) {
               }
             </div>
           </div>
+          ${aiBtnHtml}
         </div>`;
     } else if (plan === 'pro') {
-      // Pro: Risk detayı açık ama Elite detayları kilitli
       detailHtml = `
         <div class="order-detail">
           <div class="risk-signals">
@@ -772,18 +766,17 @@ function renderOrders(orders, plan) {
           </div>
           <div class="locked-detail" style="margin-top:12px">
             <div class="locked-icon">⚡</div>
-            <div class="locked-text">Müşteri bilgileri, adres analizi ve ödeme detayları<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>
+            <div class="locked-text">Müşteri bilgileri, adres analizi, ödeme detayları ve AI önerisi<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>
             <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç — $49.90/mo →</button>
           </div>
         </div>`;
     } else {
-      // Trial: Her şey kilitli
       detailHtml = `
         <div class="order-detail">
           <div class="locked-detail">
             <div class="locked-icon">🔒</div>
-            <div class="locked-text">Risk detayları, müşteri bilgileri ve adres analizi<br><strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div>
-            <button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')" style="margin-right:8px">Pro'ya Geç — $29.90/mo →</button>
+            <div class="locked-text">Risk detayları, müşteri bilgileri ve AI önerisi<br><strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div>
+            <button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')">Pro'ya Geç — $29.90/mo →</button>
           </div>
         </div>`;
     }
@@ -855,80 +848,15 @@ async function logout() {
   window.location.href = 'index.html';
 }
 
-async function init() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('token')) {
-    window.history.replaceState({}, '', 'dashboard.html');
-  }
-
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = 'index.html'; return; }
-
-  currentUser = session.user;
-  document.getElementById('user-email').textContent = session.user.email;
-
-  const { data: storeData } = await sb.from('shopify_stores')
-    .select('plan, subscription_status, trial_end_date, shop_domain')
-    .eq('user_id', session.user.id)
-    .single();
-
-  checkPlanStatus(storeData);
-  currentPlan = storeData?.plan || 'free';
-
-  const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
-
-  if (shop) {
-    showShopifyConnected(shop);
-    try {
-      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
-      const data = await res.json();
-      renderOrders(data.orders || [], data._plan || currentPlan);
-
-      // Gerçek chargeback oranını göster
-      if (data._chargebackRate !== null && data._chargebackRate !== undefined) {
-        const rate = parseFloat(data._chargebackRate);
-        const rateEl = document.querySelector('.mc-orange .mc-value');
-        const subEl = document.getElementById('m-health-sub') ? document.querySelector('.mc-orange .mc-sub') : null;
-        if (rateEl) rateEl.textContent = '%' + data._chargebackRate;
-        const barEl = document.querySelector('.mc-orange .mc-bar-fill');
-        if (barEl) {
-          const pct = Math.min((rate / 0.65) * 100, 100);
-          barEl.style.width = pct + '%';
-          const remaining = Math.max(0, ((0.65 - rate) / 0.65) * 100).toFixed(0);
-          const subText = document.querySelector('.mc-orange .mc-sub');
-          if (subText) subText.textContent = `Limit: %0,65 · Kalan tampon %${remaining}`;
-        }
-      }
-    } catch (e) {
-      document.getElementById('orders-body').innerHTML =
-        '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
-    }
-  } else {
-    document.getElementById('orders-body').innerHTML =
-      '<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Siparişleri taramaya başlamak için Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
-    document.getElementById('m-health').textContent     = '—';
-    document.getElementById('m-health-sub').textContent = 'Başlamak için mağaza bağlayın';
-  }
-}
 async function showChargebackReport() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return;
-
   const plan = currentPlan;
-
-  // Trial ise paywall göster
-  
-
-  // Chargeback verilerini çek
-  const { data: chargebacks, error } = await sb.from('chargebacks')
+  const { data: chargebacks } = await sb.from('chargebacks')
     .select('*')
     .eq('user_id', session.user.id)
     .order('created_at', { ascending: false });
-
   const content = document.querySelector('.content');
-  
   let html = `
     <div class="page-header">
       <div>
@@ -937,55 +865,29 @@ async function showChargebackReport() {
       </div>
       <button onclick="init()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button>
     </div>`;
-
   if (!chargebacks || chargebacks.length === 0) {
-    html += `
-      <div class="orders-panel" style="padding:40px;text-align:center">
-        <div style="font-size:32px;margin-bottom:12px">✅</div>
-        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div>
-        <div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div>
-      </div>`;
+    html += `<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;
   } else {
     html += `<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
-
     chargebacks.forEach(cb => {
-      const date = cb.refunded_at
-        ? new Date(cb.refunded_at).toLocaleDateString('tr-TR')
-        : new Date(cb.created_at).toLocaleDateString('tr-TR');
-
-      const statusMap = {
-        refunded: 'Tam İade',
-        partially_refunded: 'Kısmi İade'
-      };
+      const date = cb.refunded_at ? new Date(cb.refunded_at).toLocaleDateString('tr-TR') : new Date(cb.created_at).toLocaleDateString('tr-TR');
+      const statusMap = { refunded:'Tam İade', partially_refunded:'Kısmi İade' };
       const statusText = statusMap[cb.status] || cb.status;
-
-      // Pro: temel bilgiler
       let detailHtml = `
         <div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${cb.order_number}</span></div>
         <div class="db-row"><span class="db-key">Tutar</span><span class="db-val c-risk">$${parseFloat(cb.amount).toFixed(2)}</span></div>
         <div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${statusText}</span></div>
         <div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${date}</span></div>`;
-
-      // Elite: tam detay
       if (plan === 'elite') {
-        if (cb.customer_name) {
-          detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${cb.customer_name}</span></div>`;
-        }
-        if (cb.customer_email) {
-          detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${cb.customer_email}</span></div>`;
-        }
-        if (cb.gateway) {
-          detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${cb.gateway}</span></div>`;
-        }
-        if (cb.refund_reason) {
-          detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${cb.refund_reason}</span></div>`;
-        }
+        if (cb.customer_name) detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${cb.customer_name}</span></div>`;
+        if (cb.customer_email) detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${cb.customer_email}</span></div>`;
+        if (cb.gateway) detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${cb.gateway}</span></div>`;
+        if (cb.refund_reason) detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${cb.refund_reason}</span></div>`;
         if (cb.line_items && cb.line_items.length > 0) {
           const items = cb.line_items.map(i => `${i.title} x${i.quantity} ($${i.price})`).join(', ');
           detailHtml += `<div class="db-row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="db-key">Ürünler</span><span class="db-val" style="font-size:11px;color:var(--ink2)">${items}</span></div>`;
         }
       }
-
       html += `
         <div class="order-card oc-high" style="margin-bottom:10px">
           <div class="order-main">
@@ -994,22 +896,60 @@ async function showChargebackReport() {
                 <div class="db-title">🔴 İade Kaydı</div>
                 ${detailHtml}
               </div>
-              ${plan !== 'elite' ? `
-              <div class="locked-detail" style="margin-top:12px">
-                <div class="locked-icon">⚡</div>
-                <div class="locked-text">Müşteri bilgileri, ürün detayları ve iade nedeni<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>
-                <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button>
-              </div>` : ''}
+              ${plan !== 'elite' ? `<div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri, ürün detayları ve iade nedeni<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div><button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button></div>` : ''}
             </div>
           </div>
         </div>`;
     });
-
     html += `</div></div>`;
   }
-
   content.innerHTML = html;
 }
+
+async function init() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('token')) window.history.replaceState({}, '', 'dashboard.html');
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'index.html'; return; }
+  currentUser = session.user;
+  document.getElementById('user-email').textContent = session.user.email;
+  const { data: storeData } = await sb.from('shopify_stores')
+    .select('plan, subscription_status, trial_end_date, shop_domain')
+    .eq('user_id', session.user.id)
+    .single();
+  checkPlanStatus(storeData);
+  currentPlan = storeData?.plan || 'free';
+  const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
+  if (shop) {
+    showShopifyConnected(shop);
+    try {
+      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await res.json();
+      renderOrders(data.orders || [], data._plan || currentPlan);
+      if (data._chargebackRate !== null && data._chargebackRate !== undefined) {
+        const rate = parseFloat(data._chargebackRate);
+        const rateEl = document.querySelector('.mc-orange .mc-value');
+        if (rateEl) rateEl.textContent = '%' + data._chargebackRate;
+        const barEl = document.querySelector('.mc-orange .mc-bar-fill');
+        if (barEl) {
+          const pct = Math.min((rate / 0.65) * 100, 100);
+          barEl.style.width = pct + '%';
+          const subText = document.querySelector('.mc-orange .mc-sub');
+          if (subText) subText.textContent = `Limit: %0,65 · Kalan tampon %${Math.max(0, ((0.65 - rate) / 0.65) * 100).toFixed(0)}`;
+        }
+      }
+    } catch (e) {
+      document.getElementById('orders-body').innerHTML = '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
+    }
+  } else {
+    document.getElementById('orders-body').innerHTML = '<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Siparişleri taramaya başlamak için Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
+    document.getElementById('m-health').textContent = '—';
+    document.getElementById('m-health-sub').textContent = 'Başlamak için mağaza bağlayın';
+  }
+}
+
 init();
 </script>
 </body>
