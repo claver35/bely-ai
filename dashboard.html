@@ -633,6 +633,7 @@ async function getAISuggestion(orderId, orderData) {
   }
 }
 function escHtml(str) {
+  function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
@@ -716,14 +717,14 @@ function renderOrders(orders, plan) {
           <div class="detail-grid">
             <div class="detail-block">
               <div class="db-title">👤 Müşteri Bilgileri</div>
-              <div class="db-row"><span class="db-key">Ad Soyad</span><span class="db-val">${d.customerName || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Email</span><span class="db-val">${escHtml(d.customerEmail) || 'Misafir'}</span></div>
               <div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail || 'Misafir'}</span></div>
               <div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays !== null ? d.accountAgeDays + ' gün' : 'Misafir'}</span></div>
               <div class="db-row"><span class="db-key">Toplam Sipariş</span><span class="db-val">${d.totalOrders || 0}</span></div>
             </div>
             <div class="detail-block">
               <div class="db-title">📍 Adres Analizi</div>
-              <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${escHtml(d.billingCountry) || '—'}</span></div>
               <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry || '—'}</span></div>
               <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity || '—'}</span></div>
               <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity || '—'}</span></div>
@@ -733,7 +734,7 @@ function renderOrders(orders, plan) {
               <div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div>
               <div class="db-row"><span class="db-key">Finansal Durum</span><span class="db-val ${finCls}">${financialTR}</span></div>
               <div class="db-row"><span class="db-key">Gönderim Durumu</span><span class="db-val">${fulfillmentTR}</span></div>
-              <div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${d.gateway || 'bilinmiyor'}</span></div>
+             <div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${escHtml(d.gateway) || 'bilinmiyor'}</span></div>
             </div>
           </div>
           <div class="risk-signals">
@@ -785,7 +786,7 @@ function renderOrders(orders, plan) {
               ${isExpandable || plan === 'free' ? '<span class="order-expand-icon">▼</span>' : ''}
             </div>
             <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
-            <div class="order-loc">${order.country || 'Bilinmeyen konum'}</div>
+            <div class="order-loc">${escHtml(order.country) || 'Bilinmeyen konum'}</div>
             <div class="order-reason ${reasonCls}">${reasonHtml}</div>
           </div>
           <span class="risk-tag ${tagCls}">${levelText}</span>
