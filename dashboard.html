@@ -632,7 +632,10 @@ async function getAISuggestion(orderId, orderData) {
     btn.disabled = false;
   }
 }
-
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 function renderOrders(orders, plan) {
   const body = document.getElementById('orders-body');
   const meta = document.getElementById('orders-meta');
