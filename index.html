@@ -56,18 +56,25 @@ h1{font-family:var(--display);font-size:clamp(36px,5vw,68px);line-height:.97;let
 .roi-hl{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6}
 .roi-hl strong{color:var(--accent);font-size:16px}
 
-/* ── 3D CANVAS (hero sağ) ── */
-.hero-canvas-wrap{position:relative;width:100%;height:460px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(0,229,255,0.04),rgba(0,0,0,0.2));border:1px solid rgba(0,229,255,0.15)}
-#hero-canvas{width:100%;height:100%;display:block}
-.canvas-overlay{position:absolute;inset:0;pointer-events:none}
-.canvas-badge{position:absolute;bottom:20px;left:20px;background:rgba(3,5,10,0.85);backdrop-filter:blur(12px);border:1px solid rgba(0,229,255,0.2);border-radius:10px;padding:10px 16px;font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.canvas-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--good);animation:pulse 1.5s infinite;box-shadow:0 0 6px rgba(0,255,136,0.6)}
-.canvas-stat{position:absolute;background:rgba(3,5,10,0.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px}
-.canvas-stat-val{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)}
-.canvas-stat-label{font-size:11px;color:var(--ink-2);margin-top:2px}
-.stat-top-right{top:20px;right:20px;border-color:rgba(0,229,255,0.2)}
-.stat-mid-left{top:50%;left:20px;transform:translateY(-50%);border-color:rgba(255,61,87,0.2)}
-.stat-mid-left .canvas-stat-val{color:var(--danger)}
+/* ── HERO SAĞ — ÖZELLİK CAROUSEL ── */
+.hero-right{position:relative;width:100%;height:460px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(0,229,255,0.03),rgba(0,0,0,0.3));border:1px solid rgba(0,229,255,0.15)}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.feat-carousel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;pointer-events:none}
+.feat-card-wrap{width:100%;position:relative;height:220px}
+.feat-card{position:absolute;inset:0;background:rgba(3,5,10,0.82);backdrop-filter:blur(20px);border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(24px) scale(.97);transition:opacity .6s cubic-bezier(.2,.9,.3,1),transform .6s cubic-bezier(.2,.9,.3,1)}
+.feat-card.active{opacity:1;transform:translateY(0) scale(1)}
+.feat-card.exit{opacity:0;transform:translateY(-24px) scale(.97)}
+.feat-card-icon{font-size:32px;line-height:1}
+.feat-card-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-weight:500}
+.feat-card-title{font-size:22px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:-.02em}
+.feat-card-desc{font-size:13px;color:#b0b8d0;line-height:1.7}
+.feat-card-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid;width:fit-content}
+.feat-dots{display:flex;gap:8px;margin-top:20px}
+.feat-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,229,255,0.25);transition:all .4s;cursor:pointer;pointer-events:auto}
+.feat-dot.active{background:var(--accent);width:20px;border-radius:3px;box-shadow:0 0 8px rgba(0,229,255,0.6)}
+.feat-progress{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),rgba(0,229,255,0.3));border-radius:0 2px 2px 0;transition:width linear}
+.feat-live-badge{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:6px;background:rgba(3,5,10,0.7);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,0.2);border-radius:8px;padding:5px 10px;font-family:var(--mono);font-size:10px;color:var(--good);letter-spacing:.08em;text-transform:uppercase}
+.feat-live-dot{width:5px;height:5px;border-radius:50%;background:var(--good);animation:pulse 1.5s infinite;box-shadow:0 0 6px rgba(0,255,136,0.7)}
 
 /* ── TICKER ── */
 .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);padding:13px 0;overflow:hidden;margin:48px 0 0}
@@ -317,23 +324,17 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
       </div>
     </div>
 
-    <!-- 3D CANVAS -->
-    <div class="hero-canvas-wrap">
+    <!-- HERO SAĞ — ÖZELLİK CAROUSEL + CANVAS -->
+    <div class="hero-right">
       <canvas id="hero-canvas"></canvas>
-      <div class="canvas-overlay">
-        <div class="canvas-stat stat-top-right">
-          <div class="canvas-stat-val" id="scan-count-3d">1,284</div>
-          <div class="canvas-stat-label" data-i18n="scanned_today">scanned today</div>
+      <div class="feat-live-badge"><span class="feat-live-dot"></span> Canlı Koruma</div>
+      <div class="feat-carousel">
+        <div class="feat-card-wrap" id="feat-wrap">
+          <!-- JS ile doldurulacak -->
         </div>
-        <div class="canvas-stat stat-mid-left">
-          <div class="canvas-stat-val">47</div>
-          <div class="canvas-stat-label" data-i18n="t1">high-risk blocked</div>
-        </div>
-        <div class="canvas-badge">
-          <span class="canvas-badge-dot"></span>
-          <span data-i18n="hero_eyebrow">LIVE RISK ENGINE</span>
-        </div>
+        <div class="feat-dots" id="feat-dots"></div>
       </div>
+      <div class="feat-progress" id="feat-progress" style="width:0%"></div>
     </div>
   </div>
 </div>
@@ -648,23 +649,17 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
   const W=canvas.offsetWidth||600, H=canvas.offsetHeight||460;
   canvas.width=W; canvas.height=H;
   const ctx=canvas.getContext('2d');
-  const PARTICLE_COUNT=80;
-  const MAX_DIST=120;
+  const PARTICLE_COUNT=70;
+  const MAX_DIST=110;
   const particles=[];
   for(let i=0;i<PARTICLE_COUNT;i++){
     particles.push({
       x:Math.random()*W, y:Math.random()*H,
-      vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
-      r:Math.random()*2+1,
-      risk:Math.random()<.15?'high':Math.random()<.3?'med':'low'
+      vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+      r:Math.random()*1.8+0.8,
+      risk:Math.random()<.12?'high':Math.random()<.28?'med':'low'
     });
   }
-  let mouse={x:-999,y:-999};
-  canvas.addEventListener('mousemove',e=>{
-    const r=canvas.getBoundingClientRect();
-    mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
-  });
-  canvas.addEventListener('mouseleave',()=>{mouse.x=-999;mouse.y=-999;});
   function colorFor(risk){
     if(risk==='high')return'rgba(255,61,87,';
     if(risk==='med')return'rgba(255,171,0,';
@@ -672,14 +667,13 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
   }
   function draw(){
     ctx.clearRect(0,0,W,H);
-    // bağlantı çizgileri
     for(let i=0;i<particles.length;i++){
       for(let j=i+1;j<particles.length;j++){
         const dx=particles[i].x-particles[j].x;
         const dy=particles[i].y-particles[j].y;
         const d=Math.sqrt(dx*dx+dy*dy);
         if(d<MAX_DIST){
-          const alpha=(1-d/MAX_DIST)*.25;
+          const alpha=(1-d/MAX_DIST)*.18;
           ctx.beginPath();
           ctx.strokeStyle=`rgba(0,229,255,${alpha})`;
           ctx.lineWidth=.5;
@@ -689,31 +683,15 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
         }
       }
     }
-    // mouse çizgileri
-    particles.forEach(p=>{
-      const dx=p.x-mouse.x, dy=p.y-mouse.y;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      if(d<160){
-        const alpha=(1-d/160)*.5;
-        ctx.beginPath();
-        ctx.strokeStyle=`rgba(0,229,255,${alpha})`;
-        ctx.lineWidth=.8;
-        ctx.moveTo(p.x,p.y);
-        ctx.lineTo(mouse.x,mouse.y);
-        ctx.stroke();
-      }
-    });
-    // noktalar
     particles.forEach(p=>{
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
       const c=colorFor(p.risk);
-      ctx.fillStyle=c+'0.9)';
-      ctx.shadowBlur=p.risk==='high'?12:6;
+      ctx.fillStyle=c+'0.85)';
+      ctx.shadowBlur=p.risk==='high'?10:5;
       ctx.shadowColor=c+'1)';
       ctx.fill();
       ctx.shadowBlur=0;
-      // hareket
       p.x+=p.vx; p.y+=p.vy;
       if(p.x<0||p.x>W)p.vx*=-1;
       if(p.y<0||p.y>H)p.vy*=-1;
@@ -721,15 +699,109 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
     requestAnimationFrame(draw);
   }
   draw();
-  // resize
   window.addEventListener('resize',()=>{
     const nw=canvas.offsetWidth,nh=canvas.offsetHeight;
     canvas.width=nw;canvas.height=nh;
     particles.forEach(p=>{p.x=Math.min(p.x,nw);p.y=Math.min(p.y,nh);});
   });
-  // sayaç
-  let count=1284;
-  setInterval(()=>{if(Math.random()>.7){count+=Math.floor(Math.random()*3)+1;const el=document.getElementById('scan-count-3d');if(el)el.textContent=count.toLocaleString();}},3000);
+})();
+
+/* ── ÖZELLİK CAROUSEL ── */
+(function(){
+  const FEATURES=[
+    {
+      icon:'🛡️',
+      label:'Core Protection',
+      title:'Gönderim öncesi risk puanlaması',
+      desc:'Her sipariş 200ms altında 40+ sinyal ile analiz edilir. Kargo çıkmadan önce yüksek riskli siparişler işaretlenir.',
+      tag:'⚡ <200ms latency',tagColor:'rgba(0,229,255,0.15)',tagBorder:'rgba(0,229,255,0.3)',tagText:'var(--accent)'
+    },
+    {
+      icon:'📧',
+      label:'Email Intelligence',
+      title:'Tek kullanımlık email tespiti',
+      desc:'mailinator, temp-mail ve 200+ sahte domain otomatik tespit edilir. Sahte kimlikle gelen siparişler anında işaretlenir.',
+      tag:'🔍 200+ domain listesi',tagColor:'rgba(255,171,0,0.1)',tagBorder:'rgba(255,171,0,0.3)',tagText:'var(--warn)'
+    },
+    {
+      icon:'💚',
+      label:'Account Health',
+      title:'Hesap sağlığı gerçek zamanlı',
+      desc:'Chargeback oranınız Visa limitine (%0.65) yaklaştığında anında uyarı alırsınız. Hesap askıya alınmadan önce önlem alın.',
+      tag:'📊 Gerçek zamanlı izleme',tagColor:'rgba(0,255,136,0.08)',tagBorder:'rgba(0,255,136,0.25)',tagText:'var(--good)'
+    },
+    {
+      icon:'📈',
+      label:'Chargeback Tracking',
+      title:'Chargeback oranı takibi',
+      desc:'Son 30 günlük iade verileri otomatik hesaplanır. Trend analizi ile risk önceden görülür, gerekirse sipariş durdurulur.',
+      tag:'📋 Son 30 gün analizi',tagColor:'rgba(138,99,255,0.08)',tagBorder:'rgba(138,99,255,0.3)',tagText:'#8a63ff'
+    },
+    {
+      icon:'🤖',
+      label:'AI Dispute Writer',
+      title:'AI itiraz yanıtı yazıcı',
+      desc:'Chargeback geldiğinde yapay zeka saniyeler içinde güçlü bir itiraz yanıtı oluşturur. Ortalama %68 kazanma oranı.',
+      tag:'🏆 %68 kazanma oranı',tagColor:'rgba(0,229,255,0.08)',tagBorder:'rgba(0,229,255,0.2)',tagText:'var(--accent)'
+    }
+  ];
+
+  const wrap=document.getElementById('feat-wrap');
+  const dotsEl=document.getElementById('feat-dots');
+  const progressEl=document.getElementById('feat-progress');
+  if(!wrap||!dotsEl)return;
+
+  let current=0, timer=null, progressTimer=null, progressVal=0;
+  const DURATION=3500;
+
+  // kartları oluştur
+  FEATURES.forEach((f,i)=>{
+    const card=document.createElement('div');
+    card.className='feat-card'+(i===0?' active':'');
+    card.id='fc-'+i;
+    card.innerHTML=`
+      <div class="feat-card-icon">${f.icon}</div>
+      <div class="feat-card-label">${f.label}</div>
+      <div class="feat-card-title">${f.title}</div>
+      <div class="feat-card-desc">${f.desc}</div>
+      <div class="feat-card-tag" style="background:${f.tagColor};border-color:${f.tagBorder};color:${f.tagText}">${f.tag}</div>`;
+    wrap.appendChild(card);
+
+    // dot
+    const dot=document.createElement('div');
+    dot.className='feat-dot'+(i===0?' active':'');
+    dot.onclick=()=>goTo(i);
+    dotsEl.appendChild(dot);
+  });
+
+  function goTo(idx){
+    const cards=wrap.querySelectorAll('.feat-card');
+    const dots=dotsEl.querySelectorAll('.feat-dot');
+    cards[current].classList.remove('active');
+    cards[current].classList.add('exit');
+    setTimeout(()=>cards[current].classList.remove('exit'),600);
+    dots[current].classList.remove('active');
+    current=idx;
+    cards[current].classList.add('active');
+    dots[current].classList.add('active');
+    resetProgress();
+  }
+
+  function next(){goTo((current+1)%FEATURES.length);}
+
+  function resetProgress(){
+    clearInterval(progressTimer);
+    clearTimeout(timer);
+    progressVal=0;
+    if(progressEl)progressEl.style.transition='none';
+    if(progressEl)progressEl.style.width='0%';
+    setTimeout(()=>{
+      if(progressEl){progressEl.style.transition=`width ${DURATION}ms linear`;progressEl.style.width='100%';}
+    },50);
+    timer=setTimeout(next,DURATION);
+  }
+
+  resetProgress();
 })();
 
 /* ── 3D HOVER KARTLAR ── */
