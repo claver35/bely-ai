@@ -708,43 +708,22 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
 
 /* ── ÖZELLİK CAROUSEL ── */
 (function(){
-  const FEATURES=[
-    {
-      icon:'🛡️',
-      label:'Core Protection',
-      title:'Gönderim öncesi risk puanlaması',
-      desc:'Her sipariş 200ms altında 40+ sinyal ile analiz edilir. Kargo çıkmadan önce yüksek riskli siparişler işaretlenir.',
-      tag:'⚡ <200ms latency',tagColor:'rgba(0,229,255,0.15)',tagBorder:'rgba(0,229,255,0.3)',tagText:'var(--accent)'
-    },
-    {
-      icon:'📧',
-      label:'Email Intelligence',
-      title:'Tek kullanımlık email tespiti',
-      desc:'mailinator, temp-mail ve 200+ sahte domain otomatik tespit edilir. Sahte kimlikle gelen siparişler anında işaretlenir.',
-      tag:'🔍 200+ domain listesi',tagColor:'rgba(255,171,0,0.1)',tagBorder:'rgba(255,171,0,0.3)',tagText:'var(--warn)'
-    },
-    {
-      icon:'💚',
-      label:'Account Health',
-      title:'Hesap sağlığı gerçek zamanlı',
-      desc:'Chargeback oranınız Visa limitine (%0.65) yaklaştığında anında uyarı alırsınız. Hesap askıya alınmadan önce önlem alın.',
-      tag:'📊 Gerçek zamanlı izleme',tagColor:'rgba(0,255,136,0.08)',tagBorder:'rgba(0,255,136,0.25)',tagText:'var(--good)'
-    },
-    {
-      icon:'📈',
-      label:'Chargeback Tracking',
-      title:'Chargeback oranı takibi',
-      desc:'Son 30 günlük iade verileri otomatik hesaplanır. Trend analizi ile risk önceden görülür, gerekirse sipariş durdurulur.',
-      tag:'📋 Son 30 gün analizi',tagColor:'rgba(138,99,255,0.08)',tagBorder:'rgba(138,99,255,0.3)',tagText:'#8a63ff'
-    },
-    {
-      icon:'🤖',
-      label:'AI Dispute Writer',
-      title:'AI itiraz yanıtı yazıcı',
-      desc:'Chargeback geldiğinde yapay zeka saniyeler içinde güçlü bir itiraz yanıtı oluşturur. Ortalama %68 kazanma oranı.',
-      tag:'🏆 %68 kazanma oranı',tagColor:'rgba(0,229,255,0.08)',tagBorder:'rgba(0,229,255,0.2)',tagText:'var(--accent)'
-    }
-  ];
+  const FEATURES={
+    en:[
+      {icon:'🛡️',label:'Core Protection',title:'Pre-shipment risk scoring',desc:'Every order analyzed in under 200ms using 40+ signals. High-risk orders flagged before shipping.',tag:'⚡ <200ms latency',tagColor:'rgba(0,229,255,0.15)',tagBorder:'rgba(0,229,255,0.3)',tagText:'var(--accent)'},
+      {icon:'📧',label:'Email Intelligence',title:'Disposable email detection',desc:'mailinator, temp-mail and 200+ fake domains detected automatically. Fake identity orders flagged instantly.',tag:'🔍 200+ domain list',tagColor:'rgba(255,171,0,0.1)',tagBorder:'rgba(255,171,0,0.3)',tagText:'var(--warn)'},
+      {icon:'💚',label:'Account Health',title:'Real-time account health',desc:'Get instant alerts when your chargeback rate approaches the Visa limit (0.65%). Act before your account is flagged.',tag:'📊 Real-time monitoring',tagColor:'rgba(0,255,136,0.08)',tagBorder:'rgba(0,255,136,0.25)',tagText:'var(--good)'},
+      {icon:'📈',label:'Chargeback Tracking',title:'Chargeback rate tracking',desc:'Last 30 days of refund data calculated automatically. Spot risk trends early and stop orders if needed.',tag:'📋 30-day analysis',tagColor:'rgba(138,99,255,0.08)',tagBorder:'rgba(138,99,255,0.3)',tagText:'#8a63ff'},
+      {icon:'🤖',label:'AI Dispute Writer',title:'AI dispute response writer',desc:'When a chargeback hits, AI drafts a powerful response in seconds. Average 68% win rate.',tag:'🏆 68% win rate',tagColor:'rgba(0,229,255,0.08)',tagBorder:'rgba(0,229,255,0.2)',tagText:'var(--accent)'}
+    ],
+    tr:[
+      {icon:'🛡️',label:'Temel Koruma',title:'Gönderim öncesi risk puanlaması',desc:'Her sipariş 200ms altında 40+ sinyal ile analiz edilir. Kargo çıkmadan önce yüksek riskli siparişler işaretlenir.',tag:'⚡ <200ms gecikme',tagColor:'rgba(0,229,255,0.15)',tagBorder:'rgba(0,229,255,0.3)',tagText:'var(--accent)'},
+      {icon:'📧',label:'Email Zekası',title:'Tek kullanımlık email tespiti',desc:'mailinator, temp-mail ve 200+ sahte domain otomatik tespit edilir. Sahte kimlikle gelen siparişler anında işaretlenir.',tag:'🔍 200+ domain listesi',tagColor:'rgba(255,171,0,0.1)',tagBorder:'rgba(255,171,0,0.3)',tagText:'var(--warn)'},
+      {icon:'💚',label:'Hesap Sağlığı',title:'Hesap sağlığı gerçek zamanlı',desc:'Chargeback oranınız Visa limitine (%0.65) yaklaştığında anında uyarı alırsınız. Hesap askıya alınmadan önce önlem alın.',tag:'📊 Gerçek zamanlı izleme',tagColor:'rgba(0,255,136,0.08)',tagBorder:'rgba(0,255,136,0.25)',tagText:'var(--good)'},
+      {icon:'📈',label:'Chargeback Takibi',title:'Chargeback oranı takibi',desc:'Son 30 günlük iade verileri otomatik hesaplanır. Trend analizi ile risk önceden görülür, gerekirse sipariş durdurulur.',tag:'📋 Son 30 gün analizi',tagColor:'rgba(138,99,255,0.08)',tagBorder:'rgba(138,99,255,0.3)',tagText:'#8a63ff'},
+      {icon:'🤖',label:'AI İtiraz Yazıcı',title:'AI itiraz yanıtı yazıcı',desc:'Chargeback geldiğinde yapay zeka saniyeler içinde güçlü bir itiraz yanıtı oluşturur. Ortalama %68 kazanma oranı.',tag:'🏆 %68 kazanma oranı',tagColor:'rgba(0,229,255,0.08)',tagBorder:'rgba(0,229,255,0.2)',tagText:'var(--accent)'}
+    ]
+  };
 
   const wrap=document.getElementById('feat-wrap');
   const dotsEl=document.getElementById('feat-dots');
@@ -801,6 +780,7 @@ const SHOPIFY_SCOPES='read_orders,read_customers';
     timer=setTimeout(next,DURATION);
   }
 
+  buildCards(localStorage.getItem('bely_lang')||'en');
   resetProgress();
 })();
 
@@ -885,6 +865,7 @@ function applyLang(lang){
   document.getElementById('lang-en').classList.toggle('on',lang==='en');
   document.getElementById('lang-tr').classList.toggle('on',lang==='tr');
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.innerHTML=T[lang][k];});
+  if(window._carouselLangHook)window._carouselLangHook(lang);
   clearTimeout(sTimer);buildH1(lang);setTimeout(runScatter,600);
 }
 function setLang(lang){applyLang(lang);}
