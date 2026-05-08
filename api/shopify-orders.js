@@ -110,10 +110,9 @@ module.exports = async function handler(req, res) {
     if (!shopifyRes.ok) {
       const errorText = await shopifyRes.text();
       console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
+      console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
       return res.status(shopifyRes.status).json({
-        error: 'Shopify API error',
-        shopify_status: shopifyRes.status,
-        detail: errorText
+        error: 'Shopify API error'
       });
     }
 
