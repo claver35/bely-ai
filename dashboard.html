@@ -369,7 +369,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
     <div class="sb-section">Protection</div>
     <div class="sb-item" onclick="document.getElementById('alerts-body').scrollIntoView({behavior:'smooth'})"><span class="sb-icon">🔔</span> Alerts</div>
     <div class="sb-item" data-soon onclick="showComingSoon('Dispute AI')"><span class="sb-icon">🤖</span> Dispute AI</div>
-    <div class="sb-item" data-soon onclick="showComingSoon('Chargeback Report')"><span class="sb-icon">📈</span> Chargeback Report</div>
+   <div class="sb-item" onclick="showChargebackReport()"><span class="sb-icon">📈</span> Chargeback Report</div>
     <div class="sb-section">Account</div>
     <div class="sb-item" data-soon onclick="showComingSoon('Settings')"><span class="sb-icon">⚙️</span> Settings</div>
     <div class="sb-item" style="cursor:pointer" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
@@ -912,7 +912,107 @@ async function init() {
     document.getElementById('m-health-sub').textContent = 'Başlamak için mağaza bağlayın';
   }
 }
+async function showChargebackReport() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return;
 
+  const plan = currentPlan;
+
+  // Trial ise paywall göster
+  if (plan === 'free' || plan === 'trial') {
+    document.getElementById('paywall').style.display = 'flex';
+    return;
+  }
+
+  // Chargeback verilerini çek
+  const { data: chargebacks, error } = await sb.from('chargebacks')
+    .select('*')
+    .eq('user_id', session.user.id)
+    .order('created_at', { ascending: false });
+
+  const content = document.querySelector('.content');
+  
+  let html = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">📈 Chargeback Raporu</div>
+        <div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div>
+      </div>
+      <button onclick="init()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button>
+    </div>`;
+
+  if (!chargebacks || chargebacks.length === 0) {
+    html += `
+      <div class="orders-panel" style="padding:40px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">✅</div>
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div>
+        <div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div>
+      </div>`;
+  } else {
+    html += `<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
+
+    chargebacks.forEach(cb => {
+      const date = cb.refunded_at
+        ? new Date(cb.refunded_at).toLocaleDateString('tr-TR')
+        : new Date(cb.created_at).toLocaleDateString('tr-TR');
+
+      const statusMap = {
+        refunded: 'Tam İade',
+        partially_refunded: 'Kısmi İade'
+      };
+      const statusText = statusMap[cb.status] || cb.status;
+
+      // Pro: temel bilgiler
+      let detailHtml = `
+        <div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${cb.order_number}</span></div>
+        <div class="db-row"><span class="db-key">Tutar</span><span class="db-val c-risk">$${parseFloat(cb.amount).toFixed(2)}</span></div>
+        <div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${statusText}</span></div>
+        <div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${date}</span></div>`;
+
+      // Elite: tam detay
+      if (plan === 'elite') {
+        if (cb.customer_name) {
+          detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${cb.customer_name}</span></div>`;
+        }
+        if (cb.customer_email) {
+          detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${cb.customer_email}</span></div>`;
+        }
+        if (cb.gateway) {
+          detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${cb.gateway}</span></div>`;
+        }
+        if (cb.refund_reason) {
+          detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${cb.refund_reason}</span></div>`;
+        }
+        if (cb.line_items && cb.line_items.length > 0) {
+          const items = cb.line_items.map(i => `${i.title} x${i.quantity} ($${i.price})`).join(', ');
+          detailHtml += `<div class="db-row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="db-key">Ürünler</span><span class="db-val" style="font-size:11px;color:var(--ink2)">${items}</span></div>`;
+        }
+      }
+
+      html += `
+        <div class="order-card oc-high" style="margin-bottom:10px">
+          <div class="order-main">
+            <div class="order-left" style="padding-left:6px;width:100%">
+              <div class="detail-block" style="background:transparent;border:none;padding:0">
+                <div class="db-title">🔴 İade Kaydı</div>
+                ${detailHtml}
+              </div>
+              ${plan !== 'elite' ? `
+              <div class="locked-detail" style="margin-top:12px">
+                <div class="locked-icon">⚡</div>
+                <div class="locked-text">Müşteri bilgileri, ürün detayları ve iade nedeni<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>
+                <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button>
+              </div>` : ''}
+            </div>
+          </div>
+        </div>`;
+    });
+
+    html += `</div></div>`;
+  }
+
+  content.innerHTML = html;
+}
 init();
 </script>
 </body>
