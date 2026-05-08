@@ -84,15 +84,18 @@ module.exports = async function handler(req, res) {
     const shopifyToken = storeData.access_token;
     if (!shopifyToken) return res.status(500).json({ error: 'No Shopify token found' });
 
-    // Shopify siparişleri ve chargeback verisi paralel çek
+    // Son 30 günün başlangıç tarihi
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
+
+    // Shopify siparişleri, chargeback ve toplam sipariş sayısı paralel çek
     const [shopifyRes, chargebackRes, totalOrdersRes] = await Promise.all([
       fetch(
         `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
         { headers: { 'X-Shopify-Access-Token': shopifyToken } }
       ),
-      // Supabase'den chargeback sayısı
+      // Supabase'den SON 30 GÜNDEKİ chargeback sayısı
       fetch(
-        `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${cleanShop}&select=id,amount,status`,
+        `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${cleanShop}&created_at=gte.${thirtyDaysAgo}&select=id,amount,status`,
         {
           headers: {
             'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -102,7 +105,7 @@ module.exports = async function handler(req, res) {
       ),
       // Son 30 günlük toplam sipariş sayısı
       fetch(
-        `https://${cleanShop}/admin/api/2024-01/orders/count.json?status=any&created_at_min=${new Date(Date.now() - 30 * 86400000).toISOString()}`,
+        `https://${cleanShop}/admin/api/2024-01/orders/count.json?status=any&created_at_min=${thirtyDaysAgo}`,
         { headers: { 'X-Shopify-Access-Token': shopifyToken } }
       )
     ]);
@@ -110,15 +113,12 @@ module.exports = async function handler(req, res) {
     if (!shopifyRes.ok) {
       const errorText = await shopifyRes.text();
       console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
-      console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
-      return res.status(shopifyRes.status).json({
-        error: 'Shopify API error'
-      });
+      return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
     }
 
     const data = await shopifyRes.json();
 
-    // Chargeback oranı hesapla
+    // Chargeback oranı hesapla — her ikisi de son 30 gün
     let chargebackRate = null;
     try {
       const chargebacks = await chargebackRes.json();
@@ -128,6 +128,8 @@ module.exports = async function handler(req, res) {
 
       if (totalOrders > 0) {
         chargebackRate = ((chargebackCount / totalOrders) * 100).toFixed(2);
+      } else {
+        chargebackRate = '0.00';
       }
     } catch (e) {
       console.warn('[shopify-orders] Chargeback rate calc error:', e.message);
@@ -216,7 +218,7 @@ module.exports = async function handler(req, res) {
       _plan: plan,
       _limit: limit,
       _access: accessLevel,
-      _chargebackRate: chargebackRate // Dashboard'da kullanılacak
+      _chargebackRate: chargebackRate
     });
 
   } catch (e) {
