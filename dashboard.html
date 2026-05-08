@@ -201,7 +201,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .aib-red{background:rgba(255,61,87,0.12);color:#ff9aaa;border-left:3px solid var(--red)}
 .aib-orange{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .aib-green{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
-/* ── HARİTA PANELİ ── */
 .map-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 #world-map-wrap{flex:1;position:relative;min-height:220px;padding:8px 10px 0}
 #world-map-wrap svg{width:100%;height:100%;display:block}
@@ -212,7 +211,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .ld-blue{background:rgba(0,229,255,0.7)}
 .ld-red{background:var(--red);box-shadow:0 0 6px rgba(255,61,87,0.8)}
 .ld-gray{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15)}
-/* ── GENEL ── */
 .dash-footer{padding:14px 28px;border-top:1px solid var(--line2);font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center}
 .dash-footer a{color:var(--cyan);text-decoration:none}
 .sb-item[data-soon]{position:relative}
@@ -256,11 +254,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
         <div class="pw-price"><span class="pw-amount">$29.90</span><span class="pw-per">/month</span></div>
         <div class="pw-roi">💡 Block 1 fraud order = ~3 months paid</div>
         <ul class="pw-feats">
-          <li><span class="fi">✓</span>Last 10 orders visible</li>
+          <li><span class="fi">✓</span>Last 25 orders visible</li>
           <li><span class="fi">✓</span>Full risk detail reports</li>
+          <li><span class="fi">✓</span>Disposable email detection</li>
           <li><span class="fi">✓</span>Real-time email alerts</li>
           <li><span class="fi">✓</span>Auto scan every 30 min</li>
-          <li><span class="fi">✓</span>Account health dashboard</li>
         </ul>
         <button class="pw-btn pw-btn-pro" onclick="startCheckout('pro')">Start Shield Pro →</button>
       </div>
@@ -354,9 +352,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
       </div>
       <div class="mc mc-orange">
         <div class="mc-label">Geri Ödeme Oranı <span class="mc-label-icon">⚠️</span></div>
-        <div class="mc-value">0,48%</div>
-        <div class="mc-sub">Limit: %0,65 · Kalan tampon %26</div>
-        <div class="mc-bar"><div class="mc-bar-fill" style="width:74%;background:var(--orange)"></div></div>
+        <div class="mc-value" id="m-cb-rate">—</div>
+        <div class="mc-sub" id="m-cb-sub">Son 30 gün</div>
+        <div class="mc-bar"><div class="mc-bar-fill" id="m-cbbar" style="background:var(--orange)"></div></div>
       </div>
       <div class="mc mc-cyan">
         <div class="mc-label">Siparişler Tarandı <span class="mc-label-icon">📦</span></div>
@@ -445,9 +443,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
           <div class="alert-item">
             <div class="ai-dot aid-orange"></div>
             <div>
-              <div class="ai-title">⚠ Geri Ödeme Oranı %0,48 — Visa Limitine Yaklaşıyor</div>
-              <div class="ai-time">Bugün, 09:14</div>
-              <div class="ai-body aib-orange">Visa limiti 0,65%. 0,17% uzaktasınız. Yüksek riskli siparişleri şimdi durdurun.</div>
+              <div class="ai-title">⚠ Geri Ödeme Oranı İzleniyor</div>
+              <div class="ai-time">Canlı</div>
+              <div class="ai-body aib-orange">Chargeback oranınız gerçek zamanlı izleniyor. Limit %0,65.</div>
             </div>
           </div>
           <div class="alert-item">
@@ -461,7 +459,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
         </div>
       </div>
 
-      <!-- HARİTA PANELİ -->
       <div class="map-panel">
         <div class="panel-head">
           <div class="panel-title"><span class="pt-icon pt-icon-blue">🌍</span> Sipariş Lokasyonları</div>
@@ -493,615 +490,279 @@ const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
 );
-
-const PRICE_IDS = {
-  pro:   'pri_01kpntvkyjz86f9abj5g8396dv',
-  elite: 'pri_01kpnv1whkq97tr638rt08vz09'
-};
-
+const PRICE_IDS = { pro:'pri_01kpntvkyjz86f9abj5g8396dv', elite:'pri_01kpnv1whkq97tr638rt08vz09' };
 const SHOPIFY_CLIENT_ID = '0c6c69853d601c94138ac794687a25c0';
 const SHOPIFY_REDIRECT  = 'https://belyshield.com/auth-callback.html';
 const SHOPIFY_SCOPES    = 'read_orders';
+let currentUser = null, currentPlan = 'free';
 
-let currentUser = null;
-let currentPlan = 'free';
-
-setInterval(() => {
-  document.getElementById('live-time').textContent = new Date().toLocaleTimeString('tr-TR');
-}, 1000);
-
+setInterval(() => { document.getElementById('live-time').textContent = new Date().toLocaleTimeString('tr-TR'); }, 1000);
 let ra = 0;
-setInterval(() => {
-  ra = (ra + 2) % 360;
-  document.getElementById('radar-sweep').style.transform = `rotate(${ra}deg)`;
-}, 25);
+setInterval(() => { ra = (ra+2)%360; document.getElementById('radar-sweep').style.transform=`rotate(${ra}deg)`; }, 25);
 
 function showComingSoon(name) {
-  let toast = document.getElementById('cs-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'cs-toast';
-    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = `⚡ ${name} — Yakında`;
-  toast.style.opacity = '1';
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+  let t = document.getElementById('cs-toast');
+  if (!t) { t=document.createElement('div');t.id='cs-toast';t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a0f1c;border:1px solid rgba(0,229,255,0.3);border-radius:10px;padding:12px 24px;font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;z-index:9999;transition:opacity .3s;box-shadow:0 0 20px rgba(0,229,255,0.15)';document.body.appendChild(t); }
+  t.textContent=`⚡ ${name} — Yakında`;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>{t.style.opacity='0';},2500);
 }
 
 async function startCheckout(plan) {
   if (!currentUser) return;
   const btns = document.querySelectorAll('.pw-btn,.up-btn,.locked-btn');
-  btns.forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
+  btns.forEach(b=>{b.disabled=true;b.style.opacity='.6';});
   try {
-    const res = await fetch('/api/paddle-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        priceId:    PRICE_IDS[plan],
-        email:      currentUser.email,
-        userId:     currentUser.id,
-        shopDomain: localStorage.getItem('shopify_shop') || ''
-      })
-    });
+    const res = await fetch('/api/paddle-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId:PRICE_IDS[plan],email:currentUser.email,userId:currentUser.id,shopDomain:localStorage.getItem('shopify_shop')||''})});
     const data = await res.json();
-    if (data.checkoutUrl) {
-      window.location.href = data.checkoutUrl;
-    } else {
-      alert('Ödeme başlatılamadı. Lütfen tekrar deneyin.');
-      btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
-    }
-  } catch (e) {
-    alert('Hata oluştu. Lütfen tekrar deneyin.');
-    btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
-  }
+    if (data.checkoutUrl) { window.location.href=data.checkoutUrl; }
+    else { alert('Ödeme başlatılamadı. Lütfen tekrar deneyin.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1';}); }
+  } catch(e) { alert('Hata oluştu. Lütfen tekrar deneyin.'); btns.forEach(b=>{b.disabled=false;b.style.opacity='1';}); }
 }
 
-function connectShopify() {
-  window.location.href = 'index.html';
-}
+function connectShopify() { window.location.href='index.html'; }
 
 function checkPlanStatus(storeData) {
-  const paywall = document.getElementById('paywall');
-  const banner  = document.getElementById('upgrade-banner');
-  const chip    = document.getElementById('plan-chip');
-  if (!storeData) { chip.style.display = 'none'; return; }
-  const plan     = storeData.plan || 'free';
-  currentPlan    = plan;
-  const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
-  const now      = new Date();
-  chip.style.display = 'inline-block';
-  if (plan === 'pro' || plan === 'starter') {
-    chip.className = 'plan-chip chip-pro';
-    chip.textContent = '★ Shield Pro';
-    paywall.style.display = 'none';
-    banner.style.display  = 'none';
-    return;
-  }
-  if (plan === 'elite') {
-    chip.className = 'plan-chip chip-elite';
-    chip.textContent = '★ Shield Elite';
-    paywall.style.display = 'none';
-    banner.style.display  = 'none';
-    return;
-  }
-  if (trialEnd && now < trialEnd) {
-    const d = Math.ceil((trialEnd - now) / 86400000);
-    chip.className = 'plan-chip chip-trial';
-    chip.textContent = `DENEME — ${d} GÜN`;
-    document.getElementById('trial-days-text').textContent = `${d} gün kaldı`;
-    banner.style.display  = 'flex';
-    paywall.style.display = 'none';
-    return;
-  }
-  chip.className = 'plan-chip chip-trial';
-  chip.textContent = 'Trial Bitti';
-  banner.style.display  = 'none';
-  paywall.style.display = 'flex';
+  const paywall=document.getElementById('paywall'), banner=document.getElementById('upgrade-banner'), chip=document.getElementById('plan-chip');
+  if (!storeData) { chip.style.display='none'; return; }
+  const plan=storeData.plan||'free'; currentPlan=plan;
+  const trialEnd=storeData.trial_end_date?new Date(storeData.trial_end_date):null, now=new Date();
+  chip.style.display='inline-block';
+  if (plan==='pro'||plan==='starter') { chip.className='plan-chip chip-pro';chip.textContent='★ Shield Pro';paywall.style.display='none';banner.style.display='none';return; }
+  if (plan==='elite') { chip.className='plan-chip chip-elite';chip.textContent='★ Shield Elite';paywall.style.display='none';banner.style.display='none';return; }
+  if (trialEnd&&now<trialEnd) { const d=Math.ceil((trialEnd-now)/86400000);chip.className='plan-chip chip-trial';chip.textContent=`DENEME — ${d} GÜN`;document.getElementById('trial-days-text').textContent=`${d} gün kaldı`;banner.style.display='flex';paywall.style.display='none';return; }
+  chip.className='plan-chip chip-trial';chip.textContent='Trial Bitti';banner.style.display='none';paywall.style.display='flex';
 }
 
-function toggleCard(id) {
-  const card = document.getElementById('oc-' + id);
-  if (card) card.classList.toggle('expanded');
-}
+function toggleCard(id) { const c=document.getElementById('oc-'+id); if(c)c.classList.toggle('expanded'); }
 
 async function getAISuggestion(orderId, orderData) {
-  const btn = document.getElementById('ai-btn-' + orderId);
-  const box = document.getElementById('ai-suggestion-' + orderId);
-  const txt = document.getElementById('ai-text-' + orderId);
-  btn.disabled = true;
-  btn.textContent = '🤖 AI analiz ediyor...';
-  box.style.display = 'block';
-  txt.textContent = '...';
+  const btn=document.getElementById('ai-btn-'+orderId), box=document.getElementById('ai-suggestion-'+orderId), txt=document.getElementById('ai-text-'+orderId);
+  btn.disabled=true;btn.textContent='🤖 AI analiz ediyor...';box.style.display='block';txt.textContent='...';
   try {
-    const res = await fetch('/api/ai-suggestion', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderData })
-    });
-    const data = await res.json();
-    if (data.suggestion) {
-      txt.textContent = data.suggestion;
-      btn.textContent = '🤖 AI Öneri Güncelle';
-      btn.disabled = false;
-    } else {
-      txt.textContent = 'Öneri alınamadı. Tekrar deneyin.';
-      btn.disabled = false;
-    }
-  } catch (e) {
-    txt.textContent = 'Hata oluştu. Tekrar deneyin.';
-    btn.disabled = false;
-  }
+    const res=await fetch('/api/ai-suggestion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderData})});
+    const data=await res.json();
+    if(data.suggestion){txt.textContent=data.suggestion;btn.textContent='🤖 AI Öneri Güncelle';btn.disabled=false;}
+    else{txt.textContent='Öneri alınamadı. Tekrar deneyin.';btn.disabled=false;}
+  } catch(e){txt.textContent='Hata oluştu. Tekrar deneyin.';btn.disabled=false;}
 }
 
-function escHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
+function escHtml(str) { if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 function sanitizeOrder(order) {
-  const esc = escHtml;
-  if (order.country) order.country = esc(order.country);
-  if (order.details) {
-    const d = order.details;
-    if (d.customerName)    d.customerName    = esc(d.customerName);
-    if (d.customerEmail)   d.customerEmail   = esc(d.customerEmail);
-    if (d.billingCountry)  d.billingCountry  = esc(d.billingCountry);
-    if (d.shippingCountry) d.shippingCountry = esc(d.shippingCountry);
-    if (d.billingCity)     d.billingCity     = esc(d.billingCity);
-    if (d.shippingCity)    d.shippingCity    = esc(d.shippingCity);
-    if (d.gateway)         d.gateway         = esc(d.gateway);
-    if (d.financialStatus)  d.financialStatus  = esc(d.financialStatus);
-    if (d.fulfillmentStatus) d.fulfillmentStatus = esc(d.fulfillmentStatus);
-  }
-  if (order.risk?.risks) order.risk.risks = order.risk.risks.map(r => esc(r));
+  const esc=escHtml;
+  if(order.country)order.country=esc(order.country);
+  if(order.details){const d=order.details;if(d.customerName)d.customerName=esc(d.customerName);if(d.customerEmail)d.customerEmail=esc(d.customerEmail);if(d.billingCountry)d.billingCountry=esc(d.billingCountry);if(d.shippingCountry)d.shippingCountry=esc(d.shippingCountry);if(d.billingCity)d.billingCity=esc(d.billingCity);if(d.shippingCity)d.shippingCity=esc(d.shippingCity);if(d.gateway)d.gateway=esc(d.gateway);if(d.financialStatus)d.financialStatus=esc(d.financialStatus);if(d.fulfillmentStatus)d.fulfillmentStatus=esc(d.fulfillmentStatus);}
+  if(order.risk?.risks)order.risk.risks=order.risk.risks.map(r=>esc(r));
   return order;
 }
 
+function updateHealthScore(orders, chargebackRate) {
+  let score = 100;
+  const warnings = [];
+  const cbRate = parseFloat(chargebackRate) || 0;
+  if (cbRate >= 0.65)      { score -= 40; warnings.push('Chargeback limiti aşıldı!'); }
+  else if (cbRate >= 0.50) { score -= 25; warnings.push('Chargeback oranı kritik seviyede'); }
+  else if (cbRate >= 0.30) { score -= 15; warnings.push('Chargeback oranı yükseliyor'); }
+  else if (cbRate >= 0.10) { score -= 5; }
+
+  const total = orders.length;
+  if (total > 0) {
+    const highRiskCount = orders.filter(o=>o.risk?.level==='high').length;
+    const pct = (highRiskCount/total)*100;
+    if (pct >= 60)      { score -= 30; warnings.push('Siparişlerin %'+Math.round(pct)+"'i yüksek riskli"); }
+    else if (pct >= 40) { score -= 20; warnings.push('Yüksek riskli sipariş oranı yüksek'); }
+    else if (pct >= 20) { score -= 10; }
+    else if (pct >= 10) { score -= 5; }
+  }
+
+  const disposableCount = orders.filter(o=>o.risk?.risks?.some(r=>r.includes('Tek kullanımlık email'))).length;
+  if (disposableCount >= 3)      { score -= 15; warnings.push('Birden fazla sahte email tespit edildi'); }
+  else if (disposableCount >= 1) { score -= 5; }
+
+  score = Math.max(0, Math.min(100, Math.round(score)));
+  let color, sub;
+  if (score >= 80)      { color='var(--green)';  sub=warnings[0]||'Sağlıklı — Kritik bir sorun yok.'; }
+  else if (score >= 60) { color='var(--orange)'; sub=warnings[0]||'Dikkat — Bazı riskler mevcut.'; }
+  else if (score >= 40) { color='var(--orange)'; sub=warnings[0]||'Uyarı — Acil önlem alın.'; }
+  else                  { color='var(--red)';    sub=warnings[0]||'Kritik — Hesabınız risk altında!'; }
+
+  const valEl=document.getElementById('m-health'), subEl=document.getElementById('m-health-sub'), barEl=document.getElementById('m-hbar');
+  if(valEl){valEl.textContent='%'+score;valEl.style.color=color;valEl.style.textShadow=`0 0 24px ${color}`;}
+  if(subEl)subEl.textContent=sub;
+  if(barEl){barEl.style.background=color;setTimeout(()=>{barEl.style.width=score+'%';},400);}
+}
+
 function renderOrders(orders, plan) {
-  const body = document.getElementById('orders-body');
-  const meta = document.getElementById('orders-meta');
-
-  if (!orders || orders.length === 0) {
-    body.innerHTML = '<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';
-    updateMap([]);
-    return;
-  }
-
-  let highRisk = 0;
-  let html = '';
-
-  orders.forEach(order => {
-    order = sanitizeOrder(order);
-    const r = order.risk;
-    const d = order.details || {};
-
-    let tagCls, reasonCls, cardCls, levelText;
-    if (r.level === 'high') {
-      levelText = `YÜKSEK — %${r.score}`;
-      tagCls = 'rt-high'; reasonCls = 'or-high'; cardCls = 'oc-high';
-      highRisk++;
-    } else if (r.level === 'medium') {
-      levelText = `ORTA — %${r.score}`;
-      tagCls = 'rt-med'; reasonCls = 'or-med'; cardCls = 'oc-med';
+  const body=document.getElementById('orders-body'), meta=document.getElementById('orders-meta');
+  if (!orders||orders.length===0) { body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';updateMap([]);return; }
+  let highRisk=0, html='';
+  orders.forEach(order=>{
+    order=sanitizeOrder(order);
+    const r=order.risk, d=order.details||{};
+    let tagCls,reasonCls,cardCls,levelText;
+    if(r.level==='high'){levelText=`YÜKSEK — %${r.score}`;tagCls='rt-high';reasonCls='or-high';cardCls='oc-high';highRisk++;}
+    else if(r.level==='medium'){levelText=`ORTA — %${r.score}`;tagCls='rt-med';reasonCls='or-med';cardCls='oc-med';}
+    else{levelText=`DÜŞÜK — %${Math.max(r.score,4)}`;tagCls='rt-low';reasonCls='or-low';cardCls='oc-low';}
+    const reasonText=r.risks.length>0?r.risks.join(' · '):'Risk sinyali yok — Göndermek güvenli.';
+    let reasonHtml='';
+    if(plan==='pro'||plan==='elite'){reasonHtml=reasonText;}
+    else{reasonHtml=`<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;}
+    const isExpandable=(plan==='pro'||plan==='elite');
+    const aiBtnHtml=plan==='elite'?`<div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none"><div class="detail-block" style="border-color:rgba(0,229,255,0.3)"><div class="db-title" style="color:var(--cyan)">🤖 AI Çözüm Önerisi</div><div id="ai-text-${order.id}" style="font-size:13px;color:#d0d4e8;line-height:1.7;padding:4px 0"></div></div></div><button onclick="event.stopPropagation();getAISuggestion('${order.id}',${JSON.stringify({orderNumber:order.order_number,totalPrice:order.total_price,country:order.country,score:r.score,level:r.level,risks:r.risks,customerName:d.customerName,accountAgeDays:d.accountAgeDays,totalOrders:d.totalOrders,billingCountry:d.billingCountry,shippingCountry:d.shippingCountry,financialStatus:d.financialStatus,gateway:d.gateway}).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')})" style="margin-top:12px;padding:9px 18px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s" id="ai-btn-${order.id}">🤖 AI Çözüm Önerisi Al</button>`:'';
+    let detailHtml='';
+    if(plan==='elite'){
+      const fTR={paid:'Ödendi',pending:'Beklemede',refunded:'İade Edildi',partially_refunded:'Kısmi İade',voided:'İptal',authorized:'Onaylandı'}[d.financialStatus]||(d.financialStatus||'—');
+      const fuTR={fulfilled:'Gönderildi',unfulfilled:'Gönderilmedi',partial:'Kısmi'}[d.fulfillmentStatus]||(d.fulfillmentStatus||'—');
+      const finCls=['refunded','voided'].includes(d.financialStatus)?'c-risk':d.financialStatus==='paid'?'c-safe':'c-warn';
+      const ageCls=d.accountAgeDays!==null&&d.accountAgeDays<7?'c-risk':'c-safe';
+      const addrCls=d.billingCountry&&d.shippingCountry&&d.billingCountry!==d.shippingCountry?'c-risk':'c-safe';
+      detailHtml=`<div class="order-detail"><div class="detail-grid"><div class="detail-block"><div class="db-title">👤 Müşteri Bilgileri</div><div class="db-row"><span class="db-key">Ad Soyad</span><span class="db-val">${d.customerName||'—'}</span></div><div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail||'Misafir'}</span></div><div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays!==null?d.accountAgeDays+' gün':'Misafir'}</span></div><div class="db-row"><span class="db-key">Toplam Sipariş</span><span class="db-val">${d.totalOrders||0}</span></div></div><div class="detail-block"><div class="db-title">📍 Adres Analizi</div><div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity||'—'}</span></div></div><div class="detail-block"><div class="db-title">💳 Ödeme Bilgileri</div><div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div><div class="db-row"><span class="db-key">Finansal Durum</span><span class="db-val ${finCls}">${fTR}</span></div><div class="db-row"><span class="db-key">Gönderim Durumu</span><span class="db-val">${fuTR}</span></div><div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${d.gateway||'bilinmiyor'}</span></div></div></div><div class="risk-signals"><div class="rs-title">🚨 Tespit Edilen Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item rs-item-${r.level==='high'?'high':r.level==='medium'?'med':'low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi — Göndermek güvenli.</div>'}</div></div>${aiBtnHtml}</div>`;
+    } else if(plan==='pro'){
+      detailHtml=`<div class="order-detail"><div class="risk-signals"><div class="rs-title">🚨 Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item rs-item-${r.level==='high'?'high':r.level==='medium'?'med':'low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'}</div></div><div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri, adres analizi, ödeme detayları ve AI önerisi<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div><button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç — $49.90/mo →</button></div></div>`;
     } else {
-      levelText = `DÜŞÜK — %${Math.max(r.score, 4)}`;
-      tagCls = 'rt-low'; reasonCls = 'or-low'; cardCls = 'oc-low';
+      detailHtml=`<div class="order-detail"><div class="locked-detail"><div class="locked-icon">🔒</div><div class="locked-text">Risk detayları, müşteri bilgileri ve AI önerisi<br><strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div><button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')">Pro'ya Geç — $29.90/mo →</button></div></div>`;
     }
-
-    const reasonText = r.risks.length > 0 ? r.risks.join(' · ') : 'Risk sinyali yok — Göndermek güvenli.';
-
-    let reasonHtml = '';
-    if (plan === 'pro' || plan === 'elite') {
-      reasonHtml = reasonText;
-    } else {
-      reasonHtml = `<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;
-    }
-
-    const isExpandable = (plan === 'pro' || plan === 'elite');
-
-    const aiBtnHtml = plan === 'elite' ? `
-      <div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none">
-        <div class="detail-block" style="border-color:rgba(0,229,255,0.3)">
-          <div class="db-title" style="color:var(--cyan)">🤖 AI Çözüm Önerisi</div>
-          <div id="ai-text-${order.id}" style="font-size:13px;color:#d0d4e8;line-height:1.7;padding:4px 0"></div>
-        </div>
-      </div>
-      <button onclick="event.stopPropagation();getAISuggestion('${order.id}', ${JSON.stringify({
-        orderNumber: order.order_number,
-        totalPrice: order.total_price,
-        country: order.country,
-        score: r.score,
-        level: r.level,
-        risks: r.risks,
-        customerName: d.customerName,
-        accountAgeDays: d.accountAgeDays,
-        totalOrders: d.totalOrders,
-        billingCountry: d.billingCountry,
-        shippingCountry: d.shippingCountry,
-        financialStatus: d.financialStatus,
-        gateway: d.gateway
-      }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;')})" style="margin-top:12px;padding:9px 18px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);width:100%;transition:all .15s" id="ai-btn-${order.id}">
-        🤖 AI Çözüm Önerisi Al
-      </button>` : '';
-
-    let detailHtml = '';
-
-    if (plan === 'elite') {
-      const financialTR = {paid:'Ödendi',pending:'Beklemede',refunded:'İade Edildi',partially_refunded:'Kısmi İade',voided:'İptal',authorized:'Onaylandı'}[d.financialStatus] || (d.financialStatus || '—');
-      const fulfillmentTR = {fulfilled:'Gönderildi',unfulfilled:'Gönderilmedi',partial:'Kısmi'}[d.fulfillmentStatus] || (d.fulfillmentStatus || '—');
-      const finCls = ['refunded','voided'].includes(d.financialStatus) ? 'c-risk' : d.financialStatus === 'paid' ? 'c-safe' : 'c-warn';
-      const ageCls = d.accountAgeDays !== null && d.accountAgeDays < 7 ? 'c-risk' : 'c-safe';
-      const addrCls = d.billingCountry && d.shippingCountry && d.billingCountry !== d.shippingCountry ? 'c-risk' : 'c-safe';
-
-      detailHtml = `
-        <div class="order-detail">
-          <div class="detail-grid">
-            <div class="detail-block">
-              <div class="db-title">👤 Müşteri Bilgileri</div>
-              <div class="db-row"><span class="db-key">Ad Soyad</span><span class="db-val">${d.customerName || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail || 'Misafir'}</span></div>
-              <div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays !== null ? d.accountAgeDays + ' gün' : 'Misafir'}</span></div>
-              <div class="db-row"><span class="db-key">Toplam Sipariş</span><span class="db-val">${d.totalOrders || 0}</span></div>
-            </div>
-            <div class="detail-block">
-              <div class="db-title">📍 Adres Analizi</div>
-              <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity || '—'}</span></div>
-            </div>
-            <div class="detail-block">
-              <div class="db-title">💳 Ödeme Bilgileri</div>
-              <div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div>
-              <div class="db-row"><span class="db-key">Finansal Durum</span><span class="db-val ${finCls}">${financialTR}</span></div>
-              <div class="db-row"><span class="db-key">Gönderim Durumu</span><span class="db-val">${fulfillmentTR}</span></div>
-              <div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${d.gateway || 'bilinmiyor'}</span></div>
-            </div>
-          </div>
-          <div class="risk-signals">
-            <div class="rs-title">🚨 Tespit Edilen Risk Sinyalleri</div>
-            <div class="rs-list">
-              ${r.risks.length > 0
-                ? r.risks.map(risk => `<div class="rs-item rs-item-${r.level === 'high' ? 'high' : r.level === 'medium' ? 'med' : 'low'}">⚠ ${risk}</div>`).join('')
-                : '<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi — Göndermek güvenli.</div>'
-              }
-            </div>
-          </div>
-          ${aiBtnHtml}
-        </div>`;
-    } else if (plan === 'pro') {
-      detailHtml = `
-        <div class="order-detail">
-          <div class="risk-signals">
-            <div class="rs-title">🚨 Risk Sinyalleri</div>
-            <div class="rs-list">
-              ${r.risks.length > 0
-                ? r.risks.map(risk => `<div class="rs-item rs-item-${r.level === 'high' ? 'high' : r.level === 'medium' ? 'med' : 'low'}">⚠ ${risk}</div>`).join('')
-                : '<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'
-              }
-            </div>
-          </div>
-          <div class="locked-detail" style="margin-top:12px">
-            <div class="locked-icon">⚡</div>
-            <div class="locked-text">Müşteri bilgileri, adres analizi, ödeme detayları ve AI önerisi<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>
-            <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç — $49.90/mo →</button>
-          </div>
-        </div>`;
-    } else {
-      detailHtml = `
-        <div class="order-detail">
-          <div class="locked-detail">
-            <div class="locked-icon">🔒</div>
-            <div class="locked-text">Risk detayları, müşteri bilgileri ve AI önerisi<br><strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div>
-            <button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')">Pro'ya Geç — $29.90/mo →</button>
-          </div>
-        </div>`;
-    }
-
-    html += `
-      <div class="order-card ${cardCls} ${isExpandable || plan === 'free' ? 'expandable' : ''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')">
-        <div class="order-main">
-          <div class="order-left">
-            <div class="order-num">
-              #${order.order_number}
-              ${isExpandable || plan === 'free' ? '<span class="order-expand-icon">▼</span>' : ''}
-            </div>
-            <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
-            <div class="order-loc">${order.country || 'Bilinmeyen konum'}</div>
-            <div class="order-reason ${reasonCls}">${reasonHtml}</div>
-          </div>
-          <span class="risk-tag ${tagCls}">${levelText}</span>
-        </div>
-        ${detailHtml}
-      </div>`;
+    html+=`<div class="order-card ${cardCls} ${isExpandable||plan==='free'?'expandable':''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')"><div class="order-main"><div class="order-left"><div class="order-num">#${order.order_number}${isExpandable||plan==='free'?'<span class="order-expand-icon">▼</span>':''}</div><div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div><div class="order-loc">${order.country||'Bilinmeyen konum'}</div><div class="order-reason ${reasonCls}">${reasonHtml}</div></div><span class="risk-tag ${tagCls}">${levelText}</span></div>${detailHtml}</div>`;
   });
-
-  body.innerHTML = html;
-  meta.textContent = `${orders.length} sipariş · ${highRisk} yüksek riskli`;
-  document.getElementById('m-scanned').textContent = orders.length;
-  document.getElementById('m-fraud').textContent   = highRisk;
-  document.getElementById('hr-count').textContent  = highRisk;
-  document.getElementById('r-threats').textContent = highRisk;
-
-  const radarStatus = document.getElementById('radar-status');
-  if (highRisk > 0) {
-    radarStatus.textContent = `🚨 ${highRisk} tehdit tespit edildi`;
-    radarStatus.className   = 'radar-threat threat-active';
-  } else {
-    radarStatus.textContent = '✔ Tehdit tespit edilmedi';
-    radarStatus.className   = 'radar-threat threat-clear';
-  }
-
+  body.innerHTML=html;
+  meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
+  document.getElementById('m-scanned').textContent=orders.length;
+  document.getElementById('m-fraud').textContent=highRisk;
+  document.getElementById('hr-count').textContent=highRisk;
+  document.getElementById('r-threats').textContent=highRisk;
+  const rs=document.getElementById('radar-status');
+  if(highRisk>0){rs.textContent=`🚨 ${highRisk} tehdit tespit edildi`;rs.className='radar-threat threat-active';}
+  else{rs.textContent='✔ Tehdit tespit edilmedi';rs.className='radar-threat threat-clear';}
   updateMap(orders);
 }
 
 function showShopifyConnected(shop) {
-  document.getElementById('sb-store-content').innerHTML = `
-    <div class="sb-shop-name">${shop}</div>
-    <div class="sb-shop-status">✔ Bağlantılı ve korumalı</div>
-    <button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>
-  `;
-  document.getElementById('m-health').textContent    = '%82';
-  document.getElementById('m-health-sub').textContent = 'Sağlıklı — Kritik bir sorun yok.';
-  setTimeout(() => { document.getElementById('m-hbar').style.width = '82%'; }, 400);
+  document.getElementById('sb-store-content').innerHTML=`<div class="sb-shop-name">${shop}</div><div class="sb-shop-status">✔ Bağlantılı ve korumalı</div><button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>`;
 }
 
 function disconnectStore() {
-  if (!confirm('Shopify mağazanızın bağlantısını kesmek istediğinizden emin misiniz?')) return;
-  localStorage.removeItem('shopify_shop');
-  window.location.href = 'index.html';
+  if(!confirm('Shopify mağazanızın bağlantısını kesmek istediğinizden emin misiniz?'))return;
+  localStorage.removeItem('shopify_shop');window.location.href='index.html';
 }
 
-async function logout() {
-  await sb.auth.signOut();
-  localStorage.removeItem('shopify_shop');
-  window.location.href = 'index.html';
-}
+async function logout() { await sb.auth.signOut();localStorage.removeItem('shopify_shop');window.location.href='index.html'; }
 
 async function showChargebackReport() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) return;
-  const plan = currentPlan;
-  const { data: chargebacks } = await sb.from('chargebacks')
-    .select('*')
-    .eq('user_id', session.user.id)
-    .order('created_at', { ascending: false });
-  const content = document.querySelector('.content');
-  let html = `
-    <div class="page-header">
-      <div>
-        <div class="page-title">📈 Chargeback Raporu</div>
-        <div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div>
-      </div>
-      <button onclick="init()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button>
-    </div>`;
-  if (!chargebacks || chargebacks.length === 0) {
-    html += `<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;
-  } else {
-    html += `<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
-    chargebacks.forEach(cb => {
-      const date = cb.refunded_at ? new Date(cb.refunded_at).toLocaleDateString('tr-TR') : new Date(cb.created_at).toLocaleDateString('tr-TR');
-      const statusMap = { refunded:'Tam İade', partially_refunded:'Kısmi İade' };
-      const statusText = statusMap[cb.status] || cb.status;
-      let detailHtml = `
-        <div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${escHtml(String(cb.order_number))}</span></div>
-        <div class="db-row"><span class="db-key">Tutar</span><span class="db-val c-risk">$${parseFloat(cb.amount).toFixed(2)}</span></div>
-        <div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${escHtml(statusText)}</span></div>
-        <div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${escHtml(date)}</span></div>`;
-      if (plan === 'elite') {
-        if (cb.customer_name) detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${escHtml(cb.customer_name)}</span></div>`;
-        if (cb.customer_email) detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${escHtml(cb.customer_email)}</span></div>`;
-        if (cb.gateway) detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${escHtml(cb.gateway)}</span></div>`;
-        if (cb.refund_reason) detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${escHtml(cb.refund_reason)}</span></div>`;
-        if (cb.line_items && cb.line_items.length > 0) {
-          const items = cb.line_items.map(i => `${escHtml(i.title)} x${i.quantity} ($${i.price})`).join(', ');
-          detailHtml += `<div class="db-row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="db-key">Ürünler</span><span class="db-val" style="font-size:11px;color:var(--ink2)">${items}</span></div>`;
-        }
-      }
-      html += `
-        <div class="order-card oc-high" style="margin-bottom:10px">
-          <div class="order-main">
-            <div class="order-left" style="padding-left:6px;width:100%">
-              <div class="detail-block" style="background:transparent;border:none;padding:0">
-                <div class="db-title">🔴 İade Kaydı</div>
-                ${detailHtml}
-              </div>
-              ${plan !== 'elite' ? `<div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri, ürün detayları ve iade nedeni<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div><button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button></div>` : ''}
-            </div>
-          </div>
-        </div>`;
+  const{data:{session}}=await sb.auth.getSession();if(!session)return;
+  const plan=currentPlan;
+  const{data:chargebacks}=await sb.from('chargebacks').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
+  const content=document.querySelector('.content');
+  let html=`<div class="page-header"><div><div class="page-title">📈 Chargeback Raporu</div><div class="page-sub"><span class="live-dot"></span> İade ve chargeback geçmişi</div></div><button onclick="init()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px">← Dashboard</button></div>`;
+  if(!chargebacks||chargebacks.length===0){html+=`<div class="orders-panel" style="padding:40px;text-align:center"><div style="font-size:32px;margin-bottom:12px">✅</div><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Chargeback yok!</div><div style="font-size:13px;color:var(--ink2)">Hiç iade veya chargeback kaydı bulunamadı.</div></div>`;}
+  else{
+    html+=`<div class="orders-panel"><div class="panel-head"><div class="panel-title">📋 İade Geçmişi</div><div class="panel-meta">${chargebacks.length} kayıt</div></div><div class="orders-body">`;
+    chargebacks.forEach(cb=>{
+      const date=cb.refunded_at?new Date(cb.refunded_at).toLocaleDateString('tr-TR'):new Date(cb.created_at).toLocaleDateString('tr-TR');
+      const statusMap={refunded:'Tam İade',partially_refunded:'Kısmi İade'};
+      const statusText=statusMap[cb.status]||cb.status;
+      let dh=`<div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${escHtml(String(cb.order_number))}</span></div><div class="db-row"><span class="db-key">Tutar</span><span class="db-val c-risk">$${parseFloat(cb.amount).toFixed(2)}</span></div><div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${escHtml(statusText)}</span></div><div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${escHtml(date)}</span></div>`;
+      if(plan==='elite'){if(cb.customer_name)dh+=`<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${escHtml(cb.customer_name)}</span></div>`;if(cb.customer_email)dh+=`<div class="db-row"><span class="db-key">Email</span><span class="db-val">${escHtml(cb.customer_email)}</span></div>`;if(cb.gateway)dh+=`<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${escHtml(cb.gateway)}</span></div>`;if(cb.refund_reason)dh+=`<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${escHtml(cb.refund_reason)}</span></div>`;if(cb.line_items&&cb.line_items.length>0){const items=cb.line_items.map(i=>`${escHtml(i.title)} x${i.quantity} ($${i.price})`).join(', ');dh+=`<div class="db-row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="db-key">Ürünler</span><span class="db-val" style="font-size:11px;color:var(--ink2)">${items}</span></div>`;}}
+      html+=`<div class="order-card oc-high" style="margin-bottom:10px"><div class="order-main"><div class="order-left" style="padding-left:6px;width:100%"><div class="detail-block" style="background:transparent;border:none;padding:0"><div class="db-title">🔴 İade Kaydı</div>${dh}</div>${plan!=='elite'?`<div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri, ürün detayları ve iade nedeni<br><strong style="color:#fff">Shield Elite</strong>'e özeldir.</div><button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button></div>`:''}</div></div></div>`;
     });
-    html += `</div></div>`;
+    html+=`</div></div>`;
   }
-  content.innerHTML = html;
+  content.innerHTML=html;
 }
 
 async function init() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('token')) window.history.replaceState({}, '', 'dashboard.html');
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = 'index.html'; return; }
-  currentUser = session.user;
-  document.getElementById('user-email').textContent = session.user.email;
-
+  const urlParams=new URLSearchParams(window.location.search);
+  if(urlParams.has('token'))window.history.replaceState({},'','dashboard.html');
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){window.location.href='index.html';return;}
+  currentUser=session.user;
+  document.getElementById('user-email').textContent=session.user.email;
   let _idleTimer;
-  function resetIdleTimer() {
-    clearTimeout(_idleTimer);
-    _idleTimer = setTimeout(async () => {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }, 60 * 60 * 1000);
-  }
-  ['click','keydown','mousemove','touchstart'].forEach(e => {
-    document.addEventListener(e, resetIdleTimer, { passive: true });
-  });
+  function resetIdleTimer(){clearTimeout(_idleTimer);_idleTimer=setTimeout(async()=>{await sb.auth.signOut();window.location.href='index.html';},60*60*1000);}
+  ['click','keydown','mousemove','touchstart'].forEach(e=>{document.addEventListener(e,resetIdleTimer,{passive:true});});
   resetIdleTimer();
-
-  const { data: storeData } = await sb.from('shopify_stores')
-    .select('plan, subscription_status, trial_end_date, shop_domain')
-    .eq('user_id', session.user.id)
-    .single();
+  const{data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain').eq('user_id',session.user.id).single();
   checkPlanStatus(storeData);
-  currentPlan = storeData?.plan || 'free';
-  const shop = localStorage.getItem('shopify_shop') || storeData?.shop_domain || null;
-  if (shop) {
+  currentPlan=storeData?.plan||'free';
+  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
+  if(shop){
     showShopifyConnected(shop);
-    try {
-      const res = await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`, {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
-      const data = await res.json();
-      renderOrders(data.orders || [], data._plan || currentPlan);
-      if (data._chargebackRate !== null && data._chargebackRate !== undefined) {
-        const rate = parseFloat(data._chargebackRate);
-        const rateEl = document.querySelector('.mc-orange .mc-value');
-        if (rateEl) rateEl.textContent = '%' + data._chargebackRate;
-        const barEl = document.querySelector('.mc-orange .mc-bar-fill');
-        if (barEl) {
-          const pct = Math.min((rate / 0.65) * 100, 100);
-          barEl.style.width = pct + '%';
-          const subText = document.querySelector('.mc-orange .mc-sub');
-          if (subText) subText.textContent = `Limit: %0,65 · Kalan tampon %${Math.max(0, ((0.65 - rate) / 0.65) * 100).toFixed(0)}`;
-        }
+    try{
+      const res=await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`,{headers:{'Authorization':`Bearer ${session.access_token}`}});
+      const data=await res.json();
+      renderOrders(data.orders||[], data._plan||currentPlan);
+      updateHealthScore(data.orders||[], data._chargebackRate||'0.00');
+      if(data._chargebackRate!==null&&data._chargebackRate!==undefined){
+        const rate=parseFloat(data._chargebackRate);
+        const rateEl=document.getElementById('m-cb-rate');
+        if(rateEl)rateEl.textContent='%'+data._chargebackRate;
+        const barEl=document.getElementById('m-cbbar');
+        if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';}
+        const subEl=document.getElementById('m-cb-sub');
+        if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
       }
-    } catch (e) {
-      document.getElementById('orders-body').innerHTML = '<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
+    }catch(e){
+      document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">⚠️</div><div style="font-size:13px;color:var(--red)">Siparişler yüklenemedi. Bağlantınızı kontrol edin.</div></div>';
     }
-  } else {
-    document.getElementById('orders-body').innerHTML = '<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Siparişleri taramaya başlamak için Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
-    document.getElementById('m-health').textContent = '—';
-    document.getElementById('m-health-sub').textContent = 'Başlamak için mağaza bağlayın';
+  }else{
+    document.getElementById('orders-body').innerHTML='<div class="empty-state"><div class="es-icon">🔗</div><div style="font-size:13px;color:var(--ink2);margin-bottom:14px">Siparişleri taramaya başlamak için Shopify mağazanızı bağlayın.</div><button onclick="connectShopify()" style="padding:10px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;cursor:pointer;font-size:13px;font-family:var(--sans)">Shopify Bağla →</button></div>';
+    document.getElementById('m-health').textContent='—';
+    document.getElementById('m-health-sub').textContent='Başlamak için mağaza bağlayın';
     updateMap([]);
   }
 }
 
 /* ── DÜNYA HARİTASI ── */
-const COUNTRY_ISO = {
-  'United States':'840','Turkey':'792','United Kingdom':'826','Germany':'276',
-  'France':'250','Netherlands':'528','Canada':'124','Australia':'036',
-  'Spain':'724','Italy':'380','Brazil':'076','Mexico':'484','Poland':'616',
-  'Sweden':'752','Norway':'578','Denmark':'208','Belgium':'056','Switzerland':'756',
-  'Austria':'040','Portugal':'620','Greece':'300','Romania':'642','Hungary':'348',
-  'Czech Republic':'203','Ukraine':'804','Russia':'643','China':'156','Japan':'392',
-  'South Korea':'410','India':'356','Pakistan':'586','Bangladesh':'050',
-  'Indonesia':'360','Malaysia':'458','Thailand':'764','Vietnam':'704',
-  'Philippines':'608','Singapore':'702','UAE':'784','Saudi Arabia':'682',
-  'Israel':'376','South Africa':'710','Nigeria':'566','Egypt':'818','Morocco':'504',
-  'Argentina':'032','Chile':'152','Colombia':'170','Peru':'604','Venezuela':'862',
-  'New Zealand':'554','Ireland':'372','Finland':'246','Slovakia':'703','Croatia':'191',
-  'Bulgaria':'100','Serbia':'688','Albania':'008','Lithuania':'440','Latvia':'428',
-  'Estonia':'233','Bosnia and Herzegovina':'070','North Macedonia':'807',
-  'Moldova':'498','Belarus':'112','Kazakhstan':'398','Georgia':'268',
-  'Armenia':'051','Azerbaijan':'031','Uzbekistan':'860','Unknown':'000'
-};
+const COUNTRY_ISO={'United States':'840','Turkey':'792','United Kingdom':'826','Germany':'276','France':'250','Netherlands':'528','Canada':'124','Australia':'036','Spain':'724','Italy':'380','Brazil':'076','Mexico':'484','Poland':'616','Sweden':'752','Norway':'578','Denmark':'208','Belgium':'056','Switzerland':'756','Austria':'040','Portugal':'620','Greece':'300','Romania':'642','Hungary':'348','Czech Republic':'203','Ukraine':'804','Russia':'643','China':'156','Japan':'392','South Korea':'410','India':'356','Pakistan':'586','Bangladesh':'050','Indonesia':'360','Malaysia':'458','Thailand':'764','Vietnam':'704','Philippines':'608','Singapore':'702','UAE':'784','Saudi Arabia':'682','Israel':'376','South Africa':'710','Nigeria':'566','Egypt':'818','Morocco':'504','Argentina':'032','Chile':'152','Colombia':'170','Peru':'604','Venezuela':'862','New Zealand':'554','Ireland':'372','Finland':'246','Slovakia':'703','Croatia':'191','Bulgaria':'100','Serbia':'688','Albania':'008','Lithuania':'440','Latvia':'428','Estonia':'233','Bosnia and Herzegovina':'070','North Macedonia':'807','Moldova':'498','Belarus':'112','Kazakhstan':'398','Georgia':'268','Armenia':'051','Azerbaijan':'031','Uzbekistan':'860','Unknown':'000'};
+let worldLoaded=false,worldGeo=null,pendingMapData=null;
 
-let worldLoaded = false;
-let worldGeo = null;
-let pendingMapData = null;
-
-async function loadWorldMap() {
-  if (worldLoaded) return;
-  try {
-    const topo = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-    worldGeo = topojson.feature(topo, topo.objects.countries).features;
-    worldLoaded = true;
-    if (pendingMapData) {
-      renderMap(pendingMapData.counts, pendingMapData.highRisk);
-      pendingMapData = null;
-    }
-  } catch(e) {
-    console.error('Harita yüklenemedi:', e);
-  }
+async function loadWorldMap(){
+  if(worldLoaded)return;
+  try{
+    const topo=await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+    worldGeo=topojson.feature(topo,topo.objects.countries).features;
+    worldLoaded=true;
+    if(pendingMapData){renderMap(pendingMapData.counts,pendingMapData.highRisk);pendingMapData=null;}
+  }catch(e){console.error('Harita yüklenemedi:',e);}
 }
 
-function updateMap(orders) {
-  const counts = {}, highRisk = {};
-  (orders || []).forEach(o => {
-    const c = o.country || 'Unknown';
-    counts[c] = (counts[c] || 0) + 1;
-    if (o.risk && o.risk.level === 'high') highRisk[c] = (highRisk[c] || 0) + 1;
-  });
-  const total = Object.keys(counts).length;
-  document.getElementById('map-meta').textContent =
-    total ? total + ' ülke · ' + Object.keys(highRisk).length + ' riskli bölge' : 'Sipariş verisi bekleniyor...';
-  if (!worldLoaded) { pendingMapData = { counts, highRisk }; return; }
-  renderMap(counts, highRisk);
+function updateMap(orders){
+  const counts={},highRisk={};
+  (orders||[]).forEach(o=>{const c=o.country||'Unknown';counts[c]=(counts[c]||0)+1;if(o.risk&&o.risk.level==='high')highRisk[c]=(highRisk[c]||0)+1;});
+  const total=Object.keys(counts).length;
+  document.getElementById('map-meta').textContent=total?total+' ülke · '+Object.keys(highRisk).length+' riskli bölge':'Sipariş verisi bekleniyor...';
+  if(!worldLoaded){pendingMapData={counts,highRisk};return;}
+  renderMap(counts,highRisk);
 }
 
-function renderMap(counts, highRisk) {
-  const svg = d3.select('#world-svg');
-  svg.selectAll('*').remove();
-  const w = 960, h = 500;
-  const proj = d3.geoNaturalEarth1().scale(153).translate([w/2, h/2]);
-  const path = d3.geoPath().projection(proj);
-  const maxCount = Math.max(...Object.values(counts), 1);
-  const blueScale = d3.scaleLinear().domain([0, maxCount])
-    .range(['rgba(0,229,255,0.12)', 'rgba(0,229,255,0.8)']);
-
-  const isoToName = {};
-  Object.entries(COUNTRY_ISO).forEach(([name, iso]) => { isoToName[iso] = name; });
-
-  const tooltip = document.getElementById('map-tooltip');
-  const wrap    = document.getElementById('world-map-wrap');
-
-  svg.selectAll('path')
-    .data(worldGeo)
-    .join('path')
-    .attr('d', path)
-    .attr('fill', d => {
-      const name = isoToName[String(d.id)] || '';
-      if (highRisk[name]) return 'rgba(255,61,87,0.75)';
-      if (counts[name])   return blueScale(counts[name]);
-      return 'rgba(255,255,255,0.05)';
+function renderMap(counts,highRisk){
+  const svg=d3.select('#world-svg');svg.selectAll('*').remove();
+  const w=960,h=500,proj=d3.geoNaturalEarth1().scale(153).translate([w/2,h/2]),path=d3.geoPath().projection(proj);
+  const maxCount=Math.max(...Object.values(counts),1);
+  const blueScale=d3.scaleLinear().domain([0,maxCount]).range(['rgba(0,229,255,0.12)','rgba(0,229,255,0.8)']);
+  const isoToName={};Object.entries(COUNTRY_ISO).forEach(([name,iso])=>{isoToName[iso]=name;});
+  const tooltip=document.getElementById('map-tooltip'),wrap=document.getElementById('world-map-wrap');
+  svg.selectAll('path').data(worldGeo).join('path')
+    .attr('d',path)
+    .attr('fill',d=>{const name=isoToName[String(d.id)]||'';if(highRisk[name])return'rgba(255,61,87,0.75)';if(counts[name])return blueScale(counts[name]);return'rgba(255,255,255,0.05)';})
+    .attr('stroke','rgba(255,255,255,0.08)').attr('stroke-width',0.5)
+    .style('cursor',d=>{const name=isoToName[String(d.id)]||'';return(counts[name]||highRisk[name])?'pointer':'default';})
+    .on('mousemove',function(event,d){
+      const name=isoToName[String(d.id)]||'';
+      if(!counts[name]&&!highRisk[name]){tooltip.style.display='none';return;}
+      const rect=wrap.getBoundingClientRect();
+      tooltip.style.display='block';tooltip.style.left=(event.clientX-rect.left+14)+'px';tooltip.style.top=(event.clientY-rect.top-12)+'px';
+      let html=`<span style="color:var(--cyan);font-weight:700">${name||'Bilinmiyor'}</span><br>📦 Sipariş: ${counts[name]||0}`;
+      if(highRisk[name])html+=`<br><span style="color:var(--red)">🚨 Yüksek riskli: ${highRisk[name]}</span>`;
+      tooltip.innerHTML=html;
     })
-    .attr('stroke', 'rgba(255,255,255,0.08)')
-    .attr('stroke-width', 0.5)
-    .style('cursor', d => {
-      const name = isoToName[String(d.id)] || '';
-      return (counts[name] || highRisk[name]) ? 'pointer' : 'default';
-    })
-    .on('mousemove', function(event, d) {
-      const name = isoToName[String(d.id)] || '';
-      if (!counts[name] && !highRisk[name]) { tooltip.style.display = 'none'; return; }
-      const rect = wrap.getBoundingClientRect();
-      tooltip.style.display = 'block';
-      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-      tooltip.style.top  = (event.clientY - rect.top  - 12) + 'px';
-      let html = `<span style="color:var(--cyan);font-weight:700">${name || 'Bilinmiyor'}</span><br>`;
-      html += `📦 Sipariş: ${counts[name] || 0}`;
-      if (highRisk[name]) html += `<br><span style="color:var(--red)">🚨 Yüksek riskli: ${highRisk[name]}</span>`;
-      tooltip.innerHTML = html;
-    })
-    .on('mouseleave', () => { tooltip.style.display = 'none'; });
-
-  // Yüksek riskli ülkelere nabız animasyonu
-  Object.keys(highRisk).forEach(name => {
-    const iso = COUNTRY_ISO[name];
-    if (!iso) return;
-    const feat = worldGeo.find(f => String(f.id) === iso);
-    if (!feat) return;
-    const centroid = path.centroid(feat);
-    if (!centroid || isNaN(centroid[0])) return;
-    const g = svg.append('g');
-    g.append('circle')
-      .attr('cx', centroid[0]).attr('cy', centroid[1]).attr('r', 5)
-      .attr('fill', '#ff3d57').attr('opacity', 0.95);
-    g.append('circle')
-      .attr('cx', centroid[0]).attr('cy', centroid[1]).attr('r', 5)
-      .attr('fill', 'none').attr('stroke', '#ff3d57').attr('stroke-width', 1.5)
-      .attr('opacity', 0.7)
-      .append('animate')
-        .attr('attributeName', 'r').attr('values', '5;14;5')
-        .attr('dur', '2s').attr('repeatCount', 'indefinite');
-    g.append('circle')
-      .attr('cx', centroid[0]).attr('cy', centroid[1]).attr('r', 5)
-      .attr('fill', 'none').attr('stroke', '#ff3d57').attr('stroke-width', 1)
-      .attr('opacity', 0.4)
-      .append('animate')
-        .attr('attributeName', 'r').attr('values', '5;22;5')
-        .attr('dur', '2s').attr('begin', '0.5s').attr('repeatCount', 'indefinite');
+    .on('mouseleave',()=>{tooltip.style.display='none';});
+  Object.keys(highRisk).forEach(name=>{
+    const iso=COUNTRY_ISO[name];if(!iso)return;
+    const feat=worldGeo.find(f=>String(f.id)===iso);if(!feat)return;
+    const centroid=path.centroid(feat);if(!centroid||isNaN(centroid[0]))return;
+    const g=svg.append('g');
+    g.append('circle').attr('cx',centroid[0]).attr('cy',centroid[1]).attr('r',5).attr('fill','#ff3d57').attr('opacity',0.95);
+    g.append('circle').attr('cx',centroid[0]).attr('cy',centroid[1]).attr('r',5).attr('fill','none').attr('stroke','#ff3d57').attr('stroke-width',1.5).attr('opacity',0.7).append('animate').attr('attributeName','r').attr('values','5;14;5').attr('dur','2s').attr('repeatCount','indefinite');
+    g.append('circle').attr('cx',centroid[0]).attr('cy',centroid[1]).attr('r',5).attr('fill','none').attr('stroke','#ff3d57').attr('stroke-width',1).attr('opacity',0.4).append('animate').attr('attributeName','r').attr('values','5;22;5').attr('dur','2s').attr('begin','0.5s').attr('repeatCount','indefinite');
   });
 }
 
