@@ -919,10 +919,7 @@ async function showChargebackReport() {
   const plan = currentPlan;
 
   // Trial ise paywall göster
-  if (plan === 'free' || plan === 'trial') {
-    document.getElementById('paywall').style.display = 'flex';
-    return;
-  }
+  
 
   // Chargeback verilerini çek
   const { data: chargebacks, error } = await sb.from('chargebacks')
