@@ -486,7 +486,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   <span>Shopify Partner · <a href="index.html">belyshield.com</a></span>
 </div>
 
-<script>
 const sb = window.supabase.createClient(
   'https://txuanbvyjohgvuynlfyq.supabase.co',
   'sb_publishable_cnsy47rWJ8FopKQuiSTz4w_HPXd9-Ls'
@@ -632,11 +631,31 @@ async function getAISuggestion(orderId, orderData) {
     btn.disabled = false;
   }
 }
+
 function escHtml(str) {
-  function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
+function sanitizeOrder(order) {
+  const esc = escHtml;
+  if (order.country) order.country = esc(order.country);
+  if (order.details) {
+    const d = order.details;
+    if (d.customerName)    d.customerName    = esc(d.customerName);
+    if (d.customerEmail)   d.customerEmail   = esc(d.customerEmail);
+    if (d.billingCountry)  d.billingCountry  = esc(d.billingCountry);
+    if (d.shippingCountry) d.shippingCountry = esc(d.shippingCountry);
+    if (d.billingCity)     d.billingCity     = esc(d.billingCity);
+    if (d.shippingCity)    d.shippingCity    = esc(d.shippingCity);
+    if (d.gateway)         d.gateway         = esc(d.gateway);
+    if (d.financialStatus)  d.financialStatus  = esc(d.financialStatus);
+    if (d.fulfillmentStatus) d.fulfillmentStatus = esc(d.fulfillmentStatus);
+  }
+  if (order.risk?.risks) order.risk.risks = order.risk.risks.map(r => esc(r));
+  return order;
+}
+
 function renderOrders(orders, plan) {
   const body = document.getElementById('orders-body');
   const meta = document.getElementById('orders-meta');
@@ -650,6 +669,7 @@ function renderOrders(orders, plan) {
   let html = '';
 
   orders.forEach(order => {
+    order = sanitizeOrder(order);
     const r = order.risk;
     const d = order.details || {};
 
@@ -677,7 +697,6 @@ function renderOrders(orders, plan) {
 
     const isExpandable = (plan === 'pro' || plan === 'elite');
 
-    // AI öneri butonu — sadece Elite
     const aiBtnHtml = plan === 'elite' ? `
       <div id="ai-suggestion-${order.id}" style="margin-top:14px;display:none">
         <div class="detail-block" style="border-color:rgba(0,229,255,0.3)">
@@ -717,24 +736,24 @@ function renderOrders(orders, plan) {
           <div class="detail-grid">
             <div class="detail-block">
               <div class="db-title">👤 Müşteri Bilgileri</div>
-              <div class="db-row"><span class="db-key">Email</span><span class="db-val">${escHtml(d.customerEmail) || 'Misafir'}</span></div>
+              <div class="db-row"><span class="db-key">Ad Soyad</span><span class="db-val">${d.customerName || '—'}</span></div>
               <div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail || 'Misafir'}</span></div>
               <div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays !== null ? d.accountAgeDays + ' gün' : 'Misafir'}</span></div>
               <div class="db-row"><span class="db-key">Toplam Sipariş</span><span class="db-val">${d.totalOrders || 0}</span></div>
             </div>
             <div class="detail-block">
               <div class="db-title">📍 Adres Analizi</div>
-              <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${escHtml(d.billingCountry) || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${escHtml(d.shippingCountry) || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${escHtml(d.billingCity) || '—'}</span></div>
-              <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${escHtml(d.shippingCity) || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity || '—'}</span></div>
+              <div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity || '—'}</span></div>
             </div>
             <div class="detail-block">
               <div class="db-title">💳 Ödeme Bilgileri</div>
               <div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div>
               <div class="db-row"><span class="db-key">Finansal Durum</span><span class="db-val ${finCls}">${financialTR}</span></div>
               <div class="db-row"><span class="db-key">Gönderim Durumu</span><span class="db-val">${fulfillmentTR}</span></div>
-             <div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${escHtml(d.gateway) || 'bilinmiyor'}</span></div>
+              <div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${d.gateway || 'bilinmiyor'}</span></div>
             </div>
           </div>
           <div class="risk-signals">
@@ -786,7 +805,7 @@ function renderOrders(orders, plan) {
               ${isExpandable || plan === 'free' ? '<span class="order-expand-icon">▼</span>' : ''}
             </div>
             <div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div>
-            <div class="order-loc">${escHtml(order.country) || 'Bilinmeyen konum'}</div>
+            <div class="order-loc">${order.country || 'Bilinmeyen konum'}</div>
             <div class="order-reason ${reasonCls}">${reasonHtml}</div>
           </div>
           <span class="risk-tag ${tagCls}">${levelText}</span>
@@ -870,17 +889,17 @@ async function showChargebackReport() {
       const statusMap = { refunded:'Tam İade', partially_refunded:'Kısmi İade' };
       const statusText = statusMap[cb.status] || cb.status;
       let detailHtml = `
-        <div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${cb.order_number}</span></div>
+        <div class="db-row"><span class="db-key">Sipariş</span><span class="db-val">#${escHtml(String(cb.order_number))}</span></div>
         <div class="db-row"><span class="db-key">Tutar</span><span class="db-val c-risk">$${parseFloat(cb.amount).toFixed(2)}</span></div>
-        <div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${statusText}</span></div>
-        <div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${date}</span></div>`;
+        <div class="db-row"><span class="db-key">Durum</span><span class="db-val c-warn">${escHtml(statusText)}</span></div>
+        <div class="db-row"><span class="db-key">Tarih</span><span class="db-val">${escHtml(date)}</span></div>`;
       if (plan === 'elite') {
-        if (cb.customer_name) detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${cb.customer_name}</span></div>`;
-        if (cb.customer_email) detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${cb.customer_email}</span></div>`;
-        if (cb.gateway) detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${cb.gateway}</span></div>`;
-        if (cb.refund_reason) detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${cb.refund_reason}</span></div>`;
+        if (cb.customer_name) detailHtml += `<div class="db-row"><span class="db-key">Müşteri</span><span class="db-val">${escHtml(cb.customer_name)}</span></div>`;
+        if (cb.customer_email) detailHtml += `<div class="db-row"><span class="db-key">Email</span><span class="db-val">${escHtml(cb.customer_email)}</span></div>`;
+        if (cb.gateway) detailHtml += `<div class="db-row"><span class="db-key">Ödeme Yöntemi</span><span class="db-val">${escHtml(cb.gateway)}</span></div>`;
+        if (cb.refund_reason) detailHtml += `<div class="db-row"><span class="db-key">İade Nedeni</span><span class="db-val c-warn">${escHtml(cb.refund_reason)}</span></div>`;
         if (cb.line_items && cb.line_items.length > 0) {
-          const items = cb.line_items.map(i => `${i.title} x${i.quantity} ($${i.price})`).join(', ');
+          const items = cb.line_items.map(i => `${escHtml(i.title)} x${i.quantity} ($${i.price})`).join(', ');
           detailHtml += `<div class="db-row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="db-key">Ürünler</span><span class="db-val" style="font-size:11px;color:var(--ink2)">${items}</span></div>`;
         }
       }
@@ -909,6 +928,21 @@ async function init() {
   if (!session) { window.location.href = 'index.html'; return; }
   currentUser = session.user;
   document.getElementById('user-email').textContent = session.user.email;
+
+  // 60 dakika idle timeout
+  let _idleTimer;
+  function resetIdleTimer() {
+    clearTimeout(_idleTimer);
+    _idleTimer = setTimeout(async () => {
+      await sb.auth.signOut();
+      window.location.href = 'index.html';
+    }, 60 * 60 * 1000);
+  }
+  ['click','keydown','mousemove','touchstart'].forEach(e => {
+    document.addEventListener(e, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer();
+
   const { data: storeData } = await sb.from('shopify_stores')
     .select('plan, subscription_status, trial_end_date, shop_domain')
     .eq('user_id', session.user.id)
@@ -947,6 +981,5 @@ async function init() {
 }
 
 init();
-</script>
 </body>
 </html>
