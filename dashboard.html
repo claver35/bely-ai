@@ -557,15 +557,7 @@ async function startCheckout(plan) {
 }
 
 function connectShopify() {
-  let shop = prompt('Shopify mağaza adresinizi girin:\n(örnek: magaza-adiniz.myshopify.com)');
-  if (!shop) return;
-  shop = shop.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '').toLowerCase();
-  if (!shop.includes('.myshopify.com')) shop += '.myshopify.com';
-  if (!shop.match(/^[a-z0-9-]+\.myshopify\.com$/)) { alert('Geçersiz mağaza adresi.'); return; }
-  const state = Math.random().toString(36).substring(2) + Date.now().toString(36);
-  sessionStorage.setItem('shopify_state', state);
-  sessionStorage.setItem('shopify_shop', shop);
-  window.location.href = `https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${state}`;
+  window.location.href = 'index.html';
 }
 
 function checkPlanStatus(storeData) {
