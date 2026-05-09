@@ -297,10 +297,13 @@ module.exports = async function handler(req, res) {
         }
       }
 
-      // Sipariş tutarı
+     // Sipariş tutarı — AOV'a göre dinamik eşik
       const price = parseFloat(order.total_price);
-      if (price > 500) { score += 35; risks.push('Çok yüksek sipariş tutarı (>$500)'); }
-      else if (price > 200) { score += 20; risks.push(`Yüksek sipariş tutarı ($${price.toFixed(0)})`); }
+      const avgPrice = (data.orders || []).reduce((s, o) => s + parseFloat(o.total_price || 0), 0) / Math.max((data.orders || []).length, 1);
+      const highThreshold = Math.max(avgPrice * 2.5, 300);
+      const medThreshold = Math.max(avgPrice * 1.5, 150);
+      if (price > highThreshold) { score += 25; risks.push(`Ortalamadan çok yüksek sipariş tutarı ($${price.toFixed(0)})`); }
+      else if (price > medThreshold) { score += 10; risks.push(`Ortalamadan yüksek sipariş tutarı ($${price.toFixed(0)})`); }
 
       // Farklı ülke
       if (
