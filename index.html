@@ -786,7 +786,37 @@ function applyLang(lang){
 }
 
 function setLang(lang){applyLang(lang);}
-applyLang(currentLang);
+applyLang(currentLang);/* ── ROI HARİTA ── */
+(function(){
+  const RISK={US:'h',RU:'h',CN:'m',NG:'h',RO:'h',UA:'m',BR:'m',ID:'m',PK:'h',IN:'m',TR:'l',DE:'l',GB:'l',FR:'l',NL:'l',CA:'l',AU:'l',SE:'l',NO:'l',PL:'l'};
+  const COLOR={h:'#ff3d57',m:'#ffab00',l:'rgba(0,229,255,0.6)'};
+  async function initRoiMap(){
+    const svg=document.getElementById('roi-world-svg');if(!svg)return;
+    try{
+      const topo=await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+      const countries=topojson.feature(topo,topo.objects.countries).features;
+      const ISO={US:'840',RU:'643',CN:'156',NG:'566',RO:'642',UA:'804',BR:'076',ID:'360',PK:'586',IN:'356',TR:'792',DE:'276',GB:'826',FR:'250',NL:'528',CA:'124',AU:'036',SE:'752',NO:'578',PL:'616'};
+      const isoToCode={};Object.entries(ISO).forEach(([c,i])=>isoToCode[i]=c);
+      const ns='http://www.w3.org/2000/svg';
+      const w=960,h=500,proj=d3.geoNaturalEarth1().scale(153).translate([w/2,h/2]),path=d3.geoPath().projection(proj);
+      const d3svg=d3.select('#roi-world-svg');d3svg.selectAll('*').remove();
+      d3svg.selectAll('path').data(countries).join('path')
+        .attr('d',path)
+        .attr('fill',d=>{const c=isoToCode[String(d.id)];return c&&RISK[c]?COLOR[RISK[c]]:'rgba(255,255,255,0.04)';})
+        .attr('stroke','rgba(255,255,255,0.06)').attr('stroke-width',0.5);
+      Object.entries(ISO).forEach(([code,iso])=>{
+        if(RISK[code]!=='h')return;
+        const feat=countries.find(f=>String(f.id)===iso);if(!feat)return;
+        const c=path.centroid(feat);if(!c||isNaN(c[0]))return;
+        d3svg.append('circle').attr('cx',c[0]).attr('cy',c[1]).attr('r',4).attr('fill','#ff3d57');
+        d3svg.append('circle').attr('cx',c[0]).attr('cy',c[1]).attr('r',4).attr('fill','none').attr('stroke','#ff3d57').attr('stroke-width',1.5)
+          .append('animate').attr('attributeName','r').attr('values','4;14;4').attr('dur','2s').attr('repeatCount','indefinite');
+      });
+    }catch(e){console.error('ROI harita hatası:',e);}
+  }
+  if(window.d3&&window.topojson){initRoiMap();}
+  else{const t=setInterval(()=>{if(window.d3&&window.topojson){clearInterval(t);initRoiMap();}},300);}
+})();
 </script>
 </body>
 </html>
