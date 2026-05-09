@@ -104,7 +104,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .mc-red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
 .mc-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#9aa2c0;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;font-weight:500}
 .mc-label-icon{font-size:16px}
-.mc-value{font-size:40px;font-weight:600;line-height:1;letter-spacing:-.03em;margin-bottom:6px;font-family:var(--mono)}
+.mc-value{font-size:28px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-bottom:6px;font-family:var(--mono)}
 .mc-green .mc-value{color:var(--green);text-shadow:0 0 24px rgba(0,255,136,0.4)}
 .mc-orange .mc-value{color:var(--orange);text-shadow:0 0 24px rgba(255,171,0,0.4)}
 .mc-cyan .mc-value{color:var(--green);text-shadow:0 0 24px rgba(0,255,136,0.4)}
@@ -466,7 +466,7 @@ function updateHealthScore(orders,chargebackRate){
   let color,sub;
   if(score>=80){color='var(--green)';sub=warnings[0]||'Sağlıklı — Kritik bir sorun yok.';}
   else if(score>=60){color='var(--orange)';sub=warnings[0]||'Dikkat — Bazı riskler mevcut.';}
-  else if(score>=40){color='var(--orange)';sub=warnings[0]||'Uyarı — Acil önlem alın.';}
+  else if(score>=40){color='var(--green)';sub=warnings[0]||'İyi — Takip edilmesi önerilen noktalar var.';}
   else{color='var(--red)';sub=warnings[0]||'Kritik — Hesabınız risk altında!';}
   const valEl=document.getElementById('m-health'),subEl=document.getElementById('m-health-sub'),barEl=document.getElementById('m-hbar');
   if(valEl){valEl.textContent='%'+score;valEl.style.color=color;valEl.style.textShadow=`0 0 24px ${color}`;}
