@@ -377,25 +377,63 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
     <h2 class="sec-title" data-i18n="calc_title">What does unprotected cost you?</h2>
     <p class="sec-sub" data-i18n="calc_sub">Slide to match your store.</p>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch">
-    <div class="roi-panel" style="display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:16px;overflow:hidden">
-      <div class="roi-left" style="flex:1">
-        <div class="slider-row"><div class="slider-label"><span data-i18n="sl1">Monthly revenue</span><span id="out-rev">$15,000</span></div><input type="range" id="in-rev" min="1000" max="200000" step="1000" value="15000"/></div>
-        <div class="slider-row"><div class="slider-label"><span data-i18n="sl2">Chargeback rate</span><span id="out-cb">1.2%</span></div><input type="range" id="in-cb" min="0.1" max="3" step="0.1" value="1.2"/></div>
-        <div class="slider-row"><div class="slider-label"><span data-i18n="sl3">Cost of goods</span><span id="out-cogs">40%</span></div><input type="range" id="in-cogs" min="10" max="80" step="5" value="40"/></div>
-      </div>
-      <div class="roi-right" style="background:linear-gradient(135deg,rgba(0,229,255,0.07),var(--bg-2));padding:28px 36px">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px" data-i18n="calc_annual">Annual savings with BELY AI</div>
-        <div class="save-big"><span id="out-save">0</span></div>
-        <div class="save-breakdown">
-          <div class="save-row"><span data-i18n="cb1">Blocked fraudulent orders</span><span id="out-b1">$0</span></div>
-          <div class="save-row"><span data-i18n="cb2">Reclaimed product + shipping</span><span id="out-b2">$0</span></div>
-          <div class="save-row"><span data-i18n="cb3">Won dispute responses (AI)</span><span id="out-b3">$0</span></div>
-          <div class="save-row total"><span data-i18n="cb4">Net — minus BELY AI annual fee</span><span id="out-b4">$0</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
+    <div style="display:flex;justify-content:center;align-items:flex-end;gap:24px;padding:20px 0">
+      <div style="width:160px;height:320px;background:#0a0d18;border:2px solid rgba(0,229,255,0.3);border-radius:32px;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,229,255,0.15)">
+        <div style="position:absolute;top:0;left:0;right:0;height:28px;background:#0a0d18;display:flex;align-items:center;justify-content:center;gap:6px;border-bottom:1px solid rgba(0,229,255,0.1)">
+          <div style="width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px"></div>
         </div>
+        <div style="padding:36px 12px 12px">
+          <div style="background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:10px;padding:10px;margin-bottom:8px">
+            <div style="font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:.08em;margin-bottom:6px">RISK SKORU</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:9px;color:#b0b8d0">#4521</span>
+              <span style="background:rgba(255,61,87,0.5);color:#fff;font-size:8px;padding:2px 6px;border-radius:4px;font-family:var(--mono)">YÜKSEK</span>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:#fff">$284.90</div>
+          </div>
+          <div style="background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2);border-radius:10px;padding:10px;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:9px;color:#b0b8d0">#4520</span>
+              <span style="background:rgba(0,255,136,0.2);color:var(--good);font-size:8px;padding:2px 6px;border-radius:4px;font-family:var(--mono)">DÜŞÜK</span>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:#fff">$129.00</div>
+          </div>
+          <div style="background:rgba(255,171,0,0.06);border:1px solid rgba(255,171,0,0.2);border-radius:10px;padding:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:9px;color:#b0b8d0">#4519</span>
+              <span style="background:rgba(255,171,0,0.2);color:var(--warn);font-size:8px;padding:2px 6px;border-radius:4px;font-family:var(--mono)">ORTA</span>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:#fff">$67.50</div>
+          </div>
+          <div style="margin-top:10px;background:linear-gradient(90deg,var(--accent),#0099cc);border-radius:8px;padding:8px;text-align:center;font-size:9px;font-weight:700;color:#000">Tüm Siparişleri Gör →</div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px"></div>
+      </div>
+      <div style="width:160px;height:290px;background:#0a0d18;border:2px solid rgba(138,99,255,0.3);border-radius:32px;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(138,99,255,0.15);margin-bottom:-30px">
+        <div style="position:absolute;top:0;left:0;right:0;height:28px;background:#0a0d18;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(138,99,255,0.1)">
+          <div style="width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px"></div>
+        </div>
+        <div style="padding:36px 12px 12px">
+          <div style="font-family:var(--mono);font-size:8px;color:#8a63ff;letter-spacing:.08em;margin-bottom:8px">HESAP SAĞLIĞI</div>
+          <div style="text-align:center;margin-bottom:10px">
+            <div style="font-size:32px;font-weight:700;color:var(--good)">%91</div>
+            <div style="font-size:9px;color:#b0b8d0;margin-top:2px">Sağlıklı</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px">
+            <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:4px"><span style="color:#b0b8d0">Chargeback</span><span style="color:var(--good);font-family:var(--mono)">%0.21</span></div>
+            <div style="height:3px;background:rgba(255,255,255,0.08);border-radius:2px"><div style="width:32%;height:3px;background:var(--good);border-radius:2px"></div></div>
+            <div style="font-size:8px;color:#7a82a0;margin-top:4px">Limit: %0.65</div>
+          </div>
+          <div style="margin-top:8px;display:flex;align-items:center;gap:6px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);border-radius:8px;padding:7px">
+            <span style="font-size:12px">✔</span>
+            <span style="font-size:9px;color:var(--good)">Hesap güvende</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px"></div>
       </div>
     </div>
-    <div style="border:1px solid rgba(0,229,255,0.15);border-radius:16px;overflow:hidden;position:relative;background:var(--bg-2);min-height:320px">
+    <div style="border:1px solid rgba(0,229,255,0.15);border-radius:16px;overflow:hidden;position:relative;background:var(--bg-2)">
       <div style="padding:16px 20px;border-bottom:1px solid var(--line-2);font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:8px">
         <span style="width:6px;height:6px;border-radius:50%;background:var(--good);animation:pulse 1.5s infinite;display:inline-block"></span>
         Live Global Fraud Map
@@ -408,9 +446,7 @@ footer{border-top:1px solid var(--line);padding:48px 32px 60px;color:var(--ink-2
         <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:#9aa2c0"><span style="width:10px;height:10px;border-radius:50%;background:var(--danger);display:inline-block"></span>High risk</div>
       </div>
     </div>
-  </div>
-
-<div class="section" id="pricing">
+  </div>">
   <div class="sec-head" style="text-align:center">
     <div class="sec-label" style="justify-content:center">§ 03 · <span data-i18n="pr_label">Pricing</span></div>
     <h2 class="sec-title" data-i18n="pr_title">Priced for Shopify stores, not enterprises.</h2>
