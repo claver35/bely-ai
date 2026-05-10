@@ -793,6 +793,43 @@ function applyLang(lang){
 
 function setLang(lang){applyLang(lang);}
 applyLang(currentLang);
+async function loadTestimonials(){
+  const grid=document.getElementById('testimonials-grid');
+  const empty=document.getElementById('testimonials-empty');
+  if(!grid)return;
+  const{data,error}=await sb.from('testimonials').select('*').eq('approved',true).order('created_at',{ascending:false});
+  if(error||!data||data.length===0){grid.style.display='none';empty.style.display='block';return;}
+  empty.style.display='none';grid.style.display='grid';
+  grid.innerHTML=data.map(t=>`
+    <div style="background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:20px">${'⭐'.repeat(t.rating||5)}</div>
+      <div style="font-size:14px;color:var(--ink-2);line-height:1.7">"${t.comment}"</div>
+      <div style="font-size:13px;font-weight:600;color:#fff;margin-top:auto">${t.name} <span style="color:var(--ink-3);font-weight:400">· ${t.shop_domain||'Shopify Satıcısı'}</span></div>
+    </div>
+  `).join('');
+}
+
+function openTestimonialForm(){
+  document.getElementById('testimonial-form-wrap').style.display='block';
+  document.getElementById('testimonials-empty').style.display='none';
+}
+
+async function submitTestimonial(){
+  const name=document.getElementById('t-name').value.trim();
+  const comment=document.getElementById('t-comment').value.trim();
+  const rating=parseInt(document.getElementById('t-rating').value)||5;
+  const msg=document.getElementById('t-msg');
+  const btn=document.getElementById('t-submit');
+  if(!name||!comment){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Lütfen adını ve yorumunu yaz.';return;}
+  btn.disabled=true;btn.textContent='Gönderiliyor...';
+  const{data:{session}}=await sb.auth.getSession();
+  const shop=session?localStorage.getItem('shopify_shop')||'':'' ;
+  const{error}=await sb.from('testimonials').insert({name,comment,rating,shop_domain:shop,approved:false});
+  if(error){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Hata oluştu, tekrar dene.';btn.disabled=false;btn.textContent='Gönder →';return;}
+  msg.style.display='block';msg.style.background='rgba(0,255,136,0.1)';msg.style.color='var(--good)';msg.textContent='✓ Yorumun alındı! İncelendikten sonra yayınlanacak.';btn.disabled=true;
+}
+
+loadTestimonials();
 </script>
 </body>
 </html>
