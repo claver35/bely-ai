@@ -812,6 +812,22 @@ async function loadTestimonials(){
 function openTestimonialForm(){
   document.getElementById('testimonial-form-wrap').style.display='block';
   document.getElementById('testimonials-empty').style.display='none';
+  const stars=['⭐','⭐','⭐','⭐','⭐'];
+  const starsEl=document.getElementById('t-stars');
+  const ratingEl=document.getElementById('t-rating');
+  starsEl.innerHTML='';
+  stars.forEach((_,i)=>{
+    const s=document.createElement('span');
+    s.textContent='⭐';
+    s.style.cursor='pointer';
+    s.style.opacity=i<5?'1':'0.3';
+    s.onclick=()=>{
+      ratingEl.value=i+1;
+      [...starsEl.children].forEach((el,j)=>{el.style.opacity=j<=i?'1':'0.3';});
+    };
+    starsEl.appendChild(s);
+  });
+  ratingEl.value=5;
 }
 
 async function submitTestimonial(){
