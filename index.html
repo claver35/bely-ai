@@ -798,7 +798,7 @@ async function loadTestimonials(){
   if(!grid)return;
   const{data,error}=await sb.from('testimonials').select('*').eq('approved',true).order('created_at',{ascending:false});
   if(error||!data||data.length===0){grid.style.display='none';empty.style.display='block';return;}
-  empty.style.display='none';grid.style.display='grid';
+  empty.style.display='none';grid.style.display='grid';const addBtn=document.getElementById('testimonial-add-btn');if(addBtn)addBtn.style.display='block';
   grid.innerHTML=data.map(t=>`
     <div style="background:var(--bg-2);border:1px solid var(--line-2);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:20px">${'⭐'.repeat(t.rating||5)}</div>
