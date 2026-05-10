@@ -851,6 +851,15 @@ async function submitTestimonial(){
     msg.style.display='block';msg.style.background='rgba(0,255,136,0.1)';msg.style.color='var(--good)';
     msg.textContent=data.approved?'✓ Yorumun yayınlandı! Teşekkürler.':'✓ Yorumun alındı! İncelendikten sonra yayınlanacak.';
     btn.disabled=true;btn.textContent='Gönderildi ✓';
+    setTimeout(()=>{
+      document.getElementById('t-name').value='';
+      document.getElementById('t-comment').value='';
+      document.getElementById('t-rating').value=1;
+      msg.style.display='none';
+      btn.disabled=false;btn.textContent='Gönder →';
+      openTestimonialForm();
+      if(data.approved)loadTestimonials();
+    },2000);
     if(data.approved)setTimeout(()=>loadTestimonials(),1000);
   }catch(e){
     msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Hata oluştu, tekrar dene.';btn.disabled=false;btn.textContent='Gönder →';
