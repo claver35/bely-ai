@@ -713,7 +713,19 @@ function runScatter(){
 function getShop(r){let s=r.trim().replace(/^https?:\/\//i,'').replace(/\/$/,'').toLowerCase();if(!s.includes('.myshopify.com'))s=s.split('.')[0]+'.myshopify.com';return s;}
 function buildOAuth(shop){const st=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('shopify_state',st);sessionStorage.setItem('shopify_shop',shop);return`https://${shop}/admin/oauth/authorize?client_id=${SHOPIFY_CLIENT_ID}&scope=${SHOPIFY_SCOPES}&redirect_uri=${encodeURIComponent(SHOPIFY_REDIRECT)}&state=${st}`;}
 function startOAuth(){const raw=document.getElementById('store-url-input').value.trim();const err=document.getElementById('store-err');err.style.display='none';if(!raw){err.textContent=currentLang==='tr'?"Lütfen mağaza URL'ini girin.":'Please enter your store URL.';err.style.display='block';return;}const shop=getShop(raw);const btn=document.getElementById('btn-oauth');btn.disabled=true;btn.innerHTML='<span>'+(currentLang==='tr'?'Yönlendiriliyor...':'Redirecting...')+'</span>';setTimeout(()=>location.href=buildOAuth(shop),400);}
-async function checkAuth(){const{data:{session}}=await sb.auth.getSession();if(session){['btn-signin','btn-signup'].forEach(id=>{const el=document.getElementById(id);if(el){el.setAttribute('data-i18n','nav_dashboard');el.onclick=()=>location.href='dashboard.html';}});applyLang(currentLang);}}
+async function checkAuth(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){['btn-signin','btn-signup'].forEach(id=>{const el=document.getElementById(id);if(el){el.setAttribute('data-i18n','nav_dashboard');el.onclick=()=>location.href='dashboard.html';}});applyLang(currentLang);}
+  try{
+    const res=await sb.from('shopify_stores').select('id',{count:'exact',head:true});
+    const count=res.count||0;
+    if(count>0){
+      document.querySelectorAll('[data-i18n="hero_eyebrow"]').forEach(el=>{
+        el.textContent=(currentLang==='tr'?'Canlı · '+count+' Shopify Mağazası Koruyor':'Live · '+count+' Stores Protected');
+      });
+    }
+  }catch(e){}
+}
 checkAuth();
 function openAuth(w){document.getElementById('auth-overlay').classList.add('open');document.querySelectorAll('.auth-tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===w?'true':'false'));document.getElementById('panel-signin').style.display=w==='signin'?'block':'none';document.getElementById('panel-signup').style.display=w==='signup'?'block':'none';}
 function closeAuth(){document.getElementById('auth-overlay').classList.remove('open');}
