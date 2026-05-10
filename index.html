@@ -830,7 +830,8 @@ function openTestimonialForm(){
     };
     starsEl.appendChild(s);
   });
-  ratingEl.value=5;
+  ratingEl.value=1;
+[...starsEl.children].forEach((el,j)=>{el.style.opacity=j<1?'1':'0.3';});
 }
 
 async function submitTestimonial(){
