@@ -868,6 +868,35 @@ function renderMap(counts,highRisk){
 
 loadWorldMap();
 init();
+async function generateDisputeLetter(orderNumber, totalPrice, customerName, customerEmail, gateway, financialStatus) {
+  const btn = event.target;
+  const box = document.getElementById('dispute-' + orderNumber);
+  btn.disabled = true;
+  btn.textContent = '🤖 Yazıyor...';
+  box.style.display = 'block';
+  box.textContent = 'AI itiraz mektubu hazırlanıyor...';
+  try {
+    const res = await fetch('/api/dispute-writer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumber, totalPrice, customerName, customerEmail, gateway, financialStatus, shopName: localStorage.getItem('shopify_shop') || '' })
+    });
+    const data = await res.json();
+    if (data.letter) {
+      box.textContent = data.letter;
+      btn.textContent = '✓ Mektup Hazır — Kopyala';
+      btn.onclick = () => { navigator.clipboard.writeText(data.letter); btn.textContent = '✓ Kopyalandı!'; };
+    } else {
+      box.textContent = 'Hata oluştu.';
+      btn.disabled = false;
+      btn.textContent = '🤖 AI İtiraz Mektubu Yaz';
+    }
+  } catch (e) {
+    box.textContent = 'Hata oluştu.';
+    btn.disabled = false;
+    btn.textContent = '🤖 AI İtiraz Mektubu Yaz';
+  }
+}
 </script>
 </body>
 </html>
