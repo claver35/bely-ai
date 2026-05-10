@@ -447,7 +447,7 @@ function updateCbRateUI(cbRate){
   const barEl=document.getElementById('m-cbbar');
   const subEl=document.getElementById('m-cb-sub');
   if(rateEl)rateEl.textContent='%'+cbRate;
-  if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';}
+  if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';barEl.style.background=rate>=0.65?'var(--red)':rate>=0.50?'var(--orange)':rate>=0.30?'var(--warn)':'var(--green)';}
   if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
 }
 
