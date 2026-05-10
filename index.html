@@ -143,6 +143,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .price-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--accent);box-shadow:0 0 40px rgba(0,229,255,0.2),0 20px 60px rgba(0,0,0,0.4);z-index:2}
 .price-card.featured{border-color:var(--accent);background:linear-gradient(160deg,rgba(0,229,255,0.08),var(--bg-2));box-shadow:0 0 30px rgba(0,229,255,0.15),0 20px 50px rgba(0,0,0,0.3);animation:neon-card-cyan 3s ease-in-out infinite}
 @keyframes neon-card-cyan{0%,100%{box-shadow:0 0 15px rgba(0,229,255,0.2),0 20px 50px rgba(0,0,0,0.3)}50%{box-shadow:0 0 40px rgba(0,229,255,0.5),0 20px 50px rgba(0,0,0,0.3)}}
+@keyframes neon-card-purple{0%,100%{box-shadow:0 0 15px rgba(138,99,255,0.2),0 20px 50px rgba(0,0,0,0.3)}50%{box-shadow:0 0 40px rgba(138,99,255,0.5),0 20px 50px rgba(0,0,0,0.3)}}
 .price-card.featured:hover{transform:translateY(-8px) scale(1.05)}
 .price-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
 .price-card:hover::before,.price-card.featured::before{opacity:1}
