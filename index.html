@@ -812,7 +812,7 @@ async function loadTestimonials(){
   const{data,error}=await sb.from('testimonials').select('*').eq('approved',true).order('created_at',{ascending:false});
   if(error||!data||data.length===0){grid.style.display='none';empty.style.display='block';return;}
   empty.style.display='none';grid.style.display='grid';const addBtn=document.getElementById('testimonial-add-btn');if(addBtn)addBtn.style.display='block';
-  grid.innerHTML=data.map(t=>`
+  const displayData = data.slice(0, 6);
     <div style="background:var(--bg-2);border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px;box-shadow:0 0 20px rgba(0,229,255,0.06)">
       <div style="font-size:24px">${Array.from({length:5},(_,i)=>`<span style="opacity:${i<(t.rating||5)?'1':'0.25'}"">⭐</span>`).join('')}</div>
       <div style="font-size:15px;color:#e0e4f0;line-height:1.75;font-weight:400">"${t.comment}"</div>
