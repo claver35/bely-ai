@@ -823,10 +823,18 @@ async function submitTestimonial(){
   if(!name||!comment){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Lütfen adını ve yorumunu yaz.';return;}
   btn.disabled=true;btn.textContent='Gönderiliyor...';
   const{data:{session}}=await sb.auth.getSession();
-  const shop=session?localStorage.getItem('shopify_shop')||'':'' ;
-  const{error}=await sb.from('testimonials').insert({name,comment,rating,shop_domain:shop,approved:false});
-  if(error){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Hata oluştu, tekrar dene.';btn.disabled=false;btn.textContent='Gönder →';return;}
-  msg.style.display='block';msg.style.background='rgba(0,255,136,0.1)';msg.style.color='var(--good)';msg.textContent='✓ Yorumun alındı! İncelendikten sonra yayınlanacak.';btn.disabled=true;
+  const shop=session?localStorage.getItem('shopify_shop')||'':'';
+  try{
+    const res=await fetch('/api/submit-testimonial',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,comment,rating,shop_domain:shop})});
+    const data=await res.json();
+    if(!res.ok||!data.success)throw new Error();
+    msg.style.display='block';msg.style.background='rgba(0,255,136,0.1)';msg.style.color='var(--good)';
+    msg.textContent=data.approved?'✓ Yorumun yayınlandı! Teşekkürler.':'✓ Yorumun alındı! İncelendikten sonra yayınlanacak.';
+    btn.disabled=true;
+    if(data.approved)setTimeout(()=>loadTestimonials(),1000);
+  }catch(e){
+    msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--danger)';msg.textContent='Hata oluştu, tekrar dene.';btn.disabled=false;btn.textContent='Gönder →';
+  }
 }
 
 loadTestimonials();
