@@ -319,8 +319,8 @@ module.exports = async function handler(req, res) {
       if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
       else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
-      // Bot tespiti — sadece Elite ve Agency
-      if (accessLevel === 'elite' || accessLevel === 'agency') {
+      // Bot tespiti — sadece Agency
+      if (accessLevel === 'agency') {
         // 1. Sipariş hızı — aynı müşteriden son 1 saatte 3+ sipariş
         const customerEmail = order.customer?.email;
         if (customerEmail) {
