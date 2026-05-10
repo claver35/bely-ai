@@ -267,7 +267,9 @@ module.exports = async function handler(req, res) {
       const totalOrdersData = await totalOrdersRes.json();
       const totalOrders = totalOrdersData.count || 0;
       const chargebackCount = Array.isArray(chargebacks) ? chargebacks.length : 0;
-      chargebackRate = totalOrders > 0
+      chargebackRate = totalOrders >= 10
+        ? ((chargebackCount / totalOrders) * 100).toFixed(2)
+        : totalOrders > 0
         ? ((chargebackCount / totalOrders) * 100).toFixed(2)
         : '0.00';
     } catch (e) {
