@@ -319,6 +319,49 @@ module.exports = async function handler(req, res) {
       if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
       else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
+      // Bot tespiti — sadece Elite ve Agency
+      if (accessLevel === 'elite' || accessLevel === 'agency') {
+        // 1. Sipariş hızı — aynı müşteriden son 1 saatte 3+ sipariş
+        const customerEmail = order.customer?.email;
+        if (customerEmail) {
+          const oneHourAgo = new Date(Date.now() - 3600000);
+          const recentSameCustomer = (data.orders || []).filter(o =>
+            o.customer?.email === customerEmail &&
+            o.id !== order.id &&
+            new Date(o.created_at) > oneHourAgo
+          ).length;
+          if (recentSameCustomer >= 2) {
+            score += 35;
+            risks.push(`Bot şüphesi: Aynı hesaptan 1 saatte ${recentSameCustomer + 1} sipariş`);
+          }
+        }
+
+        // 2. Aynı teslimat adresine farklı emaillerden sipariş
+        const shippingAddr = order.shipping_address;
+        if (shippingAddr) {
+          const sameAddrDiffEmail = (data.orders || []).filter(o =>
+            o.id !== order.id &&
+            o.shipping_address?.address1 === shippingAddr.address1 &&
+            o.shipping_address?.zip === shippingAddr.zip &&
+            o.customer?.email !== customerEmail
+          ).length;
+          if (sameAddrDiffEmail >= 2) {
+            score += 30;
+            risks.push(`Bot şüphesi: Aynı adrese ${sameAddrDiffEmail + 1} farklı hesaptan sipariş`);
+          }
+        }
+
+        // 3. Çok hızlı sipariş — hesap oluşturma ve sipariş arasında 5 dakikadan az
+        if (order.customer?.created_at && order.created_at) {
+          const accountCreated = new Date(order.customer.created_at);
+          const orderCreated = new Date(order.created_at);
+          const diffMinutes = (orderCreated - accountCreated) / 60000;
+          if (diffMinutes < 5) {
+            score += 25;
+            risks.push(`Bot şüphesi: Hesap açıldıktan ${Math.round(diffMinutes)} dakika içinde sipariş`);
+          }
+        }
+      }
       score = Math.min(score, 99);
 
       let level;
