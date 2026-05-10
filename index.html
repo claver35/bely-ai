@@ -775,7 +775,7 @@ function updateROI(){const rev=+document.getElementById('in-rev').value,cb=+docu
 ['in-rev','in-cb','in-cogs'].forEach(id=>document.getElementById(id).addEventListener('input',updateROI));
 updateROI();
 
-function toggleBilling(){const y=document.getElementById('billing-toggle').checked;document.getElementById('lbl-monthly').classList.toggle('active',!y);document.getElementById('lbl-yearly').classList.toggle('active',y);['pro','elite'].forEach(p=>{document.getElementById(p+'-monthly').style.display=y?'none':'flex';document.getElementById(p+'-yearly').style.display=y?'flex':'none';});}
+function toggleBilling(){const y=document.getElementById('billing-toggle').checked;document.getElementById('lbl-monthly').classList.toggle('active',!y);document.getElementById('lbl-yearly').classList.toggle('active',y);['pro','elite','agency'].forEach(p=>{document.getElementById(p+'-monthly').style.display=y?'none':'flex';document.getElementById(p+'-yearly').style.display=y?'flex':'none';});}
 
 /* ── 3D KARTLAR ── */
 ['wc1','wc2','wc3'].forEach(id=>{const c=document.getElementById(id);if(!c)return;c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=r.width/2,cy=r.height/2;c.style.transform=`perspective(1000px) rotateX(${((y-cy)/cy)*8}deg) rotateY(${((x-cx)/cx)*-8}deg) scale(1.02)`;c.style.setProperty('--mx',(x/r.width*100)+'%');c.style.setProperty('--my',(y/r.height*100)+'%');});c.addEventListener('mouseleave',()=>{c.style.transform='perspective(1000px) rotateX(0) rotateY(0) scale(1)';});});
