@@ -10,6 +10,6 @@ jobs:
     steps:
       - name: Run cron scan
         run: |
-          curl -X POST https://belyshield.com/api/cron-scan \
+          curl -L -X POST https://belyshield.com/api/cron-scan \
             -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
             -H "Content-Type: application/json"
