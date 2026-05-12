@@ -15,7 +15,7 @@
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
 a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
 nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 32px}
-.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 16px;box-sizing:border-box;overflow:hidden}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em}
 .brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-family:var(--mono);font-size:13px;font-weight:500;color:#000;position:relative;overflow:hidden}
 .brand-icon::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.4),transparent 60%)}
