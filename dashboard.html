@@ -414,6 +414,7 @@ function checkPlanStatus(storeData){
   chip.style.display='inline-block';
   if(plan==='pro'||plan==='starter'){chip.className='plan-chip chip-pro';chip.textContent='★ Shield Pro';paywall.style.display='none';banner.style.display='none';return;}
   if(plan==='elite'){chip.className='plan-chip chip-elite';chip.textContent='★ Shield Elite';paywall.style.display='none';banner.style.display='none';return;}
+  if(plan==='agency'){chip.className='plan-chip chip-elite';chip.textContent='★ Shield Agency';chip.style.background='rgba(138,99,255,0.2)';chip.style.color='#8a63ff';chip.style.borderColor='rgba(138,99,255,0.5)';paywall.style.display='none';banner.style.display='none';return;}
   if(trialEnd&&now<trialEnd){const d=Math.ceil((trialEnd-now)/86400000);chip.className='plan-chip chip-trial';chip.textContent=`DENEME — ${d} GÜN`;document.getElementById('trial-days-text').textContent=`${d} gün kaldı`;banner.style.display='flex';paywall.style.display='none';return;}
   chip.className='plan-chip chip-trial';chip.textContent='Trial Bitti';banner.style.display='none';paywall.style.display='flex';
 }
