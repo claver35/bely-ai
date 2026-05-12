@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const storesRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?plan=eq.pro&subscription_status=eq.active&select=user_id,shop_domain,access_token`,
+      `${SUPABASE_URL}/rest/v1/shopify_stores?subscription_status=eq.active&plan=in.(pro,elite,agency)&select=user_id,shop_domain,access_token,plan`,
       {
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
