@@ -1,0 +1,15 @@
+name: BELY AI Cron Scan
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run cron scan
+        run: |
+          curl -X POST https://belyshield.com/api/cron-scan \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json"
