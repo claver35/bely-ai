@@ -109,19 +109,30 @@ module.exports = async function handler(req, res) {
             ];
 
             for (const riskOrder of allRiskOrders) {
-              await fetch(ALERT_URL, {
+              const riskColor = riskOrder.level === 'HIGH' ? '#ff3d57' : '#ffab00';
+              const riskEmoji = riskOrder.level === 'HIGH' ? '🚨' : '⚠️';
+              await fetch('https://api.resend.com/emails', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'x-internal-secret': process.env.CRON_SECRET
+                  'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+                  'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  to:          userEmail,
-                  orderNumber: riskOrder.order_number,
-                  orderAmount: parseFloat(riskOrder.total_price).toFixed(2),
-                  riskLevel:   riskOrder.level,
-                  riskReasons: riskOrder.risks,
-                  shop:        shop_domain
+                  from: process.env.ALERT_FROM_EMAIL || 'BELY AI <alerts@belyshield.com>',
+                  to: [userEmail],
+                  subject: `${riskEmoji} ${riskOrder.level} Risk Sipariş #${riskOrder.order_number} — ${shop_domain}`,
+                  html: `<div style="font-family:sans-serif;background:#0f1117;color:#fff;padding:40px;max-width:560px;margin:0 auto">
+                    <h2 style="color:#00e5ff">BELY AI</h2>
+                    <div style="background:#161820;border:1px solid ${riskColor}40;border-radius:12px;padding:28px;margin-top:20px">
+                      <h3 style="color:#fff">${riskEmoji} ${riskOrder.level} Risk Sipariş Tespit Edildi</h3>
+                      <p style="color:#c2c0b6">Mağaza: <strong style="color:#fff">${shop_domain}</strong></p>
+                      <p>Sipariş: <strong>#${riskOrder.order_number}</strong></p>
+                      <p>Tutar: <strong>$${parseFloat(riskOrder.total_price).toFixed(2)}</strong></p>
+                      <p>Risk: <strong style="color:${riskColor}">${riskOrder.level}</strong></p>
+                      ${riskOrder.risks.map(r => `<div style="padding:6px 10px;background:rgba(255,61,87,0.07);border-left:2px solid ${riskColor};margin:4px 0;font-size:13px">⚠ ${r}</div>`).join('')}
+                      <a href="https://belyshield.com/dashboard.html" style="display:block;text-align:center;padding:12px;background:linear-gradient(90deg,#00e5ff,#0099cc);color:#000;font-weight:700;border-radius:8px;text-decoration:none;margin-top:20px">Dashboard'a Git →</a>
+                    </div>
+                  </div>`
                 })
               });
             }
