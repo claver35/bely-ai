@@ -3,9 +3,19 @@ on:
   schedule:
     - cron: '0 */2 * * *'
   workflow_dispatch:
+  push:
+    branches:
+      - main
 jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy
+        run: |
+          curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_JyfQI6nhm6Yw6JbxYgFDI2iXNZq6/0uv2yr5Ari
   scan:
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Run cron scan
         run: |
