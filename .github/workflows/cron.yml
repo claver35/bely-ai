@@ -10,9 +10,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Vercel Deploy
-        run: |
-          curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_JyfQI6nhm6Yw6JbxYgFDI2iXNZq6/0uv2yr5Ari
+      - uses: actions/checkout@v3
+      - name: Deploy to Vercel
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
   scan:
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
