@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Run cron scan
         run: |
-          curl -L -X POST https://belyshield.com/api/cron-scan \
+          curl -L -X POST https://bely-ai.vercel.app/api/cron-scan \
             -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
             -H "Content-Type: application/json" \
             -d "{}"
