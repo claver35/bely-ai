@@ -207,7 +207,7 @@ module.exports = async function handler(req, res) {
       limit = 250;
       accessLevel = 'agency';
     } else if (plan === 'elite' && status === 'active') {
-      limit = 250;
+      limit = 500;
       accessLevel = 'elite';
     } else if (plan === 'pro' && status === 'active') {
       limit = 250;
