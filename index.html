@@ -770,6 +770,11 @@ async function checkAuth(){
         el.textContent=(currentLang==='tr'?'Canlı · '+count+' Shopify Mağazası Koruyor':'Live · '+count+' Stores Protected');
       });
     }
+  try{
+    const r2=await sb.from('shopify_stores').select('id',{count:'exact',head:true});
+    const el=document.getElementById('auth-stat-orders');
+    if(el&&r2.count>0)el.textContent=r2.count+' stores';
+  }catch(e){}
   }catch(e){}
 }
 checkAuth();
