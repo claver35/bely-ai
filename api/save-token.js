@@ -43,16 +43,56 @@ module.exports = async function handler(req, res) {
     const trialEnd = new Date();
     trialEnd.setDate(trialEnd.getDate() + 14);
 
-    await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}`,
+    // Mevcut mağazaları kontrol et
+    const existingRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}&select=id,shop_domain,plan`,
       {
-        method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
           'apikey': SUPABASE_SERVICE_KEY
         }
       }
     );
+    const existingStores = await existingRes.json();
+    const plan = existingStores[0]?.plan || 'free';
+    const maxStores = plan === 'agency' ? 3 : 1;
+
+    // Aynı domain zaten bağlıysa güncelle
+    const sameStore = existingStores.find(s => s.shop_domain === cleanShop);
+    if (sameStore) {
+      await fetch(
+        `${SUPABASE_URL}/rest/v1/shopify_stores?id=eq.${sameStore.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ access_token: token, connected_at: new Date().toISOString() })
+        }
+      );
+      return res.status(200).json({ success: true });
+    }
+
+    // Limit kontrolü
+    if (existingStores.length >= maxStores) {
+      // En eski mağazayı sil (agency değilse)
+      if (plan !== 'agency') {
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+              'apikey': SUPABASE_SERVICE_KEY
+            }
+          }
+        );
+      } else {
+        return res.status(403).json({ error: 'max_stores_reached', message: 'Agency planında maksimum 3 mağaza bağlayabilirsiniz.' });
+      }
+    }
 
     const insertRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores`,
