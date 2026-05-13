@@ -1,10 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron-scan",
-      "schedule": "0 */2 * * *"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
