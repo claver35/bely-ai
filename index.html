@@ -52,7 +52,10 @@ h1{font-family:var(--display);font-size:clamp(36px,5vw,68px);line-height:.97;let
 @media(max-width:600px){.hero-ctas{flex-direction:column;gap:10px}.hero-ctas .btn-shopify-nav{width:100%;justify-content:center}.hero-ctas .btn-ghost{width:100%;justify-content:center}}
 .trust-pills{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
 .trust-pills span::before{content:'✓ ';color:var(--good)}
-.roi-hl{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6}
+.roi-hl{background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--ink-2);line-height:1.6;animation:roi-glow 2.5s ease-in-out infinite;position:relative;overflow:hidden}
+.roi-hl::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,229,255,0.06),transparent);transform:translateX(-100%);animation:roi-shine 3s ease-in-out infinite}
+@keyframes roi-glow{0%,100%{border-color:rgba(0,229,255,0.2);box-shadow:0 0 10px rgba(0,229,255,0.05)}50%{border-color:rgba(0,229,255,0.6);box-shadow:0 0 25px rgba(0,229,255,0.2)}}
+@keyframes roi-shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 .roi-hl strong{color:var(--accent);font-size:16px}
 .hero-right{position:relative;width:100%;height:460px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(0,229,255,0.03),rgba(0,0,0,0.3));border:1px solid rgba(0,229,255,0.15)}
 #hero-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
