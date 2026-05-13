@@ -796,6 +796,37 @@ function showAnalytics(){
         </div>
       </div>
     </div>`;
+}function showSettings(){
+  setActiveSb('sb-settings');
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header"><div><div class="page-title">⚙️ Settings</div><div class="page-sub">Hesap ve bildirim ayarları</div></div></div>
+    <div class="orders-panel" style="padding:32px">
+      <div class="db-title" style="margin-bottom:20px">📧 Email Bildirimleri</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2)">
+        <div><div style="font-size:14px;color:#fff;font-weight:600">Yüksek Risk Uyarısı</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">Yüksek riskli sipariş tespit edildiğinde email gönder</div></div>
+        <div style="background:rgba(0,255,136,0.15);border:1px solid var(--good);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--good);font-family:var(--mono)">AKTİF</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2)">
+        <div><div style="font-size:14px;color:#fff;font-weight:600">Orta Risk Uyarısı</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">Orta riskli sipariş tespit edildiğinde email gönder</div></div>
+        <div style="background:rgba(0,255,136,0.15);border:1px solid var(--good);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--good);font-family:var(--mono)">AKTİF</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2)">
+        <div><div style="font-size:14px;color:#fff;font-weight:600">Chargeback Limit Uyarısı</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">Chargeback oranı %0.50 üzerine çıkınca uyar</div></div>
+        <div style="background:rgba(0,255,136,0.15);border:1px solid var(--good);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--good);font-family:var(--mono)">AKTİF</div>
+      </div>
+      <div class="db-title" style="margin-top:28px;margin-bottom:20px">🔗 Shopify Bağlantısı</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2)">
+        <div><div style="font-size:14px;color:#fff;font-weight:600" id="settings-shop-name">Bağlı Mağaza</div><div style="font-size:12px;color:var(--good);margin-top:4px">✔ Aktif ve korumalı</div></div>
+        <button onclick="disconnectStore()" style="padding:7px 16px;border-radius:7px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);font-size:12px">Bağlantıyı Kes</button>
+      </div>
+      <div class="db-title" style="margin-top:28px;margin-bottom:20px">💳 Plan</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0">
+        <div><div style="font-size:14px;color:#fff;font-weight:600">Mevcut Plan</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">Planını yükselt, daha fazla özelliğe eriş</div></div>
+        <button onclick="startCheckout('elite')" style="padding:7px 16px;border-radius:7px;border:none;background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:700">Elite'e Geç →</button>
+      </div>
+    </div>`;
+  const shopEl=document.getElementById('settings-shop-name');
+  if(shopEl){const shop=localStorage.getItem('shopify_shop')||'Bağlı Mağaza';shopEl.textContent=shop;}
 }function showDisputeAI(){
   setActiveSb('sb-dispute');
   const content=document.getElementById('main-content');
