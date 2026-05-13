@@ -210,7 +210,7 @@ module.exports = async function handler(req, res) {
       limit = 250;
       accessLevel = 'elite';
     } else if (plan === 'pro' && status === 'active') {
-      limit = 25; // Pro: 10'dan 25'e yükseltildi
+      limit = 250;
       accessLevel = 'pro';
     } else if (status === 'trial' || isTrialActive || plan === 'free') {
       limit = 5;
