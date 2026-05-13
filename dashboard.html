@@ -966,7 +966,7 @@ async function init(){
       const data=await res.json();
       cachedOrders=data.orders||[];
       cachedPlan=data._plan||currentPlan;
-console.log('cachedPlan:', cachedPlan, 'currentPlan:', currentPlan);
+
       window._lastCbRate=data._chargebackRate||'0.00';
       renderOrders(cachedOrders,cachedPlan);
       updateHealthScore(cachedOrders,window._lastCbRate);
