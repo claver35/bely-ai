@@ -746,7 +746,65 @@ function disconnectStore(){
 }
 
 async function logout(){await sb.auth.signOut();localStorage.removeItem('shopify_shop');window.location.href='index.html';}
+function showDisputeAI(){
+  setActiveSb('sb-dispute');
+  const content=document.getElementById('main-content');
+  content.innerHTML=`
+    <div class="page-header">
+      <div>
+        <div class="page-title">🤖 Dispute AI</div>
+        <div class="page-sub"><span class="live-dot"></span> AI itiraz mektubu yazıcı — Elite & Agency</div>
+      </div>
+    </div>
+    ${(currentPlan==='elite'||currentPlan==='agency')?`
+    <div class="orders-panel" style="padding:28px">
+      <div style="margin-bottom:20px">
+        <div class="db-title" style="font-size:13px;margin-bottom:16px">Sipariş bilgilerini girin, AI itiraz mektubunu saniyeler içinde hazırlasın.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Sipariş No</label><input id="da-order" type="text" placeholder="#1001" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Tutar ($)</label><input id="da-amount" type="text" placeholder="299.90" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Müşteri Adı</label><input id="da-name" type="text" placeholder="John Doe" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Müşteri Email</label><input id="da-email" type="text" placeholder="john@example.com" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Ödeme Yöntemi</label><input id="da-gateway" type="text" placeholder="shopify_payments" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
+          <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Finansal Durum</label><select id="da-status" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"><option value="paid">Ödendi</option><option value="refunded">İade Edildi</option><option value="partially_refunded">Kısmi İade</option></select></div>
+        </div>
+        <button onclick="runDisputeAI()" style="width:100%;padding:13px;border-radius:10px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--sans)">🤖 AI İtiraz Mektubu Yaz →</button>
+      </div>
+      <div id="da-result" style="display:none;margin-top:20px">
+        <div class="db-title" style="font-size:13px;margin-bottom:12px">📄 AI İtiraz Mektubu</div>
+        <div id="da-text" style="background:var(--bg);border:1px solid rgba(0,229,255,0.2);border-radius:10px;padding:20px;font-size:13px;color:#d0d4e8;line-height:1.8;white-space:pre-wrap"></div>
+        <button id="da-copy" onclick="navigator.clipboard.writeText(document.getElementById('da-text').textContent);this.textContent='✓ Kopyalandı!'" style="margin-top:12px;padding:10px 20px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)">📋 Kopyala</button>
+      </div>
+    </div>`:`
+    <div class="locked-detail" style="margin-top:20px;padding:40px;text-align:center">
+      <div class="locked-icon">⚡</div>
+      <div class="locked-text">AI İtiraz Mektubu <strong style="color:#fff">Shield Elite</strong> ve üzeri planlara özeldir.</div>
+      <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button>
+    </div>`}
+  `;
+}
 
+async function runDisputeAI(){
+  const btn=document.querySelector('[onclick="runDisputeAI()"]');
+  const result=document.getElementById('da-result');
+  const text=document.getElementById('da-text');
+  btn.disabled=true;btn.textContent='🤖 Yazıyor...';
+  result.style.display='block';text.textContent='AI itiraz mektubu hazırlanıyor...';
+  try{
+    const res=await fetch('/api/dispute-writer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      orderNumber:document.getElementById('da-order').value,
+      totalPrice:document.getElementById('da-amount').value,
+      customerName:document.getElementById('da-name').value,
+      customerEmail:document.getElementById('da-email').value,
+      gateway:document.getElementById('da-gateway').value,
+      financialStatus:document.getElementById('da-status').value,
+      shopName:localStorage.getItem('shopify_shop')||''
+    })});
+    const data=await res.json();
+    if(data.letter){text.textContent=data.letter;btn.textContent='✓ Mektup Hazır';btn.disabled=false;}
+    else{text.textContent='Hata oluştu.';btn.disabled=false;btn.textContent='🤖 AI İtiraz Mektubu Yaz →';}
+  }catch(e){text.textContent='Hata oluştu.';btn.disabled=false;btn.textContent='🤖 AI İtiraz Mektubu Yaz →';}
+}
 async function showChargebackReport(){
   setActiveSb('sb-chargeback');
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
