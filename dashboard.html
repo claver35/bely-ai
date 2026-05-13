@@ -827,6 +827,38 @@ function showAnalytics(){
         </div>
       </div>
     </div>`;
+}function showHelp(){
+  setActiveSb('sb-help');
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header"><div><div class="page-title">❓ Help & FAQ</div><div class="page-sub">Sık sorulan sorular ve rehber</div></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div class="orders-panel" style="padding:24px">
+        <div class="db-title" style="margin-bottom:16px">🛡️ Risk Skorlama</div>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Risk skoru nasıl hesaplanır?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Her sipariş 40+ sinyal ile analiz edilir: hesap yaşı, email tipi, fatura/teslimat ülkesi, sipariş tutarı, ödeme durumu. Skorlar 0-99 arasında hesaplanır.</p></details>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Yüksek riskli sipariş ne anlama gelir?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">%65 ve üzeri skor yüksek risk anlamına gelir. Bu siparişleri kargoya vermeden önce mutlaka inceleyin. Müşteriyle iletişime geçmek veya siparişi bekletmek önerilir.</p></details>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Düşük riskli sipariş güvenli mi?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Düşük riskli siparişler genellikle güvenlidir ancak %100 garanti verilmez. BELY AI bir karar destek aracıdır, nihai karar size aittir.</p></details>
+        <details style="cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Bot şüphesi sinyali ne anlama gelir?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Aynı adrese birden fazla hesaptan sipariş, çok hızlı checkout veya kısa sürede çok sayıda sipariş bot saldırısına işaret eder. Bu siparişleri iptal etmeniz önerilir.</p></details>
+      </div>
+      <div class="orders-panel" style="padding:24px">
+        <div class="db-title" style="margin-bottom:16px">💳 Hesap & Abonelik</div>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Aboneliğimi nasıl iptal ederim?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Settings sayfasından "Aboneliği İptal Et" butonuna tıklayın veya info@belyshield.com adresine email gönderin. Mevcut dönem sonuna kadar erişiminiz devam eder.</p></details>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Kaç mağaza bağlayabilirim?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Shield Pro ve Elite planlarında 1 mağaza, Shield Agency planında 3 mağazaya kadar bağlayabilirsiniz.</p></details>
+        <details style="margin-bottom:12px;cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Ödeme faturamda ne görünür?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Banka ekstrenizde "Paddle.com" olarak görünür. Paddle, BELY AI'nın yetkili ödeme altyapısıdır.</p></details>
+        <details style="cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Verilerimin güvenliği nasıl sağlanıyor?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Shopify API anahtarlarınız şifrelenmiş olarak saklanır. Sipariş verileriniz analiz sonrası işlenmez, depolanmaz veya satılmaz. GDPR uyumlu altyapı kullanıyoruz.</p></details>
+      </div>
+    </div>
+    <div class="orders-panel" style="padding:24px">
+      <div class="db-title" style="margin-bottom:16px">📧 Hesap Sağlığı & Chargeback</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <details style="cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">Chargeback oranım neden yüksek görünüyor?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Chargeback oranı son 30 günlük iade sayısının toplam siparişe oranıdır. Az sipariş varken bile 1 iade oranı yüksek gösterebilir. Visa limiti %0.65'tir.</p></details>
+        <details style="cursor:pointer"><summary style="font-size:14px;font-weight:600;color:#fff;padding:10px 0;border-bottom:1px solid var(--line2)">AI itiraz mektubu garantili mi?</summary><p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px">Hayır. AI itiraz mektubu davanızı desteklemek için profesyonel bir belge oluşturur ancak nihai karar bankanıza aittir. Sonucu garanti edemeyiz.</p></details>
+      </div>
+    </div>
+    <div class="orders-panel" style="padding:24px;margin-top:14px;text-align:center">
+      <div style="font-size:14px;color:#fff;font-weight:600;margin-bottom:8px">Sorunuz burada yok mu?</div>
+      <div style="font-size:13px;color:var(--ink2);margin-bottom:16px">7/24 email desteği sunuyoruz.</div>
+      <a href="mailto:info@belyshield.com" style="padding:10px 24px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000;font-weight:700;font-size:13px;text-decoration:none">info@belyshield.com →</a>
+    </div>`;
 }function showSettings(){
   setActiveSb('sb-settings');
   document.getElementById('main-content').innerHTML=`
