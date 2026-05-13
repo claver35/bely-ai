@@ -828,9 +828,13 @@ function showAnalytics(){
         <button onclick="disconnectStore()" style="padding:7px 16px;border-radius:7px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);font-size:12px">Bağlantıyı Kes</button>
       </div>
       <div class="db-title" style="margin-top:28px;margin-bottom:20px">💳 Plan</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2)">
         <div><div style="font-size:14px;color:#fff;font-weight:600">Mevcut Plan</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">Planını yükselt, daha fazla özelliğe eriş</div></div>
         <button onclick="startCheckout('elite')" style="padding:7px 16px;border-radius:7px;border:none;background:linear-gradient(90deg,var(--cyan),#0099cc);color:#000;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:700">Elite'e Geç →</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0">
+        <div><div style="font-size:14px;color:#fff;font-weight:600">Abonelik İptali</div><div style="font-size:12px;color:var(--ink2);margin-top:4px">İptal etmek için bizimle iletişime geçin — mevcut dönem sonuna kadar erişiminiz devam eder</div></div>
+        <a href="mailto:info@belyshield.com?subject=Abonelik İptali" style="padding:7px 16px;border-radius:7px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-family:var(--sans);font-size:12px;text-decoration:none">Aboneliği İptal Et</a>
       </div>
     </div>`;
   const shopEl=document.getElementById('settings-shop-name');
