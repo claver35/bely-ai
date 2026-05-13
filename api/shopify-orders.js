@@ -368,8 +368,8 @@ module.exports = async function handler(req, res) {
       score = Math.min(score, 99);
 
       let level;
-      if (score >= 50) level = 'high';
-      else if (score >= 25) level = 'medium';
+      if (score >= 65) level = 'high';
+      else if (score >= 35) level = 'medium';
       else level = 'low';
 
       const baseOrder = {
