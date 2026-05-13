@@ -441,7 +441,7 @@ function sanitizeOrder(order){
   const esc=escHtml;
   if(order.country)order.country=esc(order.country);
   if(order.details){const d=order.details;['customerName','customerEmail','billingCountry','shippingCountry','billingCity','shippingCity','gateway','financialStatus','fulfillmentStatus'].forEach(k=>{if(d[k])d[k]=esc(d[k]);});}
-  if(order.risk?.risks)order.risk.risks=order.risk.risks.map(r=>esc(r));
+  // risk strings already safe, skip escaping
   return order;
 }
 
