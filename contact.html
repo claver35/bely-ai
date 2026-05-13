@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>BELY AI — Contact Us</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070d;--bg-2:#0a0d18;--bg-3:#0f1220;--ink:#eeedf8;--ink-2:#8b90a8;--ink-3:#555870;--line:rgba(255,255,255,0.07);--line-2:rgba(255,255,255,0.12);--accent:#00e5ff;--accent-2:#0099cc;--good:#00e676;--danger:#ff3d57;--sans:'Syne',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,7,13,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 32px}
+.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+.brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-family:var(--mono);font-size:13px;font-weight:500;color:#000}
+.back-link{font-size:14px;color:var(--ink-2)}
+.back-link:hover{color:var(--ink)}
+.shell{max-width:900px;margin:0 auto;padding:64px 32px 120px}
+h1{font-size:40px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+.sub{font-size:16px;color:var(--ink-2);margin-bottom:48px;line-height:1.6}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:720px){.contact-grid{grid-template-columns:1fr}}
+.contact-info{display:flex;flex-direction:column;gap:20px}
+.info-card{background:rgba(255,255,255,0.03);border:1px solid var(--line-2);border-radius:14px;padding:24px}
+.info-card h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+.info-card p{font-size:14px;color:var(--ink-2);line-height:1.6}
+.info-card a{color:var(--accent)}
+.contact-form{background:rgba(255,255,255,0.03);border:1px solid var(--line-2);border-radius:14px;padding:32px}
+.contact-form h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;color:var(--ink-2);margin-bottom:7px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em}
+.field input,.field textarea,.field select{width:100%;padding:12px 14px;border-radius:9px;background:var(--bg-3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line-2);transition:border-color .15s;outline:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,0.12)}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-3)}
+.field textarea{resize:vertical;min-height:120px}
+.btn-submit{width:100%;padding:14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#000;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:opacity .15s}
+.btn-submit:hover{opacity:.9}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+.success-msg{display:none;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);border-radius:10px;padding:16px;font-size:14px;color:var(--good);margin-top:16px;text-align:center}
+.err-msg{display:none;background:rgba(255,61,87,0.1);border:1px solid rgba(255,61,87,0.3);border-radius:10px;padding:16px;font-size:14px;color:var(--danger);margin-top:16px}
+footer{border-top:1px solid var(--line);padding:32px;text-align:center;font-size:13px;color:var(--ink-2)}
+footer a{color:var(--ink-2);margin:0 12px}
+footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><div class="brand-icon">B</div>BELY<span style="color:var(--accent);font-family:var(--mono);font-weight:500;margin-left:3px">AI</span></a>
+    <a href="index.html" class="back-link">← Back to home</a>
+  </div>
+</nav>
+
+<div class="shell">
+  <h1>Contact Us</h1>
+  <p class="sub">We're here to help. Send us a message and we'll get back to you within 24 hours.</p>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="info-card">
+        <h3>📧 Email Support</h3>
+        <p>For general inquiries, billing questions, and technical support:<br><a href="mailto:info@belyshield.com">info@belyshield.com</a></p>
+      </div>
+      <div class="info-card">
+        <h3>⏱ Response Time</h3>
+        <p>We respond to all inquiries within 24 hours on business days. For urgent issues, please mention "URGENT" in your subject line.</p>
+      </div>
+      <div class="info-card">
+        <h3>🏢 Company</h3>
+        <p><strong style="color:#fff">BELY AI</strong><br>Shopify Fraud Protection<br>info@belyshield.com<br><br>Payments processed by <strong style="color:#fff">Paddle.com</strong> as Merchant of Record.</p>
+      </div>
+      <div class="info-card">
+        <h3>💳 Billing & Cancellation</h3>
+        <p>To cancel your subscription or request a refund, email us at <a href="mailto:info@belyshield.com">info@belyshield.com</a> or visit our <a href="refund.html" style="color:var(--accent)">Refund Policy</a>.</p>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h2>Send us a message</h2>
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="c-name" placeholder="John Doe"/>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="c-email" placeholder="you@store.com"/>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <select id="c-subject">
+          <option value="">Select a topic...</option>
+          <option value="billing">Billing & Subscription</option>
+          <option value="cancellation">Cancellation Request</option>
+          <option value="refund">Refund Request</option>
+          <option value="technical">Technical Support</option>
+          <option value="general">General Inquiry</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="c-message" placeholder="Describe your issue or question..."></textarea>
+      </div>
+      <button class="btn-submit" id="c-btn" onclick="submitContact()">Send Message →</button>
+      <div class="success-msg" id="c-success">✓ Message sent! We'll get back to you within 24 hours.</div>
+      <div class="err-msg" id="c-err"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>© 2026 BELY AI. All rights reserved.</div>
+  <div style="margin-top:12px">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="refund.html">Refund Policy</a>
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+
+<script>
+async function submitContact(){
+  const name=document.getElementById('c-name').value.trim();
+  const email=document.getElementById('c-email').value.trim();
+  const subject=document.getElementById('c-subject').value;
+  const message=document.getElementById('c-message').value.trim();
+  const btn=document.getElementById('c-btn');
+  const success=document.getElementById('c-success');
+  const err=document.getElementById('c-err');
+  err.style.display='none';success.style.display='none';
+  if(!name||!email||!subject||!message){err.textContent='Please fill in all fields.';err.style.display='block';return;}
+  if(!email.includes('@')){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Sending...';
+  // Mailto fallback
+  const mailtoLink=`mailto:info@belyshield.com?subject=${encodeURIComponent('[BELY AI Contact] '+subject)}&body=${encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+message)}`;
+  window.location.href=mailtoLink;
+  setTimeout(()=>{success.style.display='block';btn.disabled=false;btn.textContent='Send Message →';},1000);
+}
+</script>
+</body>
+</html>
