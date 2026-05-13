@@ -2,9 +2,10 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST' && req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const cronSecret = req.headers['x-cron-secret'];
-  if (cronSecret !== process.env.CRON_SECRET) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+const isVercelCron = req.headers['x-vercel-cron'] === '1';
+if (!isVercelCron && cronSecret !== process.env.CRON_SECRET) {
+  return res.status(401).json({ error: 'Unauthorized' });
+}
 
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
