@@ -744,8 +744,30 @@ function renderOrders(orders,plan){
   updateMap(orders);
 }
 
-function showShopifyConnected(shop){
-  document.getElementById('sb-store-content').innerHTML=`<div class="sb-shop-name">${shop}</div><div class="sb-shop-status">✔ Bağlantılı ve korumalı</div><button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>`;
+async function showShopifyConnected(shop){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session)return;
+  const{data:stores}=await sb.from('shopify_stores').select('shop_domain,plan').eq('user_id',session.user.id);
+  const plan=stores?.[0]?.plan||'free';
+  const maxStores=plan==='agency'?3:1;
+  let storeSelector='';
+  if(stores&&stores.length>1){
+    storeSelector=`<select onchange="switchStore(this.value)" style="width:100%;padding:6px 8px;border-radius:6px;background:var(--bg);border:1px solid rgba(0,229,255,0.2);color:#fff;font-size:12px;margin-bottom:8px;cursor:pointer">
+      ${stores.map(s=>`<option value="${s.shop_domain}" ${s.shop_domain===shop?'selected':''}>${s.shop_domain}</option>`).join('')}
+    </select>`;
+  }
+  const canAddMore=stores&&stores.length<maxStores;
+  document.getElementById('sb-store-content').innerHTML=`
+    ${storeSelector}
+    <div class="sb-shop-name">${shop}</div>
+    <div class="sb-shop-status">✔ Bağlantılı ve korumalı</div>
+    ${canAddMore?`<button class="sb-connect-btn" onclick="connectShopify()" style="margin-top:6px">+ Mağaza Ekle</button>`:''}
+    <button class="sb-disconnect" onclick="disconnectStore()">Bağlantıyı Kes</button>`;
+}
+
+function switchStore(shopDomain){
+  localStorage.setItem('shopify_shop',shopDomain);
+  location.reload();
 }
 
 function disconnectStore(){
