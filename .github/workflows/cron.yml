@@ -1,7 +1,7 @@
 name: BELY AI Cron Scan
 on:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 */1 * * *'
   workflow_dispatch:
   push:
     branches:
