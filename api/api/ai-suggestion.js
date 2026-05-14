@@ -34,6 +34,8 @@ Satıcıya şunları söyle:
 Yanıtın maksimum 3-4 cümle olsun. Direkt ve net konuş. Türkçe yaz.`;
 
   try {
+    console.log('[ai-suggestion] API KEY exists:', !!process.env.ANTHROPIC_API_KEY);
+console.log('[ai-suggestion] orderData:', JSON.stringify(orderData).slice(0,100));
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
