@@ -921,7 +921,11 @@ function showAnalytics(){
       <div id="da-result" style="display:none;margin-top:20px">
         <div class="db-title" style="font-size:13px;margin-bottom:12px">📄 AI İtiraz Mektubu</div>
         <div id="da-text" style="background:var(--bg);border:1px solid rgba(0,229,255,0.2);border-radius:10px;padding:20px;font-size:13px;color:#d0d4e8;line-height:1.8;white-space:pre-wrap"></div>
-        <button id="da-copy" onclick="navigator.clipboard.writeText(document.getElementById('da-text').textContent);this.textContent='✓ Kopyalandı!'" style="margin-top:12px;padding:10px 20px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)">📋 Kopyala</button>
+        <div style="margin-top:14px;background:rgba(255,171,0,0.07);border:1px solid rgba(255,171,0,0.25);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px">
+  <input type="checkbox" id="da-disclaimer" style="margin-top:3px;cursor:pointer;accent-color:var(--orange);width:16px;height:16px;flex-shrink:0"/>
+  <label for="da-disclaimer" style="font-size:12px;color:#ffd080;line-height:1.65;cursor:pointer">Bu mektup yapay zeka tarafından oluşturulmuştur ve davanızı desteklemeye yöneliktir. Sonuç bankanızın kararına bağlıdır — BELY AI herhangi bir garanti vermez. Nihai karar size aittir.</label>
+</div>
+<button id="da-copy" onclick="if(!document.getElementById('da-disclaimer').checked){alert('Lütfen önce onay kutusunu işaretleyin.');return;}navigator.clipboard.writeText(document.getElementById('da-text').textContent);this.textContent='✓ Kopyalandı!'" style="margin-top:12px;padding:10px 20px;border-radius:8px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.08);color:var(--cyan);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);width:100%">📋 Okudum, Onaylıyorum — Kopyala</button>
       </div>
     </div>`:`
     <div class="locked-detail" style="margin-top:20px;padding:40px;text-align:center">
