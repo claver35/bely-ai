@@ -372,6 +372,30 @@ module.exports = async function handler(req, res) {
       else if (score >= 35) level = 'medium';
       else level = 'low';
 
+      // Metafield: risk skorunu Shopify sipariş notuna yaz (arka planda, hata olsa geç)
+      try {
+        fetch(`https://${cleanShop}/admin/api/2024-01/orders/${order.id}/metafields.json`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': shopifyToken
+          },
+          body: JSON.stringify({
+            metafield: {
+              namespace: 'bely_ai',
+              key: 'risk_score',
+              value: JSON.stringify({
+                score,
+                level,
+                risks: risks.slice(0, 3),
+                scanned_at: new Date().toISOString()
+              }),
+              type: 'json'
+            }
+          })
+        }).catch(() => {});
+      } catch(e) { /* sessizce geç */ }
+
       const baseOrder = {
         id: order.id,
         order_number: order.order_number,
