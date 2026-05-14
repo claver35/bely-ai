@@ -279,7 +279,25 @@ module.exports = async function handler(req, res) {
       console.warn('[shopify-orders] Chargeback rate calc error:', e.message);
     }
 
-    const scoredOrders = (data.orders || []).map(order => {
+    // Blacklist'i çek
+let blacklistItems = [];
+try {
+  const blRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${userData.id}&select=type,value`,
+    {
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+        'apikey': SUPABASE_SERVICE_KEY
+      }
+    }
+  );
+  blacklistItems = await blRes.json();
+} catch(e) { blacklistItems = []; }
+
+const blEmails = new Set(blacklistItems.filter(b => b.type === 'email').map(b => b.value.toLowerCase()));
+const blCountries = new Set(blacklistItems.filter(b => b.type === 'country').map(b => b.value.toUpperCase()));
+
+const scoredOrders = (data.orders || []).map(order => {
       let score = 0;
       const risks = [];
 
