@@ -283,7 +283,7 @@ module.exports = async function handler(req, res) {
 let blacklistItems = [];
 try {
   const blRes = await fetch(
-    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${userData.id}&select=type,value`,
+    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${userData.id}&select=type,value,reason`,
     {
       headers: {
         'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -300,6 +300,20 @@ const blCountries = new Set(blacklistItems.filter(b => b.type === 'country').map
 const scoredOrders = (data.orders || []).map(order => {
       let score = 0;
       const risks = [];
+
+     // Blacklist kontrolü
+      const custEmail = order.customer?.email?.toLowerCase();
+      const shipCountry = order.shipping_address?.country_code?.toUpperCase();
+      if (custEmail && blEmails.has(custEmail)) {
+        const blItem = blacklistItems.find(b => b.type === 'email' && b.value === custEmail);
+        const reason = blItem?.reason ? ` (Sebep: ${blItem.reason})` : '';
+        score += 60; risks.push(`🚫 Kara listede email adresi${reason}`);
+      }
+      if (shipCountry && blCountries.has(shipCountry)) {
+        const blItem = blacklistItems.find(b => b.type === 'country' && b.value === shipCountry);
+        const reason = blItem?.reason ? ` (Sebep: ${blItem.reason})` : '';
+        score += 50; risks.push(`🚫 Kara listede ülke${reason}`);
+      }
 
       // Hesap yaşı
       if (order.customer?.created_at) {
