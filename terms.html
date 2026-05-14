@@ -16,9 +16,10 @@
     --line: rgba(255,255,255,0.08);
     --line-2: rgba(255,255,255,0.14);
     --accent: #4ea8ff;
-    --accent-ink: #001024;
     --card: rgba(255,255,255,0.03);
     --radius: 14px;
+    --warn: rgba(255,171,0,0.1);
+    --warn-border: rgba(255,171,0,0.3);
     --mono: 'Geist Mono', ui-monospace, monospace;
     --sans: 'Geist', system-ui, -apple-system, sans-serif;
   }
@@ -26,54 +27,28 @@
   html, body { margin:0; padding:0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-
-  nav.topbar {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in oklab, var(--bg) 92%, transparent);
-    border-bottom: 1px solid var(--line);
-    padding: 0 32px;
-  }
+  nav.topbar { position: sticky; top: 0; z-index: 50; background: color-mix(in oklab, var(--bg) 92%, transparent); border-bottom: 1px solid var(--line); padding: 0 32px; }
   nav.topbar .inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); text-decoration: none; }
-  .brand-mark {
-    width: 28px; height: 28px; border-radius: 7px;
-    background: linear-gradient(135deg, #4ea8ff, #7dd3ff);
-    display: grid; place-items: center; color: #001024; font-weight: 800; font-family: var(--mono); font-size: 13px;
-  }
+  .brand-mark { width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, #4ea8ff, #7dd3ff); display: grid; place-items: center; color: #001024; font-weight: 800; font-family: var(--mono); font-size: 13px; }
   .back-link { font-size: 14px; color: var(--ink-2); }
   .back-link:hover { color: var(--ink); text-decoration: none; }
-
   .shell { max-width: 760px; margin: 0 auto; padding: 64px 32px 120px; }
-
-  .page-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 12px; border-radius: 999px;
-    border: 1px solid var(--line-2);
-    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--ink-2); background: var(--card); margin-bottom: 24px;
-  }
-
+  .page-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-2); background: var(--card); margin-bottom: 24px; }
   h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; margin: 0 0 8px; }
   .updated { font-size: 14px; color: var(--ink-2); margin-bottom: 48px; }
-
-  .doc-body h2 {
-    font-size: 20px; font-weight: 700; color: var(--ink);
-    margin: 48px 0 12px; padding-top: 48px;
-    border-top: 1px solid var(--line);
-  }
+  .doc-body h2 { font-size: 20px; font-weight: 700; color: var(--ink); margin: 48px 0 12px; padding-top: 48px; border-top: 1px solid var(--line); }
   .doc-body h2:first-child { border-top: none; margin-top: 0; padding-top: 0; }
   .doc-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin: 0 0 16px; }
   .doc-body ul { padding-left: 20px; margin: 0 0 16px; }
   .doc-body ul li { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 8px; }
   .doc-body strong { color: var(--ink); font-weight: 600; }
-
-  .contact-card {
-    background: var(--card); border: 1px solid var(--line-2);
-    border-radius: var(--radius); padding: 24px 28px; margin-top: 48px;
-  }
+  .warning-box { background: var(--warn); border: 1px solid var(--warn-border); border-radius: var(--radius); padding: 20px 24px; margin: 24px 0; }
+  .warning-box p { margin: 0; color: #ffd080; font-size: 14px; line-height: 1.7; }
+  .warning-box strong { color: #ffab00; }
+  .contact-card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius); padding: 24px 28px; margin-top: 48px; }
   .contact-card p { margin: 0; font-size: 14px; color: var(--ink-2); }
   .contact-card a { color: var(--accent); }
-
   footer { border-top: 1px solid var(--line); padding: 32px; text-align: center; font-size: 13px; color: var(--ink-2); }
   footer a { color: var(--ink-2); margin: 0 12px; }
   footer a:hover { color: var(--ink); text-decoration: none; }
@@ -94,15 +69,27 @@
 <div class="shell">
   <div class="page-badge">Legal</div>
   <h1>Terms of Service</h1>
-  <p class="updated">Last updated: May 5, 2026</p>
+  <p class="updated">Last updated: May 14, 2026</p>
 
   <div class="doc-body">
+
+    <div class="warning-box">
+      <p><strong>⚠ Important Notice:</strong> BELY AI is a <strong>Decision Support and Analytics Tool</strong> — not a fraud prevention guarantee. All risk scores are estimates based on available signals. The final decision on every order — including whether to ship, hold, or cancel — remains <strong>solely with the merchant</strong>. BELY AI does not block orders, does not make decisions on your behalf, and cannot guarantee the prevention of chargebacks or fraud losses.</p>
+    </div>
 
     <h2>1. Acceptance of Terms</h2>
     <p>By accessing or using BELY AI ("Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service. These terms apply to all users, including Shopify merchants who connect their stores to BELY AI.</p>
 
-    <h2>2. Description of Service</h2>
-    <p>BELY AI is an AI-powered risk analysis tool designed for Shopify merchants. The Service analyzes order data to detect potentially fraudulent or high-risk orders using machine learning scoring algorithms. BELY AI provides risk scores and recommendations — final decisions regarding orders remain solely with the merchant.</p>
+    <h2>2. Description of Service — Decision Support Tool</h2>
+    <p>BELY AI is an <strong>AI-powered order analytics and early warning system</strong> designed for Shopify merchants. The Service analyzes order data to generate risk scores and surface potential anomalies using machine learning algorithms.</p>
+    <p><strong>BELY AI is a raportör (reporting tool), not a judge.</strong> Specifically:</p>
+    <ul>
+      <li>Risk scores are <strong>estimates</strong> based on 40+ data signals — they do not constitute legal or financial advice</li>
+      <li>The Service provides <strong>recommendations and alerts</strong> — it does not automatically block, cancel, or hold orders</li>
+      <li>AI-generated dispute letters are <strong>drafts only</strong> — merchants must review and submit them independently</li>
+      <li>All shipping, fulfillment, and cancellation decisions are <strong>entirely the merchant's responsibility</strong></li>
+      <li>The Service does not guarantee detection of all fraudulent orders</li>
+    </ul>
 
     <h2>3. Account Registration</h2>
     <p>To use BELY AI, you must:</p>
@@ -117,42 +104,69 @@
     <h2>4. Subscription Plans and Billing</h2>
     <p>BELY AI offers the following plans:</p>
     <ul>
-      <li><strong>Free Trial:</strong> 7-day free access to core features upon connecting your store. No credit card required.</li>
-      <li><strong>Shield Pro ($29.90/month):</strong> Full access to risk scoring, order analysis, and email alerts.</li>
-      <li><strong>Shield Elite ($49.90/month):</strong> Advanced features including instant webhook scanning, detailed fraud origin reports, and chargeback rate tracking.</li>
+      <li><strong>Free Trial:</strong> 14-day free access to core features upon connecting your store. No credit card required.</li>
+      <li><strong>Shield Pro ($29.90/month):</strong> Risk scoring, order analysis, email alerts, account health monitoring — up to 250 orders.</li>
+      <li><strong>Shield Elite ($49.90/month):</strong> Everything in Pro plus AI dispute letter drafts, detailed analytics, chargeback tracking — up to 500 orders.</li>
+      <li><strong>Shield Agency ($79.90/month):</strong> Everything in Elite plus bot detection analysis and up to 3 store connections.</li>
     </ul>
-    <p>Subscriptions are billed monthly through Paddle, our payment processor. By subscribing, you authorize recurring charges to your payment method. You may cancel at any time; cancellation takes effect at the end of the current billing period.</p>
+    <p>Subscriptions are billed monthly through <strong>Paddle</strong>, our authorized payment processor and Merchant of Record. By subscribing, you authorize recurring charges to your payment method. You may cancel at any time; cancellation takes effect at the end of the current billing period.</p>
 
     <h2>5. Shopify Data Access</h2>
-    <p>BELY AI accesses your Shopify store data (orders, customer information, shipping data) solely for the purpose of providing risk analysis. We do not sell, share, or use this data for any purpose other than operating the Service. All data is processed securely and in accordance with our Privacy Policy.</p>
+    <p>BELY AI accesses your Shopify store data (orders, customer information, shipping data) solely for the purpose of providing risk analysis. We request only the minimum permissions necessary (<code>read_orders</code>, <code>read_customers</code>). We do not sell, share, or use this data for any purpose other than operating the Service. All data is processed securely in accordance with our Privacy Policy.</p>
 
-    <h2>6. Disclaimer of Warranties</h2>
-    <p>BELY AI provides risk scores as informational guidance only. <strong>We do not guarantee the accuracy, completeness, or reliability of any risk assessment.</strong> Merchants are solely responsible for decisions made based on BELY AI's recommendations. We expressly disclaim any liability for chargebacks, fraud losses, or business decisions made using our Service.</p>
-
-    <h2>7. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, BELY AI shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Service. Our total liability shall not exceed the amount paid by you in the three months preceding the claim.</p>
-
-    <h2>8. Prohibited Uses</h2>
-    <p>You agree not to:</p>
+    <h2>6. Disclaimer of Warranties — No Accuracy Guarantee</h2>
+    <p>BELY AI provides risk scores and analytics as <strong>informational guidance only</strong>. By using this Service, you acknowledge and agree that:</p>
     <ul>
-      <li>Use the Service for any unlawful purpose</li>
-      <li>Attempt to reverse engineer or copy the Service</li>
-      <li>Share account access with unauthorized third parties</li>
-      <li>Use the Service to discriminate against customers unlawfully</li>
-      <li>Interfere with or disrupt the integrity of the Service</li>
+      <li><strong>Risk scores are not guaranteed to be accurate, complete, or reliable.</strong> False positives (legitimate orders flagged as risky) and false negatives (fraudulent orders not flagged) can and do occur.</li>
+      <li>BELY AI does not guarantee the prevention of chargebacks, fraud losses, or account suspension.</li>
+      <li>AI-generated dispute letters are drafts that may require modification — their submission and outcome are entirely the merchant's responsibility.</li>
+      <li>The Service is provided "as is" and "as available" without warranties of any kind, express or implied.</li>
+      <li>Merchants are solely responsible for decisions made based on BELY AI's recommendations.</li>
     </ul>
 
-    <h2>9. Termination</h2>
+    <div class="warning-box">
+      <p><strong>Critical:</strong> BELY AI expressly disclaims any liability for chargebacks, fraud losses, lost revenue, account suspensions, or any other damages arising from shipping or not shipping an order based on our risk scores. <strong>You, the merchant, make the final call — always.</strong></p>
+    </div>
+
+    <h2>7. Limitation of Liability</h2>
+    <p>To the maximum extent permitted by applicable law:</p>
+    <ul>
+      <li>BELY AI shall not be liable for any <strong>indirect, incidental, special, consequential, or punitive damages</strong> including but not limited to: lost profits, lost revenue, chargeback losses, fraud losses, or business interruption.</li>
+      <li>Our total aggregate liability to you shall not exceed the <strong>amount paid by you in the three (3) months preceding the claim</strong>.</li>
+      <li>These limitations apply regardless of the theory of liability — contract, tort, negligence, or otherwise.</li>
+    </ul>
+
+    <h2>8. AI-Generated Content Disclaimer</h2>
+    <p>BELY AI uses artificial intelligence (Claude by Anthropic) to generate dispute letter drafts and order analysis suggestions. You acknowledge that:</p>
+    <ul>
+      <li>AI-generated content may contain errors, inaccuracies, or omissions</li>
+      <li>Dispute letters are starting points — you must review, edit, and take responsibility for any content you submit to banks or payment processors</li>
+      <li>BELY AI makes no representations about the success rate of dispute resolutions</li>
+      <li>Outcome of any chargeback dispute depends on the bank's decision and evidence provided — factors outside our control</li>
+    </ul>
+
+    <h2>9. Prohibited Uses</h2>
+    <p>You agree not to:</p>
+    <ul>
+      <li>Use the Service for any unlawful purpose or in violation of Shopify's Terms of Service</li>
+      <li>Attempt to reverse engineer, copy, or resell the Service</li>
+      <li>Share account access with unauthorized third parties</li>
+      <li>Use risk scores to discriminate against customers on the basis of protected characteristics</li>
+      <li>Interfere with or disrupt the integrity or performance of the Service</li>
+      <li>Use the Service as a sole basis for customer treatment without independent verification</li>
+    </ul>
+
+    <h2>10. Termination</h2>
     <p>We reserve the right to suspend or terminate your account at any time for violation of these Terms. You may terminate your account at any time by contacting us or cancelling your subscription. Upon termination, your data will be deleted in accordance with our Privacy Policy.</p>
 
-    <h2>10. Changes to Terms</h2>
+    <h2>11. Changes to Terms</h2>
     <p>We may update these Terms from time to time. We will notify you of significant changes via email or through the Service. Continued use of BELY AI after changes constitutes acceptance of the new Terms.</p>
 
-    <h2>11. Governing Law</h2>
+    <h2>12. Governing Law</h2>
     <p>These Terms shall be governed by and construed in accordance with applicable international law. Any disputes shall be resolved through binding arbitration or the courts of competent jurisdiction.</p>
 
     <div class="contact-card">
-      <p>Questions about these Terms? Contact us at <a href="mailto:info@belyshield.com">info@belyshield.com</a></p>
+      <p>Questions about these Terms? Contact us at <a href="mailto:info@belyshield.com">info@belyshield.com</a> or visit our <a href="contact.html">Contact page</a>.</p>
     </div>
 
   </div>
@@ -164,6 +178,7 @@
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Service</a>
     <a href="refund.html">Refund Policy</a>
+    <a href="contact.html">Contact</a>
     <a href="index.html">Home</a>
   </div>
 </footer>
