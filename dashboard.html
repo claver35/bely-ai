@@ -507,7 +507,7 @@ async function getAISuggestion(orderId,orderData){
     const data=await res.json();
     if(data.suggestion){txt.textContent=data.suggestion;btn.textContent='🤖 AI Öneri Güncelle';btn.disabled=false;}
     else{txt.textContent='Öneri alınamadı.';btn.disabled=false;}
-  }catch(e){txt.textContent='Hata oluştu.';btn.disabled=false;}
+  }catch(e){txt.textContent='Hata: '+e.message;btn.disabled=false;}
 }
 
 function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
