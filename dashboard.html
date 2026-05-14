@@ -1099,7 +1099,11 @@ async function generateDisputeLetter(orderNumber, totalPrice, customerName, cust
     if (data.letter) {
       box.textContent = data.letter;
       btn.textContent = '✓ Mektup Hazır — Kopyala';
-      btn.onclick = () => { navigator.clipboard.writeText(data.letter); btn.textContent = '✓ Kopyalandı!'; };
+      btn.onclick = () => { 
+        if(!confirm('Bu mektup AI tarafından oluşturulmuştur. Sonuç bankanızın kararına bağlıdır — BELY AI garanti vermez. Devam etmek istiyor musunuz?')) return;
+        navigator.clipboard.writeText(data.letter); 
+        btn.textContent = '✓ Kopyalandı!'; 
+      };
     } else {
       box.textContent = 'Hata oluştu.';
       btn.disabled = false;
