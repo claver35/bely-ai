@@ -387,6 +387,16 @@ let currentUser=null, currentPlan='free', cachedOrders=[], cachedPlan='trial';
 window._lastCbRate = '0.00';
 
 setInterval(()=>{ document.getElementById('live-time').textContent=new Date().toLocaleTimeString('tr-TR'); },1000);
+setInterval(async()=>{
+  const el=document.getElementById('shopify-status');if(!el)return;
+  const shop=localStorage.getItem('shopify_shop');if(!shop)return;
+  try{
+    const{data:{session}}=await sb.auth.getSession();if(!session)return;
+    const res=await fetch(`/api/shopify-orders?shop=${encodeURIComponent(shop)}`,{headers:{'Authorization':`Bearer ${session.access_token}`}});
+    if(res.ok){el.style.color='var(--green)';el.textContent='● Shopify Bağlı';}
+    else{el.style.color='var(--red)';el.textContent='● Shopify Bağlantı Hatası';}
+  }catch(e){el.style.color='var(--orange)';el.textContent='● Shopify Kontrol Edilemiyor';}
+},5*60*1000);
 
 function setActiveSb(id){
   ['sb-dashboard','sb-orders','sb-chargeback'].forEach(i=>{const el=document.getElementById(i);if(el)el.classList.remove('active');});
