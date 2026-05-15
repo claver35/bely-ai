@@ -1069,7 +1069,7 @@ async function init(){
   checkPlanStatus(storeData);
   currentPlan=storeData?.plan||'free';
   showDashboard();
-  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
+  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||stores?.[0]?.shop_domain||null;
   if(shop){
     showShopifyConnected(shop);
     try{
