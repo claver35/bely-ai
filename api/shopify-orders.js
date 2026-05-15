@@ -191,7 +191,11 @@ module.exports = async function handler(req, res) {
       }
     );
     const stores = await storeRes.json();
-    const storeData = stores[0];
+    const shopParam = req.query.shop;
+const cleanShopEarly = shopParam ? shopParam.toLowerCase().trim() : null;
+const storeData = cleanShopEarly 
+  ? stores.find(s => s.shop_domain === cleanShopEarly) || stores[0]
+  : stores[0];
     if (!storeData) return res.status(404).json({ error: 'Store not found' });
 
     const now = new Date();
