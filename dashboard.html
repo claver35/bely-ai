@@ -1312,6 +1312,31 @@ function renderMap(counts,highRisk){
 }
 
 loadWorldMap();
+  async function bulkDisputeAll(){
+  const btn=document.getElementById('bulk-dispute-btn');
+  const status=document.getElementById('bulk-status');
+  btn.disabled=true;btn.textContent='⏳ Mektuplar hazırlanıyor...';
+  const{data:{session}}=await sb.auth.getSession();if(!session)return;
+  const{data:chargebacks}=await sb.from('chargebacks').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false}).limit(10);
+  if(!chargebacks||chargebacks.length===0){status.textContent='Chargeback kaydı bulunamadı.';btn.disabled=false;return;}
+  let completed=0;const letters=[];
+  for(const cb of chargebacks){
+    status.textContent=`İşleniyor: ${completed+1}/${chargebacks.length}`;
+    try{
+      const res=await fetch('/api/dispute-writer',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},body:JSON.stringify({orderNumber:cb.order_number,totalPrice:cb.amount,customerName:cb.customer_name||'',customerEmail:cb.customer_email||'',gateway:cb.gateway||'',financialStatus:cb.status||'',shopName:localStorage.getItem('shopify_shop')||''})});
+      const data=await res.json();
+      if(data.letter)letters.push({order:cb.order_number,letter:data.letter});
+    }catch(e){}
+    completed++;
+    await new Promise(r=>setTimeout(r,1000));
+  }
+  const allLetters=letters.map(l=>`=== SİPARİŞ #${l.order} ===\n\n${l.letter}`).join('\n\n'+'='.repeat(50)+'\n\n');
+  const blob=new Blob([allLetters],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`bely-ai-itiraz-mektuplari-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+  status.textContent=`✓ ${letters.length} mektup hazırlandı ve indirildi!`;
+  btn.disabled=false;btn.textContent='⚡ Tümüne Tek Tıkla İtiraz Mektubu Yaz';
+}
 init();
 async function generateDisputeLetter(orderNumber, totalPrice, customerName, customerEmail, gateway, financialStatus) {
   const btn = event.target;
