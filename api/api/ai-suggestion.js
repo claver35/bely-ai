@@ -64,7 +64,13 @@ Satıcıya şunları söyle:
 2. Ne yapmalı? (kargoya ver / beklet / iptal et / müşteriyle iletişime geç)
 3. Neden? (kısa gerekçe)
 
-Yanıtın maksimum 3-4 cümle olsun. Direkt ve net konuş. Türkçe yaz.`;
+Yanıtın şu formatta olsun:
+
+🔍 KARAR: [Güvenli / Şüpheli / Riskli]
+📋 AÇIKLAMA: [2-3 cümle detaylı açıklama — müşteri davranışı, tespit edilen anomaliler ve neden bu kararı verdiğini açıkla]
+⚡ AKSİYON: [Ne yapmalı — tek cümle net talimat]
+
+Türkçe yaz. Satıcıya güven ver.`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
