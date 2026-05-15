@@ -121,7 +121,9 @@ module.exports = async function handler(req, res) {
           shop_domain:         cleanShop,
           access_token:        token,
           connected_at:        new Date().toISOString(),
-          trial_end_date:      trialEnd.toISOString(),
+          trial_end_date: existingStores.length > 0 
+  ? existingStores[0].trial_end_date 
+  : trialEnd.toISOString(),
           status:              'trial',
           plan:                plan,
           subscription_status: existingStores.length > 0 ? existingStores[0].subscription_status : 'trial',
