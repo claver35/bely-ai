@@ -246,7 +246,7 @@ const storeData = cleanShopEarly
         { headers: { 'X-Shopify-Access-Token': shopifyToken } }
       ),
       fetch(
-        `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${cleanShop}&created_at=gte.${thirtyDaysAgo}&select=id,amount,status`,
+        `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${encodeURIComponent(cleanShop)}&created_at=gte.${thirtyDaysAgo}&select=id,amount,status`,
         {
           headers: {
             'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
