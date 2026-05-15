@@ -182,7 +182,7 @@ module.exports = async function handler(req, res) {
     if (!userData.id) return res.status(401).json({ error: 'Invalid token' });
 
     const storeRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&shop_domain=eq.${cleanShop}&select=plan,subscription_status,trial_end_date,access_token,shop_domain&limit=1`
+      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain`,
       {
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
