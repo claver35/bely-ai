@@ -281,7 +281,23 @@ module.exports = async function handler(req, res) {
     } catch (e) {
       console.warn('[shopify-orders] Chargeback rate calc error');
     }
+// Whitelist'i çek
+    let whitelistItems = [];
+    try {
+      const wlRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/whitelist?user_id=eq.${encodeURIComponent(userData.id)}&select=type,value`,
+        {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY
+          }
+        }
+      );
+      whitelistItems = await wlRes.json();
+    } catch(e) { whitelistItems = []; }
 
+    const wlEmails = new Set(whitelistItems.filter(b => b.type === 'email').map(b => b.value.toLowerCase()));
+    const wlCountries = new Set(whitelistItems.filter(b => b.type === 'country').map(b => b.value.toUpperCase()));
     let blacklistItems = [];
     try {
       const blRes = await fetch(
@@ -303,7 +319,20 @@ module.exports = async function handler(req, res) {
       let score = 0;
       const risks = [];
 
-      const custEmail = order.customer?.email?.toLowerCase();
+      // Whitelist kontrolü — whitelist'teyse skoru sıfırla
+      const custEmailWl = order.customer?.email?.toLowerCase();
+      const shipCountryWl = order.shipping_address?.country_code?.toUpperCase();
+      if ((custEmailWl && wlEmails.has(custEmailWl)) || (shipCountryWl && wlCountries.has(shipCountryWl))) {
+        return {
+          id: order.id,
+          order_number: order.order_number,
+          total_price: order.total_price,
+          country: order.shipping_address?.country || null,
+          created_at: order.created_at,
+          risk: { score: 0, level: 'low', risks: ['✅ Güvenilir müşteri — Whitelist\'te kayıtlı'] },
+          details: null
+        };
+      }const custEmail = order.customer?.email?.toLowerCase();
       const shipCountry = order.shipping_address?.country_code?.toUpperCase();
       if (custEmail && blEmails.has(custEmail)) {
         const blItem = blacklistItems.find(b => b.type === 'email' && b.value === custEmail);
