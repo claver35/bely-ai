@@ -123,8 +123,8 @@ module.exports = async function handler(req, res) {
           connected_at:        new Date().toISOString(),
           trial_end_date:      trialEnd.toISOString(),
           status:              'trial',
-          plan:                'free',
-          subscription_status: 'trial',
+          plan:                plan,
+          subscription_status: existingStores.length > 0 ? existingStores[0].subscription_status : 'trial',
           trial_ip:            clientIP
         })
       }
