@@ -1,3 +1,4 @@
+const { decrypt } = require('./encrypt');
 const DISPOSABLE_DOMAINS = new Set([
   'mailinator.com','guerrillamail.com','temp-mail.org','throwam.com',
   'sharklasers.com','guerrillamailblock.com','grr.la','guerrillamail.info',
@@ -232,7 +233,7 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ error: 'subscription_required' });
     }
 
-    const shopifyToken = storeData.access_token;
+    const shopifyToken = decrypt(storeData.access_token);
     if (!shopifyToken) return res.status(500).json({ error: 'No Shopify token found' });
 
     const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
