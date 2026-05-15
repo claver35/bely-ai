@@ -46,6 +46,11 @@ module.exports = async function handler(req, res) {
     const userData = await userRes.json();
     if (!userData.id || userData.id !== userId) return res.status(401).json({ error: 'User verification failed' });
 
+    // Email doğrulama kontrolü
+    if (!userData.email_confirmed_at) {
+      return res.status(403).json({ error: 'email_not_confirmed', message: 'Lütfen önce email adresinizi doğrulayın.' });
+    }
+
     const existingRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${encodeURIComponent(userId)}&select=id,shop_domain,plan,subscription_status,trial_end_date,trial_ip`,
       {
