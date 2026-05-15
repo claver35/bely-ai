@@ -1103,7 +1103,7 @@ async function runDisputeAI(){
   const btn=document.querySelector('[onclick="runDisputeAI()"]');
   const result=document.getElementById('da-result');
   const text=document.getElementById('da-text');
-  btn.disabled=true;btn.textContent='🤖 Yazıyor...';
+  await loadDisputeUsage();btn.disabled=true;btn.textContent='🤖 Yazıyor...';
   result.style.display='block';text.textContent='AI itiraz mektubu hazırlanıyor...';
   try{
     const res=await fetch('/api/dispute-writer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
