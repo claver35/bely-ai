@@ -25,9 +25,9 @@ module.exports = async function handler(req, res) {
     const userData = await userRes.json();
     if (!userData.id || userData.id !== userId) return res.status(401).json({ error: 'User verification failed' });
 
-    // IP bazlı trial koruma — sadece ilk mağaza için
+    // Trial suistimal koruması — user_id başına 1 trial
     const existingCheckRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}&select=id`,
+      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}&select=id,shop_domain`,
       {
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -36,7 +36,10 @@ module.exports = async function handler(req, res) {
       }
     );
     const existingCheck = await existingCheckRes.json();
-    if (!Array.isArray(existingCheck) || existingCheck.length === 0) {
+    const isFirstStore = !Array.isArray(existingCheck) || existingCheck.length === 0;
+
+    if (isFirstStore) {
+      // İlk mağaza — IP kontrolü yap
       const ipCheckRes = await fetch(
         `${SUPABASE_URL}/rest/v1/shopify_stores?trial_ip=eq.${encodeURIComponent(clientIP)}&select=id`,
         {
@@ -49,6 +52,21 @@ module.exports = async function handler(req, res) {
       const ipCheckData = await ipCheckRes.json();
       if (Array.isArray(ipCheckData) && ipCheckData.length > 0) {
         return res.status(429).json({ error: 'trial_ip_used', message: 'Bu IP adresi ile daha önce deneme başlatıldı.' });
+      }
+
+      // Aynı user_id ile daha önce trial kullanıldı mı?
+      const trialCheckRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}&status=eq.trial&select=id`,
+        {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY
+          }
+        }
+      );
+      const trialCheckData = await trialCheckRes.json();
+      if (Array.isArray(trialCheckData) && trialCheckData.length > 0) {
+        return res.status(429).json({ error: 'trial_used', message: 'Bu hesap ile daha önce deneme kullanıldı.' });
       }
     }
 
