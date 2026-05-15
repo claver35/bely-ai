@@ -452,7 +452,80 @@ async function showBlacklist(){
       </div>
     </div>`;
 }
+async function showWhitelist(){
+  setActiveSb('sb-whitelist');
+  const{data:{session}}=await sb.auth.getSession();if(!session)return;
+  const{data:items}=await sb.from('whitelist').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
+  const list=items||[];
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header">
+      <div>
+        <div class="page-title">✅ Whitelist</div>
+        <div class="page-sub">Güvenilir müşteriler — bu kayıtlar risk skorunu sıfırlar</div>
+      </div>
+    </div>
+    <div class="orders-panel" style="padding:24px;margin-bottom:14px">
+      <div class="db-title" style="margin-bottom:16px">➕ Yeni Güvenilir Kayıt Ekle</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
+        <div>
+          <label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Tür</label>
+          <select id="wl-type" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)">
+            <option value="email">Email</option>
+            <option value="country">Ülke (kod: TR, US, GB...)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Değer</label>
+          <input id="wl-value" type="text" placeholder="ornek@mail.com veya TR" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Not (opsiyonel)</label>
+          <input id="wl-reason" type="text" placeholder="VIP müşteri" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/>
+        </div>
+        <button onclick="addWhitelistItem()" style="padding:11px 20px;border-radius:9px;background:linear-gradient(90deg,var(--green),#00b050);border:none;color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans);white-space:nowrap">✅ Ekle</button>
+      </div>
+      <div id="wl-msg" style="display:none;margin-top:10px;font-size:13px;padding:8px 12px;border-radius:8px"></div>
+    </div>
+    <div class="orders-panel" style="overflow:hidden">
+      <div class="panel-head">
+        <div class="panel-title">📋 Güvenilir Kayıtlar</div>
+        <div class="panel-meta">${list.length} kayıt</div>
+      </div>
+      <div style="padding:14px">
+        ${list.length===0
+          ?`<div class="empty-state"><div class="es-icon">✅</div><div style="font-size:13px;color:var(--ink2)">Henüz güvenilir kayıt eklenmemiş.</div></div>`
+          :list.map(item=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--bg3);border:1px solid rgba(0,255,136,0.2);border-radius:10px;margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:18px">${item.type==='email'?'📧':'🌍'}</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#fff;font-family:var(--mono)">${item.value}</div>
+                <div style="font-size:11px;color:var(--ink2);margin-top:2px">${item.type.toUpperCase()}${item.reason?' · '+item.reason:''}</div>
+              </div>
+            </div>
+            <button onclick="removeWhitelistItem('${item.id}')" style="padding:5px 12px;border-radius:6px;border:1px solid rgba(255,61,87,0.3);background:transparent;color:var(--red);cursor:pointer;font-size:12px;font-family:var(--sans)">Sil</button>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
 
+async function addWhitelistItem(){
+  const{data:{session}}=await sb.auth.getSession();if(!session)return;
+  const type=document.getElementById('wl-type').value;
+  const value=document.getElementById('wl-value').value.trim();
+  const reason=document.getElementById('wl-reason').value.trim();
+  const msg=document.getElementById('wl-msg');
+  if(!value){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--red)';msg.textContent='Değer boş olamaz.';return;}
+  const{error}=await sb.from('whitelist').insert({user_id:session.user.id,type,value:value.toLowerCase(),reason:reason||null});
+  if(error){msg.style.display='block';msg.style.background='rgba(255,61,87,0.1)';msg.style.color='var(--red)';msg.textContent='Hata: '+error.message;}
+  else{msg.style.display='block';msg.style.background='rgba(0,255,136,0.1)';msg.style.color='var(--green)';msg.textContent='✓ Kayıt eklendi!';setTimeout(()=>showWhitelist(),800);}
+}
+
+async function removeWhitelistItem(id){
+  if(!confirm('Bu kaydı silmek istediğinizden emin misiniz?'))return;
+  await sb.from('whitelist').delete().eq('id',id);
+  showWhitelist();
+}
 async function addBlacklistItem(){
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
   const type=document.getElementById('bl-type').value;
