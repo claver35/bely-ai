@@ -1065,11 +1065,11 @@ async function init(){
   function resetIdleTimer(){clearTimeout(_idleTimer);_idleTimer=setTimeout(async()=>{await sb.auth.signOut();window.location.href='index.html';},60*60*1000);}
   ['click','keydown','mousemove','touchstart'].forEach(e=>{document.addEventListener(e,resetIdleTimer,{passive:true});});
   resetIdleTimer();
-  const{data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain').eq('user_id',session.user.id).single();
+  const{data:storeData}=await sb.from('shopify_stores').select('plan,subscription_status,trial_end_date,shop_domain').eq('user_id',session.user.id).order('connected_at',{ascending:true}).limit(1).single();
   checkPlanStatus(storeData);
   currentPlan=storeData?.plan||'free';
   showDashboard();
-  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||stores?.[0]?.shop_domain||null;
+  const shop=localStorage.getItem('shopify_shop')||storeData?.shop_domain||null;
   if(shop){
     showShopifyConnected(shop);
     try{
