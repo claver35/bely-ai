@@ -73,12 +73,12 @@ const DISPOSABLE_DOMAINS = new Set([
   'ovpn.to','owlpic.com','pancakemail.com','paplease.com','pcusers.otherinbox.com',
   'pepbot.com','pfui.ru','phentermine-mortgages.com','pimpedupmyspace.com',
   'pjjkp.com','plexolan.de','poczta.onet.pl','politikerclub.de','poofy.org',
-  'pookmail.com','pop3.xyz','postacı.org','postfach.cc','privacy.net',
+  'pookmail.com','pop3.xyz','postfach.cc','privacy.net',
   'privatdemail.net','proxymail.eu','prtnx.com','prtz.eu','pubmail.io',
   'put2.net','putthisinyourspamdatabase.com','pwrby.com','quickinbox.com',
   'quickmail.nl','rcpt.at','reallymymail.com','receiveee.chickenkiller.com',
   'recipefork.com','recursor.net','recyclemail.dk','regbypass.com',
-  'regbypass.comsafe-mail.net','rejectmail.com','reliable-mail.com',
+  'rejectmail.com','reliable-mail.com',
   'rhyta.com','rklips.com','rmqkr.net','rn.com','rocketmail.com',
   'rppkn.com','rtrtr.com','s0ny.net','safe-mail.net','safersignup.de',
   'safetymail.info','safetypost.de','sandelf.de','saynotospams.com',
@@ -172,6 +172,7 @@ module.exports = async function handler(req, res) {
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
   try {
+    // Kullanıcı doğrulama
     const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
       headers: {
         'Authorization': `Bearer ${userToken}`,
@@ -181,8 +182,17 @@ module.exports = async function handler(req, res) {
     const userData = await userRes.json();
     if (!userData.id) return res.status(401).json({ error: 'Invalid token' });
 
+    // Shop parametresi al ve doğrula
+    const shop = req.query.shop;
+    if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
+    const cleanShop = shop.toLowerCase().trim();
+    if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
+      return res.status(400).json({ error: 'Invalid shop domain' });
+    }
+
+    // Mağaza bilgilerini çek — cleanShop ile eşleştir
     const storeRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userData.id}&select=plan,subscription_status,trial_end_date,access_token,shop_domain`,
+      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${encodeURIComponent(userData.id)}&select=plan,subscription_status,trial_end_date,access_token,shop_domain`,
       {
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -191,12 +201,15 @@ module.exports = async function handler(req, res) {
       }
     );
     const stores = await storeRes.json();
-    const shopParam = req.query.shop;
-const cleanShopEarly = shopParam ? shopParam.toLowerCase().trim() : null;
-const storeData = cleanShopEarly 
-  ? stores.find(s => s.shop_domain === cleanShopEarly) || stores[0]
-  : stores[0];
+    const storeData = Array.isArray(stores)
+      ? (stores.find(s => s.shop_domain === cleanShop) || stores[0])
+      : null;
     if (!storeData) return res.status(404).json({ error: 'Store not found' });
+
+    // Domain eşleşme kontrolü
+    if (storeData.shop_domain !== cleanShop) {
+      return res.status(403).json({ error: 'Shop domain mismatch' });
+    }
 
     const now = new Date();
     const trialEnd = storeData.trial_end_date ? new Date(storeData.trial_end_date) : null;
@@ -207,32 +220,16 @@ const storeData = cleanShopEarly
     let limit = 5;
     let accessLevel = 'trial';
 
-   if (plan === 'agency' && status === 'active') {
-      limit = 250;
-      accessLevel = 'agency';
+    if (plan === 'agency' && status === 'active') {
+      limit = 250; accessLevel = 'agency';
     } else if (plan === 'elite' && status === 'active') {
-      limit = 500;
-      accessLevel = 'elite';
+      limit = 500; accessLevel = 'elite';
     } else if (plan === 'pro' && status === 'active') {
-      limit = 250;
-      accessLevel = 'pro';
+      limit = 250; accessLevel = 'pro';
     } else if (status === 'trial' || isTrialActive || plan === 'free') {
-      limit = 5;
-      accessLevel = 'trial';
+      limit = 5; accessLevel = 'trial';
     } else {
       return res.status(403).json({ error: 'subscription_required' });
-    }
-
-    const shop = req.query.shop;
-    if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
-
-    const cleanShop = shop.toLowerCase().trim();
-    if (!cleanShop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
-      return res.status(400).json({ error: 'Invalid shop domain' });
-    }
-
-    if (storeData.shop_domain !== cleanShop) {
-      return res.status(403).json({ error: 'Shop domain mismatch' });
     }
 
     const shopifyToken = storeData.access_token;
@@ -274,9 +271,7 @@ const storeData = cleanShopEarly
       const totalOrdersData = await totalOrdersRes.json();
       const totalOrders = totalOrdersData.count || 0;
       const chargebackCount = Array.isArray(chargebacks) ? chargebacks.length : 0;
-      chargebackRate = totalOrders >= 10
-        ? ((chargebackCount / totalOrders) * 100).toFixed(2)
-        : totalOrders > 0
+      chargebackRate = totalOrders > 0
         ? ((chargebackCount / totalOrders) * 100).toFixed(2)
         : '0.00';
     } catch (e) {
@@ -284,28 +279,28 @@ const storeData = cleanShopEarly
     }
 
     // Blacklist'i çek
-let blacklistItems = [];
-try {
-  const blRes = await fetch(
-    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${encodeURIComponent(userData.id)}&select=type,value,reason`,
-    {
-      headers: {
-        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-        'apikey': SUPABASE_SERVICE_KEY
-      }
-    }
-  );
-  blacklistItems = await blRes.json();
-} catch(e) { blacklistItems = []; }
+    let blacklistItems = [];
+    try {
+      const blRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${encodeURIComponent(userData.id)}&select=type,value,reason`,
+        {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY
+          }
+        }
+      );
+      blacklistItems = await blRes.json();
+    } catch(e) { blacklistItems = []; }
 
-const blEmails = new Set(blacklistItems.filter(b => b.type === 'email').map(b => b.value.toLowerCase()));
-const blCountries = new Set(blacklistItems.filter(b => b.type === 'country').map(b => b.value.toUpperCase()));
+    const blEmails = new Set(blacklistItems.filter(b => b.type === 'email').map(b => b.value.toLowerCase()));
+    const blCountries = new Set(blacklistItems.filter(b => b.type === 'country').map(b => b.value.toUpperCase()));
 
-const scoredOrders = (data.orders || []).map(order => {
+    const scoredOrders = (data.orders || []).map(order => {
       let score = 0;
       const risks = [];
 
-     // Blacklist kontrolü
+      // Blacklist kontrolü
       const custEmail = order.customer?.email?.toLowerCase();
       const shipCountry = order.shipping_address?.country_code?.toUpperCase();
       if (custEmail && blEmails.has(custEmail)) {
@@ -329,8 +324,8 @@ const scoredOrders = (data.orders || []).map(order => {
         score += 20; risks.push('Misafir sipariş');
       }
 
-      // Disposable email tespiti — Pro ve Elite
-      if (accessLevel === 'pro' || accessLevel === 'elite') {
+      // Disposable email tespiti — Pro, Elite ve Agency
+      if (accessLevel === 'pro' || accessLevel === 'elite' || accessLevel === 'agency') {
         const email = order.customer?.email || null;
         if (isDisposableEmail(email)) {
           score += 30;
@@ -338,7 +333,7 @@ const scoredOrders = (data.orders || []).map(order => {
         }
       }
 
-     // Sipariş tutarı — AOV'a göre dinamik eşik
+      // Sipariş tutarı — AOV'a göre dinamik eşik
       const price = parseFloat(order.total_price);
       const avgPrice = (data.orders || []).reduce((s, o) => s + parseFloat(o.total_price || 0), 0) / Math.max((data.orders || []).length, 1);
       const highThreshold = Math.max(avgPrice * 2.5, 300);
@@ -360,7 +355,6 @@ const scoredOrders = (data.orders || []).map(order => {
 
       // Bot tespiti — sadece Agency
       if (accessLevel === 'agency') {
-        // 1. Sipariş hızı — aynı müşteriden son 1 saatte 3+ sipariş
         const customerEmail = order.customer?.email;
         if (customerEmail) {
           const oneHourAgo = new Date(Date.now() - 3600000);
@@ -375,14 +369,14 @@ const scoredOrders = (data.orders || []).map(order => {
           }
         }
 
-        // 2. Aynı teslimat adresine farklı emaillerden sipariş
         const shippingAddr = order.shipping_address;
         if (shippingAddr) {
+          const customerEmail2 = order.customer?.email;
           const sameAddrDiffEmail = (data.orders || []).filter(o =>
             o.id !== order.id &&
             o.shipping_address?.address1 === shippingAddr.address1 &&
             o.shipping_address?.zip === shippingAddr.zip &&
-            o.customer?.email !== customerEmail
+            o.customer?.email !== customerEmail2
           ).length;
           if (sameAddrDiffEmail >= 2) {
             score += 30;
@@ -390,7 +384,6 @@ const scoredOrders = (data.orders || []).map(order => {
           }
         }
 
-        // 3. Çok hızlı sipariş — hesap oluşturma ve sipariş arasında 5 dakikadan az
         if (order.customer?.created_at && order.created_at) {
           const accountCreated = new Date(order.customer.created_at);
           const orderCreated = new Date(order.created_at);
@@ -401,14 +394,14 @@ const scoredOrders = (data.orders || []).map(order => {
           }
         }
       }
-      score = Math.min(score, 99);
 
+      score = Math.min(score, 99);
       let level;
       if (score >= 65) level = 'high';
       else if (score >= 35) level = 'medium';
       else level = 'low';
 
-      // Metafield: risk skorunu Shopify sipariş notuna yaz (arka planda, hata olsa geç)
+      // Metafield: risk skorunu Shopify sipariş notuna yaz
       try {
         fetch(`https://${cleanShop}/admin/api/2024-01/orders/${order.id}/metafields.json`, {
           method: 'POST',
@@ -421,8 +414,7 @@ const scoredOrders = (data.orders || []).map(order => {
               namespace: 'bely_ai',
               key: 'risk_score',
               value: JSON.stringify({
-                score,
-                level,
+                score, level,
                 risks: risks.slice(0, 3),
                 scanned_at: new Date().toISOString()
               }),
@@ -439,8 +431,7 @@ const scoredOrders = (data.orders || []).map(order => {
         country: order.shipping_address?.country || null,
         created_at: order.created_at,
         risk: {
-          score,
-          level,
+          score, level,
           risks: accessLevel === 'trial' ? [] : risks
         },
         details: null
@@ -448,10 +439,9 @@ const scoredOrders = (data.orders || []).map(order => {
 
       if (accessLevel === 'pro') {
         baseOrder.risk.risks = risks;
-        baseOrder.details = null;
       }
 
-      if (accessLevel === 'elite') {
+      if (accessLevel === 'elite' || accessLevel === 'agency') {
         baseOrder.risk.risks = risks;
         baseOrder.details = {
           customerName: order.customer
