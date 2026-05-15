@@ -13,7 +13,65 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+// Kullanıcı doğrulama ve plan kontrolü
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const userToken = authHeader.split(' ')[1];
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
+  const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { 'Authorization': `Bearer ${userToken}`, 'apikey': SUPABASE_SERVICE_KEY }
+  });
+  const userData = await userRes.json();
+  if (!userData.id) return res.status(401).json({ error: 'Unauthorized' });
+
+  // Plan kontrolü
+  const storeRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${encodeURIComponent(userData.id)}&select=plan,subscription_status&limit=1`,
+    { headers: { 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`, 'apikey': SUPABASE_SERVICE_KEY } }
+  );
+  const stores = await storeRes.json();
+  const plan = stores[0]?.plan || 'free';
+  const status = stores[0]?.subscription_status || 'trial';
+
+  // Aylık limit — Elite: 20, Agency: 50
+  const limits = { elite: 20, agency: 50 };
+  const userLimit = limits[plan] || 0;
+  if (userLimit === 0) return res.status(403).json({ error: 'plan_required', message: 'Bu özellik Elite ve Agency planlarına özeldir.' });
+
+  // Bu ay kaç mektup üretildi?
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1); startOfMonth.setHours(0,0,0,0);
+  const usageRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/ai_usage?user_id=eq.${encodeURIComponent(userData.id)}&type=eq.dispute&created_at=gte.${startOfMonth.toISOString()}&select=id`,
+    { headers: { 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`, 'apikey': SUPABASE_SERVICE_KEY } }
+  );
+  const usageData = await usageRes.json();
+  const usedCount = Array.isArray(usageData) ? usageData.length : 0;
+
+  if (usedCount >= userLimit) {
+    return res.status(429).json({ 
+      error: 'limit_reached', 
+      message: `Bu ay ${userLimit} mektup limitine ulaştınız. Limit her ayın 1'inde sıfırlanır.`,
+      used: usedCount,
+      limit: userLimit
+    });
+  }
+
+  // Kullanımı kaydet
+  await fetch(`${SUPABASE_URL}/rest/v1/ai_usage`, {
+    method: 'POST',
+    headers: { 
+      'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`, 
+      'apikey': SUPABASE_SERVICE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({ user_id: userData.id, type: 'dispute' })
+  });
   const { orderNumber, totalPrice, customerName, customerEmail, gateway, financialStatus, orderDate, shopName, risks } = req.body;
   if (!orderNumber) return res.status(400).json({ error: 'Missing orderNumber' });
 
