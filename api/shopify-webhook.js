@@ -40,6 +40,30 @@ function verifyShopifyWebhook(rawBody, hmacHeader) {
   }
 }
 
+// Debounce kontrolü — aynı sipariş ID + topic için 60 saniye içinde tekrar işleme
+async function isDebounced(orderId, topic, shop) {
+  try {
+    const debounceKey = `webhook_debounce_${shop}_${orderId}_${topic}`;
+    const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+    const { data } = await supabase
+      .from('processed_webhooks')
+      .select('event_id')
+      .eq('event_id', debounceKey)
+      .gte('processed_at', oneMinuteAgo)
+      .single();
+    if (data) return true;
+
+    // Debounce kaydı ekle
+    await supabase.from('processed_webhooks').upsert({
+      event_id: debounceKey,
+      processed_at: new Date().toISOString()
+    });
+    return false;
+  } catch(e) {
+    return false;
+  }
+}
+
 function getRiskScore(order) {
   let score = 0;
   const risks = [];
@@ -101,8 +125,15 @@ export default async function handler(req, res) {
   const topic = req.headers['x-shopify-topic'];
 
   if (!shop || !shop.match(/^[a-z0-9-]+\.myshopify\.com$/)) {
-    console.warn('[shopify-webhook] Invalid shop domain:', shop);
+    console.warn('[shopify-webhook] Invalid shop domain');
     return res.status(400).json({ error: 'Invalid shop domain' });
+  }
+
+  // Debounce kontrolü — aynı sipariş + topic 60sn içinde tekrar gelirse işleme
+  const debounced = await isDebounced(String(order.id), topic, shop);
+  if (debounced) {
+    console.log(`[shopify-webhook] Debounced: #${order.order_number} | ${topic}`);
+    return res.status(200).json({ received: true, debounced: true });
   }
 
   // ── Sipariş oluşturuldu ──
@@ -119,7 +150,7 @@ export default async function handler(req, res) {
           .single();
 
         if (storeData) {
-          const isPaid = storeData.plan === 'pro' || storeData.plan === 'elite';
+          const isPaid = storeData.plan === 'pro' || storeData.plan === 'elite' || storeData.plan === 'agency';
           if (isPaid) {
             const { data: userData } = await supabase.auth.admin.getUserById(storeData.user_id);
             const userEmail = userData?.user?.email;
@@ -161,7 +192,6 @@ export default async function handler(req, res) {
           .single();
 
         if (storeData?.user_id) {
-          // Duplicate kontrolü
           const { data: existing } = await supabase
             .from('chargebacks')
             .select('id')
@@ -170,12 +200,10 @@ export default async function handler(req, res) {
             .single();
 
           if (!existing) {
-            // Müşteri adı
             const customerName = order.customer
               ? `${order.customer.first_name || ''} ${order.customer.last_name || ''}`.trim()
               : 'Misafir';
 
-            // Ürün listesi — sadece gerekli alanlar
             const lineItems = (order.line_items || []).map(item => ({
               title:    item.title,
               quantity: item.quantity,
@@ -183,10 +211,7 @@ export default async function handler(req, res) {
               sku:      item.sku || null
             }));
 
-            // İade nedeni
             const refundReason = order.refunds?.[0]?.note || null;
-
-            // İade tarihi
             const refundedAt = order.refunds?.[0]?.created_at || null;
 
             await supabase.from('chargebacks').insert({
@@ -203,8 +228,6 @@ export default async function handler(req, res) {
               refunded_at:    refundedAt,
               gateway:        order.payment_gateway || null
             });
-
-            console.log(`[shopify-webhook] Chargeback kaydedildi: #${order.order_number} | ${customerName} | ${shop}`);
           }
         }
       }
