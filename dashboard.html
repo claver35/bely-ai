@@ -873,7 +873,7 @@ function renderOrders(orders,plan){
     order=sanitizeOrder(order);
     const r=order.risk;
     let tagCls,reasonCls,cardCls,levelText;
-    if(r.level==='high'){levelText=`YÜKSEK — %${r.score}`;tagCls='rt-high';reasonCls='or-high';cardCls='oc-high';highRisk++;}
+    if(r.level==='high'){levelText=`YÜKSEK — %${r.score}`;tagCls='rt-high';reasonCls='or-high';cardCls='oc-high';highRisk++;setTimeout(()=>getAISuggestion(order.id,{orderNumber:order.order_number,totalPrice:order.total_price,country:order.country,score:r.score,level:r.level,risks:r.risks}),2000);}
     else if(r.level==='medium'){levelText=`ORTA — %${r.score}`;tagCls='rt-med';reasonCls='or-med';cardCls='oc-med';}
     else{levelText=`DÜŞÜK — %${Math.max(r.score,4)}`;tagCls='rt-low';reasonCls='or-low';cardCls='oc-low';}
     const reasonText=r.risks.length>0?r.risks.join(' · '):'Risk sinyali yok — Göndermek güvenli.';
