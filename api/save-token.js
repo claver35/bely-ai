@@ -25,9 +25,9 @@ module.exports = async function handler(req, res) {
     const userData = await userRes.json();
     if (!userData.id || userData.id !== userId) return res.status(401).json({ error: 'User verification failed' });
 
-    // IP bazlı trial koruma
-    const ipCheckRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/shopify_stores?trial_ip=eq.${encodeURIComponent(clientIP)}&select=id`,
+    // IP bazlı trial koruma — sadece ilk mağaza için
+    const existingCheckRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${userId}&select=id`,
       {
         headers: {
           'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -35,9 +35,21 @@ module.exports = async function handler(req, res) {
         }
       }
     );
-    const ipCheckData = await ipCheckRes.json();
-    if (Array.isArray(ipCheckData) && ipCheckData.length > 0) {
-      return res.status(429).json({ error: 'trial_ip_used', message: 'Bu IP adresi ile daha önce deneme başlatıldı.' });
+    const existingCheck = await existingCheckRes.json();
+    if (!Array.isArray(existingCheck) || existingCheck.length === 0) {
+      const ipCheckRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/shopify_stores?trial_ip=eq.${encodeURIComponent(clientIP)}&select=id`,
+        {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_SERVICE_KEY
+          }
+        }
+      );
+      const ipCheckData = await ipCheckRes.json();
+      if (Array.isArray(ipCheckData) && ipCheckData.length > 0) {
+        return res.status(429).json({ error: 'trial_ip_used', message: 'Bu IP adresi ile daha önce deneme başlatıldı.' });
+      }
     }
 
     const trialEnd = new Date();
