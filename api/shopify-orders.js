@@ -287,7 +287,7 @@ const storeData = cleanShopEarly
 let blacklistItems = [];
 try {
   const blRes = await fetch(
-    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${userData.id}&select=type,value,reason`,
+    `${SUPABASE_URL}/rest/v1/blacklist?user_id=eq.${encodeURIComponent(userData.id)}&select=type,value,reason`,
     {
       headers: {
         'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
