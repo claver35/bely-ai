@@ -13,7 +13,6 @@ const PRICE_TO_PLAN = {
   'pri_01kpnv1whkq97tr638rt08vz09': 'elite',
 };
 
-// Raw body için bodyParser kapatıldı
 export const config = {
   api: { bodyParser: false }
 };
@@ -33,6 +32,15 @@ function verifyPaddleSignature(rawBody, signature) {
   if (!tsPart || !h1Part) return false;
   const ts = tsPart.replace('ts=', '');
   const h1 = h1Part.replace('h1=', '');
+
+  // Timestamp kontrolü — 5 dakikadan eski webhook'ları reddet
+  const webhookTime = parseInt(ts) * 1000;
+  const now = Date.now();
+  if (Math.abs(now - webhookTime) > 5 * 60 * 1000) {
+    console.warn('[paddle-webhook] Timestamp too old, possible replay attack');
+    return false;
+  }
+
   const signed = `${ts}:${rawBody}`;
   const expected = crypto
     .createHmac('sha256', PADDLE_WEBHOOK_SECRET)
@@ -46,6 +54,21 @@ function verifyPaddleSignature(rawBody, signature) {
   } catch {
     return false;
   }
+}
+
+async function isEventProcessed(eventId) {
+  const { data } = await supabase
+    .from('processed_webhooks')
+    .select('event_id')
+    .eq('event_id', eventId)
+    .single();
+  return !!data;
+}
+
+async function markEventProcessed(eventId) {
+  await supabase
+    .from('processed_webhooks')
+    .insert({ event_id: eventId });
 }
 
 export default async function handler(req, res) {
@@ -67,9 +90,23 @@ export default async function handler(req, res) {
   }
 
   const eventType = event?.event_type;
-  if (!eventType) return res.status(400).json({ error: 'Missing event_type' });
+  const eventId = event?.event_id;
 
-  console.log('[paddle-webhook] Event received:', eventType);
+  if (!eventType) return res.status(400).json({ error: 'Missing event_type' });
+  if (!eventId) return res.status(400).json({ error: 'Missing event_id' });
+
+  // Replay Attack koruması — aynı event_id daha önce işlendi mi?
+  try {
+    const alreadyProcessed = await isEventProcessed(eventId);
+    if (alreadyProcessed) {
+      console.warn('[paddle-webhook] Duplicate event rejected:', eventId);
+      return res.status(200).json({ received: true, duplicate: true });
+    }
+  } catch(e) {
+    console.warn('[paddle-webhook] Could not check event_id:', e.message);
+  }
+
+  console.log('[paddle-webhook] Event received:', eventType, eventId);
 
   try {
     if (eventType === 'subscription.activated' || eventType === 'subscription.updated') {
@@ -120,6 +157,9 @@ export default async function handler(req, res) {
         updated_at: new Date().toISOString()
       }).eq('paddle_customer_id', customerId);
     }
+
+    // Event ID'yi işlendi olarak kaydet
+    await markEventProcessed(eventId);
 
     return res.status(200).json({ received: true });
 
