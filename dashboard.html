@@ -777,7 +777,8 @@ function showDashboard(){
   setActiveSb('sb-dashboard');
   document.getElementById('main-content').innerHTML=getDashboardHTML();
   let ra=0;
-  const radarInterval=setInterval(()=>{ra=(ra+2)%360;const el=document.getElementById('radar-sweep');if(el)el.style.transform=`rotate(${ra}deg)`;else clearInterval(radarInterval);},25);
+  if(window._radarInterval)clearInterval(window._radarInterval);
+  window._radarInterval=setInterval(()=>{ra=(ra+2)%360;const el=document.getElementById('radar-sweep');if(el)el.style.transform=`rotate(${ra}deg)`;else{clearInterval(window._radarInterval);window._radarInterval=null;}},25);
   if(cachedOrders.length>0){
     renderOrders(cachedOrders,cachedPlan);
     updateHealthScore(cachedOrders,window._lastCbRate);
