@@ -1055,6 +1055,7 @@ function showAnalytics(){
     ${(currentPlan==='elite'||currentPlan==='agency')?`
     <div class="orders-panel" style="padding:28px">
       <div style="margin-bottom:20px">
+      <div id="dispute-usage"></div>
         <div class="db-title" style="font-size:13px;margin-bottom:16px">Sipariş bilgilerini girin, AI itiraz mektubunu saniyeler içinde hazırlasın.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
           <div><label style="font-size:11px;color:var(--ink2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px">Sipariş No</label><input id="da-order" type="text" placeholder="#1001" style="width:100%;padding:11px 14px;border-radius:9px;background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:14px;border:1px solid var(--line2)"/></div>
@@ -1083,7 +1084,21 @@ function showAnalytics(){
     </div>`}
   `;
 }
-
+async function loadDisputeUsage(){
+  const{data:{session}}=await sb.auth.getSession();if(!session)return;
+  const now=new Date();const startOfMonth=new Date(now.getFullYear(),now.getMonth(),1).toISOString();
+  const{data:usage}=await sb.from('ai_usage').select('id').eq('user_id',session.user.id).eq('type','dispute').gte('created_at',startOfMonth);
+  const used=usage?.length||0;
+  const limits={elite:20,agency:50};
+  const limit=limits[currentPlan]||0;
+  const el=document.getElementById('dispute-usage');
+  if(el&&limit>0){
+    const remaining=Math.max(0,limit-used);
+    el.innerHTML=`<div style="background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:8px;padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--cyan);margin-bottom:16px">
+      📊 Bu ay: <strong>${used}/${limit}</strong> mektup kullanıldı · <strong>${remaining}</strong> hak kaldı
+    </div>`;
+  }
+}
 async function runDisputeAI(){
   const btn=document.querySelector('[onclick="runDisputeAI()"]');
   const result=document.getElementById('da-result');
