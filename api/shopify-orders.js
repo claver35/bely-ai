@@ -1,4 +1,19 @@
-const { decrypt } = require('./encrypt');
+const crypto = require('crypto');
+
+function decrypt(text) {
+  if (!text) return null;
+  try {
+    const [ivHex, tagHex, dataHex] = text.split(':');
+    if (!ivHex || !tagHex || !dataHex) return text;
+    const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(ivHex, 'hex'));
+    decipher.setAuthTag(Buffer.from(tagHex, 'hex'));
+    return Buffer.concat([decipher.update(Buffer.from(dataHex, 'hex')), decipher.final()]).toString('utf8');
+  } catch(e) {
+    return text;
+  }
+}
+
 const DISPOSABLE_DOMAINS = new Set([
   'mailinator.com','guerrillamail.com','temp-mail.org','throwam.com',
   'sharklasers.com','guerrillamailblock.com','grr.la','guerrillamail.info',
@@ -30,110 +45,102 @@ const DISPOSABLE_DOMAINS = new Set([
   'front14.org','fudgerub.com','fux0ringduh.com','garliclife.com',
   'get2mail.fr','getairmail.com','getmails.eu','getonemail.com',
   'getonemail.net','gishpuppy.com','gmal.com','gmial.com','gotmail.net',
-  'gotmail.org','gotti.otherinbox.com','gowikibooks.com','gowikicampus.com',
-  'gowikicars.com','gowikifilms.com','gowikigames.com','gowikimusic.com',
-  'gowikinetwork.com','gowikitravel.com','gowikitv.com','grandmamail.com',
-  'grandmasmail.com','great-host.in','greensloth.com','gsrv.co.uk',
-  'gustr.com','haltospam.com','hatespam.org','hidemail.de','hidzz.com',
-  'hmamail.com','hochsitze.com','hotpop.com','hulapla.de','ieatspam.eu',
-  'ieatspam.info','ieh-mail.de','ihateyoualot.info','iheartspam.org',
-  'imails.info','inbax.tk','inbox.si','inboxalias.com','inboxclean.com',
-  'inboxclean.org','infocom.zp.ua','instant-mail.de','ip6.li','irish2me.com',
-  'iwi.net','jetable.com','jetable.fr.nf','jetable.net','jetable.org',
-  'jnxjn.com','jourrapide.com','jsrsolutions.com','jungleemail.com',
-  'junk1.tk','kasmail.com','kaspop.com','killmail.com','killmail.net',
-  'klzlk.com','knol-power.nl','koszmail.pl','kurzepost.de','letthemeatspam.com',
-  'lhsdv.com','lifebyfood.com','link2mail.net','litedrop.com','lol.ovpn.to',
-  'lolfreak.net','lookugly.com','lortemail.dk','losemymail.com','lovemeleaveme.com',
-  'lr78.com','lroid.com','lukop.dk','m21.cc','mail-filter.com','mail-temporaire.fr',
-  'mail.by','mail.mezimages.net','mail.zp.ua','mail1a.de','mail21.cc',
-  'mail2rss.org','mail333.com','mailbidon.com','mailbiz.biz','mailblocks.com',
-  'mailbucket.org','mailchop.com','mailde.org','maileimer.de','mailexpire.com',
-  'mailf5.com','mailfall.com','mailfree.net','mailguard.me','mailimate.com',
-  'mailin8r.com','mailinater.com','mailismagic.com','mailme.lv','mailme24.com',
-  'mailmetrash.com','mailmoat.com','mailms.com','mailna.me','mailnew.com',
-  'mailnull.com','mailorg.org','mailpick.biz','mailproxsy.com','mailquack.com',
-  'mailrock.biz','mailseal.de','mailshell.com','mailsiphon.com','mailslapping.com',
-  'mailslite.com','mailtemp.info','mailtome.de','mailtothis.com','mailtrash.net',
-  'mailtv.net','mailtv.tv','mailzilla.com','mailzilla.org','mbx.cc',
-  'mega.zik.dj','meltmail.com','messagebeamer.de','mezimages.net','ministry-of-silly-walks.de',
-  'mintemail.com','misterpinball.de','mmmmail.com','mobi.web.id','moburl.com',
-  'moncourrier.fr.nf','monemail.fr.nf','monmail.fr.nf','monumentmail.com',
-  'mr24.co','msa.minsmail.com','mt2009.com','mt2014.com','mx0.wwwnew.eu',
-  'my10minutemail.com','myalias.pw','mymail-in.net','mypacks.net','mypartyclip.de',
-  'myphantomemail.com','mysamp.de','mytempemail.com','mytempmail.com',
-  'mytrashmail.com','nabuma.com','neomailbox.com','nepwk.com','nervmich.net',
-  'nervtmich.net','netmails.com','netmails.net','netzidiot.de','neverbox.com',
-  'nice-4u.com','nincsmail.hu','nnh.com','no-spam.ws','nobulk.com',
-  'noclickemail.com','nogmailspam.info','nomail.pw','nomail.xl.cx',
-  'nomail2me.com','nomorespamemails.com','nonspam.eu','nonspammer.de',
-  'noref.in','nortaltech.com','notmailinator.com','nowhere.org','nowmymail.com',
-  'nurfuerspam.de','nus.edu.sg','nwldx.com','objectmail.com','obobbo.com',
-  'odnorazovoe.ru','oneoffemail.com','oneoffmail.com','onewaymail.com',
-  'online.ms','oopi.org','opayq.com','ordinaryamerican.net','otherinbox.com',
-  'ovpn.to','owlpic.com','pancakemail.com','paplease.com','pcusers.otherinbox.com',
-  'pepbot.com','pfui.ru','phentermine-mortgages.com','pimpedupmyspace.com',
-  'pjjkp.com','plexolan.de','poczta.onet.pl','politikerclub.de','poofy.org',
-  'pookmail.com','pop3.xyz','postfach.cc','privacy.net',
-  'privatdemail.net','proxymail.eu','prtnx.com','prtz.eu','pubmail.io',
-  'put2.net','putthisinyourspamdatabase.com','pwrby.com','quickinbox.com',
-  'quickmail.nl','rcpt.at','reallymymail.com','receiveee.chickenkiller.com',
-  'recipefork.com','recursor.net','recyclemail.dk','regbypass.com',
-  'rejectmail.com','reliable-mail.com',
-  'rhyta.com','rklips.com','rmqkr.net','rn.com','rocketmail.com',
-  'rppkn.com','rtrtr.com','s0ny.net','safe-mail.net','safersignup.de',
-  'safetymail.info','safetypost.de','sandelf.de','saynotospams.com',
-  'selfdestructingmail.com','sendspamhere.com','senseless-entertainment.com',
+  'gotmail.org','gowikibooks.com','gowikicampus.com','gowikicars.com',
+  'gowikifilms.com','gowikigames.com','gowikimusic.com','gowikinetwork.com',
+  'gowikitravel.com','gowikitv.com','grandmamail.com','grandmasmail.com',
+  'great-host.in','greensloth.com','gsrv.co.uk','gustr.com','haltospam.com',
+  'hatespam.org','hidemail.de','hidzz.com','hmamail.com','hochsitze.com',
+  'hotpop.com','hulapla.de','ieatspam.eu','ieatspam.info','ieh-mail.de',
+  'ihateyoualot.info','iheartspam.org','imails.info','inbax.tk','inbox.si',
+  'inboxalias.com','inboxclean.com','inboxclean.org','infocom.zp.ua',
+  'instant-mail.de','ip6.li','irish2me.com','iwi.net','jetable.com',
+  'jetable.fr.nf','jetable.net','jetable.org','jnxjn.com','jourrapide.com',
+  'jsrsolutions.com','jungleemail.com','junk1.tk','kasmail.com','kaspop.com',
+  'killmail.com','killmail.net','klzlk.com','knol-power.nl','koszmail.pl',
+  'kurzepost.de','letthemeatspam.com','lhsdv.com','lifebyfood.com',
+  'link2mail.net','litedrop.com','lol.ovpn.to','lolfreak.net','lookugly.com',
+  'lortemail.dk','losemymail.com','lovemeleaveme.com','lr78.com','lroid.com',
+  'lukop.dk','m21.cc','mail-filter.com','mail-temporaire.fr','mail.by',
+  'mail.mezimages.net','mail.zp.ua','mail1a.de','mail21.cc','mail2rss.org',
+  'mail333.com','mailbidon.com','mailbiz.biz','mailblocks.com','mailbucket.org',
+  'mailchop.com','mailde.org','maileimer.de','mailexpire.com','mailf5.com',
+  'mailfall.com','mailfree.net','mailguard.me','mailimate.com','mailin8r.com',
+  'mailinater.com','mailismagic.com','mailme.lv','mailme24.com','mailmetrash.com',
+  'mailmoat.com','mailms.com','mailna.me','mailnew.com','mailnull.com',
+  'mailorg.org','mailpick.biz','mailproxsy.com','mailquack.com','mailrock.biz',
+  'mailseal.de','mailshell.com','mailsiphon.com','mailslapping.com','mailslite.com',
+  'mailtemp.info','mailtome.de','mailtothis.com','mailtrash.net','mailtv.net',
+  'mailtv.tv','mailzilla.com','mailzilla.org','mbx.cc','mega.zik.dj',
+  'meltmail.com','messagebeamer.de','mezimages.net','mintemail.com',
+  'misterpinball.de','mmmmail.com','mobi.web.id','moburl.com','moncourrier.fr.nf',
+  'monemail.fr.nf','monmail.fr.nf','monumentmail.com','mr24.co','mt2009.com',
+  'mt2014.com','mx0.wwwnew.eu','my10minutemail.com','myalias.pw','mymail-in.net',
+  'mypacks.net','mypartyclip.de','myphantomemail.com','mysamp.de','mytempemail.com',
+  'mytempmail.com','mytrashmail.com','nabuma.com','neomailbox.com','nepwk.com',
+  'nervmich.net','nervtmich.net','netmails.com','netmails.net','netzidiot.de',
+  'neverbox.com','nice-4u.com','nincsmail.hu','nnh.com','no-spam.ws','nobulk.com',
+  'noclickemail.com','nogmailspam.info','nomail.pw','nomail.xl.cx','nomail2me.com',
+  'nomorespamemails.com','nonspam.eu','nonspammer.de','noref.in','nortaltech.com',
+  'notmailinator.com','nowhere.org','nowmymail.com','nurfuerspam.de','nwldx.com',
+  'objectmail.com','obobbo.com','odnorazovoe.ru','oneoffemail.com','oneoffmail.com',
+  'onewaymail.com','online.ms','oopi.org','opayq.com','ordinaryamerican.net',
+  'otherinbox.com','ovpn.to','owlpic.com','pancakemail.com','paplease.com',
+  'pepbot.com','pfui.ru','pimpedupmyspace.com','pjjkp.com','plexolan.de',
+  'poczta.onet.pl','politikerclub.de','poofy.org','pookmail.com','pop3.xyz',
+  'postfach.cc','privacy.net','privatdemail.net','proxymail.eu','prtnx.com',
+  'prtz.eu','pubmail.io','put2.net','pwrby.com','quickinbox.com','quickmail.nl',
+  'rcpt.at','reallymymail.com','receiveee.chickenkiller.com','recipefork.com',
+  'recursor.net','recyclemail.dk','regbypass.com','rejectmail.com',
+  'reliable-mail.com','rhyta.com','rklips.com','rmqkr.net','rn.com',
+  'rocketmail.com','rppkn.com','rtrtr.com','s0ny.net','safe-mail.net',
+  'safersignup.de','safetymail.info','safetypost.de','sandelf.de',
+  'saynotospams.com','selfdestructingmail.com','sendspamhere.com',
   'shahweb.net','sharedmailbox.org','sharklasers.com','shieldedmail.com',
   'shieldemail.com','shitmail.de','shitmail.me','shitmail.org','shitware.nl',
   'shmeriously.com','shortmail.net','sibmail.com','sinnlos-mail.de',
-  'slapsfromlastnight.com','slaskpost.se','slave-auctions.net','slippery.email',
-  'slushmail.com','smashmail.de','smellfear.com','smwg.info','snakemail.com',
-  'sneakemail.com','sneakmail.de','snkmail.com','sofimail.com','sofort-mail.de',
-  'sogetthis.com','soisz.com','sol.dk','spam.la','spam.su','spamcorpse.com',
-  'spamday.com','spamex.com','spamfree24.com','spamfree24.de','spamfree24.eu',
-  'spamfree24.info','spamfree24.net','spamfree24.org','spamgob.com',
-  'spamherelots.com','spamhereplease.com','spamhole.com','spamify.com',
-  'spaminator.de','spamkill.info','spaml.com','spaml.de','spammotel.com',
-  'spammy.host','spamnot.com','spamoff.de','spamspot.com','spamthis.co.uk',
-  'spamthisplease.com','spamtrail.com','speed.1s.fr','spikio.com',
-  'spoofmail.de','squizzy.de','ssoia.com','startkeys.com','stexsy.com',
-  'stinkefinger.net','stopspam.org','streetwisemail.com','stumpfwerk.com',
-  'suburbanthug.com','supergreatmail.com','supermailer.jp','superrito.com',
-  'superstachel.de','suremail.info','svk.jp','sweetxxx.de','tafmail.com',
-  'tagyourself.com','tapchicuocsong.vn','techemail.com','telecomix.pl',
-  'temp-mail.de','temp-mail.io','temp-mail.ru','temp.emeraldwebmail.com',
-  'temp.headstrong.de','tempalias.com','tempe-mail.com','tempemail.biz',
-  'tempemail.co.za','tempemail.com','tempemail.net','tempemail.us',
-  'tempinbox.co.uk','tempinbox.com','tempmail.de','tempmail.eu',
-  'tempmail.it','tempmail.us','tempmailer.com','tempmailer.de',
-  'tempomail.fr','temporaryemail.net','temporaryemail.us','temporaryforwarding.com',
-  'temporaryinbox.com','temporarymailaddress.com','tempsky.com','tempthe.net',
-  'tempymail.com','thanksnospam.info','thc.st','thelimestones.com',
-  'thisisnotmyrealemail.com','thismail.net','throwam.com','throwamail.com',
-  'throwaway.email','throwam.com','tilien.com','tittbit.in','tizi.com',
-  'tkitc.de','tmail.com','tmail.io','tmail.ws','tmailinator.com',
-  'toiea.com','tradermail.info','trash-amil.com','trash-mail.at',
-  'trash-mail.com','trash-mail.de','trash-mail.ga','trash-mail.io',
-  'trash-mail.net','trash2009.com','trash2010.com','trash2011.com',
-  'trashdevil.com','trashdevil.de','trashemail.de','trashmail.at',
-  'trashmail.com','trashmail.de','trashmail.io','trashmail.me',
-  'trashmail.net','trashmail.org','trashmail.xyz','trashmailer.com',
-  'trashmails.com','trbvm.com','trialmail.de','trickmail.net',
-  'trillianpro.com','troycategory.com.mx','trumpmail.com','turual.com',
-  'twinmail.de','tyldd.com','uggsrock.com','umail.net','upliftnow.com',
-  'uplipht.com','uroid.com','us.af','venompen.com','veryrealemail.com',
-  'viditag.com','viewcastmedia.com','viewcastmedia.net','viewcastmedia.org',
-  'viralplays.com','vomoto.com','vubby.com','walala.org','walkmail.net',
-  'wasteland.rfc822.org','webemail.me','webm4il.info','weg-werf-email.de',
-  'wegwerf-emails.de','wegwerfadresse.de','wegwerfmail.de','wegwerfmail.net',
-  'wegwerfmail.org','wegwerpmailadres.nl','wegwerpnummer.nl','wetrainbayarea.com',
-  'wh4f.org','whyspam.me','willhackforfood.biz','willselfdestruct.com',
-  'winemaven.info','wronghead.com','wuzup.net','wuzupmail.net',
-  'www.e4ward.com','www.gishpuppy.com','www.mailinator.com','wwwnew.eu',
-  'x1x.spamtrap.ro','xagloo.com','xemaps.com','xents.com','xmaily.com',
-  'xoxy.net','xpeedmail.com','xsmail.com','xtymail.com','xyzfree.net',
-  'yapped.net','yeah.net','yep.it','yogamaven.com','yopmail.com',
+  'slapsfromlastnight.com','slaskpost.se','slippery.email','slushmail.com',
+  'smashmail.de','smellfear.com','smwg.info','snakemail.com','sneakemail.com',
+  'sneakmail.de','snkmail.com','sofimail.com','sofort-mail.de','sogetthis.com',
+  'soisz.com','sol.dk','spam.la','spam.su','spamcorpse.com','spamday.com',
+  'spamex.com','spamfree24.com','spamfree24.de','spamfree24.eu','spamfree24.info',
+  'spamfree24.net','spamfree24.org','spamgob.com','spamherelots.com',
+  'spamhereplease.com','spamhole.com','spamify.com','spaminator.de','spamkill.info',
+  'spaml.com','spaml.de','spammotel.com','spammy.host','spamnot.com','spamoff.de',
+  'spamspot.com','spamthis.co.uk','spamthisplease.com','spamtrail.com',
+  'speed.1s.fr','spikio.com','spoofmail.de','squizzy.de','ssoia.com',
+  'startkeys.com','stexsy.com','stinkefinger.net','stopspam.org',
+  'streetwisemail.com','stumpfwerk.com','suburbanthug.com','supergreatmail.com',
+  'supermailer.jp','superrito.com','superstachel.de','suremail.info','svk.jp',
+  'sweetxxx.de','tafmail.com','tagyourself.com','tapchicuocsong.vn',
+  'techemail.com','telecomix.pl','temp-mail.de','temp-mail.io','temp-mail.ru',
+  'temp.emeraldwebmail.com','temp.headstrong.de','tempalias.com','tempe-mail.com',
+  'tempemail.biz','tempemail.co.za','tempemail.com','tempemail.net','tempemail.us',
+  'tempinbox.co.uk','tempinbox.com','tempmail.de','tempmail.eu','tempmail.it',
+  'tempmail.us','tempmailer.com','tempmailer.de','tempomail.fr','temporaryemail.net',
+  'temporaryemail.us','temporaryforwarding.com','temporaryinbox.com',
+  'temporarymailaddress.com','tempsky.com','tempthe.net','tempymail.com',
+  'thanksnospam.info','thc.st','thelimestones.com','thisisnotmyrealemail.com',
+  'thismail.net','throwam.com','throwamail.com','throwaway.email','tilien.com',
+  'tittbit.in','tizi.com','tkitc.de','tmail.com','tmail.io','tmail.ws',
+  'tmailinator.com','toiea.com','tradermail.info','trash-amil.com','trash-mail.at',
+  'trash-mail.com','trash-mail.de','trash-mail.ga','trash-mail.io','trash-mail.net',
+  'trash2009.com','trash2010.com','trash2011.com','trashdevil.com','trashdevil.de',
+  'trashemail.de','trashmail.at','trashmail.com','trashmail.de','trashmail.io',
+  'trashmail.me','trashmail.net','trashmail.org','trashmail.xyz','trashmailer.com',
+  'trashmails.com','trbvm.com','trialmail.de','trickmail.net','trillianpro.com',
+  'trumpmail.com','turual.com','twinmail.de','tyldd.com','uggsrock.com',
+  'umail.net','upliftnow.com','uplipht.com','uroid.com','us.af','venompen.com',
+  'veryrealemail.com','viditag.com','viewcastmedia.com','viewcastmedia.net',
+  'viewcastmedia.org','viralplays.com','vomoto.com','vubby.com','walala.org',
+  'walkmail.net','wasteland.rfc822.org','webemail.me','webm4il.info',
+  'weg-werf-email.de','wegwerf-emails.de','wegwerfadresse.de','wegwerfmail.de',
+  'wegwerfmail.net','wegwerfmail.org','wegwerpmailadres.nl','wegwerpnummer.nl',
+  'wetrainbayarea.com','wh4f.org','whyspam.me','willhackforfood.biz',
+  'willselfdestruct.com','winemaven.info','wronghead.com','wuzup.net',
+  'wuzupmail.net','www.e4ward.com','www.gishpuppy.com','www.mailinator.com',
+  'wwwnew.eu','x1x.spamtrap.ro','xagloo.com','xemaps.com','xents.com',
+  'xmaily.com','xoxy.net','xpeedmail.com','xsmail.com','xtymail.com',
+  'xyzfree.net','yapped.net','yeah.net','yep.it','yogamaven.com','yopmail.com',
   'yopmail.fr','youmail.ga','yourdomain.com','ypmail.webarnak.fr.eu.org',
   'yuurok.com','z1p.biz','za.com','zehnminutenmail.de','zetmail.com',
   'zippymail.info','zoemail.net','zoemail.org','zomg.info','zxcv.com',
@@ -173,7 +180,6 @@ module.exports = async function handler(req, res) {
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
   try {
-    // Kullanıcı doğrulama
     const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
       headers: {
         'Authorization': `Bearer ${userToken}`,
@@ -183,7 +189,6 @@ module.exports = async function handler(req, res) {
     const userData = await userRes.json();
     if (!userData.id) return res.status(401).json({ error: 'Invalid token' });
 
-    // Shop parametresi al ve doğrula
     const shop = req.query.shop;
     if (!shop) return res.status(400).json({ error: 'Missing shop parameter' });
     const cleanShop = shop.toLowerCase().trim();
@@ -191,7 +196,6 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid shop domain' });
     }
 
-    // Mağaza bilgilerini çek — cleanShop ile eşleştir
     const storeRes = await fetch(
       `${SUPABASE_URL}/rest/v1/shopify_stores?user_id=eq.${encodeURIComponent(userData.id)}&select=plan,subscription_status,trial_end_date,access_token,shop_domain`,
       {
@@ -207,7 +211,6 @@ module.exports = async function handler(req, res) {
       : null;
     if (!storeData) return res.status(404).json({ error: 'Store not found' });
 
-    // Domain eşleşme kontrolü
     if (storeData.shop_domain !== cleanShop) {
       return res.status(403).json({ error: 'Shop domain mismatch' });
     }
@@ -260,7 +263,7 @@ module.exports = async function handler(req, res) {
 
     if (!shopifyRes.ok) {
       const errorText = await shopifyRes.text();
-      console.error(`[shopify-orders] Shopify ${shopifyRes.status}:`, errorText);
+      console.error(`[shopify-orders] Shopify ${shopifyRes.status}`);
       return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
     }
 
@@ -276,10 +279,9 @@ module.exports = async function handler(req, res) {
         ? ((chargebackCount / totalOrders) * 100).toFixed(2)
         : '0.00';
     } catch (e) {
-      console.warn('[shopify-orders] Chargeback rate calc error:', e.message);
+      console.warn('[shopify-orders] Chargeback rate calc error');
     }
 
-    // Blacklist'i çek
     let blacklistItems = [];
     try {
       const blRes = await fetch(
@@ -301,7 +303,6 @@ module.exports = async function handler(req, res) {
       let score = 0;
       const risks = [];
 
-      // Blacklist kontrolü
       const custEmail = order.customer?.email?.toLowerCase();
       const shipCountry = order.shipping_address?.country_code?.toUpperCase();
       if (custEmail && blEmails.has(custEmail)) {
@@ -315,7 +316,6 @@ module.exports = async function handler(req, res) {
         score += 50; risks.push(`🚫 Kara listede ülke${reason}`);
       }
 
-      // Hesap yaşı
       if (order.customer?.created_at) {
         const days = Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000);
         if (days < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
@@ -325,7 +325,6 @@ module.exports = async function handler(req, res) {
         score += 20; risks.push('Misafir sipariş');
       }
 
-      // Disposable email tespiti — Pro, Elite ve Agency
       if (accessLevel === 'pro' || accessLevel === 'elite' || accessLevel === 'agency') {
         const email = order.customer?.email || null;
         if (isDisposableEmail(email)) {
@@ -334,7 +333,6 @@ module.exports = async function handler(req, res) {
         }
       }
 
-      // Sipariş tutarı — AOV'a göre dinamik eşik
       const price = parseFloat(order.total_price);
       const avgPrice = (data.orders || []).reduce((s, o) => s + parseFloat(o.total_price || 0), 0) / Math.max((data.orders || []).length, 1);
       const highThreshold = Math.max(avgPrice * 2.5, 300);
@@ -342,7 +340,6 @@ module.exports = async function handler(req, res) {
       if (price > highThreshold) { score += 25; risks.push(`Ortalamadan çok yüksek sipariş tutarı ($${price.toFixed(0)})`); }
       else if (price > medThreshold) { score += 10; risks.push(`Ortalamadan yüksek sipariş tutarı ($${price.toFixed(0)})`); }
 
-      // Farklı ülke
       if (
         order.billing_address && order.shipping_address &&
         order.billing_address.country_code !== order.shipping_address.country_code
@@ -350,11 +347,9 @@ module.exports = async function handler(req, res) {
         score += 35; risks.push('Fatura ve teslimat farklı ülkelerde');
       }
 
-      // Finansal durum
       if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
       else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
-      // Bot tespiti — sadece Agency
       if (accessLevel === 'agency') {
         const customerEmail = order.customer?.email;
         if (customerEmail) {
@@ -402,7 +397,6 @@ module.exports = async function handler(req, res) {
       else if (score >= 35) level = 'medium';
       else level = 'low';
 
-      // Metafield: risk skorunu Shopify sipariş notuna yaz
       try {
         fetch(`https://${cleanShop}/admin/api/2024-01/orders/${order.id}/metafields.json`, {
           method: 'POST',
@@ -423,7 +417,7 @@ module.exports = async function handler(req, res) {
             }
           })
         }).catch(() => {});
-      } catch(e) { /* sessizce geç */ }
+      } catch(e) {}
 
       const baseOrder = {
         id: order.id,
