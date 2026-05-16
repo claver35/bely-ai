@@ -882,30 +882,7 @@ function getDashboardHTML(){
             <div class="es-icon">🔄</div>
             <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Yükleniyor...</div>
           </div>
-        <div class="orders-panel" style="display:flex;flex-direction:column;gap:0">
-  <div class="panel-head">
-    <div class="panel-title">📈 Risk Trendi</div>
-    <div style="display:flex;gap:4px">
-      <button id="tbtn7" onclick="setTrend(7)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--cyan);background:rgba(0,229,255,0.15);color:var(--cyan);cursor:pointer;font-family:var(--mono)">7G</button>
-      <button id="tbtn30" onclick="setTrend(30)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--mono)">30G</button>
-    </div>
-  </div>
-  <div style="padding:12px;position:relative;height:160px">
-    <canvas id="trendCanvas" role="img" aria-label="Risk skoru trendi">Risk trendi</canvas>
-  </div>
-  <div style="padding:12px;display:flex;flex-direction:column;align-items:center;border-top:1px solid var(--line2)">
-    <div style="position:relative;width:90px;height:90px">
-      <canvas id="gaugeCanvas" role="img" aria-label="Risk gauge">Risk gauge</canvas>
-    </div>
-    <div style="font-size:26px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:4px" id="gaugeVal">—<span style="font-size:12px;color:var(--ink3)">/100</span></div>
-    <div style="font-size:10px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:2px" id="gaugeLabel">—</div>
-  </div>
-</div>
-      <div class="alerts-panel">
-        <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
-          <div class="panel-meta">Aktif izleme</div>
-        </div>
+        
         <div id="alerts-body">
           <div class="alert-item">
             <div class="ai-dot aid-orange"></div>
