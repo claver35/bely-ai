@@ -188,7 +188,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .locked-btn-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
 .empty-state{padding:40px;text-align:center;color:#b0b8d0;font-size:13px}
 .empty-state .es-icon{font-size:32px;margin-bottom:12px}
-.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
 .alert-item{padding:14px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
 .alert-item:last-child{border-bottom:none}
@@ -376,7 +376,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
   <span>Shopify Partner · <a href="index.html">belyshield.com</a></span>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
@@ -521,7 +520,7 @@ async function showShadowMode(){
           </div>`).join('')}
       </div>
     </div>`;
-}
+}}
 async function showWhitelist(){
   setActiveSb('sb-whitelist');
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
@@ -786,40 +785,7 @@ function showDashboard(){
     updateHealthScore(cachedOrders,window._lastCbRate);
     updateCbRateUI(window._lastCbRate);
   }
-  loadWorldMap();let riskTrendChart;
-const trendData7=[20,35,48,30,65,55,78];
-const trendData30=Array.from({length:30},(_,i)=>Math.floor(20+Math.random()*60));
-const trendLabels7=['17M','18M','19M','20M','21M','22M','23M'];
-const trendLabels30=Array.from({length:30},(_,i)=>i+1+'M');
-
-function setTrendPeriod(days){
-  document.getElementById('btn7').style.background=days===7?'rgba(0,229,255,0.15)':'transparent';
-  document.getElementById('btn7').style.color=days===7?'var(--cyan)':'var(--ink3)';
-  document.getElementById('btn7').style.borderColor=days===7?'var(--cyan)':'var(--line2)';
-  document.getElementById('btn30').style.background=days===30?'rgba(0,229,255,0.15)':'transparent';
-  document.getElementById('btn30').style.color=days===30?'var(--cyan)':'var(--ink3)';
-  document.getElementById('btn30').style.borderColor=days===30?'var(--cyan)':'var(--line2)';
-  if(riskTrendChart)riskTrendChart.destroy();
-  const labels=days===7?trendLabels7:trendLabels30;
-  const values=days===7?trendData7:trendData30;
-  riskTrendChart=new Chart(document.getElementById('riskTrendChart'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Risk',data:values,borderColor:'#ff3d57',backgroundColor:'rgba(255,61,87,0.08)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#ff3d57',borderWidth:2,pointBorderWidth:0},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Risk: %'+c.raw}}},scales:{x:{grid:{color:'rgba(0,229,255,0.06)'},ticks:{color:'#7a82a0',font:{size:9},maxTicksLimit:7}},y:{min:0,max:100,grid:{color:'rgba(0,229,255,0.06)'},ticks:{color:'#7a82a0',font:{size:9},stepSize:25,callback:v=>v+'%'}}}}
-  });
-}
-
-function initRiskCharts(){
-  const el=document.getElementById('riskTrendChart');
-  const gel=document.getElementById('riskGaugeChart');
-  if(!el||!gel)return;
-  if(typeof Chart==='undefined')return;
-  setTrendPeriod(7);
-  new Chart(gel,{type:'doughnut',data:{datasets:[{data:[78,22],backgroundColor:['#ff3d57','rgba(255,255,255,0.06)'],borderWidth:0,circumference:270,rotation:225}]},options:{responsive:true,maintainAspectRatio:false,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
-}
-setTimeout(initRiskCharts,500);
+  loadWorldMap();
 }
 
 function getDashboardHTML(){
@@ -903,7 +869,21 @@ function getDashboardHTML(){
           <div class="rs"><div class="rs-val" style="color:var(--green)">A7</div><div class="rs-label">Sektör</div></div>
         </div>
         <div class="radar-threat threat-active" id="radar-status">⚠ Tehditler taranıyor...</div>
-      <div class="bottom-row">
+      </div>
+      <div class="orders-panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>
+          <div class="panel-meta" id="orders-meta">Bağlanıyor...</div>
+        </div>
+        <div class="orders-body" id="orders-body">
+          <div class="empty-state">
+            <div class="es-icon">🔄</div>
+            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Yükleniyor...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-row">
       <div class="alerts-panel">
         <div class="panel-head">
           <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
@@ -953,6 +933,8 @@ function getDashboardHTML(){
       </div>
     </div>`;
 }
+
+function renderOrders(orders,plan){
   const body=document.getElementById('orders-body'),meta=document.getElementById('orders-meta');
   if(!body)return;
   if(!orders||orders.length===0){body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';updateMap([]);return;}
