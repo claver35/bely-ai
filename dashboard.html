@@ -955,7 +955,7 @@ function renderOrders(orders,plan){
     else{reasonHtml=`<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;}
     const isExpandable=(plan==='pro'||plan==='elite'||plan==='agency');
     const detailHtml=buildOrderDetailHtml(order,plan);
-    html+=`<div class="order-card ${cardCls} ${isExpandable||plan==='free'?'expandable':''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')"><div class="order-main"><div class="order-left"><div class="order-num">#${order.order_number}${isExpandable||plan==='free'?'<span class="order-expand-icon">▼</span>':''}</div><div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div><div class="order-loc">${order.country||'Bilinmeyen konum'}</div><div class="order-reason ${reasonCls}">${reasonHtml}</div></div><span class="risk-tag ${tagCls}">${levelText}</span></div><div class="order-detail">${detailHtml}</div></div>`;
+    html+=`<div class="order-card ${cardCls} ${isExpandable||plan==='free'?'expandable':''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')"><div class="order-main"><div class="order-left"><div class="order-num">#${order.order_number}${isExpandable||plan==='free'?'<span class="order-expand-icon">▼</span>':''}</div><div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div><div class="order-loc">${order.country||'Bilinmeyen konum'}</div></div><span class="risk-tag ${tagCls}">${levelText}</span></div><div class="order-detail">${detailHtml}</div></div>`;
   });
   body.innerHTML=html;
   if(meta)meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
