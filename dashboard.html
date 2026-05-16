@@ -135,7 +135,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .pt-icon-blue{background:rgba(0,229,255,0.1)}
 .pt-icon-red{background:rgba(255,61,87,0.1)}
 .panel-meta{font-family:var(--mono);font-size:12px;color:#c8cfe0;font-weight:400}
-.orders-body{padding:10px;flex:1;overflow-y:auto;max-height:500px}
+.orders-body{padding:14px;flex:1;overflow-y:auto;max-height:500px}
 .order-card{background:var(--bg3);border:1px solid var(--line2);border-radius:10px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .15s}
 .order-card:last-child{margin-bottom:0}
 .order-card:hover{border-color:rgba(255,255,255,0.18)}
@@ -176,10 +176,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .rs-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#7a82a0;margin-bottom:8px;font-weight:500}
 .rs-list{display:flex;flex-direction:column;gap:6px}
 .rs-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 12px;border-radius:6px;font-weight:400}
-.rs-item-high{background:rgba(255,30,57,0.06);color:#ff9aaa;border-left:2px solid rgba(255,61,87,0.4);padding:4px 10px;font-size:11px}
-.rs-item-bot{background:rgba(138,99,255,0.06);color:#c8b4ff;border-left:2px solid rgba(138,99,255,0.4);padding:4px 10px;font-size:11px}
-.rs-item-med{background:rgba(255,171,0,0.06);color:#ffd080;border-left:2px solid rgba(255,171,0,0.3);padding:4px 10px;font-size:11px}
-.rs-item-low{background:rgba(0,255,136,0.04);color:#80ffb8;border-left:2px solid rgba(0,255,136,0.25);padding:4px 10px;font-size:11px}
+.rs-item-high{background:rgba(255,30,57,0.55);color:#ffffff;border-left:4px solid #ff3d57;line-height:1.7}
 .rs-item-bot{background:rgba(138,99,255,0.2);color:#c8b4ff;border-left:4px solid #8a63ff}
 .rs-item-med{background:rgba(255,171,0,0.1);color:#ffd080;border-left:3px solid var(--orange)}
 .rs-item-low{background:rgba(0,255,136,0.08);color:#80ffb8;border-left:3px solid var(--green)}
@@ -191,9 +188,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .locked-btn-elite{background:linear-gradient(90deg,var(--green),#00b050);color:#000}
 .empty-state{padding:40px;text-align:center;color:#b0b8d0;font-size:13px}
 .empty-state .es-icon{font-size:32px;margin-bottom:12px}
-.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
-.alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;min-width:0}
-.alert-item{padding:12px 16px;border-bottom:1px solid var(--line2);display:flex;gap:10px;align-items:flex-start}
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.alerts-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
+.alert-item{padding:14px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px;align-items:flex-start}
 .alert-item:last-child{border-bottom:none}
 .ai-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .aid-red{background:var(--red);box-shadow:0 0 8px rgba(255,61,87,0.6)}
@@ -201,7 +198,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 .aid-green{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5)}
 .ai-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px;line-height:1.35}
 .ai-time{font-size:12px;color:#9aa2c0;font-family:var(--mono);font-weight:400}
-.ai-body{font-size:12px;line-height:1.5;padding:6px 10px;border-radius:6px;margin-top:4px;font-weight:400}
+.ai-body{font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400}
 .aib-red{background:rgba(255,61,87,0.12);color:#ff9aaa;border-left:3px solid var(--red)}
 .aib-orange{background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange)}
 .aib-green{background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green)}
@@ -708,8 +705,9 @@ function buildOrderDetailHtml(order,plan){
     const finCls=['refunded','voided'].includes(d.financialStatus)?'c-risk':d.financialStatus==='paid'?'c-safe':'c-warn';
     const ageCls=d.accountAgeDays!==null&&d.accountAgeDays<7?'c-risk':'c-safe';
     const addrCls=d.billingCountry&&d.shippingCountry&&d.billingCountry!==d.shippingCountry?'c-risk':'c-safe';
-    return `<div class="detail-grid"><div class="detail-block"><div class="db-title">👤 Müşteri</div><div class="db-row"><span class="db-key">Ad</span><span class="db-val">${d.customerName||'—'}</span></div><div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail||'Misafir'}</span></div><div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays!==null?d.accountAgeDays+' gün':'Misafir'}</span></div><div class="db-row"><span class="db-key">Siparişler</span><span class="db-val">${d.totalOrders||0}</span></div></div><div class="detail-block"><div class="db-title">📍 Adres</div><div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity||'—'}</span></div></div><div class="detail-block"><div class="db-title">💳 Ödeme</div><div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div><div class="db-row"><span class="db-key">Durum</span><span class="db-val ${finCls}">${fTR}</span></div><div class="db-row"><span class="db-key">Gönderi</span><span class="db-val">${fuTR}</span></div><div class="db-row"><span class="db-key">Yöntem</span><span class="db-val">${d.gateway||'—'}</span></div></div><div class="detail-block"><div class="db-title">🚨 Risk Sinyalleri</div>${r.risks.length>0?r.risks.map(risk=>`<div class="db-row" style="gap:8px;align-items:center;flex-wrap:nowrap"><span style="font-size:13px;flex-shrink:0">${risk.includes('Bot')?'🚨':risk.includes('kullanımlık')?'⚠️':'🔴'}</span><span style="color:#ffffff;font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${risk.replace('🚫 ','').replace('✅ ','')}</span></div>`).join(''):'<div class="db-row"><span class="db-val" style="color:var(--green)">✔ Risk sinyali yok</span></div>'}</div></div>${aiBtnHtml}`;
-    return `<div class="detail-block" style="margin-top:12px"><div class="db-title">🚨 Risk Sinyalleri</div>${r.risks.length>0?r.risks.map(risk=>`<div class="db-row"><span class="db-key" style="color:#fff">🔴</span><span class="db-val" style="color:#fff;font-weight:500">${risk}</span></div>`).join(''):'<div class="db-row"><span class="db-val" style="color:var(--green)">✔ Risk sinyali yok</span></div>'}</div><div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri ve AI önerisi <strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>${currentPlan==='agency'?'':'<button class="locked-btn locked-btn-elite" onclick="startCheckout(\'elite\')">Elite\'e Geç →</button>'}</div>`;
+    return `<div class="detail-grid"><div class="detail-block"><div class="db-title">👤 Müşteri</div><div class="db-row"><span class="db-key">Ad</span><span class="db-val">${d.customerName||'—'}</span></div><div class="db-row"><span class="db-key">Email</span><span class="db-val">${d.customerEmail||'Misafir'}</span></div><div class="db-row"><span class="db-key">Hesap Yaşı</span><span class="db-val ${ageCls}">${d.accountAgeDays!==null?d.accountAgeDays+' gün':'Misafir'}</span></div><div class="db-row"><span class="db-key">Siparişler</span><span class="db-val">${d.totalOrders||0}</span></div></div><div class="detail-block"><div class="db-title">📍 Adres</div><div class="db-row"><span class="db-key">Fatura Ülkesi</span><span class="db-val">${d.billingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Ülkesi</span><span class="db-val ${addrCls}">${d.shippingCountry||'—'}</span></div><div class="db-row"><span class="db-key">Fatura Şehri</span><span class="db-val">${d.billingCity||'—'}</span></div><div class="db-row"><span class="db-key">Teslimat Şehri</span><span class="db-val">${d.shippingCity||'—'}</span></div></div><div class="detail-block"><div class="db-title">💳 Ödeme</div><div class="db-row"><span class="db-key">Tutar</span><span class="db-val">$${parseFloat(order.total_price).toFixed(2)}</span></div><div class="db-row"><span class="db-key">Durum</span><span class="db-val ${finCls}">${fTR}</span></div><div class="db-row"><span class="db-key">Gönderi</span><span class="db-val">${fuTR}</span></div><div class="db-row"><span class="db-key">Yöntem</span><span class="db-val">${d.gateway||'—'}</span></div></div></div><div class="risk-signals" style="margin-top:12px"><div class="rs-title">🚨 Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item ${risk.includes('Bot şüphesi')?'rs-item-bot':r.level==='high'?'rs-item-high':r.level==='medium'?'rs-item-med':'rs-item-low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'}</div></div>${aiBtnHtml}`;
+    return `<div class="risk-signals" style="margin-top:12px"><div class="rs-title">🚨 Risk Sinyalleri</div><div class="rs-list">${r.risks.length>0?r.risks.map(risk=>`<div class="rs-item ${risk.includes('Bot şüphesi')?'rs-item-bot':r.level==='high'?'rs-item-high':r.level==='medium'?'rs-item-med':'rs-item-low'}">⚠ ${risk}</div>`).join(''):'<div class="rs-item rs-item-low">✔ Risk sinyali tespit edilmedi.</div>'}</div></div><div class="locked-detail" style="margin-top:12px"><div class="locked-icon">⚡</div><div class="locked-text">Müşteri bilgileri ve AI önerisi <strong style="color:#fff">Shield Elite</strong>'e özeldir.</div>${currentPlan==='agency'?'':'<button class="locked-btn locked-btn-elite" onclick="startCheckout(\'elite\')">Elite\'e Geç →</button>'}</div>`;
+  }else{
     return `<div class="locked-detail" style="margin-top:12px"><div class="locked-icon">🔒</div><div class="locked-text">Risk detayları <strong style="color:#fff">Shield Pro</strong> ve üzeri planlara özeldir.</div><button class="locked-btn locked-btn-pro" onclick="startCheckout('pro')">Pro'ya Geç →</button></div>`;
   }
 }
@@ -872,9 +870,9 @@ function getDashboardHTML(){
         </div>
         <div class="radar-threat threat-active" id="radar-status">⚠ Tehditler taranıyor...</div>
       </div>
-<div class="orders-panel">
+      <div class="orders-panel">
         <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>     
+          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>
           <div class="panel-meta" id="orders-meta">Bağlanıyor...</div>
         </div>
         <div class="orders-body" id="orders-body">
@@ -882,7 +880,15 @@ function getDashboardHTML(){
             <div class="es-icon">🔄</div>
             <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Yükleniyor...</div>
           </div>
-    <div class="bottom-row">        
+        </div>
+      </div>
+    </div>
+    <div class="bottom-row">
+      <div class="alerts-panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
+          <div class="panel-meta">Aktif izleme</div>
+        </div>
         <div id="alerts-body">
           <div class="alert-item">
             <div class="ai-dot aid-orange"></div>
@@ -946,7 +952,7 @@ function renderOrders(orders,plan){
     else{reasonHtml=`<span style="filter:blur(4px);user-select:none;pointer-events:none">${reasonText}</span> <a onclick="startCheckout('pro')" style="cursor:pointer;color:var(--cyan);font-size:11px;filter:none;margin-left:6px">🔒 Pro'ya geç</a>`;}
     const isExpandable=(plan==='pro'||plan==='elite'||plan==='agency');
     const detailHtml=buildOrderDetailHtml(order,plan);
-    html+=`<div class="order-card ${cardCls} ${isExpandable||plan==='free'?'expandable':''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')"><div class="order-main"><div class="order-left"><div class="order-num">#${order.order_number}${isExpandable||plan==='free'?'<span class="order-expand-icon">▼</span>':''}</div><div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div><div class="order-loc">${order.country||'Bilinmeyen konum'}</div></div><span class="risk-tag ${tagCls}">${levelText}</span></div><div class="order-detail">${detailHtml}</div></div>`;
+    html+=`<div class="order-card ${cardCls} ${isExpandable||plan==='free'?'expandable':''}" id="oc-${order.id}" onclick="toggleCard('${order.id}')"><div class="order-main"><div class="order-left"><div class="order-num">#${order.order_number}${isExpandable||plan==='free'?'<span class="order-expand-icon">▼</span>':''}</div><div class="order-price">$${parseFloat(order.total_price).toFixed(2)}</div><div class="order-loc">${order.country||'Bilinmeyen konum'}</div><div class="order-reason ${reasonCls}">${reasonHtml}</div></div><span class="risk-tag ${tagCls}">${levelText}</span></div><div class="order-detail">${detailHtml}</div></div>`;
   });
   body.innerHTML=html;
   if(meta)meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
