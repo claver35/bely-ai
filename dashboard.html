@@ -869,21 +869,7 @@ function getDashboardHTML(){
           <div class="rs"><div class="rs-val" style="color:var(--green)">A7</div><div class="rs-label">Sektör</div></div>
         </div>
         <div class="radar-threat threat-active" id="radar-status">⚠ Tehditler taranıyor...</div>
-      </div>
-      <div class="orders-panel">
-        <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>
-          <div class="panel-meta" id="orders-meta">Bağlanıyor...</div>
-        </div>
-        <div class="orders-body" id="orders-body">
-          <div class="empty-state">
-            <div class="es-icon">🔄</div>
-            <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);animation:blink 1s infinite">Yükleniyor...</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bottom-row">
+      <div class="bottom-row">
       <div class="alerts-panel">
         <div class="panel-head">
           <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
@@ -903,7 +889,7 @@ function getDashboardHTML(){
             <div>
               <div class="ai-title">📦 Kargoya Vermeden Önce Taratın</div>
               <div class="ai-time">Öneri</div>
-              <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin. Sistem saatte bir otomatik tarar.</div>
+              <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin.</div>
             </div>
           </div>
           <div class="alert-item">
@@ -911,24 +897,46 @@ function getDashboardHTML(){
             <div>
               <div class="ai-title">✔ Yüksek Riskli Sipariş Görüldü</div>
               <div class="ai-time">Şu anda</div>
-              <div class="ai-body aib-green">Bu siparişleri inceleyin. Kargoya vermeden önce değerlendirin — nihai karar sizindir.</div>
+              <div class="ai-body aib-green">Bu siparişleri inceleyin — nihai karar sizindir.</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="map-panel">
-        <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-blue">🌍</span> Sipariş Lokasyonları</div>
-          <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
+      <div class="map-panel" style="display:flex;flex-direction:column;gap:0">
+        <div class="panel-head" style="border-bottom:1px solid var(--line2)">
+          <div class="panel-title">📈 Risk Skoru Trendi</div>
+          <div style="display:flex;gap:4px">
+            <button id="btn7" onclick="setTrendPeriod(7)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--cyan);background:rgba(0,229,255,0.15);color:var(--cyan);cursor:pointer;font-family:var(--mono)">7G</button>
+            <button id="btn30" onclick="setTrendPeriod(30)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--mono)">30G</button>
+          </div>
         </div>
-        <div id="world-map-wrap">
-          <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
-          <div class="map-tooltip" id="map-tooltip"></div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:0;flex:1">
+          <div style="padding:12px;position:relative;height:220px">
+            <canvas id="riskTrendChart" role="img" aria-label="Risk skoru trendi">Risk trendi</canvas>
+          </div>
+          <div style="padding:16px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line2);min-width:130px">
+            <div style="position:relative;width:110px;height:110px">
+              <canvas id="riskGaugeChart" role="img" aria-label="Ortalama risk skoru gauge">78/100</canvas>
+            </div>
+            <div style="font-size:28px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:6px">78<span style="font-size:14px;color:var(--ink3)">/100</span></div>
+            <div style="font-size:11px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Yüksek Risk</div>
+            <div style="font-size:11px;color:var(--green);margin-top:6px">▲ +12% geçen hafta</div>
+          </div>
         </div>
-        <div class="map-legend">
-          <div class="map-legend-item"><div class="map-legend-dot ld-blue"></div>Sipariş var</div>
-          <div class="map-legend-item"><div class="map-legend-dot ld-red"></div>Yüksek riskli</div>
-          <div class="map-legend-item"><div class="map-legend-dot ld-gray"></div>Veri yok</div>
+        <div style="border-top:1px solid var(--line2)">
+          <div class="panel-head" style="border-bottom:none;padding:10px 20px">
+            <div class="panel-title">🌍 Sipariş Lokasyonları</div>
+            <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
+          </div>
+          <div id="world-map-wrap" style="min-height:180px;padding:0 10px">
+            <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="map-tooltip" id="map-tooltip"></div>
+          </div>
+          <div class="map-legend">
+            <div class="map-legend-item"><div class="map-legend-dot ld-blue"></div>Sipariş var</div>
+            <div class="map-legend-item"><div class="map-legend-dot ld-red"></div>Yüksek riskli</div>
+            <div class="map-legend-item"><div class="map-legend-dot ld-gray"></div>Veri yok</div>
+          </div>
         </div>
       </div>
     </div>`;
