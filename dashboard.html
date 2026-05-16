@@ -520,7 +520,7 @@ async function showShadowMode(){
           </div>`).join('')}
       </div>
     </div>`;
-}}
+}
 async function showWhitelist(){
   setActiveSb('sb-whitelist');
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
