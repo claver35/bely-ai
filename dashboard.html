@@ -936,7 +936,7 @@ function getDashboardHTML(){
           </div>
         </div>
       </div>
-      <div class="map-panel" style="display:flex;flex-direction:column;gap:0;overflow:hidden">
+      <div class="map-panel">
         <div class="panel-head" style="border-bottom:1px solid var(--line2)">
           <div class="panel-title">📈 Risk Skoru Trendi</div>
           <div style="display:flex;gap:4px">
@@ -944,33 +944,31 @@ function getDashboardHTML(){
             <button id="btn30" onclick="setTrendPeriod(30)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--mono)">30G</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr auto;gap:0;flex:1">
-          <div style="padding:12px;position:relative;height:220px">
+        <div style="display:flex;align-items:stretch;border-bottom:1px solid var(--line2)">
+          <div style="flex:1;padding:12px;position:relative;height:200px;min-width:0">
             <canvas id="riskTrendChart" role="img" aria-label="Risk skoru trendi">Risk trendi</canvas>
           </div>
-          <div style="padding:16px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line2);min-width:130px">
-            <div style="position:relative;width:110px;height:110px">
-              <canvas id="riskGaugeChart" role="img" aria-label="Ortalama risk skoru gauge">78/100</canvas>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line2);width:120px;flex-shrink:0">
+            <div style="position:relative;width:90px;height:90px">
+              <canvas id="riskGaugeChart" role="img" aria-label="Risk gauge">78/100</canvas>
             </div>
-            <div style="font-size:28px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:6px">78<span style="font-size:14px;color:var(--ink3)">/100</span></div>
-            <div style="font-size:11px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Yüksek Risk</div>
-            <div style="font-size:11px;color:var(--green);margin-top:6px">▲ +12% geçen hafta</div>
+            <div style="font-size:24px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:4px">78<span style="font-size:12px;color:var(--ink3)">/100</span></div>
+            <div style="font-size:10px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Yüksek Risk</div>
+            <div style="font-size:10px;color:var(--green);margin-top:4px">▲ +12% geçen hafta</div>
           </div>
         </div>
-        <div style="border-top:1px solid var(--line2)">
-          <div class="panel-head" style="border-bottom:none;padding:10px 20px">
-            <div class="panel-title">🌍 Sipariş Lokasyonları</div>
-            <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
-          </div>
-          <div id="world-map-wrap" style="min-height:180px;padding:0 10px">
-            <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
-            <div class="map-tooltip" id="map-tooltip"></div>
-          </div>
-          <div class="map-legend">
-            <div class="map-legend-item"><div class="map-legend-dot ld-blue"></div>Sipariş var</div>
-            <div class="map-legend-item"><div class="map-legend-dot ld-red"></div>Yüksek riskli</div>
-            <div class="map-legend-item"><div class="map-legend-dot ld-gray"></div>Veri yok</div>
-          </div>
+        <div class="panel-head" style="padding:10px 16px;border-bottom:none">
+          <div class="panel-title">🌍 Sipariş Lokasyonları</div>
+          <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
+        </div>
+        <div id="world-map-wrap" style="padding:0 8px 4px">
+          <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="map-tooltip" id="map-tooltip"></div>
+        </div>
+        <div class="map-legend">
+          <div class="map-legend-item"><div class="map-legend-dot ld-blue"></div>Sipariş var</div>
+          <div class="map-legend-item"><div class="map-legend-dot ld-red"></div>Yüksek riskli</div>
+          <div class="map-legend-item"><div class="map-legend-dot ld-gray"></div>Veri yok</div>
         </div>
       </div>
     </div>`;
