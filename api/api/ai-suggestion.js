@@ -58,7 +58,8 @@ SİPARİŞ VERİLERİ:
 - Ülke Eşleşmesi: ${countryMatch}
 - Finansal Durum: ${safeFinancialStatus}
 - Ödeme Yöntemi: ${safeGateway}
-
+- Bağlam Notu: ${countryMatch === 'HAYIR — farklı ülkeler' ? 'Fatura ve teslimat ülkesi farklı — hediye gönderimi olabilir, değerlendirin.' : 'Fatura ve teslimat ülkesi aynı — adres tutarlı.'} ${safeTotalOrders > 3 ? 'Müşterinin geçmiş siparişleri var, tanıdık müşteri olabilir.' : ''} ${safeAccountAgeDays !== 'Bilinmiyor' && parseInt(safeAccountAgeDays) > 30 ? 'Hesap köklü, kısa süreli hesap riski yok.' : ''}
+- Önemli Kural: Fatura ve teslimat ülkesi farklı ama diğer riskler düşükse, hediye gönderimi ihtimalini mutlaka belirt. Tek başına yeni hesap olmak yüksek risk sayılmaz, diğer faktörlerle birlikte değerlendir.
 Satıcıya şunları söyle:
 1. Bu sipariş güvenli mi, riskli mi, yoksa şüpheli mi?
 2. Ne yapmalı? (kargoya ver / beklet / iptal et / müşteriyle iletişime geç)
