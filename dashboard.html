@@ -923,7 +923,7 @@ function getDashboardHTML(){
             <div>
               <div class="ai-title">📦 Kargoya Vermeden Önce Taratın</div>
               <div class="ai-time">Öneri</div>
-              <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin.</div>
+              <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin. Sistem saatte bir otomatik tarar.</div>
             </div>
           </div>
           <div class="alert-item">
@@ -931,37 +931,17 @@ function getDashboardHTML(){
             <div>
               <div class="ai-title">✔ Yüksek Riskli Sipariş Görüldü</div>
               <div class="ai-time">Şu anda</div>
-              <div class="ai-body aib-green">Bu siparişleri inceleyin — nihai karar sizindir.</div>
+              <div class="ai-body aib-green">Bu siparişleri inceleyin. Kargoya vermeden önce değerlendirin — nihai karar sizindir.</div>
             </div>
           </div>
         </div>
       </div>
       <div class="map-panel">
-        <div class="panel-head" style="border-bottom:1px solid var(--line2)">
-          <div class="panel-title">📈 Risk Skoru Trendi</div>
-          <div style="display:flex;gap:4px">
-            <button id="btn7" onclick="setTrendPeriod(7)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--cyan);background:rgba(0,229,255,0.15);color:var(--cyan);cursor:pointer;font-family:var(--mono)">7G</button>
-            <button id="btn30" onclick="setTrendPeriod(30)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--mono)">30G</button>
-          </div>
-        </div>
-        <div style="display:flex;align-items:stretch;border-bottom:1px solid var(--line2)">
-          <div style="flex:1;padding:12px;position:relative;height:200px;min-width:0">
-            <canvas id="riskTrendChart" role="img" aria-label="Risk skoru trendi">Risk trendi</canvas>
-          </div>
-          <div style="padding:14px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line2);width:120px;flex-shrink:0">
-            <div style="position:relative;width:90px;height:90px">
-              <canvas id="riskGaugeChart" role="img" aria-label="Risk gauge">78/100</canvas>
-            </div>
-            <div style="font-size:24px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:4px">78<span style="font-size:12px;color:var(--ink3)">/100</span></div>
-            <div style="font-size:10px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Yüksek Risk</div>
-            <div style="font-size:10px;color:var(--green);margin-top:4px">▲ +12% geçen hafta</div>
-          </div>
-        </div>
-        <div class="panel-head" style="padding:10px 16px;border-bottom:none">
-          <div class="panel-title">🌍 Sipariş Lokasyonları</div>
+        <div class="panel-head">
+          <div class="panel-title"><span class="pt-icon pt-icon-blue">🌍</span> Sipariş Lokasyonları</div>
           <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
         </div>
-        <div id="world-map-wrap" style="padding:0 8px 4px">
+        <div id="world-map-wrap">
           <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
           <div class="map-tooltip" id="map-tooltip"></div>
         </div>
@@ -973,8 +953,6 @@ function getDashboardHTML(){
       </div>
     </div>`;
 }
-
-function renderOrders(orders,plan){
   const body=document.getElementById('orders-body'),meta=document.getElementById('orders-meta');
   if(!body)return;
   if(!orders||orders.length===0){body.innerHTML='<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Sipariş bulunamadı.</div></div>';updateMap([]);return;}
