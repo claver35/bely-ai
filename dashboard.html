@@ -872,9 +872,25 @@ function getDashboardHTML(){
         </div>
         <div class="radar-threat threat-active" id="radar-status">⚠ Tehditler taranıyor...</div>
       </div>
-      <div class="orders-panel">
-        <div class="panel-head">
-          <div class="panel-title"><span class="pt-icon pt-icon-blue">📦</span> Son Siparişler — Risk Puanları</div>
+      <div class="orders-panel" style="display:flex;flex-direction:column">
+  <div class="panel-head">
+    <div class="panel-title">📈 Risk Trendi</div>
+    <div style="display:flex;gap:4px">
+      <button id="tbtn7" onclick="setTrend(7)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--cyan);background:rgba(0,229,255,0.15);color:var(--cyan);cursor:pointer;font-family:var(--mono)">7G</button>
+      <button id="tbtn30" onclick="setTrend(30)" style="font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--mono)">30G</button>
+    </div>
+  </div>
+  <div style="padding:12px;position:relative;height:160px">
+    <canvas id="trendCanvas" role="img" aria-label="Risk skoru trendi">Risk trendi</canvas>
+  </div>
+  <div style="padding:12px;display:flex;flex-direction:column;align-items:center;border-top:1px solid var(--line2)">
+    <div style="position:relative;width:100px;height:100px">
+      <canvas id="gaugeCanvas" role="img" aria-label="Risk gauge">Risk gauge</canvas>
+    </div>
+    <div style="font-size:28px;font-weight:300;color:var(--red);font-family:var(--mono);margin-top:4px" id="gaugeVal">—<span style="font-size:13px;color:var(--ink3)">/100</span></div>
+    <div style="font-size:11px;color:var(--red);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em" id="gaugeLabel">—</div>
+  </div>
+</div>
           <div class="panel-meta" id="orders-meta">Bağlanıyor...</div>
         </div>
         <div class="orders-body" id="orders-body">
