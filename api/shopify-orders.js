@@ -225,9 +225,9 @@ module.exports = async function handler(req, res) {
     let accessLevel = 'trial';
 
     if (plan === 'agency' && status === 'active') {
-      limit = 250; accessLevel = 'agency';
+      limit = 1000; accessLevel = 'agency';
     } else if (plan === 'elite' && status === 'active') {
-      limit = 500; accessLevel = 'elite';
+      limit = 750; accessLevel = 'elite';
     } else if (plan === 'pro' && status === 'active') {
       limit = 250; accessLevel = 'pro';
     } else if (status === 'trial' || isTrialActive || plan === 'free') {
@@ -262,7 +262,6 @@ module.exports = async function handler(req, res) {
     ]);
 
     if (!shopifyRes.ok) {
-      const errorText = await shopifyRes.text();
       console.error(`[shopify-orders] Shopify ${shopifyRes.status}`);
       return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
     }
@@ -281,7 +280,8 @@ module.exports = async function handler(req, res) {
     } catch (e) {
       console.warn('[shopify-orders] Chargeback rate calc error');
     }
-// Whitelist'i çek
+
+    // Whitelist'i çek
     let whitelistItems = [];
     try {
       const wlRes = await fetch(
@@ -298,6 +298,8 @@ module.exports = async function handler(req, res) {
 
     const wlEmails = new Set(whitelistItems.filter(b => b.type === 'email').map(b => b.value.toLowerCase()));
     const wlCountries = new Set(whitelistItems.filter(b => b.type === 'country').map(b => b.value.toUpperCase()));
+
+    // Blacklist'i çek
     let blacklistItems = [];
     try {
       const blRes = await fetch(
@@ -319,7 +321,7 @@ module.exports = async function handler(req, res) {
       let score = 0;
       const risks = [];
 
-      // Whitelist kontrolü — whitelist'teyse skoru sıfırla
+      // Whitelist kontrolü
       const custEmailWl = order.customer?.email?.toLowerCase();
       const shipCountryWl = order.shipping_address?.country_code?.toUpperCase();
       if ((custEmailWl && wlEmails.has(custEmailWl)) || (shipCountryWl && wlCountries.has(shipCountryWl))) {
@@ -332,8 +334,12 @@ module.exports = async function handler(req, res) {
           risk: { score: 0, level: 'low', risks: ['✅ Güvenilir müşteri — Whitelist\'te kayıtlı'] },
           details: null
         };
-      }const custEmail = order.customer?.email?.toLowerCase();
+      }
+
+      const custEmail = order.customer?.email?.toLowerCase();
       const shipCountry = order.shipping_address?.country_code?.toUpperCase();
+
+      // Blacklist kontrolü
       if (custEmail && blEmails.has(custEmail)) {
         const blItem = blacklistItems.find(b => b.type === 'email' && b.value === custEmail);
         const reason = blItem?.reason ? ` (Sebep: ${blItem.reason})` : '';
@@ -345,23 +351,26 @@ module.exports = async function handler(req, res) {
         score += 50; risks.push(`🚫 Kara listede ülke${reason}`);
       }
 
+      // Hesap yaşı — revize edilmiş puanlar
       if (order.customer?.created_at) {
         const days = Math.floor((Date.now() - new Date(order.customer.created_at)) / 86400000);
-        if (days < 1)  { score += 45; risks.push('Bugün oluşturulan hesap'); }
-        else if (days < 7)  { score += 30; risks.push('Yeni hesap (< 7 gün)'); }
+        if (days < 1)  { score += 25; risks.push('Bugün oluşturulan hesap'); }
+        else if (days < 7)  { score += 20; risks.push('Yeni hesap (< 7 gün)'); }
         else if (days < 30) { score += 10; risks.push('Hesap < 30 gün'); }
       } else {
         score += 20; risks.push('Misafir sipariş');
       }
 
+      // Tek kullanımlık email — +60 sabit
       if (accessLevel === 'pro' || accessLevel === 'elite' || accessLevel === 'agency') {
         const email = order.customer?.email || null;
         if (isDisposableEmail(email)) {
-          score += 30;
+          score += 60;
           risks.push('Tek kullanımlık email adresi tespit edildi');
         }
       }
 
+      // Sipariş tutarı
       const price = parseFloat(order.total_price);
       const avgPrice = (data.orders || []).reduce((s, o) => s + parseFloat(o.total_price || 0), 0) / Math.max((data.orders || []).length, 1);
       const highThreshold = Math.max(avgPrice * 2.5, 300);
@@ -369,16 +378,19 @@ module.exports = async function handler(req, res) {
       if (price > highThreshold) { score += 25; risks.push(`Ortalamadan çok yüksek sipariş tutarı ($${price.toFixed(0)})`); }
       else if (price > medThreshold) { score += 10; risks.push(`Ortalamadan yüksek sipariş tutarı ($${price.toFixed(0)})`); }
 
+      // Fatura/teslimat ülkesi farkı
       if (
         order.billing_address && order.shipping_address &&
         order.billing_address.country_code !== order.shipping_address.country_code
       ) {
-        score += 35; risks.push('Fatura ve teslimat farklı ülkelerde');
+        score += 40; risks.push('Fatura ve teslimat farklı ülkelerde');
       }
 
+      // Finansal durum
       if (order.financial_status === 'refunded') { score += 25; risks.push('Tam iade yapılmış'); }
       else if (order.financial_status === 'voided') { score += 20; risks.push('İptal edilmiş ödeme'); }
 
+      // Bot tespiti — sadece Agency
       if (accessLevel === 'agency') {
         const customerEmail = order.customer?.email;
         if (customerEmail) {
@@ -421,9 +433,11 @@ module.exports = async function handler(req, res) {
       }
 
       score = Math.min(score, 99);
+
+      // Revize edilmiş eşikler: 75 yüksek, 50 orta
       let level;
-      if (score >= 65) level = 'high';
-      else if (score >= 35) level = 'medium';
+      if (score >= 75) level = 'high';
+      else if (score >= 50) level = 'medium';
       else level = 'low';
 
       try {
