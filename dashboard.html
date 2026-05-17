@@ -963,6 +963,22 @@ function renderOrders(orders,plan){
   if(ms)ms.textContent=orders.length;if(mf)mf.textContent=highRisk;if(hrc)hrc.textContent=highRisk;if(rt)rt.textContent=highRisk;
   const rs=document.getElementById('radar-status');
   if(rs){if(highRisk>0){rs.textContent=`🚨 ${highRisk} tehdit tespit edildi`;rs.className='radar-threat threat-active';}else{rs.textContent='✔ Tehdit tespit edilmedi';rs.className='radar-threat threat-clear';}}
+  const hrDot=document.getElementById('alert-hr-dot');
+  const hrTitle=document.getElementById('alert-hr-title');
+  const hrBody=document.getElementById('alert-hr-body');
+  if(hrDot&&hrTitle&&hrBody){
+    if(highRisk>0){
+      hrDot.style.background='var(--red)';hrDot.style.boxShadow='0 0 8px rgba(255,61,87,0.6)';
+      hrTitle.textContent=`🚨 ${highRisk} Yüksek Riskli Sipariş Tespit Edildi`;
+      hrBody.style.background='rgba(255,61,87,0.12)';hrBody.style.color='#ff9aaa';hrBody.style.borderLeft='3px solid var(--red)';
+      hrBody.textContent='Bu siparişleri inceleyin. Kargoya vermeden önce değerlendirin — nihai karar sizindir.';
+    }else{
+      hrDot.style.background='var(--green)';hrDot.style.boxShadow='0 0 8px rgba(0,255,136,0.5)';
+      hrTitle.textContent='✔ Yüksek Riskli Sipariş Yok';
+      hrBody.style.background='rgba(0,255,136,0.1)';hrBody.style.color='#80ffb8';hrBody.style.borderLeft='3px solid var(--green)';
+      hrBody.textContent='Tüm siparişler incelendi — kritik risk tespit edilmedi.';
+    }
+  }
   updateMap(orders);
 }
 
