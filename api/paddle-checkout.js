@@ -8,8 +8,9 @@ const supabase = createClient(
 
 // ── Geçerli Price ID'ler — sadece bunlar kabul edilir ──
 const VALID_PRICE_IDS = [
-  'pri_01kpntvkyjz86f9abj5g8396dv', // Shield Pro $29.90/ay
-  'pri_01kpnv1whkq97tr638rt08vz09', // Shield Elite $49.90/ay
+  'pri_01kpntvkyjz86f9abj5g8396dv',
+  'pri_01kpnv1whkq97tr638rt08vz09',
+  'BURAYA_AGENCY_PRICE_ID',
 ];
 
 export default async function handler(req, res) {
