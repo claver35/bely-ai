@@ -909,12 +909,12 @@ function getDashboardHTML(){
               <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin. Sistem saatte bir otomatik tarar.</div>
             </div>
           </div>
-          <div class="alert-item">
-            <div class="ai-dot aid-green"></div>
+          <div class="alert-item" id="alert-high-risk">
+            <div class="ai-dot" id="alert-hr-dot" style="background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5);width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px"></div>
             <div>
-              <div class="ai-title">✔ Yüksek Riskli Sipariş Görüldü</div>
+              <div class="ai-title" id="alert-hr-title">✔ Yüksek Riskli Sipariş Yok</div>
               <div class="ai-time">Şu anda</div>
-              <div class="ai-body aib-green">Bu siparişleri inceleyin. Kargoya vermeden önce değerlendirin — nihai karar sizindir.</div>
+              <div class="ai-body" id="alert-hr-body" style="background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green);font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400">Tüm siparişler incelendi — kritik risk tespit edilmedi.</div>
             </div>
           </div>
         </div>
