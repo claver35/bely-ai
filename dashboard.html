@@ -678,6 +678,49 @@ function updateCbRateUI(cbRate){
   if(rateEl)rateEl.textContent='%'+cbRate;
   if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';barEl.style.background=rate>=0.65?'var(--red)':rate>=0.50?'var(--orange)':rate>=0.30?'var(--warn)':'var(--green)';}
   if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
+  const cbDot=document.getElementById('alert-cb-dot');
+  const cbTitle=document.getElementById('alert-cb-title');
+  const cbBody=document.getElementById('alert-cb-body');
+  const cbTime=document.getElementById('alert-cb-time');
+  if(cbDot&&cbTitle&&cbBody){
+    const now=new Date().toLocaleTimeString('tr-TR');
+    if(cbTime)cbTime.textContent='Son güncelleme: '+now;
+    if(rate>=0.65){
+      cbDot.style.background='var(--red)';cbDot.style.boxShadow='0 0 8px rgba(255,61,87,0.6)';
+      cbTitle.textContent='🚨 Chargeback Limiti Aşıldı!';
+      cbBody.style.background='rgba(255,61,87,0.12)';cbBody.style.color='#ff9aaa';cbBody.style.borderLeft='3px solid var(--red)';
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — Visa limiti %0,65 aşıldı! Acil önlem alın.`;
+    }else if(rate>=0.50){
+      cbDot.style.background='var(--red)';cbDot.style.boxShadow='0 0 8px rgba(255,61,87,0.5)';
+      cbTitle.textContent='⚠ Chargeback Oranı Kritik Seviyede';
+      cbBody.style.background='rgba(255,61,87,0.08)';cbBody.style.color='#ff9aaa';cbBody.style.borderLeft='3px solid var(--red)';
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — Visa limitine (%0,65) çok yakın. Dikkat edin.`;
+    }else if(rate>=0.30){
+      cbDot.style.background='var(--orange)';cbDot.style.boxShadow='0 0 8px rgba(255,171,0,0.5)';
+      cbTitle.textContent='⚠ Chargeback Oranı Yükseliyor';
+      cbBody.style.background='rgba(255,171,0,0.12)';cbBody.style.color='#ffd080';cbBody.style.borderLeft='3px solid var(--orange)';
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — İzleniyor. Limit %0,65.`;
+    }else{
+      cbDot.style.background='var(--green)';cbDot.style.boxShadow='0 0 8px rgba(0,255,136,0.5)';
+      cbTitle.textContent='✔ Chargeback Oranı Normal';
+      cbBody.style.background='rgba(0,255,136,0.1)';cbBody.style.color='#80ffb8';cbBody.style.borderLeft='3px solid var(--green)';
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — Güvenli seviyede. Limit %0,65.`;
+    }
+  }
+  const scanBody=document.getElementById('alert-scan-body');
+  const scanTitle=document.getElementById('alert-scan-title');
+  const scanTime=document.getElementById('alert-scan-time');
+  const scanDot=document.getElementById('alert-scan-dot');
+  if(scanBody){
+    const now2=new Date().toLocaleTimeString('tr-TR');
+    if(scanTime)scanTime.textContent=now2;
+    if(scanTitle)scanTitle.textContent='📦 Son Tarama Tamamlandı';
+    scanBody.style.background='rgba(0,255,136,0.1)';
+    scanBody.style.color='#80ffb8';
+    scanBody.style.borderLeft='3px solid var(--green)';
+    scanBody.textContent='Tüm siparişler başarıyla tarandı. Kargoya vermeden önce yüksek riskli siparişleri inceleyin.';
+    if(scanDot){scanDot.style.background='var(--green)';scanDot.style.boxShadow='0 0 8px rgba(0,255,136,0.5)';}
+  }
 }
 
 function updateHealthScore(orders,chargebackRate){
