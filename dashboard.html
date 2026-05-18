@@ -1478,6 +1478,33 @@ function toggleRadarSound(){
     btn.textContent='🔊 SES AÇIK';
     btn.style.color='var(--cyan)';
     btn.style.borderColor='rgba(0,229,255,0.4)';
+    if(!window._sonarSound){
+      window._sonarSound=new Audio('/sounds/sonar.wav');
+      window._sonarSound.volume=0.6;
+    }
+    function playPing(){
+      if(!_radarSoundOn)return;
+      window._sonarSound.currentTime=0;
+      window._sonarSound.play().catch(e=>{});
+    }
+    playPing();
+    _radarAudio=setInterval(playPing,4000);
+  }
+}
+function toggleRadarSound(){
+  const btn=document.getElementById('radar-sound-btn');
+  if(_radarSoundOn){
+    if(_radarAudio){clearInterval(_radarAudio);_radarAudio=null;}
+    if(window._sonarSound){window._sonarSound.pause();window._sonarSound.currentTime=0;}
+    _radarSoundOn=false;
+    btn.textContent='🔇 SES KAPALI';
+    btn.style.color='var(--ink3)';
+    btn.style.borderColor='rgba(0,229,255,0.2)';
+  }else{
+    _radarSoundOn=true;
+    btn.textContent='🔊 SES AÇIK';
+    btn.style.color='var(--cyan)';
+    btn.style.borderColor='rgba(0,229,255,0.4)';
     function playPing(){
       try{
         const ctx=new(window.AudioContext||window.webkitAudioContext)();
