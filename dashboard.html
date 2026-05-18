@@ -347,22 +347,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(3,5,10,0.92);backdrop-filt
 <div class="dash">
   <div class="sidebar">
     <div class="sb-section" id="cmd-center">KONTROL MERKEZİ</div>
-    <div class="sb-item" id="sb-dashboard" onclick="showDashboard()"><span class="sb-icon">⚡</span> Dashboard</div>
-    <div class="sb-item" id="sb-orders" onclick="showOrdersPage()"><span class="sb-icon">📦</span> Orders <span class="sb-badge" id="hr-count">0</span></div>
-    <div class="sb-item" id="sb-riskrules" onclick="showRiskRules()"><span class="sb-icon">🛡️</span> Risk Rules</div>
-<div class="sb-item" id="sb-blacklist" onclick="showBlacklist()"><span class="sb-icon">🚫</span> Blacklist</div>
-<div class="sb-item" id="sb-whitelist" onclick="showWhitelist()"><span class="sb-icon">✅</span> Whitelist</div>
-<div class="sb-item" id="sb-shadow" onclick="showShadowMode()"><span class="sb-icon">👁️</span> Shadow Mode</div>
-    <div class="sb-item" id="sb-analytics" onclick="showAnalytics()"><span class="sb-icon">📊</span> Analytics</div>
-    <div class="sb-section">Protection</div>
-    <div class="sb-item" onclick="showDashboard()"><span class="sb-icon">🔔</span> Alerts</div>
-    <div class="sb-item" id="sb-dispute" onclick="showDisputeAI()"><span class="sb-icon">🤖</span> Dispute AI</div>
-    <div class="sb-item" id="sb-chargeback" onclick="showChargebackReport()"><span class="sb-icon">📈</span> Chargeback Report</div>
-<div class="sb-item" onclick="window.open('fraud-report.html','_blank')"><span class="sb-icon">📋</span> Fraud Report</div>
-    <div class="sb-section">Account</div>
-<div class="sb-item" id="sb-help" onclick="showHelp()"><span class="sb-icon">❓</span> Help & FAQ</div>
-    <div class="sb-item" id="sb-settings" onclick="showSettings()"><span class="sb-icon">⚙️</span> Settings</div>
-    <div class="sb-item" style="cursor:pointer" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> Billing → Upgrade</div>
+    <div class="sb-item" id="sb-dashboard" onclick="showDashboard()"><span class="sb-icon">⚡</span> <span id="sb-dashboard-t">Dashboard</span></div>
+    <div class="sb-item" id="sb-orders" onclick="showOrdersPage()"><span class="sb-icon">📦</span> <span id="sb-orders-t">Siparişler</span> <span class="sb-badge" id="hr-count">0</span></div>
+    <div class="sb-item" id="sb-riskrules" onclick="showRiskRules()"><span class="sb-icon">🛡️</span> <span id="sb-riskrules-t">Risk Kuralları</span></div>
+<div class="sb-item" id="sb-blacklist" onclick="showBlacklist()"><span class="sb-icon">🚫</span> <span id="sb-blacklist-t">Kara Liste</span></div>
+<div class="sb-item" id="sb-whitelist" onclick="showWhitelist()"><span class="sb-icon">✅</span> <span id="sb-whitelist-t">Beyaz Liste</span></div>
+<div class="sb-item" id="sb-shadow" onclick="showShadowMode()"><span class="sb-icon">👁️</span> <span id="sb-shadow-t">Gölge Mod</span></div>
+    <div class="sb-item" id="sb-analytics" onclick="showAnalytics()"><span class="sb-icon">📊</span> <span id="sb-analytics-t">Analitik</span></div>
+    <div class="sb-section" id="protection-t">KORUMA</div>
+    <div class="sb-item" onclick="showDashboard()"><span class="sb-icon">🔔</span> <span id="sb-alerts-t">Uyarılar</span></div>
+    <div class="sb-item" id="sb-dispute" onclick="showDisputeAI()"><span class="sb-icon">🤖</span> <span id="sb-dispute-t">Dispute AI</span></div>
+    <div class="sb-item" id="sb-chargeback" onclick="showChargebackReport()"><span class="sb-icon">📈</span> <span id="sb-chargeback-t">Chargeback Raporu</span></div>
+<div class="sb-item" onclick="window.open('fraud-report.html','_blank')"><span class="sb-icon">📋</span> <span id="sb-fraudreport-t">Dolandırıcılık Raporu</span></div>
+    <div class="sb-section" id="account-t">HESAP</div>
+<div class="sb-item" id="sb-help" onclick="showHelp()"><span class="sb-icon">❓</span> <span id="sb-help-t">Yardım & SSS</span></div>
+    <div class="sb-item" id="sb-settings" onclick="showSettings()"><span class="sb-icon">⚙️</span> <span id="sb-settings-t">Ayarlar</span></div>
+    <div class="sb-item" style="cursor:pointer" onclick="startCheckout('pro')"><span class="sb-icon">💳</span> <span id="sb-billing-t">Fatura → Yükselt</span></div>
     <div class="sb-shopify" id="sb-shopify">
       <div class="sb-shopify-head">
         <svg width="16" height="16" viewBox="0 0 32 32" fill="#95bf47"><path d="M27.6 7.3c0-.2-.2-.3-.3-.3-.1 0-3-.2-3-.2s-2-2-2.2-2.2c-.2-.2-.6-.1-.8-.1l-1 .3c-.6-1.7-1.6-3.3-3.4-3.3h-.2C16.1.6 15.4.3 14.8.3c-4.9 0-7.3 6.1-8 9.2-2 .6-3.4 1-3.5 1.1-1.1.3-1.1.4-1.3 1.4C1.8 12.8.2 24.5.2 24.5L18.9 28l10.2-2.2C29.1 25.8 27.6 7.6 27.6 7.3z"/></svg>
