@@ -736,11 +736,16 @@ function renderOrdersPage(orders,plan,filter){
       </div>
       <button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500">← Dashboard</button>
     </div>
-    <div class="filter-bar">
-      <button class="filter-btn ${filter==='all'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'all')">Tümü (${orders.length})</button>
-      <button class="filter-btn f-high ${filter==='high'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'high')">🔴 Yüksek (${high})</button>
-      <button class="filter-btn f-med ${filter==='medium'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'medium')">🟡 Orta (${med})</button>
-      <button class="filter-btn f-low ${filter==='low'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'low')">🟢 Düşük (${low})</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div class="filter-bar">
+        <button class="filter-btn ${filter==='all'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'all')">Tümü (${orders.length})</button>
+        <button class="filter-btn f-high ${filter==='high'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'high')">🔴 Yüksek (${high})</button>
+        <button class="filter-btn f-med ${filter==='medium'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'medium')">🟡 Orta (${med})</button>
+        <button class="filter-btn f-low ${filter==='low'?'active':''}" onclick="renderOrdersPage(cachedOrders,cachedPlan,'low')">🟢 Düşük (${low})</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input id="order-search" type="text" placeholder="🔍 Sipariş no veya ülke ara..." oninput="filterOrdersBySearch()" style="padding:8px 14px;border-radius:20px;border:1px solid var(--line2);background:var(--bg3);color:var(--ink);font-family:var(--sans);font-size:12px;width:220px;outline:none"/>
+      </div>
     </div>`;
   if(!filtered.length){
     html+=`<div class="empty-state"><div class="es-icon">📭</div><div style="font-size:13px;color:var(--ink2)">Bu filtrede sipariş bulunamadı.</div></div>`;
@@ -1391,6 +1396,43 @@ async function generateDisputeLetter(orderNumber, totalPrice, customerName, cust
     btn.disabled = false;
     btn.textContent = '🤖 AI İtiraz Mektubu Yaz';
   }
+}
+function filterOrdersBySearch(){
+  const q=document.getElementById('order-search').value.trim().toLowerCase();
+  if(!q){renderOrdersPage(cachedOrders,cachedPlan,currentFilter);return;}
+  const filtered=cachedOrders.filter(o=>{
+    const num=String(o.order_number).toLowerCase();
+    const country=(o.country||'').toLowerCase();
+    const email=(o.details?.customerEmail||'').toLowerCase();
+    return num.includes(q)||country.includes(q)||email.includes(q);
+  });
+  const body=document.querySelector('.orders-full-body');
+  if(!body)return;
+  if(!filtered.length){body.innerHTML='<div class="empty-state"><div class="es-icon">🔍</div><div style="font-size:13px;color:var(--ink2)">Sonuç bulunamadı.</div></div>';return;}
+  let html='';
+  filtered.forEach(order=>{
+    order=sanitizeOrder(order);
+    const r=order.risk;
+    const date=order.created_at?new Date(order.created_at).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+    let levelText,tagCls,rowCls;
+    if(r.level==='high'){levelText=`YÜKSEK — %${r.score}`;tagCls='rt-high';rowCls='or-row-high';}
+    else if(r.level==='medium'){levelText=`ORTA — %${r.score}`;tagCls='rt-med';rowCls='or-row-med';}
+    else{levelText=`DÜŞÜK — %${Math.max(r.score,4)}`;tagCls='rt-low';rowCls='or-row-low';}
+    const detailHtml=buildOrderDetailHtml(order,cachedPlan);
+    html+=`<div class="order-row ${rowCls}" id="or-${order.id}" onclick="toggleRow('${order.id}')">
+      <div class="order-row-main">
+        <div class="order-row-num">#${order.order_number}</div>
+        <div class="order-row-info">
+          <div class="order-row-price">$${parseFloat(order.total_price).toFixed(2)}</div>
+          <div class="order-row-meta"><span>📍 ${order.country||'Bilinmiyor'}</span><span class="order-row-date">${date}</span></div>
+        </div>
+        <span class="risk-tag ${tagCls}">${levelText}</span>
+        <span style="color:#7a82a0;font-size:11px">▼</span>
+      </div>
+      <div class="order-row-detail">${detailHtml}</div>
+    </div>`;
+  });
+  body.innerHTML=html;
 }
 </script>
 </body>
