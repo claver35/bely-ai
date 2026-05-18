@@ -241,11 +241,40 @@ module.exports = async function handler(req, res) {
 
     const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
 
-    const [shopifyRes, chargebackRes, totalOrdersRes] = await Promise.all([
-      fetch(
-        `https://${cleanShop}/admin/api/2024-01/orders.json?limit=${limit}&status=any`,
-        { headers: { 'X-Shopify-Access-Token': shopifyToken } }
-      ),
+    // Sayfalama ile sipariş çekme
+async function fetchAllOrders(shop, token, totalLimit) {
+  let orders = [];
+  let pageInfo = null;
+  const perPage = 250;
+  
+  while (orders.length < totalLimit) {
+    const remaining = totalLimit - orders.length;
+    const fetchCount = Math.min(remaining, perPage);
+    let url = `https://${shop}/admin/api/2024-01/orders.json?limit=${fetchCount}&status=any`;
+    if (pageInfo) url += `&page_info=${pageInfo}`;
+    
+    const res = await fetch(url, { headers: { 'X-Shopify-Access-Token': token } });
+    if (!res.ok) break;
+    
+    const data = await res.json();
+    const batch = data.orders || [];
+    orders = orders.concat(batch);
+    
+    // Sonraki sayfa var mı kontrol et
+    const linkHeader = res.headers.get('Link') || '';
+    const nextMatch = linkHeader.match(/<[^>]*page_info=([^&>]+)[^>]*>;\s*rel="next"/);
+    if (nextMatch && batch.length === fetchCount) {
+      pageInfo = nextMatch[1];
+    } else {
+      break;
+    }
+  }
+  
+  return orders;
+}
+
+const [shopifyOrders, chargebackRes, totalOrdersRes] = await Promise.all([
+      fetchAllOrders(cleanShop, shopifyToken, limit),
       fetch(
         `${SUPABASE_URL}/rest/v1/chargebacks?shop_domain=eq.${encodeURIComponent(cleanShop)}&created_at=gte.${thirtyDaysAgo}&select=id,amount,status`,
         {
