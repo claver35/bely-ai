@@ -1368,6 +1368,67 @@ loadWorldMap();
   btn.disabled=false;btn.textContent='⚡ Tümüne Tek Tıkla İtiraz Mektubu Yaz';
 }
 init();
+
+const DASH_T={
+  tr:{
+    'cmd-center':'KONTROL MERKEZİ',
+    'sb-dashboard-t':'Dashboard',
+    'sb-orders-t':'Siparişler',
+    'sb-riskrules-t':'Risk Kuralları',
+    'sb-blacklist-t':'Kara Liste',
+    'sb-whitelist-t':'Beyaz Liste',
+    'sb-shadow-t':'Gölge Mod',
+    'sb-analytics-t':'Analitik',
+    'protection-t':'KORUMA',
+    'sb-alerts-t':'Uyarılar',
+    'sb-dispute-t':'Dispute AI',
+    'sb-chargeback-t':'Chargeback Raporu',
+    'sb-fraudreport-t':'Dolandırıcılık Raporu',
+    'account-t':'HESAP',
+    'sb-help-t':'Yardım & SSS',
+    'sb-settings-t':'Ayarlar',
+    'sb-billing-t':'Fatura → Yükselt',
+    'btn-signout':'Çıkış Yap',
+    'sys-online':'SİSTEM ONLINE'
+  },
+  en:{
+    'cmd-center':'COMMAND CENTER',
+    'sb-dashboard-t':'Dashboard',
+    'sb-orders-t':'Orders',
+    'sb-riskrules-t':'Risk Rules',
+    'sb-blacklist-t':'Blacklist',
+    'sb-whitelist-t':'Whitelist',
+    'sb-shadow-t':'Shadow Mode',
+    'sb-analytics-t':'Analytics',
+    'protection-t':'PROTECTION',
+    'sb-alerts-t':'Alerts',
+    'sb-dispute-t':'Dispute AI',
+    'sb-chargeback-t':'Chargeback Report',
+    'sb-fraudreport-t':'Fraud Report',
+    'account-t':'ACCOUNT',
+    'sb-help-t':'Help & FAQ',
+    'sb-settings-t':'Settings',
+    'sb-billing-t':'Billing → Upgrade',
+    'btn-signout':'Sign Out',
+    'sys-online':'SYSTEM ONLINE'
+  }
+};
+
+function setDashLang(lang){
+  localStorage.setItem('dash_lang',lang);
+  const t=DASH_T[lang];
+  Object.keys(t).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=t[id];
+  });
+  document.getElementById('dlang-tr').style.background=lang==='tr'?'var(--cyan)':'transparent';
+  document.getElementById('dlang-tr').style.color=lang==='tr'?'#000':'var(--ink3)';
+  document.getElementById('dlang-en').style.background=lang==='en'?'var(--cyan)':'transparent';
+  document.getElementById('dlang-en').style.color=lang==='en'?'#000':'var(--ink3)';
+}
+
+const _dashLang=localStorage.getItem('dash_lang')||'tr';
+setDashLang(_dashLang);
 async function generateDisputeLetter(orderNumber, totalPrice, customerName, customerEmail, gateway, financialStatus) {
   const btn = event.target;
   const box = document.getElementById('dispute-' + orderNumber);
