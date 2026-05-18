@@ -1492,7 +1492,54 @@ function toggleRadarSound(){
     return;
   }
 }
+function _oldPlayPing(){
+      try{
+        const ctx=new(window.AudioContext||window.webkitAudioContext)();
+        
+        // Ana sonar ping
+        const osc1=ctx.createOscillator();
+        const gain1=ctx.createGain();
+        osc1.type='sine';
+        osc1.frequency.setValueAtTime(440,ctx.currentTime);
+        osc1.frequency.exponentialRampToValueAtTime(220,ctx.currentTime+2.5);
+        gain1.gain.setValueAtTime(0,ctx.currentTime);
+        gain1.gain.linearRampToValueAtTime(0.3,ctx.currentTime+0.02);
+        gain1.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+2.5);
+        osc1.connect(gain1);gain1.connect(ctx.destination);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime+2.5);
 
+        // Yankı efekti
+        const osc2=ctx.createOscillator();
+        const gain2=ctx.createGain();
+        osc2.type='sine';
+        osc2.frequency.setValueAtTime(440,ctx.currentTime+0.15);
+        osc2.frequency.exponentialRampToValueAtTime(180,ctx.currentTime+2.8);
+        gain2.gain.setValueAtTime(0,ctx.currentTime+0.15);
+        gain2.gain.linearRampToValueAtTime(0.12,ctx.currentTime+0.17);
+        gain2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+2.8);
+        osc2.connect(gain2);gain2.connect(ctx.destination);
+        osc2.start(ctx.currentTime+0.15);
+        osc2.stop(ctx.currentTime+2.8);
+
+        // Derin su efekti
+        const osc3=ctx.createOscillator();
+        const gain3=ctx.createGain();
+        const filter=ctx.createBiquadFilter();
+        filter.type='lowpass';
+        filter.frequency.value=300;
+        osc3.type='sine';
+        osc3.frequency.setValueAtTime(110,ctx.currentTime);
+        osc3.frequency.exponentialRampToValueAtTime(55,ctx.currentTime+3);
+        gain3.gain.setValueAtTime(0,ctx.currentTime);
+        gain3.gain.linearRampToValueAtTime(0.08,ctx.currentTime+0.05);
+        gain3.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+3);
+        osc3.connect(filter);filter.connect(gain3);gain3.connect(ctx.destination);
+        osc3.start(ctx.currentTime);
+        osc3.stop(ctx.currentTime+3);
+
+      }catch(e){}
+    }
     playPing();
     _radarAudio=setInterval(playPing,2500);
   }
