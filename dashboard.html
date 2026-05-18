@@ -1482,13 +1482,19 @@ function toggleRadarSound(){
         const ctx=new(window.AudioContext||window.webkitAudioContext)();
         const osc=ctx.createOscillator();
         const gain=ctx.createGain();
-        osc.connect(gain);gain.connect(ctx.destination);
-        osc.frequency.setValueAtTime(880,ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440,ctx.currentTime+0.4);
-        gain.gain.setValueAtTime(0.15,ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+        const filter=ctx.createBiquadFilter();
+        filter.type='bandpass';
+        filter.frequency.value=1200;
+        filter.Q.value=8;
+        osc.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
+        osc.type='sine';
+        osc.frequency.setValueAtTime(1200,ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(600,ctx.currentTime+1.2);
+        gain.gain.setValueAtTime(0,ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.12,ctx.currentTime+0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.2);
         osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime+0.5);
+        osc.stop(ctx.currentTime+1.2);
       }catch(e){}
     }
     playPing();
