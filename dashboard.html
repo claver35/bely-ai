@@ -851,7 +851,7 @@ function getDashboardHTML(){
         <div class="page-sub"><span class="live-dot"></span> Canlı izleme — gerçek zamanlı olarak güncelleniyor</div>
       </div>
     </div>
-    <div class="metrics-row">
+    <div class="metrics-row" style="grid-template-columns:repeat(5,1fr)">
       <div class="mc mc-green">
         <div class="mc-label">Hesap Sağlığı <span class="mc-label-icon">💚</span></div>
         <div class="mc-value" id="m-health">—</div>
@@ -873,6 +873,12 @@ function getDashboardHTML(){
         <div class="mc-label">Yüksek Risk Tespit Edildi <span class="mc-label-icon">🚨</span></div>
         <div class="mc-value" id="m-fraud">0</div>
         <div class="mc-sub">Kargo öncesi tespit — karar size ait</div>
+      </div>
+      <div class="mc mc-green" style="border-color:rgba(0,229,255,0.3)">
+        <div class="mc-label">Potansiyel Tasarruf <span class="mc-label-icon">💰</span></div>
+        <div class="mc-value" id="m-saving" style="color:var(--cyan);text-shadow:0 0 24px rgba(0,229,255,0.4)">$0</div>
+        <div class="mc-sub" id="m-saving-sub">Yüksek riskli sipariş değeri × %68</div>
+        <div class="mc-bar"><div class="mc-bar-fill" id="m-sbar" style="background:var(--cyan)"></div></div>
       </div>
     </div>
     <div class="mid-row">
