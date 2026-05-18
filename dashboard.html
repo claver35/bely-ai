@@ -1468,6 +1468,7 @@ function toggleRadarSound(){
   const btn=document.getElementById('radar-sound-btn');
   if(_radarSoundOn){
     if(_radarAudio){clearInterval(_radarAudio);_radarAudio=null;}
+    if(window._sonarSound){window._sonarSound.pause();window._sonarSound.currentTime=0;}
     _radarSoundOn=false;
     btn.textContent='🔇 SES KAPALI';
     btn.style.color='var(--ink3)';
