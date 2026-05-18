@@ -1020,6 +1020,15 @@ function renderOrders(orders,plan){
   if(meta)meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
   const ms=document.getElementById('m-scanned'),mf=document.getElementById('m-fraud'),hrc=document.getElementById('hr-count'),rt=document.getElementById('r-threats');
   if(ms)ms.textContent=orders.length;if(mf)mf.textContent=highRisk;if(hrc)hrc.textContent=highRisk;if(rt)rt.textContent=highRisk;
+  const highRiskOrders=orders.filter(o=>o.risk?.level==='high');
+  const totalHighRiskValue=highRiskOrders.reduce((s,o)=>s+parseFloat(o.total_price||0),0);
+  const potentialSaving=(totalHighRiskValue*0.68).toFixed(2);
+  const savingEl=document.getElementById('m-saving');
+  const savingSubEl=document.getElementById('m-saving-sub');
+  const savingBarEl=document.getElementById('m-sbar');
+  if(savingEl)savingEl.textContent='$'+potentialSaving;
+  if(savingSubEl)savingSubEl.textContent=`${highRisk} yüksek riskli sipariş · %68 kazanma oranı`;
+  if(savingBarEl){const pct=Math.min((totalHighRiskValue/1000)*100,100);savingBarEl.style.width=pct+'%';}
   const rs=document.getElementById('radar-status');
   if(rs){if(highRisk>0){rs.textContent=`🚨 ${highRisk} tehdit tespit edildi`;rs.className='radar-threat threat-active';}else{rs.textContent='✔ Tehdit tespit edilmedi';rs.className='radar-threat threat-clear';}}
   const hrDot=document.getElementById('alert-hr-dot');
