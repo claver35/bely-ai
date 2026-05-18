@@ -2,9 +2,20 @@ function sanitizeInput(str, maxLen = 200) {
   if (!str && str !== 0) return 'Bilinmiyor';
   return String(str)
     .slice(0, maxLen)
-    .replace(/[<>{}[\]\\]/g, '')
-    .replace(/ignore|forget|system|prompt|instruction|jailbreak|override/gi, '***')
+    .replace(/[<>{}[\]\\\/|`~]/g, '')
+    .replace(/ignore|forget|system|prompt|instruction|jailbreak|override|disregard|pretend|roleplay|act as|you are now|new personality|bypass|hack|inject/gi, '***')
+    .replace(/\b(ignore|system|prompt)\b/gi, '***')
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
     .trim();
+}
+
+function validateAIOutput(text) {
+  if (!text) return false;
+  const forbidden = [
+    /system prompt/i, /ignore (previous|all|above)/i,
+    /you are now/i, /new instruction/i, /bypass/i
+  ];
+  return !forbidden.some(pattern => pattern.test(text));
 }
 
 module.exports = async function handler(req, res) {
