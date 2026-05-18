@@ -295,7 +295,7 @@ const [shopifyOrders, chargebackRes, totalOrdersRes] = await Promise.all([
       return res.status(shopifyRes.status).json({ error: 'Shopify API error' });
     }
 
-    const data = await shopifyRes.json();
+    const data = { orders: shopifyOrders };
 
     let chargebackRate = null;
     try {
