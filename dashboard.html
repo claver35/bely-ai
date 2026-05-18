@@ -904,24 +904,24 @@ function getDashboardHTML(){
         </div>
         <div id="alerts-body">
           <div class="alert-item">
-            <div class="ai-dot aid-orange"></div>
-            <div>
-              <div class="ai-title">⚠ Geri Ödeme Oranı İzleniyor</div>
-              <div class="ai-time">Canlı</div>
-              <div class="ai-body aib-orange">Chargeback oranınız gerçek zamanlı izleniyor. Limit %0,65.</div>
+            <div class="ai-dot" id="alert-cb-dot" style="width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--orange);box-shadow:0 0 8px rgba(255,171,0,0.5)"></div>
+            <div style="flex:1">
+              <div class="ai-title" id="alert-cb-title">⚠ Geri Ödeme Oranı İzleniyor</div>
+              <div class="ai-time" id="alert-cb-time">Canlı</div>
+              <div class="ai-body" id="alert-cb-body" style="background:rgba(255,171,0,0.12);color:#ffd080;border-left:3px solid var(--orange);font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400">Chargeback oranınız hesaplanıyor...</div>
             </div>
           </div>
           <div class="alert-item">
-            <div class="ai-dot aid-orange"></div>
-            <div>
-              <div class="ai-title">📦 Kargoya Vermeden Önce Taratın</div>
-              <div class="ai-time">Öneri</div>
-              <div class="ai-body aib-orange">Siparişleri kargoya vermeden önce dashboard'dan manuel olarak kontrol edin. Sistem saatte bir otomatik tarar.</div>
+            <div class="ai-dot" id="alert-scan-dot" style="width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5)"></div>
+            <div style="flex:1">
+              <div class="ai-title" id="alert-scan-title">📦 Son Tarama</div>
+              <div class="ai-time" id="alert-scan-time">Şu anda</div>
+              <div class="ai-body" id="alert-scan-body" style="background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green);font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400">Siparişler taranıyor...</div>
             </div>
           </div>
           <div class="alert-item" id="alert-high-risk">
             <div class="ai-dot" id="alert-hr-dot" style="background:var(--green);box-shadow:0 0 8px rgba(0,255,136,0.5);width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px"></div>
-            <div>
+            <div style="flex:1">
               <div class="ai-title" id="alert-hr-title">✔ Yüksek Riskli Sipariş Yok</div>
               <div class="ai-time">Şu anda</div>
               <div class="ai-body" id="alert-hr-body" style="background:rgba(0,255,136,0.1);color:#80ffb8;border-left:3px solid var(--green);font-size:13px;line-height:1.55;padding:8px 12px;border-radius:6px;margin-top:6px;font-weight:400">Tüm siparişler incelendi — kritik risk tespit edilmedi.</div>
