@@ -105,6 +105,10 @@ Türkçe yaz. Satıcıya güven ver.`;
     if (!suggestion) {
       return res.status(500).json({ error: 'No suggestion generated' });
     }
+    if (!validateAIOutput(suggestion)) {
+      console.warn('[ai-suggestion] Suspicious AI output detected');
+      return res.status(500).json({ error: 'Invalid AI response' });
+    }
     return res.status(200).json({ suggestion });
 
   } catch (e) {
