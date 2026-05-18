@@ -1526,8 +1526,17 @@ function toggleRadarSound(){
 
       }catch(e){}
     }
+    if(!window._sonarSound){
+      window._sonarSound=new Audio('/sounds/sonar.wav');
+      window._sonarSound.volume=0.6;
+    }
+    function playPing(){
+      if(!_radarSoundOn)return;
+      window._sonarSound.currentTime=0;
+      window._sonarSound.play().catch(e=>{});
+    }
     playPing();
-    _radarAudio=setInterval(playPing,2500);
+    _radarAudio=setInterval(playPing,4000);
   }
 }
 
