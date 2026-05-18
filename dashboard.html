@@ -1463,6 +1463,39 @@ async function generateDisputeLetter(orderNumber, totalPrice, customerName, cust
     btn.textContent = '🤖 AI İtiraz Mektubu Yaz';
   }
 }
+let _radarAudio=null;let _radarSoundOn=false;
+function toggleRadarSound(){
+  const btn=document.getElementById('radar-sound-btn');
+  if(_radarSoundOn){
+    if(_radarAudio){clearInterval(_radarAudio);_radarAudio=null;}
+    _radarSoundOn=false;
+    btn.textContent='🔇 SES KAPALI';
+    btn.style.color='var(--ink3)';
+    btn.style.borderColor='rgba(0,229,255,0.2)';
+  }else{
+    _radarSoundOn=true;
+    btn.textContent='🔊 SES AÇIK';
+    btn.style.color='var(--cyan)';
+    btn.style.borderColor='rgba(0,229,255,0.4)';
+    function playPing(){
+      try{
+        const ctx=new(window.AudioContext||window.webkitAudioContext)();
+        const osc=ctx.createOscillator();
+        const gain=ctx.createGain();
+        osc.connect(gain);gain.connect(ctx.destination);
+        osc.frequency.setValueAtTime(880,ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(440,ctx.currentTime+0.4);
+        gain.gain.setValueAtTime(0.15,ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime+0.5);
+      }catch(e){}
+    }
+    playPing();
+    _radarAudio=setInterval(playPing,2500);
+  }
+}
+
 function filterOrdersBySearch(){
   const q=document.getElementById('order-search').value.trim().toLowerCase();
   if(!q){renderOrdersPage(cachedOrders,cachedPlan,currentFilter);return;}
