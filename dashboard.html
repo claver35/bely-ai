@@ -1294,58 +1294,31 @@ function showAnalytics(){
       </div>
     </div>`;
 
-  // SVG trend grafik çiz
+  // Dairesel ring animasyonu
   setTimeout(()=>{
-    const svg=document.getElementById('trend-svg');
-    if(!svg)return;
-    const W=svg.clientWidth||800;
-    const H=160;
-    const pad={top:10,right:20,bottom:30,left:30};
-    const iW=W-pad.left-pad.right;
-    const iH=H-pad.top-pad.bottom;
-    const maxVal=Math.max(...days.map(d=>d.total),1);
-    const xStep=iW/(days.length-1);
-
-    function pts(key){
-      return days.map((d,i)=>({
-        x:pad.left+i*xStep,
-        y:pad.top+iH-(d[key]/maxVal)*iH
-      }));
-    }
-
-    function polyline(points,color){
-      const d=points.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-      return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-    }
-
-    function dots(points,color){
-      return points.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${color}" stroke="var(--bg2)" stroke-width="2"/>`).join('');
-    }
-
-    // Grid çizgileri
-    let gridHtml='';
-    for(let i=0;i<=4;i++){
-      const y=pad.top+(iH/4)*i;
-      gridHtml+=`<line x1="${pad.left}" y1="${y}" x2="${W-pad.right}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
-      const val=Math.round(maxVal-(maxVal/4)*i);
-      gridHtml+=`<text x="${pad.left-4}" y="${y+4}" fill="#7a82a0" font-size="9" text-anchor="end" font-family="monospace">${val}</text>`;
-    }
-
-    // X ekseni etiketleri
-    let xLabels='';
-    days.forEach((d,i)=>{
-      const x=pad.left+i*xStep;
-      xLabels+=`<text x="${x}" y="${H-4}" fill="#7a82a0" font-size="9" text-anchor="middle" font-family="monospace">${d.key}</text>`;
-    });
-
-    const highPts=pts('high');
-    const medPts=pts('med');
-    const lowPts=pts('low');
-
-    svg.innerHTML=gridHtml+xLabels+
-      polyline(lowPts,'#00ff88')+dots(lowPts,'#00ff88')+
-      polyline(medPts,'#ffab00')+dots(medPts,'#ffab00')+
-      polyline(highPts,'#ff3d57')+dots(highPts,'#ff3d57');
+    const total=orders.length||1;
+    const highPct=Math.round(high/total*100);
+    const medPct=Math.round(med/total*100);
+    const lowPct=Math.round(low/total*100);
+    const circ=2*Math.PI*50;
+    const rh=document.getElementById('ring-high');
+    const rm=document.getElementById('ring-med');
+    const rl=document.getElementById('ring-low');
+    if(rh)rh.style.strokeDashoffset=circ-(circ*highPct/100);
+    if(rm)rm.style.strokeDashoffset=circ-(circ*medPct/100);
+    if(rl)rl.style.strokeDashoffset=circ-(circ*lowPct/100);
+    const rhv=document.getElementById('ring-high-val');
+    const rmv=document.getElementById('ring-med-val');
+    const rlv=document.getElementById('ring-low-val');
+    if(rhv)rhv.textContent=high;
+    if(rmv)rmv.textContent=med;
+    if(rlv)rlv.textContent=low;
+    const rhp=document.getElementById('ring-high-pct');
+    const rmp=document.getElementById('ring-med-pct');
+    const rlp=document.getElementById('ring-low-pct');
+    if(rhp)rhp.textContent='%'+highPct;
+    if(rmp)rmp.textContent='%'+medPct;
+    if(rlp)rlp.textContent='%'+lowPct;
   },100);
 }
 
