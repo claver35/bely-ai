@@ -878,6 +878,36 @@ function getDashboardHTML(){
         <div class="page-sub"><span class="live-dot"></span> Canlı izleme — gerçek zamanlı olarak güncelleniyor</div>
       </div>
     </div>
+    <div id="onboarding-card" style="display:none;background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.25);border-radius:16px;padding:24px 28px;margin-bottom:18px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);display:grid;place-items:center;font-size:22px;flex-shrink:0">🛡️</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">BELY AI Mağazanızı Öğreniyor</div>
+          <div style="font-size:13px;color:var(--ink2);margin-bottom:10px">Tam analiz için <strong id="onboarding-remaining" style="color:var(--cyan)">30</strong> sipariş daha gerekiyor. Siparişler geldikçe risk profili otomatik oluşacak.</div>
+          <div style="background:rgba(0,0,0,0.3);border-radius:6px;height:6px;overflow:hidden">
+            <div id="onboarding-bar" style="height:6px;background:linear-gradient(90deg,var(--cyan),#0099cc);border-radius:6px;transition:width 1s ease;width:0%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;font-family:var(--mono);font-size:10px;color:#7a82a0">
+            <span id="onboarding-count">0 sipariş</span>
+            <span>30 sipariş hedefi</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px">
+        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:18px;margin-bottom:4px">🔍</div>
+          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Risk skorlama <strong style="color:#fff;display:block">Aktif</strong></div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:18px;margin-bottom:4px">📧</div>
+          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Email uyarıları <strong style="color:#fff;display:block">Aktif</strong></div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:18px;margin-bottom:4px">📊</div>
+          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Tam analiz <strong style="color:var(--cyan);display:block">30 sipariş sonra</strong></div>
+        </div>
+      </div>
+    </div>
     <div class="metrics-row" style="grid-template-columns:repeat(5,1fr)">
       <div class="mc mc-green">
         <div class="mc-label">Hesap Sağlığı <span class="mc-label-icon">💚</span></div>
