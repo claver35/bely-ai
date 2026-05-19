@@ -1175,8 +1175,45 @@ function showAnalytics(){
   const countries={};
   orders.forEach(o=>{if(o.country)countries[o.country]=(countries[o.country]||0)+1;});
   const topCountries=Object.entries(countries).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  function showAnalytics(){
+  setActiveSb('sb-analytics');
+  const orders=cachedOrders;
+  const high=orders.filter(o=>o.risk?.level==='high').length;
+  const med=orders.filter(o=>o.risk?.level==='medium').length;
+  const low=orders.filter(o=>o.risk?.level==='low').length;
+  const countries={};
+  orders.forEach(o=>{if(o.country)countries[o.country]=(countries[o.country]||0)+1;});
+  const topCountries=Object.entries(countries).sort((a,b)=>b[1]-a[1]).slice(0,5);
   document.getElementById('main-content').innerHTML=`
     <div class="page-header"><div><div class="page-title">📊 Analytics</div><div class="page-sub"><span class="live-dot"></span> Sipariş analizi — son ${orders.length} sipariş</div></div></div>
+    <div class="metrics-row">
+      <div class="mc mc-red"><div class="mc-label">Yüksek Riskli <span class="mc-label-icon">🚨</span></div><div class="mc-value" style="color:var(--red)">${high}</div><div class="mc-sub">${orders.length>0?Math.round(high/orders.length*100):0}% oran</div></div>
+      <div class="mc mc-orange"><div class="mc-label">Orta Riskli <span class="mc-label-icon">⚠️</span></div><div class="mc-value" style="color:var(--orange)">${med}</div><div class="mc-sub">${orders.length>0?Math.round(med/orders.length*100):0}% oran</div></div>
+      <div class="mc mc-green"><div class="mc-label">Düşük Riskli <span class="mc-label-icon">✅</span></div><div class="mc-value">${low}</div><div class="mc-sub">${orders.length>0?Math.round(low/orders.length*100):0}% oran</div></div>
+      <div class="mc mc-cyan"><div class="mc-label">Toplam <span class="mc-label-icon">📦</span></div><div class="mc-value">${orders.length}</div><div class="mc-sub">Taranan sipariş</div></div>
+    </div>
+    <div class="mid-row" style="margin-top:14px">
+      <div class="orders-panel" style="padding:24px">
+        <div class="panel-title" style="margin-bottom:16px">🌍 En Çok Sipariş Gelen Ülkeler</div>
+        ${topCountries.length>0?topCountries.map(([c,n])=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)">
+          <span style="font-size:14px;color:#fff">${c}</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:100px;height:6px;background:var(--line2);border-radius:3px;overflow:hidden"><div style="height:6px;background:var(--cyan);border-radius:3px;width:${Math.round(n/orders.length*100)}%"></div></div>
+            <span style="font-family:var(--mono);font-size:13px;color:var(--cyan)">${n}</span>
+          </div>
+        </div>`).join(''):'<div style="color:var(--ink2);font-size:14px">Veri yok</div>'}
+      </div>
+      <div class="orders-panel" style="padding:24px">
+        <div class="panel-title" style="margin-bottom:16px">📈 Risk Dağılımı</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--red)">Yüksek Risk</span><span style="font-family:var(--mono);font-size:13px">${high}</span></div><div style="height:8px;background:var(--line2);border-radius:4px;overflow:hidden"><div style="height:8px;background:var(--red);border-radius:4px;width:${orders.length>0?Math.round(high/orders.length*100):0}%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--orange)">Orta Risk</span><span style="font-family:var(--mono);font-size:13px">${med}</span></div><div style="height:8px;background:var(--line2);border-radius:4px;overflow:hidden"><div style="height:8px;background:var(--orange);border-radius:4px;width:${orders.length>0?Math.round(med/orders.length*100):0}%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--green)">Düşük Risk</span><span style="font-family:var(--mono);font-size:13px">${low}</span></div><div style="height:8px;background:var(--line2);border-radius:4px;overflow:hidden"><div style="height:8px;background:var(--green);border-radius:4px;width:${orders.length>0?Math.round(low/orders.length*100):0}%"></div></div></div>
+        </div>
+      </div>
+    </div>`;
+}
     <div class="metrics-row">
       <div class="mc mc-red"><div class="mc-label">Yüksek Riskli <span class="mc-label-icon">🚨</span></div><div class="mc-value" style="color:var(--red)">${high}</div><div class="mc-sub">${orders.length>0?Math.round(high/orders.length*100):0}% oran</div></div>
       <div class="mc mc-orange"><div class="mc-label">Orta Riskli <span class="mc-label-icon">⚠️</span></div><div class="mc-value" style="color:var(--orange)">${med}</div><div class="mc-sub">${orders.length>0?Math.round(med/orders.length*100):0}% oran</div></div>
