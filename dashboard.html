@@ -1884,5 +1884,28 @@ function filterOrdersBySearch(){
   body.innerHTML=html;
 }
 </script>
+
+<div id="cerez-banner-dash" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#070b14;border-top:1px solid rgba(0,229,255,0.2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;backdrop-filter:blur(12px)">
+  <div style="font-size:13px;color:#c8cfe0;line-height:1.6;max-width:700px">
+    🍪 Bu site yalnızca zorunlu çerezler kullanmaktadır. Oturum sürekliliği ve güvenlik amacıyla Supabase Auth çerezi kullanılır. Reklam veya analitik çerezi kullanılmamaktadır.
+    <a href="cerez-politikasi.html" style="color:var(--cyan);margin-left:6px">Çerez Politikası</a> ·
+    <a href="kvkk.html" style="color:var(--cyan);margin-left:4px">KVKK</a>
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button onclick="cerezKabulDash()" style="padding:9px 20px;border-radius:8px;background:linear-gradient(90deg,var(--cyan),#0099cc);border:none;color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans)">Kabul Et</button>
+    <a href="cerez-politikasi.html" style="padding:9px 20px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:13px;font-weight:500;display:flex;align-items:center">Detaylar</a>
+  </div>
+</div>
+<script>
+function cerezKabulDash(){
+  localStorage.setItem('cerez_onay','1');
+  document.getElementById('cerez-banner-dash').style.display='none';
+}
+window.addEventListener('load',function(){
+  if(!localStorage.getItem('cerez_onay')){
+    document.getElementById('cerez-banner-dash').style.display='flex';
+  }
+});
+</script>
 </body>
 </html>
