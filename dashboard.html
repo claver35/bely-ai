@@ -708,26 +708,26 @@ function updateCbRateUI(cbRate,cbStatus){
   if(cbDot&&cbTitle&&cbBody){
     const now=new Date().toLocaleTimeString('tr-TR');
     if(cbTime)cbTime.textContent='Son güncelleme: '+now;
-    if(rate>=0.65){
+    if(isNA){
+      cbDot.style.background='var(--ink3)';cbDot.style.boxShadow='none';
+      cbTitle.textContent='📊 Chargeback Oranı — Yetersiz Veri';
+      cbBody.style.background='rgba(255,255,255,0.04)';cbBody.style.color='var(--ink2)';cbBody.style.borderLeft='3px solid var(--ink3)';
+      cbBody.textContent='Chargeback oranı hesaplamak için en az 30 sipariş gerekli. Mağazanız büyüdükçe bu bölüm otomatik aktif olacak.';
+    }else if(cbStatus==='elevated'){
       cbDot.style.background='var(--red)';cbDot.style.boxShadow='0 0 8px rgba(255,61,87,0.6)';
-      cbTitle.textContent='🚨 Chargeback Limiti Aşıldı!';
+      cbTitle.textContent='🚨 Chargeback Oranı Yüksek Risk!';
       cbBody.style.background='rgba(255,61,87,0.12)';cbBody.style.color='#ff9aaa';cbBody.style.borderLeft='3px solid var(--red)';
-      cbBody.textContent=`Chargeback oranınız %${cbRate} — Visa limiti %0,65 aşıldı! Acil önlem alın.`;
-    }else if(rate>=0.50){
-      cbDot.style.background='var(--red)';cbDot.style.boxShadow='0 0 8px rgba(255,61,87,0.5)';
-      cbTitle.textContent='⚠ Chargeback Oranı Kritik Seviyede';
-      cbBody.style.background='rgba(255,61,87,0.08)';cbBody.style.color='#ff9aaa';cbBody.style.borderLeft='3px solid var(--red)';
-      cbBody.textContent=`Chargeback oranınız %${cbRate} — Visa limitine (%0,65) çok yakın. Dikkat edin.`;
-    }else if(rate>=0.30){
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — %0,60 limitini aştı. Shopify hesabınız risk altında, acil önlem alın.`;
+    }else if(cbStatus==='at_risk'){
       cbDot.style.background='var(--orange)';cbDot.style.boxShadow='0 0 8px rgba(255,171,0,0.5)';
-      cbTitle.textContent='⚠ Chargeback Oranı Yükseliyor';
+      cbTitle.textContent='⚠ Chargeback Oranı Dikkat Seviyesinde';
       cbBody.style.background='rgba(255,171,0,0.12)';cbBody.style.color='#ffd080';cbBody.style.borderLeft='3px solid var(--orange)';
-      cbBody.textContent=`Chargeback oranınız %${cbRate} — İzleniyor. Limit %0,65.`;
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — %0,40 eşiğini geçti. %0,60 limitine yaklaşmadan önlem alın.`;
     }else{
       cbDot.style.background='var(--green)';cbDot.style.boxShadow='0 0 8px rgba(0,255,136,0.5)';
-      cbTitle.textContent='✔ Chargeback Oranı Normal';
+      cbTitle.textContent='✔ Chargeback Oranı İyi Durumda';
       cbBody.style.background='rgba(0,255,136,0.1)';cbBody.style.color='#80ffb8';cbBody.style.borderLeft='3px solid var(--green)';
-      cbBody.textContent=`Chargeback oranınız %${cbRate} — Güvenli seviyede. Limit %0,65.`;
+      cbBody.textContent=`Chargeback oranınız %${cbRate} — Güvenli seviyede. Shopify limiti %0,60.`;
     }
   }
   const scanBody=document.getElementById('alert-scan-body');
