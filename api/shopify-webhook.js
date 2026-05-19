@@ -129,6 +129,19 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid shop domain' });
   }
 
+  // ── Ham webhook'u hemen kaydet, 200 OK dön — Shopify timeout riskini ortadan kaldır ──
+  try {
+    await supabase.from('webhook_logs').insert({
+      shop_domain: shop,
+      topic: topic,
+      order_id: String(order.id || ''),
+      payload: order,
+      status: 'received'
+    });
+  } catch(e) {
+    console.warn('[shopify-webhook] Log kayıt hatası:', e.message);
+  }
+
   // Debounce kontrolü — aynı sipariş + topic 60sn içinde tekrar gelirse işleme
   const debounced = await isDebounced(String(order.id), topic, shop);
   if (debounced) {
