@@ -1329,6 +1329,15 @@ function showAnalytics(){
   },100);
 }
 
+function setTrendRange(days){
+  ['7','14','30'].forEach(d=>{
+    const btn=document.getElementById('trend-btn-'+d);
+    if(btn){btn.style.background='transparent';btn.style.color='#7a82a0';btn.style.borderColor='var(--line2)';}
+  });
+  const active=document.getElementById('trend-btn-'+days);
+  if(active){active.style.background='rgba(0,229,255,0.12)';active.style.color='var(--cyan)';active.style.borderColor='rgba(0,229,255,0.4)';}
+}
+
 function showHelp(){
   setActiveSb('sb-help');
   document.getElementById('main-content').innerHTML=`
