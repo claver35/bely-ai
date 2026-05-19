@@ -179,7 +179,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── İade / Chargeback — detaylı kayıt ──
+  // ── İade kaydı — refunds tablosuna ──
   if (topic === 'orders/updated' || topic === 'refunds/create') {
     try {
       const financialStatus = order.financial_status;
@@ -193,7 +193,7 @@ export default async function handler(req, res) {
 
         if (storeData?.user_id) {
           const { data: existing } = await supabase
-            .from('chargebacks')
+            .from('refunds')
             .select('id')
             .eq('order_id', String(order.id))
             .eq('shop_domain', shop)
@@ -214,7 +214,7 @@ export default async function handler(req, res) {
             const refundReason = order.refunds?.[0]?.note || null;
             const refundedAt = order.refunds?.[0]?.created_at || null;
 
-            await supabase.from('chargebacks').insert({
+            await supabase.from('refunds').insert({
               user_id:        storeData.user_id,
               shop_domain:    shop,
               order_id:       String(order.id),
@@ -229,6 +229,45 @@ export default async function handler(req, res) {
               gateway:        order.payment_gateway || null
             });
           }
+        }
+      }
+    } catch (e) {
+      console.error('[shopify-webhook] Refund kayıt hatası:', e.message);
+    }
+  }
+
+  // ── Gerçek Chargeback — dispute geldiğinde ──
+  if (topic === 'disputes/create') {
+    try {
+      const { data: storeData } = await supabase
+        .from('shopify_stores')
+        .select('user_id')
+        .eq('shop_domain', shop)
+        .single();
+
+      if (storeData?.user_id) {
+        const { data: existing } = await supabase
+          .from('chargebacks')
+          .select('id')
+          .eq('order_id', String(order.order_id || order.id))
+          .eq('shop_domain', shop)
+          .single();
+
+        if (!existing) {
+          await supabase.from('chargebacks').insert({
+            user_id:      storeData.user_id,
+            shop_domain:  shop,
+            order_id:     String(order.order_id || order.id),
+            order_number: String(order.order_number || ''),
+            amount:       parseFloat(order.amount || 0),
+            status:       'chargeback',
+            customer_name: null,
+            customer_email: null,
+            line_items:   [],
+            refund_reason: order.reason || null,
+            refunded_at:  order.created_at || null,
+            gateway:      null
+          });
         }
       }
     } catch (e) {
