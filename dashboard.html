@@ -1440,6 +1440,63 @@ async function runDisputeAI(){
     else{text.textContent='Hata oluştu.';btn.disabled=false;btn.textContent='🤖 AI İtiraz Mektubu Yaz →';}
   }catch(e){text.textContent='Hata oluştu.';btn.disabled=false;btn.textContent='🤖 AI İtiraz Mektubu Yaz →';}
 }
+async function showFraudReport(){
+  setActiveSb('sb-fraudreport');
+  const plan=currentPlan;
+  if(plan!=='elite'&&plan!=='agency'){
+    document.getElementById('main-content').innerHTML=`
+      <div class="page-header"><div><div class="page-title">📋 Dolandırıcılık Raporu</div><div class="page-sub">Fraud analiz ve istatistikleri</div></div></div>
+      <div class="locked-detail" style="margin-top:20px;padding:40px;text-align:center">
+        <div class="locked-icon">⚡</div>
+        <div class="locked-text">Dolandırıcılık Raporu <strong style="color:#fff">Shield Elite</strong> ve üzeri planlara özeldir.</div>
+        <button class="locked-btn locked-btn-elite" onclick="startCheckout('elite')">Elite'e Geç →</button>
+      </div>`;
+    return;
+  }
+  const orders=cachedOrders;
+  const high=orders.filter(o=>o.risk?.level==='high');
+  const med=orders.filter(o=>o.risk?.level==='medium');
+  const dispEmails=orders.filter(o=>o.risk?.risks?.some(r=>r.includes('Tek kullanımlık email')));
+  const countries={};
+  orders.forEach(o=>{if(o.country&&o.risk?.level==='high')countries[o.country]=(countries[o.country]||0)+1;});
+  const topRiskCountries=Object.entries(countries).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header">
+      <div><div class="page-title">📋 Dolandırıcılık Raporu</div><div class="page-sub"><span class="live-dot"></span> ${orders.length} sipariş analizi</div></div>
+      <button onclick="showDashboard()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500">← Dashboard</button>
+    </div>
+    <div class="metrics-row">
+      <div class="mc mc-red"><div class="mc-label">Yüksek Riskli <span class="mc-label-icon">🚨</span></div><div class="mc-value" style="color:var(--red)">${high.length}</div><div class="mc-sub">${orders.length>0?Math.round(high.length/orders.length*100):0}% oran</div></div>
+      <div class="mc mc-orange"><div class="mc-label">Orta Riskli <span class="mc-label-icon">⚠️</span></div><div class="mc-value" style="color:var(--orange)">${med.length}</div><div class="mc-sub">${orders.length>0?Math.round(med.length/orders.length*100):0}% oran</div></div>
+      <div class="mc mc-cyan"><div class="mc-label">Sahte Email <span class="mc-label-icon">📧</span></div><div class="mc-value">${dispEmails.length}</div><div class="mc-sub">Tek kullanımlık tespit</div></div>
+      <div class="mc mc-green"><div class="mc-label">Toplam Taranan <span class="mc-label-icon">📦</span></div><div class="mc-value">${orders.length}</div><div class="mc-sub">Tüm siparişler</div></div>
+    </div>
+    <div class="mid-row" style="margin-top:14px">
+      <div class="orders-panel" style="padding:24px">
+        <div class="panel-title" style="margin-bottom:16px">🌍 En Riskli Ülkeler</div>
+        ${topRiskCountries.length>0?topRiskCountries.map(([c,n])=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)">
+          <span style="font-size:14px;color:#fff">${c}</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:100px;height:6px;background:var(--line2);border-radius:3px;overflow:hidden"><div style="height:6px;background:var(--red);border-radius:3px;width:${Math.round(n/Math.max(high.length,1)*100)}%"></div></div>
+            <span style="font-family:var(--mono);font-size:13px;color:var(--red)">${n}</span>
+          </div>
+        </div>`).join(''):'<div style="color:var(--ink2);font-size:13px">Yeterli veri yok</div>'}
+      </div>
+      <div class="orders-panel" style="padding:24px">
+        <div class="panel-title" style="margin-bottom:16px">🚨 Son Yüksek Riskli Siparişler</div>
+        ${high.slice(0,8).map(o=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#fff">#${o.order_number} — $${parseFloat(o.total_price).toFixed(2)}</div>
+            <div style="font-size:11px;color:var(--ink2);margin-top:3px">📍 ${o.country||'Bilinmiyor'}</div>
+          </div>
+          <span style="background:rgba(255,30,57,0.55);color:#fff;border:1.5px solid var(--red);padding:4px 10px;border-radius:6px;font-size:11px;font-family:var(--mono)">%${o.risk?.score} RİSK</span>
+        </div>`).join('')||'<div style="color:var(--ink2);font-size:13px">Yüksek riskli sipariş yok</div>'}
+      </div>
+    </div>`;
+}
+
 async function showChargebackReport(){
   setActiveSb('sb-chargeback');
   const{data:{session}}=await sb.auth.getSession();if(!session)return;
