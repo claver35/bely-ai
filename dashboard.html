@@ -673,13 +673,34 @@ function sanitizeOrder(order){
 function updateCbRateUI(cbRate,cbStatus){
   cbStatus=cbStatus||window._lastCbStatus||'good';
   const isNA=cbRate==='N/A';
-  const rate=parseFloat(cbRate)||0;
+  const rate=isNA?0:parseFloat(cbRate)||0;
   const rateEl=document.getElementById('m-cb-rate');
   const barEl=document.getElementById('m-cbbar');
   const subEl=document.getElementById('m-cb-sub');
-  if(rateEl)rateEl.textContent='%'+cbRate;
-  if(barEl){const pct=Math.min((rate/0.65)*100,100);barEl.style.width=pct+'%';barEl.style.background=rate>=0.65?'var(--red)':rate>=0.50?'var(--orange)':rate>=0.30?'var(--warn)':'var(--green)';}
-  if(subEl)subEl.textContent=`Limit: %0,65 · Kalan tampon %${Math.max(0,((0.65-rate)/0.65)*100).toFixed(0)}`;
+  if(rateEl){
+    if(isNA){
+      rateEl.textContent='—';
+      rateEl.style.color='var(--ink3)';
+      rateEl.style.textShadow='none';
+    }else{
+      rateEl.textContent='%'+cbRate;
+      rateEl.style.color=cbStatus==='elevated'?'var(--red)':cbStatus==='at_risk'?'var(--orange)':'var(--green)';
+    }
+  }
+  if(barEl){
+    if(isNA){barEl.style.width='0%';}
+    else{
+      const pct=Math.min((rate/0.6)*100,100);
+      barEl.style.width=pct+'%';
+      barEl.style.background=cbStatus==='elevated'?'var(--red)':cbStatus==='at_risk'?'var(--orange)':'var(--green)';
+    }
+  }
+  if(subEl){
+    if(isNA){subEl.textContent='Yetersiz veri — en az 30 sipariş gerekli';}
+    else if(cbStatus==='good'){subEl.textContent=`İyi durumda · Limit %0,60 · Kalan tampon %${Math.max(0,((0.6-rate)/0.6)*100).toFixed(0)}`;}
+    else if(cbStatus==='at_risk'){subEl.textContent=`Dikkat — %0,40 eşiği geçildi · Limit %0,60`;}
+    else{subEl.textContent=`Yüksek risk — %0,60 limiti aşıldı! Acil önlem alın.`;}
+  }
   const cbDot=document.getElementById('alert-cb-dot');
   const cbTitle=document.getElementById('alert-cb-title');
   const cbBody=document.getElementById('alert-cb-body');
