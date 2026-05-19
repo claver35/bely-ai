@@ -1077,6 +1077,21 @@ function renderOrders(orders,plan){
   if(meta)meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
   const ms=document.getElementById('m-scanned'),mf=document.getElementById('m-fraud'),hrc=document.getElementById('hr-count'),rt=document.getElementById('r-threats');
   if(ms)ms.textContent=orders.length;if(mf)mf.textContent=highRisk;if(hrc)hrc.textContent=orders.length;if(rt)rt.textContent=highRisk;
+  const onboardingCard=document.getElementById('onboarding-card');
+  const onboardingBar=document.getElementById('onboarding-bar');
+  const onboardingCount=document.getElementById('onboarding-count');
+  const onboardingRemaining=document.getElementById('onboarding-remaining');
+  if(onboardingCard){
+    if(orders.length<30){
+      onboardingCard.style.display='block';
+      const pct=Math.min((orders.length/30)*100,100);
+      if(onboardingBar)onboardingBar.style.width=pct+'%';
+      if(onboardingCount)onboardingCount.textContent=orders.length+' sipariş';
+      if(onboardingRemaining)onboardingRemaining.textContent=Math.max(0,30-orders.length);
+    }else{
+      onboardingCard.style.display='none';
+    }
+  }
   const highRiskOrders=orders.filter(o=>o.risk?.level==='high');
   const totalHighRiskValue=highRiskOrders.reduce((s,o)=>s+parseFloat(o.total_price||0),0);
   const potentialSaving=(totalHighRiskValue*0.68).toFixed(2);
