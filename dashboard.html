@@ -1126,7 +1126,7 @@ async function showShopifyConnected(shop){
   let storeListHtml='';
   if(stores&&stores.length>1){
     storeListHtml=stores.map(s=>`
-      <div onclick="switchStore('${s.shop_domain}')" style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;background:${s.shop_domain===shop?'rgba(0,229,255,0.12)':'rgba(0,0,0,0.2)'};border:1px solid ${s.shop_domain===shop?'rgba(0,229,255,0.3)':'rgba(255,255,255,0.06)'};transition:all .15s" onmouseover="this.style.background='rgba(0,229,255,0.08)'" onmouseout="this.style.background='${s.shop_domain===shop?'rgba(0,229,255,0.12)':'rgba(0,0,0,0.2)'}'">
+      <div onclick="switchStore('${s.shop_domain}')" style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;background:${s.shop_domain===shop?'rgba(0,229,255,0.12)':'rgba(0,0,0,0.2)'};border:1px solid ${s.shop_domain===shop?'rgba(0,229,255,0.3)':'rgba(255,255,255,0.06)'};transition:all .15s" onmouseover="this.style.background='rgba(0,229,255,0.08)'" onmouseout="this.style.background='${s.shop_domain===shop?`rgba(0,229,255,0.12)`:`rgba(0,0,0,0.2)`}'">
         <div style="font-size:11px;color:${s.shop_domain===shop?'var(--cyan)':'#c8cfe0'};font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px">${s.shop_domain}</div>
         ${s.shop_domain===shop?'<span style="font-size:9px;background:rgba(0,229,255,0.2);color:var(--cyan);padding:2px 6px;border-radius:4px;font-family:var(--mono)">AKTİF</span>':'<span style="font-size:9px;color:#7a82a0;font-family:var(--mono)">Geç →</span>'}
       </div>`).join('');
