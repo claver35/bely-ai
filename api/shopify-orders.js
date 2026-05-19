@@ -298,14 +298,25 @@ const [shopifyOrders, chargebackRes, totalOrdersRes] = await Promise.all([
     const data = { orders: shopifyOrders };
 
     let chargebackRate = null;
+    let chargebackStatus = 'good'; // good, at_risk, elevated
     try {
       const chargebacks = await chargebackRes.json();
       const totalOrdersData = await totalOrdersRes.json();
       const totalOrders = totalOrdersData.count || 0;
       const chargebackCount = Array.isArray(chargebacks) ? chargebacks.length : 0;
-      chargebackRate = totalOrders > 0
-        ? ((chargebackCount / totalOrders) * 100).toFixed(2)
-        : '0.00';
+
+      // Minimum 30 sipariş eşiği — az siparişte oran hesaplama
+      if (totalOrders < 30) {
+        chargebackRate = 'N/A';
+        chargebackStatus = 'insufficient_data';
+      } else {
+        const rate = (chargebackCount / totalOrders) * 100;
+        chargebackRate = rate.toFixed(2);
+        // Shopify Fraud Control ile hizalı eşikler
+        if (rate < 0.4) chargebackStatus = 'good';
+        else if (rate < 0.6) chargebackStatus = 'at_risk';
+        else chargebackStatus = 'elevated';
+      }
     } catch (e) {
       console.warn('[shopify-orders] Chargeback rate calc error');
     }
