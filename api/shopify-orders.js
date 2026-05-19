@@ -549,7 +549,8 @@ const [shopifyOrders, chargebackRes, totalOrdersRes] = await Promise.all([
       _plan: plan,
       _limit: limit,
       _access: accessLevel,
-      _chargebackRate: chargebackRate
+      _chargebackRate: chargebackRate,
+      _chargebackStatus: chargebackStatus
     });
 
   } catch (e) {
