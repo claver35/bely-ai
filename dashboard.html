@@ -880,31 +880,25 @@ function getDashboardHTML(){
     </div>
     <div id="onboarding-card" style="display:none;background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,153,204,0.04));border:1px solid rgba(0,229,255,0.25);border-radius:12px;padding:10px 16px;margin-bottom:10px">
       <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:44px;height:44px;border-radius:12px;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);display:grid;place-items:center;font-size:22px;flex-shrink:0">🛡️</div>
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);display:grid;place-items:center;font-size:18px;flex-shrink:0">🛡️</div>
         <div style="flex:1">
-          <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">BELY AI Mağazanızı Öğreniyor</div>
-          <div style="font-size:13px;color:var(--ink2);margin-bottom:10px">Tam analiz için <strong id="onboarding-remaining" style="color:var(--cyan)">30</strong> sipariş daha gerekiyor. Siparişler geldikçe risk profili otomatik oluşacak.</div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:6px;height:5px;overflow:hidden;margin-top:6px">
-            <div id="onboarding-bar" style="height:5px;background:linear-gradient(90deg,var(--cyan),#0099cc);border-radius:6px;transition:width 1s ease;width:0%"></div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">BELY AI Mağazanızı Öğreniyor</div>
+          <div style="font-size:12px;color:var(--ink2)">Tam analiz için <strong id="onboarding-remaining" style="color:var(--cyan)">30</strong> sipariş daha gerekiyor. Siparişler geldikçe risk profili otomatik oluşacak.</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+          <div style="text-align:center">
+            <div style="font-family:var(--mono);font-size:11px;color:#7a82a0;margin-bottom:3px">İlerleme</div>
+            <div id="onboarding-count" style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan)">0/30</div>
           </div>
-          <div style="display:flex;justify-content:flex-end;margin-top:4px;font-family:var(--mono);font-size:12px;font-weight:600;color:#ffffff">
-            <span id="onboarding-count">0/30 sipariş</span>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2)">🔍 Risk skorlama <strong style="color:var(--cyan)">Aktif</strong></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2)">📧 Email uyarıları <strong style="color:var(--cyan)">Aktif</strong></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2)">📊 Tam analiz <strong style="color:var(--cyan)">30 sipariş sonra</strong></div>
           </div>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
-        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:18px;margin-bottom:4px">🔍</div>
-          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Risk skorlama <strong style="color:#fff;display:block">Aktif</strong></div>
-        </div>
-        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:18px;margin-bottom:4px">📧</div>
-          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Email uyarıları <strong style="color:#fff;display:block">Aktif</strong></div>
-        </div>
-        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(0,229,255,0.1);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:18px;margin-bottom:4px">📊</div>
-          <div style="font-size:11px;color:var(--ink2);line-height:1.5">Tam analiz <strong style="color:var(--cyan);display:block">30 sipariş sonra</strong></div>
-        </div>
+      <div style="background:rgba(0,0,0,0.3);border-radius:6px;height:4px;overflow:hidden;margin-top:8px">
+        <div id="onboarding-bar" style="height:4px;background:linear-gradient(90deg,var(--cyan),#0099cc);border-radius:6px;transition:width 1s ease;width:0%"></div>
       </div>
     </div>
     <div class="metrics-row" style="grid-template-columns:repeat(5,1fr)">
