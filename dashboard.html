@@ -1325,6 +1325,7 @@ async function init(){
       cachedPlan=data._plan||currentPlan;
 
       window._lastCbRate=data._chargebackRate||'0.00';
+window._lastCbStatus=data._chargebackStatus||'good';
       renderOrders(cachedOrders,cachedPlan);
       updateHealthScore(cachedOrders,window._lastCbRate);
       updateCbRateUI(window._lastCbRate);
