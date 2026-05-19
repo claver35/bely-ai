@@ -407,7 +407,7 @@ setInterval(async()=>{
 },5*60*1000);
 
 function setActiveSb(id){
-  ['sb-dashboard','sb-orders','sb-riskrules','sb-blacklist','sb-whitelist','sb-shadow','sb-analytics','sb-dispute','sb-chargeback','sb-help','sb-settings'].forEach(i=>{const el=document.getElementById(i);if(el)el.classList.remove('active');});
+  ['sb-dashboard','sb-orders','sb-riskrules','sb-blacklist','sb-whitelist','sb-shadow','sb-analytics','sb-dispute','sb-chargeback','sb-fraudreport','sb-help','sb-settings'].forEach(i=>{const el=document.getElementById(i);if(el)el.classList.remove('active');});
   const el=document.getElementById(id);if(el)el.classList.add('active');
 }
 
