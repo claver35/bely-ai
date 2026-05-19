@@ -1083,15 +1083,22 @@ async function showShopifyConnected(shop){
   const{data:stores}=await sb.from('shopify_stores').select('shop_domain,plan').eq('user_id',session.user.id);
   const plan=stores?.[0]?.plan||'free';
   const maxStores=plan==='agency'?3:1;
-  let storeSelector='';
-  if(stores&&stores.length>1){
-    storeSelector=`<select onchange="switchStore(this.value)" style="width:100%;padding:6px 8px;border-radius:6px;background:var(--bg);border:1px solid rgba(0,229,255,0.2);color:#fff;font-size:12px;margin-bottom:8px;cursor:pointer">
-      ${stores.map(s=>`<option value="${s.shop_domain}" ${s.shop_domain===shop?'selected':''}>${s.shop_domain}</option>`).join('')}
-    </select>`;
-  }
   const canAddMore=stores&&stores.length<maxStores;
+
+  let storeListHtml='';
+  if(stores&&stores.length>1){
+    storeListHtml=stores.map(s=>`
+      <div onclick="switchStore('${s.shop_domain}')" style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;background:${s.shop_domain===shop?'rgba(0,229,255,0.12)':'rgba(0,0,0,0.2)'};border:1px solid ${s.shop_domain===shop?'rgba(0,229,255,0.3)':'rgba(255,255,255,0.06)'};transition:all .15s" onmouseover="this.style.background='rgba(0,229,255,0.08)'" onmouseout="this.style.background='${s.shop_domain===shop?'rgba(0,229,255,0.12)':'rgba(0,0,0,0.2)'}'">
+        <div style="font-size:11px;color:${s.shop_domain===shop?'var(--cyan)':'#c8cfe0'};font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px">${s.shop_domain}</div>
+        ${s.shop_domain===shop?'<span style="font-size:9px;background:rgba(0,229,255,0.2);color:var(--cyan);padding:2px 6px;border-radius:4px;font-family:var(--mono)">AKTİF</span>':'<span style="font-size:9px;color:#7a82a0;font-family:var(--mono)">Geç →</span>'}
+      </div>`).join('');
+  }
+
   document.getElementById('sb-store-content').innerHTML=`
-    ${storeSelector}
+    ${stores&&stores.length>1?`
+    <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#7a82a0;margin-bottom:6px">Mağazalarım (${stores.length}/${maxStores})</div>
+    ${storeListHtml}
+    <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>`:''}
     <div class="sb-shop-name">${shop}</div>
     <div class="sb-shop-status">✔ Bağlantılı ve korumalı</div>
     ${canAddMore?`<button class="sb-connect-btn" onclick="connectShopify()" style="margin-top:6px">+ Mağaza Ekle</button>`:''}
