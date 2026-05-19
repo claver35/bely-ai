@@ -1175,7 +1175,6 @@ function showAnalytics(){
   const countries={};
   orders.forEach(o=>{if(o.country)countries[o.country]=(countries[o.country]||0)+1;});
   const topCountries=Object.entries(countries).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  function showAnalytics(){
   setActiveSb('sb-analytics');
   const orders=cachedOrders;
   const high=orders.filter(o=>o.risk?.level==='high').length;
