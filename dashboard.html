@@ -1046,7 +1046,7 @@ function renderOrders(orders,plan){
   body.innerHTML=html;
   if(meta)meta.textContent=`${orders.length} sipariş · ${highRisk} yüksek riskli`;
   const ms=document.getElementById('m-scanned'),mf=document.getElementById('m-fraud'),hrc=document.getElementById('hr-count'),rt=document.getElementById('r-threats');
-  if(ms)ms.textContent=orders.length;if(mf)mf.textContent=highRisk;if(hrc)hrc.textContent=highRisk;if(rt)rt.textContent=highRisk;
+  if(ms)ms.textContent=orders.length;if(mf)mf.textContent=highRisk;if(hrc)hrc.textContent=orders.length;if(rt)rt.textContent=highRisk;
   const highRiskOrders=orders.filter(o=>o.risk?.level==='high');
   const totalHighRiskValue=highRiskOrders.reduce((s,o)=>s+parseFloat(o.total_price||0),0);
   const potentialSaving=(totalHighRiskValue*0.68).toFixed(2);
