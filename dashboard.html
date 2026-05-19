@@ -1208,7 +1208,14 @@ function showAnalytics(){
       <div class="mc mc-cyan"><div class="mc-label">Toplam <span class="mc-label-icon">📦</span></div><div class="mc-value">${orders.length}</div><div class="mc-sub">Taranan sipariş</div></div>
     </div>
     <div class="orders-panel" style="padding:24px;margin-top:14px">
-      <div class="panel-title" style="margin-bottom:24px">📈 Son 7 Günlük Risk Trendi</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+        <div class="panel-title">📈 Son 7 Günlük Risk Trendi</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="setTrendRange(7)" id="trend-btn-7" style="padding:5px 14px;border-radius:20px;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.12);color:var(--cyan);font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:600">7 GÜN</button>
+          <button onclick="setTrendRange(14)" id="trend-btn-14" style="padding:5px 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:#7a82a0;font-family:var(--mono);font-size:11px;cursor:pointer">14 GÜN</button>
+          <button onclick="setTrendRange(30)" id="trend-btn-30" style="padding:5px 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:#7a82a0;font-family:var(--mono);font-size:11px;cursor:pointer">30 GÜN</button>
+        </div>
+      </div>
       <div style="display:flex;justify-content:center;align-items:center;gap:48px;padding:16px 0">
         <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
           <div style="position:relative;width:120px;height:120px">
