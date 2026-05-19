@@ -748,11 +748,15 @@ function updateCbRateUI(cbRate,cbStatus){
 
 function updateHealthScore(orders,chargebackRate){
   let score=100;const warnings=[];
-  const cbRate=parseFloat(chargebackRate)||0;
-  if(cbRate>=0.65){score-=40;warnings.push('Chargeback limiti aşıldı!');}
-  else if(cbRate>=0.50){score-=25;warnings.push('Chargeback oranı kritik seviyede');}
-  else if(cbRate>=0.30){score-=15;warnings.push('Chargeback oranı yükseliyor');}
-  else if(cbRate>=0.10){score-=5;}
+  const isNA=chargebackRate==='N/A';
+  const cbRate=isNA?0:parseFloat(chargebackRate)||0;
+  const cbStatus=window._lastCbStatus||'good';
+  // Yetersiz veri varsa chargeback skorunu dahil etme
+  if(!isNA){
+    if(cbStatus==='elevated'){score-=40;warnings.push('Chargeback oranı yüksek risk seviyesinde!');}
+    else if(cbStatus==='at_risk'){score-=20;warnings.push('Chargeback oranı dikkat seviyesinde');}
+    else if(cbRate>=0.10){score-=5;}
+  }
   const total=orders.length;
   if(total>0){const hr=orders.filter(o=>o.risk?.level==='high').length;const pct=(hr/total)*100;if(pct>=60){score-=30;warnings.push('Siparişlerin %'+Math.round(pct)+"'i yüksek riskli");}else if(pct>=40){score-=20;warnings.push('Yüksek riskli sipariş oranı yüksek');}else if(pct>=20){score-=10;}else if(pct>=10){score-=5;}}
   const dc=orders.filter(o=>o.risk?.risks?.some(r=>r.includes('Tek kullanımlık email'))).length;
