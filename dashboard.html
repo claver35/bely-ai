@@ -1085,7 +1085,7 @@ function renderOrders(orders,plan){
       onboardingCard.style.display='block';
       const pct=Math.min((orders.length/30)*100,100);
       if(onboardingBar)onboardingBar.style.width=pct+'%';
-      if(onboardingCount)onboardingCount.textContent=orders.length+' sipariş';
+      if(onboardingCount)onboardingCount.textContent=orders.length+'/30 sipariş';
       if(onboardingRemaining)onboardingRemaining.textContent=Math.max(0,30-orders.length);
     }else{
       onboardingCard.style.display='none';
