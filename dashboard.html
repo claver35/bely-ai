@@ -670,7 +670,9 @@ function sanitizeOrder(order){
   return order;
 }
 
-function updateCbRateUI(cbRate){
+function updateCbRateUI(cbRate,cbStatus){
+  cbStatus=cbStatus||window._lastCbStatus||'good';
+  const isNA=cbRate==='N/A';
   const rate=parseFloat(cbRate)||0;
   const rateEl=document.getElementById('m-cb-rate');
   const barEl=document.getElementById('m-cbbar');
