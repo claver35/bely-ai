@@ -1003,7 +1003,7 @@ function getDashboardHTML(){
       </div>
     </div>
     <div class="bottom-row">
-      <div class="alerts-panel">
+      <div class="alerts-panel" style="max-height:280px;overflow-y:auto">
         <div class="panel-head">
           <div class="panel-title"><span class="pt-icon pt-icon-red">🔔</span> Hesap Uyarıları</div>
           <div class="panel-meta">Aktif izleme</div>
@@ -1040,7 +1040,7 @@ function getDashboardHTML(){
           <div class="panel-title"><span class="pt-icon pt-icon-blue">🌍</span> Sipariş Lokasyonları</div>
           <div class="panel-meta" id="map-meta">Veri bekleniyor...</div>
         </div>
-        <div id="world-map-wrap">
+        <div id="world-map-wrap" style="min-height:160px;max-height:200px">
           <svg id="world-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet"></svg>
           <div class="map-tooltip" id="map-tooltip"></div>
         </div>
